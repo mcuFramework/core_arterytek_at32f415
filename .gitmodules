@@ -1,0 +1,6 @@
+[submodule "ref/mcuf"]
+	path = ref/mcuf
+	url = https://github.com/mcuFramework/mcuf.git
+[submodule "ref/bsp_arterytek_at32f415"]
+	path = ref/bsp_arterytek_at32f415
+	url = https://github.com/mcuFramework/bsp_arterytek_at32f415.git
