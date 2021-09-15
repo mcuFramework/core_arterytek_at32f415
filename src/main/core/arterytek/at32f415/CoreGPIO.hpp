@@ -165,11 +165,6 @@ class core::arterytek::at32f415::CoreGPIO :
    * Public Method
    */
 
-  /**
-   * 
-   */
-  public: core::arterytek::at32f415::CoreGeneralPurposePin getPin(uint32_t port, uint32_t pin);
-
   /* **************************************************************************************
    * Protected Method <Static>
    */

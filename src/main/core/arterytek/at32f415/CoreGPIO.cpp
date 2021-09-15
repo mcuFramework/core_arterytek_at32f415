@@ -9,23 +9,22 @@
  * Include
  */  
 #include "core/arterytek/at32f415/CoreGPIO.hpp"
-#include "core/arterytek/at32f415/ctrl/CtrlPin.hpp"
-#include "core/arterytek/at32f415/ctrl/CtrlGPIO.hpp"
 
 #include "bsp_arterytek_at32f415/at32f4xx.h"
  
 /* ****************************************************************************************
  * Using
  */  
-using core::arterytek::at32f415::ctrl::CtrlPin;
-using core::arterytek::at32f415::ctrl::CtrlGPIO;
+ 
 using core::arterytek::at32f415::CoreGPIO;
 using core::arterytek::at32f415::CorePin;
 
 /* ****************************************************************************************
  * Macro
  */
-#define GET_BASE(x) ((GPIO_Type*)(CoreGPIO::regBase[x]))
+#define GET_CTRL_DIR(source, shift) ((source & (0x00000003 << (shift << 2)))?1:0)
+#define GET_BIT(source, bit)        ((source & (1 << (bit)))?1:0)
+#define GET_BASE(x)                 ((GPIO_Type*)x)
 
 /* ****************************************************************************************
  * Variable
@@ -54,10 +53,35 @@ using core::arterytek::at32f415::CorePin;
 bool CoreGPIO::deinit(void){
 	if(!this->isInit())
 		return false;
+
+  uint32_t mask;
+  
+  switch((uint32_t)this->mBase){
+    case GPIOA_BASE:
+      mask = RCC_APB2PERIPH_GPIOA;
+      break;
+    
+    case GPIOB_BASE:
+      mask = RCC_APB2PERIPH_GPIOB;
+      break;
+    
+    case GPIOC_BASE:
+      mask = RCC_APB2PERIPH_GPIOC;
+      break;
+    
+    case GPIOD_BASE:
+      mask = RCC_APB2PERIPH_GPIOD;
+      break;
+    
+    case GPIOF_BASE:
+      mask = RCC_APB2PERIPH_GPIOF;
+      break;
+    
+    default:
+      return false;  
+  };
 	
-	RCC_APB2PeriphClockCmd((RCC_APB2PERIPH_GPIOA | RCC_APB2PERIPH_GPIOB | RCC_APB2PERIPH_GPIOC | 
-	                        RCC_APB2PERIPH_GPIOD | RCC_APB2PERIPH_GPIOF | RCC_APB2PERIPH_AFIO), 
-	                       DISABLE);
+  RCC->APB2EN &= ~mask;
 	
 	return true;
 }
@@ -66,30 +90,83 @@ bool CoreGPIO::deinit(void){
  * dir
  */
 uint32_t CoreGPIO::dir(uint32_t port){
-  return CtrlGPIO::getDir(port);
+  if(port)
+    return 0x00000000;
+  
+  uint32_t result = 0x00000000;
+  
+  for(uint32_t i=0; i<8; ++i){
+    uint32_t mask = (0x00000003 << (i << 2));
+    
+    if(GET_BASE(this->mBase)->CTRLL & ~mask)
+      result |= (1 << i);     
+    
+    if(GET_BASE(this->mBase)->CTRLH & ~mask)
+      result |= (1 << (8+i));   
+  }
+  
+  return result;
 }
 
 /**
  * dir
  */
 void CoreGPIO::dir(uint32_t port, uint32_t value){
-  CtrlGPIO::setDir(port, value);
+  if(port)
+    return;
+  
+  value &= 0x0000FFFF;
+  
+  uint32_t regMaskCONF;
+  
+  
+  for(uint32_t i=0; i<8; ++i){
+    regMaskCONF = (0x00000003 << (i<<2));
+    
+    if(GET_BASE(this->mBase)->CTRLL & ~regMaskCONF){  //hardware is output
+      if(!GET_BIT(value, i))                          //value flag is low?
+        GET_BASE(this->mBase)->CTRLL &= ~regMaskCONF; //set input
+        
+    }else{                                            //hardware is input
+      if(GET_BIT(value, i))                           //value flag is high?
+        GET_BASE(this->mBase)->CTRLL |= regMaskCONF;  //set output 50M
+    }
+    
+    if(GET_BASE(this->mBase)->CTRLH & ~regMaskCONF){  //hardware is output
+      if(!GET_BIT(value, 8+i))                        //value flag is low?
+        GET_BASE(this->mBase)->CTRLH &= ~regMaskCONF; //set input
+        
+    }else{                                            //hardware is input
+      if(GET_BIT(value, 8+i))                         //value flag is high?
+        GET_BASE(this->mBase)->CTRLH |= regMaskCONF;  //set output 50M
+    }
+  }
+  
+  return;
 }
 
 /**
  * 
  */
 void CoreGPIO::dirClear(uint32_t port, uint32_t mask){
-  uint16_t origDir = CtrlGPIO::getDir(port);
-  CtrlGPIO::setDir(port, (origDir & (~mask)));
+  if(port)
+    return;
+
+  this->dir(0, (this->dir(0) & ~mask));
+  
+  return;
 }
 
 /**
  * 
  */
 void CoreGPIO::dirSet(uint32_t port, uint32_t mask){
-  uint16_t origDir = CtrlGPIO::getDir(port);
-  CtrlGPIO::setDir(port, (origDir | mask));
+  if(port)
+    return;
+
+  this->dir(0, (this->dir(0) | mask));
+  
+  return;
 }
 
 /**
@@ -99,18 +176,30 @@ bool CoreGPIO::init(void){
   if(this->isInit())
     return false;
 	
-  RCC_APB2PeriphClockCmd((RCC_APB2PERIPH_GPIOA | RCC_APB2PERIPH_GPIOB | 
-	                      RCC_APB2PERIPH_GPIOC | RCC_APB2PERIPH_GPIOD | 
-	                      RCC_APB2PERIPH_GPIOF | RCC_APB2PERIPH_AFIO), ENABLE);
-
-  GPIO_Reset(GPIOA);
-  GPIO_Reset(GPIOB);
-  GPIO_Reset(GPIOC);
-  GPIO_Reset(GPIOD);
-  GPIO_Reset(GPIOF);
-  GPIO_AFIOReset();
-  GPIO_PinsRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
-  return true;
+  switch((uint32_t)this->mBase){
+    case GPIOA_BASE:
+      RCC->APB2EN |= RCC_APB2PERIPH_GPIOA;
+      break;
+    
+    case GPIOB_BASE:
+      RCC->APB2EN |= RCC_APB2PERIPH_GPIOB;
+      break;
+    
+    case GPIOC_BASE:
+      RCC->APB2EN |= RCC_APB2PERIPH_GPIOC;
+      break;
+    
+    case GPIOD_BASE:
+      RCC->APB2EN |= RCC_APB2PERIPH_GPIOD;
+      break;
+    
+    case GPIOF_BASE:
+      RCC->APB2EN |= RCC_APB2PERIPH_GPIOF;
+      break;
+    
+    default:
+      return false;  
+  };
 }
 
 /**
@@ -119,7 +208,25 @@ bool CoreGPIO::init(void){
  * @return false = not init, true = initd
  */
 bool CoreGPIO::isInit(void){
-  return false;
+  switch((uint32_t)this->mBase){
+    case GPIOA_BASE:
+      return (RCC->APB2EN & RCC_APB2PERIPH_GPIOA);
+    
+    case GPIOB_BASE:
+      return (RCC->APB2EN & RCC_APB2PERIPH_GPIOB);
+    
+    case GPIOC_BASE:
+      return (RCC->APB2EN & RCC_APB2PERIPH_GPIOB);
+    
+    case GPIOD_BASE:
+      return (RCC->APB2EN & RCC_APB2PERIPH_GPIOB);
+    
+    case GPIOF_BASE:
+      return (RCC->APB2EN & RCC_APB2PERIPH_GPIOB);
+    
+    default:
+      return false;  
+  };
 }
 
 /**
@@ -127,7 +234,10 @@ bool CoreGPIO::isInit(void){
  * @param port GPIO port.
  */
 uint32_t CoreGPIO::pin(uint32_t port){
-	return ((uint16_t)GET_BASE(port)->IPTDT);
+  if(port)
+    return 0x00000000;
+  
+	return GET_BASE(this->mBase)->IPTDT;
 }
 
 /**
@@ -136,8 +246,11 @@ uint32_t CoreGPIO::pin(uint32_t port){
  * @param value GPIO write value.
  */
 void CoreGPIO::pin(uint32_t port, uint32_t value){
-  uint16_t origDir = CtrlGPIO::getDir(port);
-  GET_BASE(port)->BSRE = (((uint16_t)value) & origDir);
+  if(port)
+    return;
+  
+  uint32_t dir = this->dir(0);
+  GET_BASE(this->mBase)->BSRE = (value & dir);
 }
 
 /**
@@ -147,8 +260,12 @@ void CoreGPIO::pin(uint32_t port, uint32_t value){
  * @param mask bit high = active.
  */
 void CoreGPIO::pinClear(uint32_t port, uint32_t mask){
-  uint16_t origDir = CtrlGPIO::getDir(port);
-  GET_BASE(port)->BRE = (((uint16_t)mask) & origDir);
+  if(port)
+    return;
+  
+  uint32_t dir = this->dir(0);
+  
+  GET_BASE(this->mBase)->BRE = (((uint16_t)mask) & dir);
   return;
 }
 
@@ -158,8 +275,12 @@ void CoreGPIO::pinClear(uint32_t port, uint32_t mask){
  * @param mask GPIO write value.
  */
 void CoreGPIO::pinSet(uint32_t port, uint32_t mask){
-  uint16_t origDir = CtrlGPIO::getDir(port);
-  GET_BASE(port)->BSRE = (((uint16_t)mask) & origDir);
+  if(port)
+    return;
+  
+  uint32_t dir = this->dir(0);
+  
+  GET_BASE(this->mBase)->BSRE = (((uint16_t)mask) & dir);
   return;
 }
 
@@ -167,21 +288,18 @@ void CoreGPIO::pinSet(uint32_t port, uint32_t mask){
  * 
  */
 void CoreGPIO::pinToggle(uint32_t port, uint32_t mask){
-	uint16_t origDir = CtrlGPIO::getDir(port);
-	GET_BASE(port)->OPTDT ^= (((uint16_t)mask) & origDir);
+  if(port)
+    return;
+  
+  uint32_t dir = this->dir(0);
+  
+	GET_BASE(port)->OPTDT ^= (((uint16_t)mask) & dir);
 	return;
 }
 
 /* ****************************************************************************************
  * Public Method
  */
-
-/**
- * 
- */
-CoreGeneralPurposePin CoreGPIO::getPin(uint32_t port, uint32_t pin){
-  return CoreGeneralPurposePin(GET_BASE(port), pin);
-}
 
 /* ****************************************************************************************
  * Protected Method <Static>
