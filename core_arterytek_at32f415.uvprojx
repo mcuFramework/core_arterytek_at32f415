@@ -16,7 +16,7 @@
         <TargetCommonOption>
           <Device>ARMCM4</Device>
           <Vendor>ARM</Vendor>
-          <PackID>ARM.CMSIS.5.8.0</PackID>
+          <PackID>ARM.CMSIS.5.7.0</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IRAM(0x20000000,0x00020000) IROM(0x00000000,0x00040000) CPUTYPE("Cortex-M4") CLOCK(12000000) ESEL ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -49,7 +49,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\.keil\Objects\</OutputDirectory>
-          <OutputName>mcuf_at32f415</OutputName>
+          <OutputName>core_arterytek_at32f415</OutputName>
           <CreateExecutable>0</CreateExecutable>
           <CreateLib>1</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -80,9 +80,9 @@
             <nStopB2X>0</nStopB2X>
           </BeforeMake>
           <AfterMake>
-            <RunUserProg1>0</RunUserProg1>
+            <RunUserProg1>1</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name></UserProg1Name>
+            <UserProg1Name>.keil\copy.bat core_arterytek_at32f415.lib</UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
@@ -185,6 +185,7 @@
             <uocXRam>0</uocXRam>
             <RvdsVP>0</RvdsVP>
             <RvdsMve>0</RvdsMve>
+            <RvdsCdeCp>0</RvdsCdeCp>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -351,7 +352,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <uClangAs>0</uClangAs>
+            <ClangAsOpt>4</ClangAsOpt>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -383,31 +384,14 @@
           <GroupName>main</GroupName>
           <Files>
             <File>
-              <FileName>core_at32f415.h</FileName>
+              <FileName>core_arterytek_at32f415.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core_at32f415.h</FilePath>
+              <FilePath>.\src\main\core_arterytek_at32f415.h</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
           <GroupName>main/core_arterytek_at32f415</GroupName>
-          <Files>
-            <File>
-              <FileName>isr_at32f415.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core_arterytek_at32f415\isr_at32f415.h</FilePath>
-            </File>
-            <File>
-              <FileName>isr_at32f415_timer.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\core_arterytek_at32f415\isr_at32f415_timer.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>isr_at32f415_timer.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core_arterytek_at32f415\isr_at32f415_timer.h</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>main/core</GroupName>
@@ -605,7 +589,7 @@
                 <NoWarn>2</NoWarn>
                 <uSurpInc>2</uSurpInc>
                 <useXO>2</useXO>
-                <uClangAs>2</uClangAs>
+                <ClangAsOpt>0</ClangAsOpt>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>
@@ -699,7 +683,7 @@
                 <NoWarn>2</NoWarn>
                 <uSurpInc>2</uSurpInc>
                 <useXO>2</useXO>
-                <uClangAs>2</uClangAs>
+                <ClangAsOpt>0</ClangAsOpt>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>
@@ -794,7 +778,7 @@
                 <NoWarn>2</NoWarn>
                 <uSurpInc>2</uSurpInc>
                 <useXO>2</useXO>
-                <uClangAs>2</uClangAs>
+                <ClangAsOpt>0</ClangAsOpt>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>
@@ -811,9 +795,9 @@
               <FilePath>.\ref\mcuf\target\mcuf_m4.lib</FilePath>
             </File>
             <File>
-              <FileName>bsp_at32f415.lib</FileName>
+              <FileName>bsp_arterytek_at32f415.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>.\ref\bsp_at32f415\target\bsp_at32f415.lib</FilePath>
+              <FilePath>.\ref\bsp_arterytek_at32f415\target\bsp_arterytek_at32f415.lib</FilePath>
             </File>
           </Files>
         </Group>
@@ -861,7 +845,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\.keil\Objects\</OutputDirectory>
-          <OutputName>core_at32f415</OutputName>
+          <OutputName>core_arterytek_at32f415_debug</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -997,6 +981,7 @@
             <uocXRam>0</uocXRam>
             <RvdsVP>0</RvdsVP>
             <RvdsMve>0</RvdsMve>
+            <RvdsCdeCp>0</RvdsCdeCp>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -1163,7 +1148,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <uClangAs>0</uClangAs>
+            <ClangAsOpt>4</ClangAsOpt>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -1195,31 +1180,14 @@
           <GroupName>main</GroupName>
           <Files>
             <File>
-              <FileName>core_at32f415.h</FileName>
+              <FileName>core_arterytek_at32f415.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core_at32f415.h</FilePath>
+              <FilePath>.\src\main\core_arterytek_at32f415.h</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
           <GroupName>main/core_arterytek_at32f415</GroupName>
-          <Files>
-            <File>
-              <FileName>isr_at32f415.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core_arterytek_at32f415\isr_at32f415.h</FilePath>
-            </File>
-            <File>
-              <FileName>isr_at32f415_timer.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\core_arterytek_at32f415\isr_at32f415_timer.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>isr_at32f415_timer.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core_arterytek_at32f415\isr_at32f415_timer.h</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>main/core</GroupName>
@@ -1416,9 +1384,9 @@
               <FilePath>.\ref\mcuf\target\mcuf_m4.lib</FilePath>
             </File>
             <File>
-              <FileName>bsp_at32f415.lib</FileName>
+              <FileName>bsp_arterytek_at32f415.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>.\ref\bsp_at32f415\target\bsp_at32f415.lib</FilePath>
+              <FilePath>.\ref\bsp_arterytek_at32f415\target\bsp_arterytek_at32f415.lib</FilePath>
             </File>
           </Files>
         </Group>

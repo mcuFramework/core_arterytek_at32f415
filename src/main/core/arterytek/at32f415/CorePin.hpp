@@ -11,6 +11,8 @@
 /* ****************************************************************************************
  * Include
  */  
+#include "core/arterytek/at32f415/CoreGPIO.hpp" 
+
 #include "mcuf.h"
 
 
@@ -69,7 +71,7 @@ class core::arterytek::at32f415::CorePin :
   /**
    * Construct.
    */
-  private: CorePin(void* base, uint32_t pin);
+  public: CorePin(core::arterytek::at32f415::CoreGPIO* base, uint32_t pin);
 
   /**
    * Disconstruct.

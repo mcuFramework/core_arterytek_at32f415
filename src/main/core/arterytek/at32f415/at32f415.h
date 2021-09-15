@@ -12,10 +12,8 @@
 /* ****************************************************************************************
  * Include
  */
-#include "CoreGeneralPurposeIO.hpp"
-#include "CoreGeneralPurposePin.hpp"
-#include "CoreInterruptControl.hpp"
-//#include "CoreSerialPort.hpp"
+#include "CoreGPIO.hpp"
+#include "CorePin.hpp"
 #include "CoreTimer.hpp"
 
 

@@ -9,8 +9,8 @@
  * Include
  */  
 #include "CoreUSART.hpp"
-#include "core/arterytek/at32f415/core/core_serialPort.h"
-#include "util/util_ringBuffer.h"
+#include "bsp_arterytek_at32f415/at32f4xx.h"
+
 
 /* ****************************************************************************************
  * Using
@@ -50,7 +50,7 @@ CoreUSART::CoreUSART(CoreUSART::Registor reg, uint32_t bufferSize){
       break;
     
     default:
-      mcuf::lang::System::throwSystemError(__PRETTY_FUNCTION__, "out of enum index");
+      THROW_ERROR(MESSAGE_OUT_OF_RANGE);
   }
 }
 

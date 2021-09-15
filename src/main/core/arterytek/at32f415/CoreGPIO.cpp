@@ -200,6 +200,8 @@ bool CoreGPIO::init(void){
     default:
       return false;  
   };
+  
+  return false;
 }
 
 /**

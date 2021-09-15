@@ -12,7 +12,6 @@
  * Include
  */  
 #include "mcuf.h"
-#include "core/arterytek/at32f415/CorePin.hpp"
 
 /* ****************************************************************************************
  * Namespace
@@ -21,6 +20,7 @@ namespace core{
   namespace arterytek{
     namespace at32f415{
       class CoreGPIO;
+      class CorePin;
     }
   }
 }
@@ -33,6 +33,8 @@ namespace core{
 class core::arterytek::at32f415::CoreGPIO :
       public mcuf::hal::GeneralPurposeIO{
 
+        
+  friend CorePin;
   /* **************************************************************************************
    * Subclass
    */
@@ -198,4 +200,4 @@ class core::arterytek::at32f415::CoreGPIO :
  */ 
 
 
-#endif/* MCUF_AT32F415_BE9A20C8_4D98_4DB7_91B4_8BFDBE933CA5 */
+#endif /* MCUF_AT32F415_BE9A20C8_4D98_4DB7_91B4_8BFDBE933CA5 */

@@ -8,25 +8,21 @@
 /* ****************************************************************************************
  * Include
  */  
-#include "CorePin.hpp"
-
-#include "core/arterytek/at32f415/ctrl/CtrlPin.hpp"
-#include "core/arterytek/at32f415/ctrl/CtrlGPIO.hpp"
-#include "core/arterytek/at32f415/core/core_io.h"
-#include "core/arterytek/at32f415/core/core_iocon.h"
-#include "core/arterytek/at32f415/core/core_ioconGpio.h"
+#include "core/arterytek/at32f415/CoreGPIO.hpp"
+#include "core/arterytek/at32f415/CorePin.hpp"
 
 #include "bsp_arterytek_at32f415/at32f4xx.h"
 
 /* ****************************************************************************************
  * Macro
  */  
-#define GET_BASE(x) ((GPIO_Type*)x)
+#define GET_CTRL_DIR(source, shift) ((source & (0x00000003 << (shift << 2)))?1:0)
+#define GET_BASE(x)                 ((GPIO_Type*)x)
 
 /* ****************************************************************************************
  * Using
  */  
- 
+using core::arterytek::at32f415::CoreGPIO;
 using core::arterytek::at32f415::CorePin;
 
 
@@ -37,8 +33,10 @@ using core::arterytek::at32f415::CorePin;
 /**
  * 
  */
-CorePin::CorePin(void* base, uint32_t pin){
-  this->mBase = base;
+CorePin::CorePin(CoreGPIO* base, uint32_t pin){
+  ASSERT_THROW_ERROR((pin<16), MESSAGE_OUT_OF_RANGE);
+  
+  this->mBase = base->mBase;
   this->mPin = pin;
 }
 
@@ -61,7 +59,10 @@ CorePin::CorePin(void* base, uint32_t pin){
  * @return false = input, true = output.
  */
 bool CorePin::dir(void){
-  return core_iocon_gpio_getPinDir(GET_BASE(this->mBase), this->mPin);
+  if(this->mPin >= 8)
+    return GET_CTRL_DIR(GET_BASE(this->mBase)->CTRLL, this->mPin);
+  else
+    return GET_CTRL_DIR(GET_BASE(this->mBase)->CTRLH, (this->mPin-8));
 }
 
 /**   
@@ -70,7 +71,11 @@ bool CorePin::dir(void){
  * @param dir false = input, true = output.
  */
 void CorePin::dir(bool dir){
-  core_iocon_gpio_setPinDir(GET_BASE(this->mBase), this->mPin, dir);
+  if(dir)
+    this->setInput();
+  
+  else  
+    this->setOutput();
 }
 
 /**
@@ -91,9 +96,6 @@ bool CorePin::pinMode(PinMode mode){
  * Set io pin to high.
  */
 void CorePin::setHigh(void){
-  if(!core_iocon_gpio_getPinDir(GET_BASE(this->mBase), this->mPin))
-    return;
-  
   GET_BASE(this->mBase)->BSRE |= (1 << this->mPin);
   return;
 }
@@ -102,16 +104,17 @@ void CorePin::setHigh(void){
  * Set io direction to input.
  */
 void CorePin::setInput(void){
-  core_iocon_gpio_setPinDir(GET_BASE(this->mBase), this->mPin, false);
+  if(this->mPin >= 8)
+    GET_BASE(this->mBase)->CTRLL &= ~(0x00000003 << this->mPin);
+  
+  else
+    GET_BASE(this->mBase)->CTRLH &= ~(0x00000003 << (this->mPin-8));
 }
 
 /**
  * Set io pin to low.
  */
 void CorePin::setLow(void){
-  if(!core_iocon_gpio_getPinDir(GET_BASE(this->mBase), this->mPin))
-    return;
-
   GET_BASE(this->mBase)->BRE |= (1 << this->mPin);
 }
 
@@ -119,7 +122,11 @@ void CorePin::setLow(void){
  * Set io direction to output.
  */
 void CorePin::setOutput(void){
-  core_iocon_gpio_setPinDir(GET_BASE(this->mBase), this->mPin, true);
+  if(this->mPin >= 8)
+    GET_BASE(this->mBase)->CTRLL |= (0x00000003 << this->mPin);
+  
+  else
+    GET_BASE(this->mBase)->CTRLH |= (0x00000003 << (this->mPin-8));
 }
 
 /**
@@ -135,10 +142,7 @@ void CorePin::setToggle(void){
  * @return false = low, true = high.
  */
 bool CorePin::value(void){
-	if(GET_BASE(this->mBase)->IPTDT & (1 << this->mPin))
-		return true;
-	else
-		return false;
+	return (GET_BASE(this->mBase)->IPTDT & (1 << this->mPin));
 }
 
 /**
@@ -147,9 +151,6 @@ bool CorePin::value(void){
  * @param value false = low, true = high.
  */
 void CorePin::value(bool level){
-  if(!core_iocon_gpio_getPinDir(GET_BASE(this->mBase), this->mPin))
-    return;
-
 	if(level)
 	  GET_BASE(this->mBase)->BSRE |= (1 << this->mPin);
 	else

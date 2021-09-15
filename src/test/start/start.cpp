@@ -11,9 +11,8 @@
 #include <stdint.h>
 
 #include "mcuf.h"
-#include "core_at32f415.h"
+#include "core_arterytek_at32f415.h"
 
-#include "core/arterytek/at32f415/bsp/at32f4xx_i2c.h"
 
 /* ****************************************************************************************
  * Macro
@@ -29,8 +28,8 @@ using mcuf::lang::Memory;
 using mcuf::lang::managerment::MemoryManager;
 using mcuf::function::ConsumerEvent;
 
-using core::arterytek::at32f415::CoreGeneralPurposeIO;
-using core::arterytek::at32f415::CoreGeneralPurposePin;
+using core::arterytek::at32f415::CorePin;
+using core::arterytek::at32f415::CoreGPIO;
 using core::arterytek::at32f415::CoreTimer;
 
 /* ****************************************************************************************
