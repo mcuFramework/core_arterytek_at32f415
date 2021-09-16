@@ -5,8 +5,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-#ifndef MCUF_AT32F415_C1AEDB07_F613_4402_8777_D339DDF8C78C
-#define MCUF_AT32F415_C1AEDB07_F613_4402_8777_D339DDF8C78C
+#ifndef CORE_ARTERYTEK_AT32F415_D5941889_B076_4A75_A2BB_6381B6E20141
+#define CORE_ARTERYTEK_AT32F415_D5941889_B076_4A75_A2BB_6381B6E20141
 
 /* ****************************************************************************************
  * Include
@@ -230,4 +230,4 @@ class core::arterytek::at32f415::CoreUSART :
  * End of file
  */ 
 
-#endif /* MCUF_AT32F415_C1AEDB07_F613_4402_8777_D339DDF8C78C */
+#endif/* CORE_ARTERYTEK_AT32F415_D5941889_B076_4A75_A2BB_6381B6E20141 */
