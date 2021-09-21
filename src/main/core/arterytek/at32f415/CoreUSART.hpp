@@ -25,8 +25,6 @@ namespace core{
   }
 }
 
-
-
 /* ****************************************************************************************
  * Class Object
  */  
@@ -46,9 +44,9 @@ class core::arterytek::at32f415::CoreUSART :
   };
 
   /* **************************************************************************************
-   * Enum Registor
+   * Enum Register
    */
-  public: enum Registor{
+  public: enum Register{
     REG_USART1,
     REG_USART2,
     REG_USART3,
@@ -67,6 +65,7 @@ class core::arterytek::at32f415::CoreUSART :
   /* **************************************************************************************
    * Variable <Private>
    */
+  private: Register mRegister;
   private: void* regAddress;
   private: void* ringBuffer;
   private: Pakcet readPacket;
@@ -88,7 +87,7 @@ class core::arterytek::at32f415::CoreUSART :
   /**
    * Construct.
    */
-  public: CoreUSART(Registor reg, uint32_t bufferSize);
+  public: CoreUSART(Register reg, uint32_t bufferSize);
 
   /**
    * Disconstruct.

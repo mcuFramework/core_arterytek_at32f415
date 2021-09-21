@@ -391,9 +391,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>main/core_arterytek_at32f415</GroupName>
-        </Group>
-        <Group>
           <GroupName>main/core</GroupName>
           <Files>
             <File>
@@ -521,22 +518,20 @@
               <FileType>5</FileType>
               <FilePath>.\src\main\core\arterytek\at32f415\CoreInterrupt.hpp</FilePath>
             </File>
+            <File>
+              <FileName>CoreEXTI.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreEXTI.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreEXTI.hpp</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreEXTI.hpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>main/core/arterytek/at32f415/ctrl</GroupName>
-          <Files>
-            <File>
-              <FileName>CtrlInterrupt.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\ctrl\CtrlInterrupt.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CtrlInterrupt.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\ctrl\CtrlInterrupt.hpp</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>resources</GroupName>
@@ -611,109 +606,34 @@
           </GroupOption>
           <Files>
             <File>
-              <FileName>mcuf_at32f415_startup.s</FileName>
+              <FileName>core_arterytek_interrupt.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\resources\core_arterytek_interrupt.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>core_arterytek_interrupt_priority.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\resources\core_arterytek_interrupt_priority.c</FilePath>
+            </File>
+            <File>
+              <FileName>core_arterytek_startup.s</FileName>
               <FileType>2</FileType>
-              <FilePath>.\src\resources\mcuf_at32f415_startup.s</FilePath>
+              <FilePath>.\src\resources\core_arterytek_startup.s</FilePath>
             </File>
             <File>
-              <FileName>mcuf_at32f415_system.c</FileName>
+              <FileName>core_arterytek_system.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\src\resources\mcuf_at32f415_system.c</FilePath>
-            </File>
-            <File>
-              <FileName>mcuf_at32f415_interrupt_priority.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\resources\mcuf_at32f415_interrupt_priority.c</FilePath>
-            </File>
-            <File>
-              <FileName>mcuf_at32f415_interrupt_service.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\resources\mcuf_at32f415_interrupt_service.c</FilePath>
+              <FilePath>.\src\resources\core_arterytek_system.c</FilePath>
             </File>
           </Files>
-        </Group>
-        <Group>
-          <GroupName>test</GroupName>
-          <GroupOption>
-            <CommonProperty>
-              <UseCPPCompiler>0</UseCPPCompiler>
-              <RVCTCodeConst>0</RVCTCodeConst>
-              <RVCTZI>0</RVCTZI>
-              <RVCTOtherData>0</RVCTOtherData>
-              <ModuleSelection>0</ModuleSelection>
-              <IncludeInBuild>0</IncludeInBuild>
-              <AlwaysBuild>2</AlwaysBuild>
-              <GenerateAssemblyFile>2</GenerateAssemblyFile>
-              <AssembleAssemblyFile>2</AssembleAssemblyFile>
-              <PublicsOnly>2</PublicsOnly>
-              <StopOnExitCode>11</StopOnExitCode>
-              <CustomArgument></CustomArgument>
-              <IncludeLibraryModules></IncludeLibraryModules>
-              <ComprImg>1</ComprImg>
-            </CommonProperty>
-            <GroupArmAds>
-              <Cads>
-                <interw>2</interw>
-                <Optim>0</Optim>
-                <oTime>2</oTime>
-                <SplitLS>2</SplitLS>
-                <OneElfS>2</OneElfS>
-                <Strict>2</Strict>
-                <EnumInt>2</EnumInt>
-                <PlainCh>2</PlainCh>
-                <Ropi>2</Ropi>
-                <Rwpi>2</Rwpi>
-                <wLevel>0</wLevel>
-                <uThumb>2</uThumb>
-                <uSurpInc>2</uSurpInc>
-                <uC99>2</uC99>
-                <uGnu>2</uGnu>
-                <useXO>2</useXO>
-                <v6Lang>0</v6Lang>
-                <v6LangP>0</v6LangP>
-                <vShortEn>2</vShortEn>
-                <vShortWch>2</vShortWch>
-                <v6Lto>2</v6Lto>
-                <v6WtE>2</v6WtE>
-                <v6Rtti>2</v6Rtti>
-                <VariousControls>
-                  <MiscControls></MiscControls>
-                  <Define></Define>
-                  <Undefine></Undefine>
-                  <IncludePath></IncludePath>
-                </VariousControls>
-              </Cads>
-              <Aads>
-                <interw>2</interw>
-                <Ropi>2</Ropi>
-                <Rwpi>2</Rwpi>
-                <thumb>2</thumb>
-                <SplitLS>2</SplitLS>
-                <SwStkChk>2</SwStkChk>
-                <NoWarn>2</NoWarn>
-                <uSurpInc>2</uSurpInc>
-                <useXO>2</useXO>
-                <ClangAsOpt>0</ClangAsOpt>
-                <VariousControls>
-                  <MiscControls></MiscControls>
-                  <Define></Define>
-                  <Undefine></Undefine>
-                  <IncludePath></IncludePath>
-                </VariousControls>
-              </Aads>
-            </GroupArmAds>
-          </GroupOption>
-        </Group>
-        <Group>
-          <GroupName>test/core_arterytek_at32f415</GroupName>
         </Group>
         <Group>
           <GroupName>test/start</GroupName>
           <Files>
             <File>
-              <FileName>main_cpp.cpp</FileName>
+              <FileName>main.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\test\start\main_cpp.cpp</FilePath>
+              <FilePath>.\src\test\start\main.cpp</FilePath>
             </File>
             <File>
               <FileName>start.cpp</FileName>
@@ -1119,7 +1039,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>2</Optim>
+            <Optim>6</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -1145,7 +1065,7 @@
               <MiscControls></MiscControls>
               <Define>SYSCLK_FREQ_144MHz_HSI, DEBUG</Define>
               <Undefine></Undefine>
-              <IncludePath>.\src\lowlevel;.\src\main;.\ref\mcuf\src\main;.\ref\bsp_at32f415\src\lowlevel</IncludePath>
+              <IncludePath>.\src\main;.\ref\mcuf\src\main;.\ref\bsp_arterytek_at32f415\src\main</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1195,9 +1115,6 @@
               <FilePath>.\src\main\core_arterytek_at32f415.h</FilePath>
             </File>
           </Files>
-        </Group>
-        <Group>
-          <GroupName>main/core_arterytek_at32f415</GroupName>
         </Group>
         <Group>
           <GroupName>main/core</GroupName>
@@ -1327,61 +1244,53 @@
               <FileType>5</FileType>
               <FilePath>.\src\main\core\arterytek\at32f415\CoreInterrupt.hpp</FilePath>
             </File>
+            <File>
+              <FileName>CoreEXTI.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreEXTI.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreEXTI.hpp</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreEXTI.hpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>main/core/arterytek/at32f415/ctrl</GroupName>
-          <Files>
-            <File>
-              <FileName>CtrlInterrupt.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\ctrl\CtrlInterrupt.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CtrlInterrupt.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\ctrl\CtrlInterrupt.hpp</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>resources</GroupName>
           <Files>
             <File>
-              <FileName>mcuf_at32f415_startup.s</FileName>
+              <FileName>core_arterytek_interrupt.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\resources\core_arterytek_interrupt.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>core_arterytek_interrupt_priority.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\resources\core_arterytek_interrupt_priority.c</FilePath>
+            </File>
+            <File>
+              <FileName>core_arterytek_startup.s</FileName>
               <FileType>2</FileType>
-              <FilePath>.\src\resources\mcuf_at32f415_startup.s</FilePath>
+              <FilePath>.\src\resources\core_arterytek_startup.s</FilePath>
             </File>
             <File>
-              <FileName>mcuf_at32f415_system.c</FileName>
+              <FileName>core_arterytek_system.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\src\resources\mcuf_at32f415_system.c</FilePath>
-            </File>
-            <File>
-              <FileName>mcuf_at32f415_interrupt_priority.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\resources\mcuf_at32f415_interrupt_priority.c</FilePath>
-            </File>
-            <File>
-              <FileName>mcuf_at32f415_interrupt_service.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\resources\mcuf_at32f415_interrupt_service.c</FilePath>
+              <FilePath>.\src\resources\core_arterytek_system.c</FilePath>
             </File>
           </Files>
-        </Group>
-        <Group>
-          <GroupName>test</GroupName>
-        </Group>
-        <Group>
-          <GroupName>test/core_arterytek_at32f415</GroupName>
         </Group>
         <Group>
           <GroupName>test/start</GroupName>
           <Files>
             <File>
-              <FileName>main_cpp.cpp</FileName>
+              <FileName>main.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\test\start\main_cpp.cpp</FilePath>
+              <FilePath>.\src\test\start\main.cpp</FilePath>
             </File>
             <File>
               <FileName>start.cpp</FileName>

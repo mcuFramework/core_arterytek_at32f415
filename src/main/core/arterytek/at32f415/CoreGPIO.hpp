@@ -40,14 +40,33 @@ class core::arterytek::at32f415::CoreGPIO :
    */
 
   /* **************************************************************************************
-   * Enum Registor
+   * Enum InputMode
+   */        
+  public: enum InputMode{
+    InputMode_Open,
+    InputMode_Analog,
+    InputMode_Pulldown,
+    InputMode_Pullup,
+  };
+  
+  /* **************************************************************************************
+   * Enum InputMode
+   */   
+  public: enum OutputMode{
+    OutputMode_2M,
+    OutputMode_10M,
+    OutputMode_50M,
+  };
+        
+  /* **************************************************************************************
+   * Enum Register
    */
-  public: enum Registor{
-    REG_GPIOA,
-    REG_GPIOB,
-    REG_GPIOC,
-    REG_GPIOD,
-    REG_GPIOF,
+  public: enum Register{
+    REG_GPIOA = 0,
+    REG_GPIOB = 1,
+    REG_GPIOC = 2,
+    REG_GPIOD = 3,
+    REG_GPIOF = 4,
   };
 
   /* **************************************************************************************
@@ -61,7 +80,7 @@ class core::arterytek::at32f415::CoreGPIO :
   /* **************************************************************************************
    * Variable <Private>
    */
-  private: void* mBase;
+  private: Register mRegister;
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -78,12 +97,12 @@ class core::arterytek::at32f415::CoreGPIO :
   /**
    * Construct.
    */
-  public: CoreGPIO(Registor reg);
+  public: CoreGPIO(Register reg);
 
   /**
    * Disconstruct.
    */
-  public: virtual ~CoreGPIO(void);
+  public: virtual ~CoreGPIO(void) = default;
 
   /* **************************************************************************************
    * Operator Method
@@ -167,6 +186,16 @@ class core::arterytek::at32f415::CoreGPIO :
    * Public Method
    */
 
+  /**
+   *
+   */
+  public: bool configInput(uint32_t pin, InputMode mode);
+  
+  /**
+   *
+   */
+  public: bool configOutput(uint32_t pin, OutputMode mode, bool opendrain, bool function, bool value);
+
   /* **************************************************************************************
    * Protected Method <Static>
    */
@@ -190,6 +219,7 @@ class core::arterytek::at32f415::CoreGPIO :
   /* **************************************************************************************
    * Private Method
    */  
+  private: void* getBase(void);
 
 };
 

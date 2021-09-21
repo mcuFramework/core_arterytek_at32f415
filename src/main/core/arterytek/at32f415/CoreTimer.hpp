@@ -28,29 +28,32 @@ namespace core{
  * Class Object
  */  
 class core::arterytek::at32f415::CoreTimer :
-      public mcuf::hal::Timer{
+      public mcuf::hal::Timer, 
+      public mcuf::function::Runnable{
 
   /* **************************************************************************************
    * Subclass
    */
 
   /* **************************************************************************************
-   * Enum Registor
+   * Enum Register
    */
-  public: enum Registor{
-    REG_TMR2,
-    REG_TMR3,
-    REG_TMR4,
-    REG_TMR5,
-    REG_TMR9,
-    REG_TMR10,
-    REG_TMR11
+  public: enum Register{
+    REG_TMR1  = 0,
+    REG_TMR2  = 1,
+    REG_TMR3  = 2,
+    REG_TMR4  = 3,
+    REG_TMR5  = 4,
+    REG_TMR9  = 5,
+    REG_TMR10 = 6,
+    REG_TMR11 = 7,
   };
         
   /* **************************************************************************************
    * Variable <Public>
    */
-
+  
+  
   /* **************************************************************************************
    * Variable <Protected>
    */
@@ -59,7 +62,7 @@ class core::arterytek::at32f415::CoreTimer :
    * Variable <Private>
    */
   
-  private: void* mRegAddress;
+  private: Register mRegister;
   private: void* mAttachment;
   private: mcuf::function::Consumer<void*>* mExecute;
 
@@ -78,7 +81,7 @@ class core::arterytek::at32f415::CoreTimer :
   /**
    * Construct.
    */
-  public: CoreTimer(Registor reg);
+  public: CoreTimer(Register reg);
 
   /**
    * Destruct.
@@ -133,6 +136,11 @@ class core::arterytek::at32f415::CoreTimer :
    * 
    */
   public: virtual uint32_t getTickBaseMilliSecond(void) override;
+  
+  /**
+   *
+   */
+  public: virtual void run(void) override;
 
   /**
    * 
@@ -165,12 +173,7 @@ class core::arterytek::at32f415::CoreTimer :
   /**
    *
    */
-  public: void execute(void);
-                                   
-  /**
-   *
-   */
-  public: void interruptHandle(void);
+  public: void execute(void);                             
 
   /* **************************************************************************************
    * Protected Method <Static>

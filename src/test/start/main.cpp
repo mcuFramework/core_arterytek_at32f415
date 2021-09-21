@@ -36,7 +36,7 @@ extern void loop(void);
  * Public Method
  */
 
-extern "C" void main_cpp(void){
+extern "C" int main(void){
 	start();
 	for(;;)
 		loop();

@@ -27,7 +27,7 @@ using mcuf::lang::Pointer;
 /**
  * 
  */
-CoreUSART::CoreUSART(CoreUSART::Registor reg, uint32_t bufferSize){
+CoreUSART::CoreUSART(CoreUSART::Register reg, uint32_t bufferSize){
   switch (reg){
     case CoreUSART::REG_USART1:
       this->regAddress = (void*)USART1;

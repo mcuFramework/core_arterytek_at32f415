@@ -11,28 +11,56 @@
 
 #include "bsp_arterytek_at32f415/at32f4xx_tim.h"
 
-#include "core/arterytek/at32f415/ctrl/CtrlInterrupt.hpp"
+#include "core/arterytek/at32f415/Core.hpp"
+#include "core/arterytek/at32f415/CoreInterrupt.hpp"
 #include "core/arterytek/at32f415/CoreTimer.hpp"
- 
+
+/* ****************************************************************************************
+ * Namespace
+ */ 
+namespace core{
+  namespace arterytek{
+    namespace at32f415{
+      
+      struct CoreTimerConfig{
+        void* Register;
+        volatile uint32_t* clock;
+        uint32_t clockMask;
+        CoreInterrupt::Irq irq;
+        
+      }const coreTimerConfig[8] = {
+        {TMR1 , &RCC->APB2EN, RCC_APB2PERIPH_TMR1 , CoreInterrupt::IRQ_TMR1 },
+        {TMR2 , &RCC->APB1EN, RCC_APB1PERIPH_TMR2 , CoreInterrupt::IRQ_TMR2 },
+        {TMR3 , &RCC->APB1EN, RCC_APB1PERIPH_TMR3 , CoreInterrupt::IRQ_TMR3 },
+        {TMR4 , &RCC->APB1EN, RCC_APB1PERIPH_TMR4 , CoreInterrupt::IRQ_TMR4 },
+        {TMR5 , &RCC->APB1EN, RCC_APB1PERIPH_TMR5 , CoreInterrupt::IRQ_TMR5 },
+        {TMR9 , &RCC->APB2EN, RCC_APB2PERIPH_TMR9 , CoreInterrupt::IRQ_TMR9 },
+        {TMR10, &RCC->APB2EN, RCC_APB2PERIPH_TMR10, CoreInterrupt::IRQ_TMR10},
+        {TMR11, &RCC->APB2EN, RCC_APB2PERIPH_TMR11, CoreInterrupt::IRQ_TMR11},
+      };
+    }
+  }
+}
+
 /* ****************************************************************************************
  * Using
  */  
+using core::arterytek::at32f415::Core;
+using core::arterytek::at32f415::CoreInterrupt;
 using core::arterytek::at32f415::CoreTimer;
-using core::arterytek::at32f415::ctrl::CtrlInterrupt;
 using mcuf::function::Consumer;
 
 /* ****************************************************************************************
  * Macro
  */
-#define GET_BASE()               ((TMR_Type*)this->mRegAddress)
+#define CONFIG                   (coreTimerConfig[this->mRegister])
+#define BASE                     ((TMR_Type*)CONFIG.Register)
 #define BASE_CLEAR_PENDING(x, y) (x->STS=(uint16_t)~y)
 #define BASE_GET_FLAG(x, y)      (((x->STS & y) != (uint16_t)RESET)?SET:RESET)
 
 /* ****************************************************************************************
  * Extern
  */
-extern CoreTimer* isr_at32f415_tmr_get(void* base);
-extern void isr_at32f415_tmr_reg(void* base, core::arterytek::at32f415::CoreTimer* mem);
 
 /* ****************************************************************************************
  * Construct Method
@@ -41,40 +69,8 @@ extern void isr_at32f415_tmr_reg(void* base, core::arterytek::at32f415::CoreTime
 /**
  * 
  */
-CoreTimer::CoreTimer(Registor reg){
-  switch(reg){
-    case CoreTimer::REG_TMR2:
-      this->mRegAddress = TMR2;
-      break;
-    
-    case CoreTimer::REG_TMR3:
-      this->mRegAddress = TMR3;
-      break;
-    
-    case CoreTimer::REG_TMR4:
-      this->mRegAddress = TMR4;
-      break;
-    
-    case CoreTimer::REG_TMR5:
-      this->mRegAddress = TMR5;
-      break;
-    
-    case CoreTimer::REG_TMR9:
-      this->mRegAddress = TMR9;
-      break;
-    
-    case CoreTimer::REG_TMR10:
-      this->mRegAddress = TMR10;
-      break;
-    
-    case CoreTimer::REG_TMR11:
-      this->mRegAddress = TMR11;
-      break;
-    
-    default:
-      THROW_ERROR("out of enum index");
-  }
-  
+CoreTimer::CoreTimer(Register reg){
+  this->mRegister = reg;
   this->mAttachment = nullptr;
   this->mExecute = nullptr;
   return;
@@ -107,9 +103,8 @@ bool CoreTimer::deinit(void){
     return false;
   
   this->cancel();
-  this->clockEnable(false);
   
-  isr_at32f415_tmr_reg(this->mRegAddress, nullptr);
+  *CONFIG.clock &= ~CONFIG.clockMask;
   return true;
 }
 
@@ -118,8 +113,8 @@ bool CoreTimer::deinit(void){
  */
 void CoreTimer::cancel(void){
   this->interruptEnable(false);
-  TMR_INTConfig(GET_BASE(), TMR_INT_Overflow, DISABLE);
-  TMR_Cmd(GET_BASE(), DISABLE);
+  TMR_INTConfig(BASE, TMR_INT_Overflow, DISABLE);
+  TMR_Cmd(BASE, DISABLE);
   
 }
 
@@ -136,10 +131,9 @@ bool CoreTimer::isBusy(void){
 bool CoreTimer::init(void){
   if(this->isInit())
     return false;
-  
-  this->clockEnable(true);
-  TMR_Reset(GET_BASE());
-  isr_at32f415_tmr_reg(GET_BASE(), this);
+
+  *CONFIG.clock |= CONFIG.clockMask;
+  Core::interrupt.setHandler(CONFIG.irq, this);
   return true;
 }
   
@@ -147,15 +141,15 @@ bool CoreTimer::init(void){
  *
  */
 bool CoreTimer::isInit(void){
-  return (isr_at32f415_tmr_get(this->mRegAddress) != nullptr);
+  return *CONFIG.clock & CONFIG.clockMask;
 }
 
 /**
  * 
  */
 bool CoreTimer::isDone(void){
-  if(GET_BASE()->STS & TMR_STS_UEVIF){
-		GET_BASE()->STS &= ~TMR_STS_UEVIF;
+  if(BASE->STS & TMR_STS_UEVIF){
+		BASE->STS &= ~TMR_STS_UEVIF;
     return true;
   }
   
@@ -166,7 +160,23 @@ bool CoreTimer::isDone(void){
  * 
  */
 uint32_t CoreTimer::getTickBaseMilliSecond(void){
-  return (SystemCoreClock/100);
+  return (Core::getSystemCoreClock()/100);
+}
+
+/**
+ *
+ */
+void CoreTimer::run(void){
+  if(BASE_GET_FLAG(BASE, TMR_FLAG_Update) == RESET)
+    return;
+  
+  BASE_CLEAR_PENDING(BASE, TMR_FLAG_Update);
+
+  if(this->mExecute == nullptr)
+    return;
+      
+  this->mExecute->accept(this->mAttachment);
+  return;
 }
 
 /**
@@ -181,7 +191,7 @@ bool CoreTimer::startAtTick(uint32_t tick){
   
   this->configTick(tick);
   
-  TMR_Cmd(GET_BASE(), ENABLE);
+  TMR_Cmd(BASE, ENABLE);
   return true;
 }
 
@@ -197,9 +207,9 @@ bool CoreTimer::startAtTick(uint32_t tick, void* attachment, Consumer<void*>* ex
   
   this->configTick(tick);
   
-  TMR_INTConfig(GET_BASE(), TMR_INT_Overflow, ENABLE);
+  TMR_INTConfig(BASE, TMR_INT_Overflow, ENABLE);
   this->interruptEnable(true);
-  TMR_Cmd(GET_BASE(), ENABLE);
+  TMR_Cmd(BASE, ENABLE);
   
   return true;
 }
@@ -218,7 +228,7 @@ bool CoreTimer::startAtTime(uint32_t microSecond){
   if(!this->configTime(microSecond))
     return false;
   
-  TMR_Cmd(GET_BASE(), ENABLE);
+  TMR_Cmd(BASE, ENABLE);
   
   
   return true;
@@ -240,9 +250,9 @@ bool CoreTimer::startAtTime(uint32_t microSecond, void* attachment, Consumer<voi
     return false;
   }
   
-  TMR_INTConfig(GET_BASE(), TMR_INT_Overflow, ENABLE);
+  TMR_INTConfig(BASE, TMR_INT_Overflow, ENABLE);
   this->interruptEnable(true);
-  TMR_Cmd(GET_BASE(), ENABLE);
+  TMR_Cmd(BASE, ENABLE);
   
   return true;
 }
@@ -262,22 +272,6 @@ void CoreTimer::execute(void){
   return;
 }
 
-/**
- *
- */
-void CoreTimer::interruptHandle(void){
-  if(BASE_GET_FLAG(GET_BASE(), TMR_FLAG_Update) == RESET)
-    return;
-  
-  BASE_CLEAR_PENDING(GET_BASE(), TMR_FLAG_Update);
-
-  if(this->mExecute == nullptr)
-    return;
-      
-  this->mExecute->accept(this->mAttachment);
-  return;
-}
-
 /* ****************************************************************************************
  * Protected Method <Static>
  */
@@ -293,67 +287,6 @@ void CoreTimer::interruptHandle(void){
 /* ****************************************************************************************
  * Private Method
  */
- 
-/**
- *
- */
-void CoreTimer::clockEnable(bool enable){
-  uint32_t mask;
-  uint8_t busSel;
-  
-    switch((uint32_t)this->mRegAddress){
-    case TMR1_BASE:
-      mask = RCC_APB2PERIPH_TMR1;
-      busSel = 1;
-      break;
-    
-    case TMR2_BASE:
-      mask = RCC_APB1PERIPH_TMR2;
-      busSel = 0;
-      break;
-    
-    case TMR3_BASE:
-      mask = RCC_APB1PERIPH_TMR3;
-      busSel = 0;
-      break;
-    
-    case TMR4_BASE:
-      mask = RCC_APB1PERIPH_TMR4;
-      busSel = 0;
-      break;
-    
-    case TMR5_BASE:
-      mask = RCC_APB1PERIPH_TMR5;
-      busSel = 0;
-      break;
-    
-    case TMR9_BASE:
-      mask = RCC_APB2PERIPH_TMR9;
-      busSel = 1;
-      break;
-    
-    case TMR10_BASE:
-      mask = RCC_APB2PERIPH_TMR10;
-      busSel = 1;
-      break;
-    
-    case TMR11_BASE:
-      mask = RCC_APB2PERIPH_TMR11;
-      busSel = 1;
-      break;
-    
-    default:
-      THROW_ERROR("out of enum index");
-  }
-  
-  if(busSel)
-    RCC_APB2PeriphClockCmd(mask, (FunctionalState)enable);
-  
-  else
-    RCC_APB1PeriphClockCmd(mask, (FunctionalState)enable);
-  
-  return;
-}
 
 /**
  *
@@ -366,7 +299,7 @@ void CoreTimer::configTick(uint32_t tick){
   config.TMR_ClockDivision = 0;
   config.TMR_CounterMode = TMR_CounterDIR_Up;
   
-  TMR_TimeBaseInit(GET_BASE(), &config);
+  TMR_TimeBaseInit(BASE, &config);
   return;
 }
   
@@ -374,7 +307,7 @@ void CoreTimer::configTick(uint32_t tick){
  *
  */
 bool CoreTimer::configTime(uint32_t microSecond){
-  uint32_t timeUsBase = (SystemCoreClock/1000000);
+  uint32_t timeUsBase = (Core::getSystemCoreClock()/1000000);
   
   if(microSecond > (0xFFFFFFFF/timeUsBase))
     return false;
@@ -387,38 +320,8 @@ bool CoreTimer::configTime(uint32_t microSecond){
  *
  */
 void CoreTimer::interruptEnable(bool enable){
-  switch((uint32_t)this->mRegAddress){
-    case TMR2_BASE:
-      CtrlInterrupt::timer(CtrlInterrupt::IRQ_TMR2, enable);
-      return;
-    
-    case TMR3_BASE:
-      CtrlInterrupt::timer(CtrlInterrupt::IRQ_TMR3, enable);
-      return;
-    
-    case TMR4_BASE:
-      CtrlInterrupt::timer(CtrlInterrupt::IRQ_TMR4, enable);
-      return;
-    
-    case TMR5_BASE:
-      CtrlInterrupt::timer(CtrlInterrupt::IRQ_TMR5, enable);
-      return;
-    
-    case TMR9_BASE:
-      CtrlInterrupt::timer(CtrlInterrupt::IRQ_TMR9, enable);
-      return;
-    
-    case TMR10_BASE:
-      CtrlInterrupt::timer(CtrlInterrupt::IRQ_TMR10, enable);
-      return;
-    
-    case TMR11_BASE:
-      CtrlInterrupt::timer(CtrlInterrupt::IRQ_TMR11, enable);
-      return;
-    
-    default:
-      THROW_ERROR("out of enum index");
-  }
+  Core::interrupt.irqHandler(CONFIG.irq, enable);
+  return;
 }
 
 /* ****************************************************************************************

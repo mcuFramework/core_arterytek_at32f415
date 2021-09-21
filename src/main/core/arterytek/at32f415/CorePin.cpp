@@ -8,10 +8,10 @@
 /* ****************************************************************************************
  * Include
  */  
-#include "core/arterytek/at32f415/CoreGPIO.hpp"
-#include "core/arterytek/at32f415/CorePin.hpp"
+#include "CorePin.hpp"
 
 #include "bsp_arterytek_at32f415/at32f4xx.h"
+#include "core/arterytek/at32f415/CoreGPIO.hpp"
 
 /* ****************************************************************************************
  * Macro
@@ -34,9 +34,10 @@ using core::arterytek::at32f415::CorePin;
  * 
  */
 CorePin::CorePin(CoreGPIO* base, uint32_t pin){
+  ASSERT_THROW_ERROR(base, MESSAGE_NULL_POINTER);
   ASSERT_THROW_ERROR((pin<16), MESSAGE_OUT_OF_RANGE);
   
-  this->mBase = base->mBase;
+  this->mBase = base->getBase();
   this->mPin = pin;
 }
 
@@ -82,13 +83,70 @@ void CorePin::dir(bool dir){
  * 
  */
 CorePin::PinMode CorePin::pinMode(void){
-  return PinMode::NOT_SUPPORT;
+  return PinMode::PinMode_NotSupport;
 }
 
 /**
  * 
  */
 bool CorePin::pinMode(PinMode mode){
+  uint8_t shift = ((this->mPin & 0x00000007) << 2);
+  volatile uint32_t *reg;
+  
+  if(this->mPin < 8)
+    reg = &GET_BASE(this->mBase)->CTRLL;
+  
+  else
+    reg = &GET_BASE(this->mBase)->CTRLH;
+  
+  uint32_t ctrl = ((*reg) & ~(0x0000000F << shift)); 
+
+  switch(mode){
+    //-------------------------------------------------------------------------------------
+    case PinMode_NotSupport:
+      return false;
+    
+    //-------------------------------------------------------------------------------------
+    case PinMode_PushPull:
+      if(!this->dir())
+        return false;
+      
+      *reg = (ctrl | (0x00000003 << shift));
+      return true;
+    
+    //-------------------------------------------------------------------------------------
+    case PinMode_Pullup:
+      if(this->dir())
+        return false;
+      
+      *reg = (ctrl | (0x00000008 << shift));
+      GET_BASE(this->mBase)->BSRE |= (1 << this->mPin);
+      return true;
+    
+    //-------------------------------------------------------------------------------------
+    case PinMode_Pulldown:
+      if(this->dir())
+        return false;
+      
+      *reg = (ctrl | (0x00000008 << shift));
+      GET_BASE(this->mBase)->BRE |= (1 << this->mPin);
+      return true;      
+      
+    //-------------------------------------------------------------------------------------
+    case PinMode_opendrain:
+      if(this->dir())
+        *reg = (ctrl | (0x00000007 << shift));
+      
+      else
+        *reg = (ctrl | (0x00000004 << shift));
+ 
+      return true;
+      
+    //-------------------------------------------------------------------------------------
+    default:
+      return false;
+  }
+  
   return false;
 } 
 
@@ -104,11 +162,18 @@ void CorePin::setHigh(void){
  * Set io direction to input.
  */
 void CorePin::setInput(void){
-  if(this->mPin >= 8)
-    GET_BASE(this->mBase)->CTRLL &= ~(0x00000003 << this->mPin);
+  uint8_t shift = ((this->mPin & 0x00000007) << 2);
+  volatile uint32_t *reg;
+  
+  if(this->mPin < 8)
+    reg = &GET_BASE(this->mBase)->CTRLL;
   
   else
-    GET_BASE(this->mBase)->CTRLH &= ~(0x00000003 << (this->mPin-8));
+    reg = &GET_BASE(this->mBase)->CTRLH;
+  
+  uint32_t ctrl = ((*reg) & ~(0x0000000F << shift));   
+  
+  *reg = (ctrl | (0x00000040) << shift);
 }
 
 /**
@@ -122,11 +187,18 @@ void CorePin::setLow(void){
  * Set io direction to output.
  */
 void CorePin::setOutput(void){
-  if(this->mPin >= 8)
-    GET_BASE(this->mBase)->CTRLL |= (0x00000003 << this->mPin);
+  uint8_t shift = ((this->mPin & 0x00000007) << 2);
+  volatile uint32_t *reg;
+  
+  if(this->mPin < 8)
+    reg = &GET_BASE(this->mBase)->CTRLL;
   
   else
-    GET_BASE(this->mBase)->CTRLH |= (0x00000003 << (this->mPin-8));
+    reg = &GET_BASE(this->mBase)->CTRLH;
+  
+  uint32_t ctrl = ((*reg) & ~(0x0000000F << shift));   
+  
+  *reg = (ctrl | (0x00000003) << shift);
 }
 
 /**

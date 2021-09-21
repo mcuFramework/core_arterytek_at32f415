@@ -22,7 +22,6 @@
 namespace core{
   namespace arterytek{
     namespace at32f415{
-      class CoreGeneralPurposeIO;
       class CorePin;
     }
   }
@@ -36,7 +35,6 @@ namespace core{
 class core::arterytek::at32f415::CorePin :
       public mcuf::hal::GeneralPurposePin{
 
-  friend CoreGeneralPurposeIO;
   /* **************************************************************************************
    * Subclass
    */

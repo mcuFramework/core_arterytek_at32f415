@@ -12,6 +12,8 @@
 /* ****************************************************************************************
  * Include
  */
+#include "Core.hpp"
+#include "CoreAFIO.hpp"
 #include "CoreGPIO.hpp"
 #include "CorePin.hpp"
 #include "CoreTimer.hpp"

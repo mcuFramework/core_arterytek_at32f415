@@ -43,9 +43,9 @@ class core::arterytek::at32f415::CoreSPI :
   };
 
   /* **************************************************************************************
-   * Enum Registor
+   * Enum Register
    */
-  public: enum Registor{
+  public: enum Register{
     SPI1,
     SPI2
   };
@@ -79,7 +79,7 @@ class core::arterytek::at32f415::CoreSPI :
   /**
    * Construct.
    */
-  public: CoreSPI(Registor reg);
+  public: CoreSPI(Register reg);
 
   /**
    * Destruct.
