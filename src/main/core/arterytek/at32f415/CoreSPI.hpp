@@ -28,8 +28,8 @@ namespace core{
 /* ****************************************************************************************
  * Class Object
  */  
-class core::arterytek::at32f415::CoreSPI :
-      public mcuf::hal::Base{
+class core::arterytek::at32f415::CoreSPI  extends mcuf::lang::Object
+      implements mcuf::hal::Base{
 
   /* **************************************************************************************
    * Subclass

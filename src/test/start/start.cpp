@@ -9,6 +9,9 @@
  * Include
  */  
 #include <stdint.h>
+#include "cmsis_rtos/cmsis_os2.h"
+#include "cmsis_rtos/rtx_os.h"
+
 
 #include "mcuf.h"
 #include "core_arterytek_at32f415.h"
@@ -18,7 +21,7 @@
 /* ****************************************************************************************
  * Macro
  */  
-#define HEAP_SIZE_KB 24
+#define HEAP_SIZE_KB 16
 
 /* ****************************************************************************************
  * Using
@@ -70,15 +73,30 @@ void start_mcuf(){
 CorePin* b[8];
 uint8_t lop[2] = {0, 0};
 
-void tmrH(void* attachment){
-  lop[0] = (++lop[0] & 0x07);
-  b[lop[0]]->setToggle();
+
+
+
+void thread_a(void* args){
+  while(1){
+    b[0]->setToggle();
+    osDelay(500);
+  }
 }
 
-void tmrH2(void* attachment){
-  lop[1] = (++lop[1] & 0x07);
-  b[lop[1]]->setToggle();
+
+void thread_b(void* args){
+  while(1){
+    b[1]->setToggle();
+    osDelay(250);
+  }
 }
+
+
+static osRtxThread_t thread_mem_a;
+static osRtxThread_t thread_mem_b;
+static uint64_t stack_a[32];
+static uint64_t stack_b[32];
+
 
 /**
  *
@@ -88,31 +106,45 @@ void start(void){
   //mcuf_at32f415_interrupt_priority();
   start_mcuf();
   
-  CoreGPIO gb = CoreGPIO(CoreGPIO::REG_GPIOB);
-  gb.init();
   
   Core::afio.init();
   Core::afio.remapDEBUG(Core::afio.DEBUG_JTAGDISABLE);
+  Core::gpiob.init();
   
   
   
   for(int i=0; i<8; i++){
-    b[i] = new CorePin(&gb, i);
+    b[i] = new CorePin(&Core::gpiob, i);
     b[i]->setOutput();
     b[i]->setLow();
   }
   
-  CoreTimer coreTimer = CoreTimer(CoreTimer::REG_TMR10);
-  coreTimer.init();
-  ConsumerEvent<void*> event = ConsumerEvent<void*>(tmrH);
-  coreTimer.startAtTime(500*1000, 0x00000000, &event);
   
-  CoreTimer coreTimer2 = CoreTimer(CoreTimer::REG_TMR1);
-  coreTimer2.init();
-  ConsumerEvent<void*> event2 = ConsumerEvent<void*>(tmrH2);
-  coreTimer2.startAtTime(250*1000, 0x00000000, &event2);
   
-  while(1);
+  osKernelInitialize();
+  
+  
+  osThreadAttr_t attr;
+  
+  attr.cb_mem = &thread_mem_a;
+  attr.cb_size = sizeof(thread_mem_a);
+  attr.stack_mem = &stack_a[0];
+  attr.stack_size = sizeof(stack_a);
+  attr.attr_bits = osThreadDetached;
+  attr.priority = osPriorityNormal;
+  attr.reserved = 0;
+  
+  
+  
+  
+  osThreadNew(thread_a, nullptr, &attr);
+  
+  //osThreadNew(thread_b, nullptr, nullptr);
+  
+  
+  osKernelStart();
+  for(;;);
+  
   
 }
 

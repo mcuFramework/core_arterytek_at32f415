@@ -19,6 +19,7 @@
 namespace core{
   namespace arterytek{
     namespace at32f415{
+      class Core;
       class CoreGPIO;
       class CorePin;
     }
@@ -30,11 +31,12 @@ namespace core{
 /* ****************************************************************************************
  * Class Object
  */  
-class core::arterytek::at32f415::CoreGPIO :
-      public mcuf::hal::GeneralPurposeIO{
+class core::arterytek::at32f415::CoreGPIO extends mcuf::lang::Object
+      implements mcuf::hal::GeneralPurposeIO{
 
-        
+  friend Core;   
   friend CorePin;
+        
   /* **************************************************************************************
    * Subclass
    */
@@ -97,7 +99,7 @@ class core::arterytek::at32f415::CoreGPIO :
   /**
    * Construct.
    */
-  public: CoreGPIO(Register reg);
+  private: CoreGPIO(Register reg);
 
   /**
    * Disconstruct.

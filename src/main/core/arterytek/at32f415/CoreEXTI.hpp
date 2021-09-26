@@ -12,6 +12,8 @@
  * Include
  */  
 
+#include "mcuf.h"
+
 /* ****************************************************************************************
  * Namespace
  */  
@@ -26,7 +28,8 @@ namespace core{
 /* ****************************************************************************************
  * Class Object
  */  
-class core::arterytek::at32f415::CoreEXTI{
+class core::arterytek::at32f415::CoreEXTI extends mcuf::lang::Object
+      implements mcuf::hal::PinEdgeTrigger{
 
   /* **************************************************************************************
    * Enum Registor

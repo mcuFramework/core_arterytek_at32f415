@@ -107,7 +107,7 @@ const nvic_priority_level_t nvic_priority_level[] = {
 /**
  *
  */
-void mcuf_at32f415_interrupt_priority(void){
+void core_at32f415_interrupt_priority(void){
 	int i;
 	int count = (sizeof(nvic_priority_level) / sizeof(nvic_priority_level_t));
 	

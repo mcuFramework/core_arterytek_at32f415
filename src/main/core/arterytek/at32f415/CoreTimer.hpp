@@ -27,9 +27,8 @@ namespace core{
 /* ****************************************************************************************
  * Class Object
  */  
-class core::arterytek::at32f415::CoreTimer :
-      public mcuf::hal::Timer, 
-      public mcuf::function::Runnable{
+class core::arterytek::at32f415::CoreTimer extends mcuf::lang::Object
+      implements mcuf::hal::Timer ,mcuf::function::Runnable{
 
   /* **************************************************************************************
    * Subclass

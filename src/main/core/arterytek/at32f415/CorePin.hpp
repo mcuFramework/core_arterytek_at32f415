@@ -32,8 +32,8 @@ namespace core{
 /* ****************************************************************************************
  * Class Object
  */  
-class core::arterytek::at32f415::CorePin :
-      public mcuf::hal::GeneralPurposePin{
+class core::arterytek::at32f415::CorePin  extends mcuf::lang::Object
+      implements mcuf::hal::GeneralPurposePin{
 
   /* **************************************************************************************
    * Subclass

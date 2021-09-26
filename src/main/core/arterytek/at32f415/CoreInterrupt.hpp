@@ -28,8 +28,8 @@ namespace core{
 /* ****************************************************************************************
  * Class Object
  */  
-class core::arterytek::at32f415::CoreInterrupt :  
-      public mcuf::function::Runnable{
+class core::arterytek::at32f415::CoreInterrupt extends mcuf::lang::Object
+      implements mcuf::function::Runnable{
 
   /* **************************************************************************************
    * Enum Irq

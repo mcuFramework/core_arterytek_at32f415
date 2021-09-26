@@ -14,6 +14,7 @@
 #include "mcuf.h"
 
 #include "core/arterytek/at32f415/CoreAFIO.hpp"
+#include "core/arterytek/at32f415/CoreGPIO.hpp"
 #include "core/arterytek/at32f415/CoreInterrupt.hpp"
 
 /* ****************************************************************************************
@@ -29,8 +30,7 @@ namespace core{
 /* ****************************************************************************************
  * Class Object
  */  
-class core::arterytek::at32f415::Core :
-  public mcuf::lang::Object{
+class core::arterytek::at32f415::Core extends mcuf::lang::Object{
 
   /* **************************************************************************************
    * Subclass
@@ -41,6 +41,11 @@ class core::arterytek::at32f415::Core :
    */
   public: static core::arterytek::at32f415::CoreInterrupt interrupt;
   public: static core::arterytek::at32f415::CoreAFIO afio;
+  public: static core::arterytek::at32f415::CoreGPIO gpioa;
+  public: static core::arterytek::at32f415::CoreGPIO gpiob;
+  public: static core::arterytek::at32f415::CoreGPIO gpioc;
+  public: static core::arterytek::at32f415::CoreGPIO gpiod;
+  public: static core::arterytek::at32f415::CoreGPIO gpiof;
     
   /* **************************************************************************************
    * Variable <Protected>

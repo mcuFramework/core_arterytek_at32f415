@@ -27,8 +27,8 @@ namespace core{
 /* ****************************************************************************************
  * Class Object
  */  
-class core::arterytek::at32f415::CoreAFIO :
-      public mcuf::hal::Base{
+class core::arterytek::at32f415::CoreAFIO extends mcuf::lang::Object
+      implements mcuf::hal::Base{
   
   /* **************************************************************************************
    * Enum MapCAN  <MAP6 - [0-3]>

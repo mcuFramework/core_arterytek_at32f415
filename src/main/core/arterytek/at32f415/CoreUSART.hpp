@@ -28,8 +28,8 @@ namespace core{
 /* ****************************************************************************************
  * Class Object
  */  
-class core::arterytek::at32f415::CoreUSART :
-      public mcuf::hal::SerialPort{
+class core::arterytek::at32f415::CoreUSART extends mcuf::lang::Object
+      implements mcuf::hal::SerialPort{
 
   /* **************************************************************************************
    * Subclass
