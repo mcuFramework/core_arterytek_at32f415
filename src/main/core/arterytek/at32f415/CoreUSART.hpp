@@ -29,7 +29,7 @@ namespace core{
  * Class Object
  */  
 class core::arterytek::at32f415::CoreUSART extends mcuf::lang::Object
-      implements mcuf::hal::SerialPort{
+      implements mcuf::hal::SerialPort, mcuf::function::Runnable{
 
   /* **************************************************************************************
    * Subclass
@@ -177,6 +177,15 @@ class core::arterytek::at32f415::CoreUSART extends mcuf::lang::Object
                              void* attachment,
                              mcuf::function::BiConsumer<mcuf::lang::Memory&, void*>* function) override;
 
+  /* **************************************************************************************
+   * Public Method <Override> - mcuf::function::Runnable
+   */
+                             
+  /**
+   *
+   */
+  public: virtual void run(void) override;
+                             
   /* **************************************************************************************
    * Public Method
    */
