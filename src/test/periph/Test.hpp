@@ -5,54 +5,29 @@
  * SPDX-License-Identifier: MIT
  */
 
-#ifndef CORE_ARTERYTEK_AT32F415_D8D8EA5F_F429_45F9_8877_8B78AE047D8A
-#define CORE_ARTERYTEK_AT32F415_D8D8EA5F_F429_45F9_8877_8B78AE047D8A
+#ifndef CORE_ARTERYTEK_AT32F415_D65369A8_384F_4482_BA52_17586CB5BFB7
+#define CORE_ARTERYTEK_AT32F415_D65369A8_384F_4482_BA52_17586CB5BFB7
 
 /* ****************************************************************************************
  * Include
  */  
-
+ 
+//-----------------------------------------------------------------------------------------
 #include "mcuf.h"
+#include "core_arterytek_at32f415.h"
 
 /* ****************************************************************************************
  * Namespace
  */  
-namespace core{
-  namespace arterytek{
-    namespace at32f415{
-      class CoreEXTI;
-    }
-  }
+namespace periph{
+  interface Test;
 }
 
 /* ****************************************************************************************
  * Class Object
  */  
-class core::arterytek::at32f415::CoreEXTI extends mcuf::lang::Object
-  implements mcuf::hal::PinEdgeTrigger, mcuf::function::Runnable{
+interface periph::Test{
 
-  /* **************************************************************************************
-   * Enum Registor
-   */
-  public: enum Register{
-    REG_EXTI0  = 0,
-    REG_EXTI1  = 1,
-    REG_EXTI2  = 2,
-    REG_EXTI3  = 3,
-    REG_EXTI4  = 4,
-    REG_EXTI5  = 5,
-    REG_EXTI6  = 6,
-    REG_EXTI7  = 7,
-    REG_EXTI8  = 8,
-    REG_EXTI9  = 9,
-    REG_EXTI10 = 10,
-    REG_EXTI11 = 11,
-    REG_EXTI12 = 12,
-    REG_EXTI13 = 13,
-    REG_EXTI14 = 14,
-    REG_EXTI15 = 15,
-  };
-  
   /* **************************************************************************************
    * Subclass
    */
@@ -68,17 +43,20 @@ class core::arterytek::at32f415::CoreEXTI extends mcuf::lang::Object
   /* **************************************************************************************
    * Variable <Private>
    */
-  private: static uint16_t channelEnable;
-	private: static uint16_t channelMode;
-	private: static uint16_t channelLevel;
-  
-  private: Register mRegister;
-  private: mcuf::function::Runnable* mRunnableRise;
-  private: mcuf::function::Runnable* mRunnableFall;
 
   /* **************************************************************************************
    * Abstract method <Public>
    */
+  
+  /**
+   *
+   */
+  public: virtual void start(void) = 0;
+  
+  /** 
+   *
+   */
+  public: virtual void stop(void) = 0;
 
   /* **************************************************************************************
    * Abstract method <Protected>
@@ -91,12 +69,12 @@ class core::arterytek::at32f415::CoreEXTI extends mcuf::lang::Object
   /**
    * Construct.
    */
-  public: CoreEXTI(Register reg);
+  public: Test(void) = default;
 
   /**
-   * Destruct.
+   * Disconstruct.
    */
-  public: ~CoreEXTI(void);
+  public: virtual ~Test(void) = default;
 
   /* **************************************************************************************
    * Operator Method
@@ -107,66 +85,11 @@ class core::arterytek::at32f415::CoreEXTI extends mcuf::lang::Object
    */
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::Base
+   * Public Method <Override>
    */
-
-  /**
-   * uninitialze hardware.
-   */
-  public: virtual bool deinit(void) override;
-
-  /**
-   * initialze hardware;
-   */
-  public: virtual bool init(void) override;
-  
-  /**
-   * get hardware initialzed status.
-   * 
-   * @return false = not init, true = initd
-   */
-  public: virtual bool isInit(void) override;
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::PinEdgeTrigger
-   */
-   
-  /**
-   * 
-   */
-  public: virtual void disableAll(void) override;
-
-  /**
-   * 
-   */
-  public: virtual void disableFall(void) override;
-
-  /**
-   * 
-   */
-  public: virtual void disableRise(void) override;
-
-  /**
-   * 
-   */
-  public: virtual bool enableFall(mcuf::function::Runnable& runnable) override;
-
-  /**
-   * 
-   */
-  public: virtual bool enableRise(mcuf::function::Runnable& runnable) override;
-  
-  /* **************************************************************************************
-   * Public Method <Override> - mcuf::function::Runnable
-   */
-  
-  /**
-   *
-   */
-  public: virtual void run(void) override;
-  
-  /* **************************************************************************************
-   * Public Method 
+   * Public Method
    */
 
   /* **************************************************************************************
@@ -192,18 +115,11 @@ class core::arterytek::at32f415::CoreEXTI extends mcuf::lang::Object
   /* **************************************************************************************
    * Private Method
    */  
-   
-  /**
-   *
-   */
-  private: void periphReset(void);
 
 };
-
-
 
 /* *****************************************************************************************
  * End of file
  */ 
 
-#endif/* CORE_ARTERYTEK_AT32F415_D8D8EA5F_F429_45F9_8877_8B78AE047D8A */
+#endif/* CORE_ARTERYTEK_AT32F415_D65369A8_384F_4482_BA52_17586CB5BFB7 */

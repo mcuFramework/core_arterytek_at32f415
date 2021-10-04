@@ -625,22 +625,62 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>test</GroupName>
+          <Files>
+            <File>
+              <FileName>Entry.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\test\Entry.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>test/mcuf</GroupName>
+          <Files>
+            <File>
+              <FileName>mcuf_resources.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\test\mcuf\mcuf_resources.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>mcuf_resources.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\test\mcuf\mcuf_resources.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>test/periph</GroupName>
+          <Files>
+            <File>
+              <FileName>Test.hpp</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\test\periph\Test.hpp</FilePath>
+            </File>
+            <File>
+              <FileName>TestCoreEXTI.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\test\periph\TestCoreEXTI.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>TestCoreEXTI.hpp</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\test\periph\TestCoreEXTI.hpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>test/start</GroupName>
           <Files>
             <File>
-              <FileName>main.cpp</FileName>
+              <FileName>Main.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\test\start\main.cpp</FilePath>
+              <FilePath>.\src\test\start\Main.cpp</FilePath>
             </File>
             <File>
-              <FileName>start.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\test\start\start.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>loop.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\test\start\loop.cpp</FilePath>
+              <FileName>Main.hpp</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\test\start\Main.hpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -1062,7 +1102,7 @@
               <MiscControls></MiscControls>
               <Define>SYSCLK_FREQ_144MHz_HSI, DEBUG</Define>
               <Undefine></Undefine>
-              <IncludePath>.\src\main;.\ref\mcuf\src\main;.\ref\bsp_arterytek_at32f415\src\main</IncludePath>
+              <IncludePath>.\src\main;.\src\test;.\ref\mcuf\src\main;.\ref\bsp_arterytek_at32f415\src\main</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1279,22 +1319,62 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>test</GroupName>
+          <Files>
+            <File>
+              <FileName>Entry.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\test\Entry.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>test/mcuf</GroupName>
+          <Files>
+            <File>
+              <FileName>mcuf_resources.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\test\mcuf\mcuf_resources.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>mcuf_resources.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\test\mcuf\mcuf_resources.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>test/periph</GroupName>
+          <Files>
+            <File>
+              <FileName>Test.hpp</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\test\periph\Test.hpp</FilePath>
+            </File>
+            <File>
+              <FileName>TestCoreEXTI.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\test\periph\TestCoreEXTI.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>TestCoreEXTI.hpp</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\test\periph\TestCoreEXTI.hpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>test/start</GroupName>
           <Files>
             <File>
-              <FileName>main.cpp</FileName>
+              <FileName>Main.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\test\start\main.cpp</FilePath>
+              <FilePath>.\src\test\start\Main.cpp</FilePath>
             </File>
             <File>
-              <FileName>start.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\test\start\start.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>loop.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\test\start\loop.cpp</FilePath>
+              <FileName>Main.hpp</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\test\start\Main.hpp</FilePath>
             </File>
           </Files>
         </Group>

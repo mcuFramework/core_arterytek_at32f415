@@ -122,6 +122,15 @@ using core::arterytek::at32f415::CoreInterrupt;
  * Operator Method
  */
 
+/**
+ *
+ */
+CoreInterrupt::CoreInterrupt(void){
+  for(int i=0; i<IRQ_MAX_QUANTITY; ++i){
+    this->mHandle[i] = this;
+  }
+}
+
 /* ****************************************************************************************
  * Public Method <Static>
  */

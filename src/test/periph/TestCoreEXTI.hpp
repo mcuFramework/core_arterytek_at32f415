@@ -5,55 +5,44 @@
  * SPDX-License-Identifier: MIT
  */
 
-#ifndef CORE_ARTERYTEK_AT32F415_D5941889_B076_4A75_A2BB_6381B6E20141
-#define CORE_ARTERYTEK_AT32F415_D5941889_B076_4A75_A2BB_6381B6E20141
+#ifndef CORE_ARTERYTEK_AT32F415_D8ED01C5_7D15_40C2_907A_57E66EBBBBA4
+#define CORE_ARTERYTEK_AT32F415_D8ED01C5_7D15_40C2_907A_57E66EBBBBA4
 
 /* ****************************************************************************************
  * Include
  */  
-#include "mcuf.h"
 
+//-----------------------------------------------------------------------------------------
+#include "mcuf.h"
+#include "core_arterytek_at32f415.h"
+
+//-----------------------------------------------------------------------------------------
+#include "periph/Test.hpp"
 
 /* ****************************************************************************************
  * Namespace
  */  
-namespace core{
-  namespace arterytek{
-    namespace at32f415{
-      class CoreUSART;
-    }
-  }
+namespace periph{
+  class TestCoreEXTI;
 }
 
 /* ****************************************************************************************
  * Class Object
  */  
-class core::arterytek::at32f415::CoreUSART extends mcuf::lang::Object
-      implements mcuf::hal::SerialPort, mcuf::function::Runnable{
+class periph::TestCoreEXTI extends mcuf::lang::Object
+  implements mcuf::function::Runnable, periph::Test{
 
   /* **************************************************************************************
    * Subclass
    */
-
-  public: struct Pakcet{
-    void* pointer;
-    void* execute;
-    void* attachment;
-    uint16_t length;
-    uint16_t count;
+  
+  public: enum TestMode{
+    TESTMODE_RISE = 0,
+    TESTMODE_FALL = 1,
+    TESTMODE_ALL  = 2
   };
-
-  /* **************************************************************************************
-   * Enum Register
-   */
-  public: enum Register{
-    REG_USART1,
-    REG_USART2,
-    REG_USART3,
-    REG_UART4,
-    REG_UART5,
-  };
-
+    
+    
   /* **************************************************************************************
    * Variable <Public>
    */
@@ -65,12 +54,9 @@ class core::arterytek::at32f415::CoreUSART extends mcuf::lang::Object
   /* **************************************************************************************
    * Variable <Private>
    */
-  private: Register mRegister;
-  private: void* regAddress;
-  private: void* ringBuffer;
-  private: Pakcet readPacket;
-  private: Pakcet writePacket;
-
+  private: TestMode mTestMode;
+  private: core::arterytek::at32f415::CorePin* mPin;
+  private: core::arterytek::at32f415::CoreEXTI mCoreEXTI;
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -87,12 +73,14 @@ class core::arterytek::at32f415::CoreUSART extends mcuf::lang::Object
   /**
    * Construct.
    */
-  public: CoreUSART(Register reg, uint32_t bufferSize);
+  public: TestCoreEXTI(core::arterytek::at32f415::CorePin& pin, 
+                       core::arterytek::at32f415::CoreEXTI::Register reg,
+                       TestMode testMode);
 
   /**
-   * Disconstruct.
+   * Destruct.
    */
-  public: ~CoreUSART(void);
+  public: ~TestCoreEXTI(void);
 
   /* **************************************************************************************
    * Operator Method
@@ -103,75 +91,31 @@ class core::arterytek::at32f415::CoreUSART extends mcuf::lang::Object
    */
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::Base
-   */
-
-  /**
-   * uninitialze hardware.
-   */
-  public: virtual bool deinit(void) override;
-
-  /**
-   * initialze hardware;
-   */
-  public: virtual bool init(void) override;
-  
-  /**
-   * get hardware initialzed status.
-   * 
-   * @return false = not init, true = initd
-   */
-  public: virtual bool isInit(void) override;
-
-  /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::SerialPort
-   */
-
-  /**
-   * 
-   */
-  public: virtual bool abortRead(void) override;
-
-  /**
-   * 
-   */
-  public: virtual bool abortWrite(void) override;
-
-  /**
-   * 
-   */
-  public: virtual uint32_t baudrate(void) override;
-
-  /**
-   * 
-   */
-  public: virtual uint32_t baudrate(uint32_t rate) override;
-
-  /**
-   * 
-   */
-  public: virtual bool read(mcuf::io::channel::ByteBuffer& byteBuffer, 
-                            mcuf::function::Consumer<mcuf::io::channel::ByteBuffer&>* consumer) override;
-
-  /**
-   * 
-   */
-  public: virtual bool write(mcuf::io::channel::ByteBuffer& byteBuffer, 
-                             mcuf::function::Consumer<mcuf::io::channel::ByteBuffer&>* consumer) override;
-
-  /* **************************************************************************************
    * Public Method <Override> - mcuf::function::Runnable
    */
-                             
+  
   /**
    *
    */
   public: virtual void run(void) override;
-                             
+  
+  /* **************************************************************************************
+   * Public Method <Override> - periph::Test
+   */  
+
+  /**
+   *
+   */
+  public: virtual void start(void) override;
+  
+  /** 
+   *
+   */
+  public: virtual void stop(void) override;
+
   /* **************************************************************************************
    * Public Method
    */
-
 
   /* **************************************************************************************
    * Protected Method <Static>
@@ -195,29 +139,12 @@ class core::arterytek::at32f415::CoreUSART extends mcuf::lang::Object
    
   /* **************************************************************************************
    * Private Method
-   */
-  
-  /**
-   * 
-   */
-  private: void clockEnable(void* base, bool enable);
-
-  /**
-   * 
-   */
-  private: void interruptEnable(void* base, bool enable);
-
-  /**
-   * 
-   */
-  private: void interruptHandler(void);
+   */  
 
 };
-
-
 
 /* *****************************************************************************************
  * End of file
  */ 
 
-#endif/* CORE_ARTERYTEK_AT32F415_D5941889_B076_4A75_A2BB_6381B6E20141 */
+#endif/* CORE_ARTERYTEK_AT32F415_D8ED01C5_7D15_40C2_907A_57E66EBBBBA4 */

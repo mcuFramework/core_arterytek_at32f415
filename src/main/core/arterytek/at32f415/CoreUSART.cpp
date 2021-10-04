@@ -16,9 +16,10 @@
  * Using
  */  
 using core::arterytek::at32f415::CoreUSART;
-using mcuf::function::BiConsumer;
+using mcuf::function::Consumer;
 using mcuf::lang::Memory;
 using mcuf::lang::Pointer;
+using mcuf::io::channel::ByteBuffer;
 
 /* ****************************************************************************************
  * Construct Method
@@ -90,13 +91,6 @@ bool CoreUSART::abortWrite(void){
 /**
  * 
  */
-int CoreUSART::available(void){
-  return false;
-}
-
-/**
- * 
- */
 uint32_t CoreUSART::baudrate(void){
   return false;
 }
@@ -106,13 +100,6 @@ uint32_t CoreUSART::baudrate(void){
  */
 uint32_t CoreUSART::baudrate(uint32_t rate){
   return false;
-}
-
-/**
- * 
- */
-void CoreUSART::close(void){
-
 }
 
 /**
@@ -139,30 +126,24 @@ bool CoreUSART::isInit(void){
 /**
  * 
  */
-bool CoreUSART::isOpen(void){
+bool CoreUSART::read(ByteBuffer& byteBuffer, Consumer<ByteBuffer&>* consumer){
   return false;
 }
 
 /**
  * 
  */
-bool CoreUSART::open(void){
+bool CoreUSART::write(ByteBuffer& byteBuffer, Consumer<ByteBuffer&>* consumer){
   return false;
 }
 
-/**
- * 
- */
-bool CoreUSART::read(Memory& memory, void* attachment, BiConsumer<Memory&, void*>* function){
-  return false;
-}
 
-/**
- * 
+
+/* ****************************************************************************************
+ * Public Method <Override> - mcuf::function::Runnable
  */
-bool CoreUSART::write(Memory& memory, void* attachment, BiConsumer<Memory&, void*>* function){
-  
-  return false;
+void CoreUSART::run(void){
+
 }
 
 /* ****************************************************************************************
