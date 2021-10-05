@@ -18,6 +18,7 @@
 #include "CoreGPIO.hpp"
 #include "CorePin.hpp"
 #include "CoreTimer.hpp"
+#include "CoreUSART.hpp"
 
 
 /* ****************************************************************************************

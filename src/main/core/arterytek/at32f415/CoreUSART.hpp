@@ -28,19 +28,31 @@ namespace core{
 /* ****************************************************************************************
  * Class Object
  */  
-class core::arterytek::at32f415::CoreUSART extends mcuf::lang::Object
+class core::arterytek::at32f415::CoreUSART extends mcuf::util::RingBuffer
       implements mcuf::hal::SerialPort, mcuf::function::Runnable{
 
   /* **************************************************************************************
-   * Subclass
+   * Subclass - ExecuteTask
    */
+  private: class ExecuteTask extends mcuf::lang::Object
+    implements mcuf::function::Runnable{
+    
+    private: struct Pakcet* mPacket;
+    public: ExecuteTask(struct Pakcet& packet);
+    public: ~ExecuteTask(void);
+      
+    public: virtual void run(void) override;
+  };
 
-  public: struct Pakcet{
-    void* pointer;
-    void* execute;
-    void* attachment;
+  /* **************************************************************************************
+   * Subclass - Packet
+   */
+  private: struct Pakcet{
     uint16_t length;
-    uint16_t count;
+    uint16_t count;    
+    uint8_t* pointer;
+    mcuf::function::Consumer<mcuf::io::channel::ByteBuffer&>* consumer;
+    mcuf::io::channel::ByteBuffer* byteBuffer;
   };
 
   /* **************************************************************************************
@@ -66,11 +78,9 @@ class core::arterytek::at32f415::CoreUSART extends mcuf::lang::Object
    * Variable <Private>
    */
   private: Register mRegister;
-  private: void* regAddress;
-  private: void* ringBuffer;
-  private: Pakcet readPacket;
-  private: Pakcet writePacket;
-
+  private: Pakcet mPacketRead;
+  private: Pakcet mPacketWrite;
+  private: ExecuteTask mExecuteTaskRead;
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -87,7 +97,7 @@ class core::arterytek::at32f415::CoreUSART extends mcuf::lang::Object
   /**
    * Construct.
    */
-  public: CoreUSART(Register reg, uint32_t bufferSize);
+   public: CoreUSART(Register reg, mcuf::lang::Memory& memory);
 
   /**
    * Disconstruct.
@@ -148,6 +158,16 @@ class core::arterytek::at32f415::CoreUSART extends mcuf::lang::Object
   public: virtual uint32_t baudrate(uint32_t rate) override;
 
   /**
+   *
+   */
+  public: virtual bool readBusy(void) override;
+
+  /**
+   *
+   */
+  public: virtual bool writeBusy(void) override;
+
+  /**
    * 
    */
   public: virtual bool read(mcuf::io::channel::ByteBuffer& byteBuffer, 
@@ -172,7 +192,6 @@ class core::arterytek::at32f415::CoreUSART extends mcuf::lang::Object
    * Public Method
    */
 
-
   /* **************************************************************************************
    * Protected Method <Static>
    */
@@ -196,21 +215,6 @@ class core::arterytek::at32f415::CoreUSART extends mcuf::lang::Object
   /* **************************************************************************************
    * Private Method
    */
-  
-  /**
-   * 
-   */
-  private: void clockEnable(void* base, bool enable);
-
-  /**
-   * 
-   */
-  private: void interruptEnable(void* base, bool enable);
-
-  /**
-   * 
-   */
-  private: void interruptHandler(void);
 
 };
 
