@@ -18,21 +18,23 @@
 
 //-----------------------------------------------------------------------------------------
 #include "start/Main.hpp"
-#include "periph/TestCoreEXTI.hpp"
+#include "start/SpeedReader.hpp"
+#include "start/CommandWriteTask.hpp"
+
 
 /* ****************************************************************************************
  * Using
  */  
-using periph::TestCoreEXTI;
- 
-using start::Main;
-using mcuf::lang::System;
-using mcuf::lang::Memory;
-using mcuf::lang::Thread;
+
+
 using mcuf::lang::managerment::MemoryManager;
 using mcuf::function::Runnable;
 using mcuf::function::ConsumerEvent;
 
+using namespace start;
+using namespace mcuf::io::channel;
+using namespace mcuf::lang;
+using namespace mcuf::util;
 using namespace core::arterytek::at32f415;
 
 
@@ -41,6 +43,18 @@ using namespace core::arterytek::at32f415;
  * Namespace
  */  
 
+class PulseGen extends TimerTask{
+  private: CorePin* mPin;
+  
+  public: PulseGen(CorePin* pin){
+    this->mPin = pin;
+  }
+  public: virtual ~PulseGen() = default;
+  
+  public: void run(void){
+    mPin->setToggle();
+  }
+};
 
 /* ****************************************************************************************
  * Extern
@@ -78,20 +92,49 @@ Main::~Main(void){
 void Main::run(void){
   this->initGPIO();
   
-  TestCoreEXTI* testCoreEXTI1 = new TestCoreEXTI(*this->mLED[1], CoreEXTI::REG_EXTI1, TestCoreEXTI::TESTMODE_FALL);
-  testCoreEXTI1->start();
+  Memory* memory = new HeapMemory(128);
+  this->usart = new CoreUSART(CoreUSART::REG_UART4, *memory);
+  usart->init();
   
-  TestCoreEXTI* testCoreEXTI2 = new TestCoreEXTI(*this->mLED[2], CoreEXTI::REG_EXTI2, TestCoreEXTI::TESTMODE_RISE);
-  testCoreEXTI2->start();
+  this->mCommandWriteTask = new CommandWriteTask(*this->usart);
+  ByteBuffer* mByteBuffer = new HeapByteBuffer(128);
+  mByteBuffer->limit(10);
+  this->usart->read(*mByteBuffer, this);
   
-  TestCoreEXTI* testCoreEXTI3 = new TestCoreEXTI(*this->mLED[3], CoreEXTI::REG_EXTI3, TestCoreEXTI::TESTMODE_ALL);
-  testCoreEXTI3->start();
+  PulseGen *mPulseGen = new PulseGen(this->mLED[1]);
+  System::getTimer().scheduleAtFixedRate(*mPulseGen, 10, 10);
   
   
   while(1){
     this->mLED[0]->setToggle();
-    this->delay(500);
+    this->delay(1000);
+    for(int i=0; i<10; i++){
+      this->mSpeedReader[i]->recode();
+      this->mCommandWriteTask->mData[i] = this->mSpeedReader[i]->getValue();
+    }
   }
+}
+
+/* ****************************************************************************************
+ * Public Method <Override>
+ */
+
+/** 
+ *
+ */
+void Main::accept(ByteBuffer& byteBuffer){
+  uint8_t* array = byteBuffer.lowerArray();
+  if(array[3] == 0x03){
+    if(array[2] == 0x00){
+      this->mCommandWriteTask->writeConnect();
+    }else if(array[2] == 0x01){
+      this->mCommandWriteTask->writeData();
+    }
+  }
+  
+  byteBuffer.reset();
+  byteBuffer.limit(10);
+  usart->read(byteBuffer, this);
 }
 
 /* ****************************************************************************************
@@ -129,12 +172,15 @@ void Main::initGPIO(void){
     this->mLED[i]->setLow();
   }
   
-  for(int i=0; i<8; i++){
+  for(int i=0; i<10; i++){
     this->mEXTI[i] = new CorePin(&Core::gpioc, i);
     this->mEXTI[i]->setInput();
     this->mEXTI[i]->pinMode(this->mEXTI[i]->PinMode_Pullup);
     Core::afio.remapEXTI(Core::afio.EXTI_PC, i);
+    this->mSpeedReader[i] = new SpeedReader(static_cast<CoreEXTI::Register>(CoreEXTI::REG_EXTI0 + i));
   }
+  
+  Core::gpioc.configOutput(10, CoreGPIO::OutputMode_50M, false, true, true);
 }
  
 /* ****************************************************************************************

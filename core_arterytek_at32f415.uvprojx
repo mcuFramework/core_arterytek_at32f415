@@ -681,6 +681,26 @@
               <FileType>5</FileType>
               <FilePath>.\src\test\start\Main.hpp</FilePath>
             </File>
+            <File>
+              <FileName>SpeedReader.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\test\start\SpeedReader.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>SpeedReader.hpp</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\test\start\SpeedReader.hpp</FilePath>
+            </File>
+            <File>
+              <FileName>CommandWriteTask.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\test\start\CommandWriteTask.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CommandWriteTask.hpp</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\test\start\CommandWriteTask.hpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1373,6 +1393,26 @@
               <FileName>Main.hpp</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\test\start\Main.hpp</FilePath>
+            </File>
+            <File>
+              <FileName>SpeedReader.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\test\start\SpeedReader.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>SpeedReader.hpp</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\test\start\SpeedReader.hpp</FilePath>
+            </File>
+            <File>
+              <FileName>CommandWriteTask.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\test\start\CommandWriteTask.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CommandWriteTask.hpp</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\test\start\CommandWriteTask.hpp</FilePath>
             </File>
           </Files>
         </Group>

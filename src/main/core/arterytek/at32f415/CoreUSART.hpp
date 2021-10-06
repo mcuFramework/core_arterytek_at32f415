@@ -30,29 +30,36 @@ namespace core{
  */  
 class core::arterytek::at32f415::CoreUSART extends mcuf::util::RingBuffer
       implements mcuf::hal::SerialPort, mcuf::function::Runnable{
-
+       
   /* **************************************************************************************
-   * Subclass - ExecuteTask
+   * Subclass
    */
-  private: class ExecuteTask extends mcuf::lang::Object
-    implements mcuf::function::Runnable{
-    
-    private: struct Pakcet* mPacket;
-    public: ExecuteTask(struct Pakcet& packet);
-    public: ~ExecuteTask(void);
+  private: class Packet;
       
-    public: virtual void run(void) override;
-  };
+  /* **************************************************************************************
+   * Class ExecuteTask
+   */
 
   /* **************************************************************************************
-   * Subclass - Packet
+   * Class Packet
    */
-  private: struct Pakcet{
-    uint16_t length;
-    uint16_t count;    
-    uint8_t* pointer;
-    mcuf::function::Consumer<mcuf::io::channel::ByteBuffer&>* consumer;
-    mcuf::io::channel::ByteBuffer* byteBuffer;
+  private: class Packet extends mcuf::lang::Object
+    implements mcuf::function::Runnable{
+    public: uint16_t mLength;
+    public: uint16_t mCount;    
+    public: uint8_t* mPointer;
+    public: mcuf::function::Consumer<mcuf::io::channel::ByteBuffer&>* mConsumer;
+    public: mcuf::io::channel::ByteBuffer* mByteBuffer;
+    
+    public: Packet(void) = default;
+    public: virtual ~Packet(void) = default;
+    
+    public: void clear(void);
+    public: bool isExist(void);
+    public: bool init(mcuf::io::channel::ByteBuffer& byteBuffer, 
+                      mcuf::function::Consumer<mcuf::io::channel::ByteBuffer&>* consumer);
+    
+    public: virtual void run(void) override;
   };
 
   /* **************************************************************************************
@@ -78,9 +85,8 @@ class core::arterytek::at32f415::CoreUSART extends mcuf::util::RingBuffer
    * Variable <Private>
    */
   private: Register mRegister;
-  private: Pakcet mPacketRead;
-  private: Pakcet mPacketWrite;
-  private: ExecuteTask mExecuteTaskRead;
+  private: Packet mPacketRead;
+  private: Packet mPacketWrite;
 
   /* **************************************************************************************
    * Abstract method <Public>

@@ -5,36 +5,37 @@
  * SPDX-License-Identifier: MIT
  */
 
-#ifndef CORE_ARTERYTEK_AT32F415_C5145AF1_08A9_4082_93D8_9F4ACA2D712C
-#define CORE_ARTERYTEK_AT32F415_C5145AF1_08A9_4082_93D8_9F4ACA2D712C
+#ifndef CORE_ARTERYTEK_AT32F415_DB9DB91F_6D40_4397_BE38_B5C415EF5270
+#define CORE_ARTERYTEK_AT32F415_DB9DB91F_6D40_4397_BE38_B5C415EF5270
 
 /* ****************************************************************************************
  * Include
  */  
- 
+
 //-----------------------------------------------------------------------------------------
 #include "mcuf.h"
 #include "core_arterytek_at32f415.h"
-#include "start/SpeedReader.hpp"
-#include "start/CommandWriteTask.hpp"
+
+//-----------------------------------------------------------------------------------------
+#include "periph/Test.hpp"
 
 /* ****************************************************************************************
  * Namespace
  */  
 namespace start{
-  class Main;
+  class SpeedReader;
 }
 
 /* ****************************************************************************************
  * Class Object
  */  
-class start::Main extends mcuf::lang::Thread
-  implements mcuf::function::Consumer<mcuf::io::channel::ByteBuffer&>{
+class start::SpeedReader extends mcuf::lang::Object
+  implements mcuf::function::Runnable{
 
   /* **************************************************************************************
    * Subclass
    */
-
+    
   /* **************************************************************************************
    * Variable <Public>
    */
@@ -46,12 +47,11 @@ class start::Main extends mcuf::lang::Thread
   /* **************************************************************************************
    * Variable <Private>
    */
-  private: core::arterytek::at32f415::CorePin* mLED[8];
-  private: core::arterytek::at32f415::CorePin* mEXTI[10];
-  private: start::SpeedReader* mSpeedReader[10];
-  private: core::arterytek::at32f415::CoreUSART *usart;
-  private: start::CommandWriteTask* mCommandWriteTask;
-    
+  private: uint32_t mValue;
+  private: uint32_t mCache;
+  private: uint32_t mTotal;
+  private: core::arterytek::at32f415::CoreEXTI mCoreEXTI;
+
   /* **************************************************************************************
    * Abstract method <Public>
    */
@@ -67,12 +67,12 @@ class start::Main extends mcuf::lang::Thread
   /**
    * Construct.
    */
-  public: Main(void);
+  public: SpeedReader(core::arterytek::at32f415::CoreEXTI::Register reg);
 
   /**
    * Destruct.
    */
-  public: ~Main(void);
+  public: ~SpeedReader(void);
 
   /* **************************************************************************************
    * Operator Method
@@ -92,17 +92,23 @@ class start::Main extends mcuf::lang::Thread
   public: virtual void run(void) override;
   
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::function::Consumer<mcuf::io::channel::ByteBuffer&>
+   * Public Method
    */
+   
+  /**
+   *
+   */
+  public: void recode(void);
   
   /**
    *
    */
-  public: virtual void accept(mcuf::io::channel::ByteBuffer& byteBuffer) override;
-
-  /* **************************************************************************************
-   * Public Method
+  public: uint32_t getValue(void);
+  
+  /**
+   *
    */
+  public: uint32_t getTotal(void);
 
   /* **************************************************************************************
    * Protected Method <Static>
@@ -127,11 +133,6 @@ class start::Main extends mcuf::lang::Thread
   /* **************************************************************************************
    * Private Method
    */  
-  
-  /**
-   *
-   */
-  private: void initGPIO(void);
 
 };
 
@@ -139,4 +140,4 @@ class start::Main extends mcuf::lang::Thread
  * End of file
  */ 
 
-#endif/* CORE_ARTERYTEK_AT32F415_C5145AF1_08A9_4082_93D8_9F4ACA2D712C */
+#endif/* CORE_ARTERYTEK_AT32F415_DB9DB91F_6D40_4397_BE38_B5C415EF5270 */

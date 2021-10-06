@@ -65,11 +65,10 @@ using mcuf::util::RingBuffer;
 /**
  * 
  */
-CoreUSART::CoreUSART(CoreUSART::Register reg, Memory& memory) construct RingBuffer(memory),
-  mExecuteTaskRead(this->mPacketRead){
+CoreUSART::CoreUSART(CoreUSART::Register reg, Memory& memory) construct RingBuffer(memory){
   this->mRegister = reg;
-  memset(&this->mPacketRead, 0x00, sizeof(this->mPacketRead));
-  memset(&this->mPacketWrite, 0x00, sizeof(this->mPacketWrite));
+  this->mPacketRead.clear();
+  this->mPacketWrite.clear();
   return;
 }
 
@@ -121,7 +120,7 @@ bool CoreUSART::init(void){
   
   USART_InitType config;
   
-	config.USART_BaudRate = 9600;
+  config.USART_BaudRate = 9600;
   config.USART_WordLength = USART_WordLength_8b;
   config.USART_StopBits = USART_StopBits_1;
   config.USART_Parity = USART_Parity_No;
@@ -131,8 +130,8 @@ bool CoreUSART::init(void){
   USART_Init(BASE, &config);
   
   Core::interrupt.irqHandler(CONFIG.irq, true);
-	USART_INTConfig(BASE, USART_INT_RDNE, ENABLE);
-	USART_Cmd(BASE, ENABLE);
+  USART_INTConfig(BASE, USART_INT_RDNE, ENABLE);
+  USART_Cmd(BASE, ENABLE);
  
   return true;
 }
@@ -183,14 +182,14 @@ uint32_t CoreUSART::baudrate(uint32_t rate){
  *
  */
 bool CoreUSART::readBusy(void){
-  return this->mPacketRead.byteBuffer;
+  return this->mPacketRead.isExist();
 }
 
 /**
  *
  */
 bool CoreUSART::writeBusy(void){
-  return this->mPacketWrite.byteBuffer;
+  return this->mPacketWrite.isExist();
 }
 
 /**
@@ -200,7 +199,29 @@ bool CoreUSART::read(ByteBuffer& byteBuffer, Consumer<ByteBuffer&>* consumer){
   if(this->readBusy())
     return false;
   
-  
+  if(this->getCount() >= byteBuffer.remaining()){
+    uint32_t count = this->getCount();
+    uint8_t* pointer = byteBuffer.lowerArray(byteBuffer.position());
+    this->popMult(pointer, count);
+    byteBuffer.position(byteBuffer.position() + count);
+    
+    if(consumer)
+      consumer->accept(byteBuffer);
+    
+    return true;
+  }else{
+    uint8_t* pointer = byteBuffer.lowerArray(byteBuffer.position());
+    
+    USART_INTConfig(BASE, USART_INT_RDNE, DISABLE);  //memory protected
+    uint32_t count = this->getCount();
+    
+    byteBuffer.position(byteBuffer.position() + count);
+    this->mPacketRead.init(byteBuffer, consumer);
+    USART_INTConfig(BASE, USART_INT_RDNE, ENABLE);  //memory protected
+    
+    if(count)
+      this->popMult(pointer, count);
+  }
   
   return true;
 }
@@ -212,8 +233,10 @@ bool CoreUSART::write(ByteBuffer& byteBuffer, Consumer<ByteBuffer&>* consumer){
   if(this->writeBusy())
     return false;
   
+  if(!this->mPacketWrite.init(byteBuffer, consumer))
+    return false;
   
-  
+  USART_INTConfig(BASE, USART_INT_TDE, ENABLE);
   return true;
 }
 
@@ -226,34 +249,37 @@ void CoreUSART::run(void){
   USART_Type* base = BASE;
   
   if(USART_GetITStatus(base, USART_INT_RDNE) != RESET){
-		uint8_t readCache = USART_ReceiveData(base);
-		
-		if(this->mPacketRead.pointer && (this->mPacketRead.length > this->mPacketRead.count)){  //receiver pointer is not null
+    uint8_t readCache = USART_ReceiveData(base);
+    
+    if(this->mPacketRead.mPointer && (this->mPacketRead.mLength > this->mPacketRead.mCount)){  //receiver pointer is not null
       /* Read one byte from the receive data register */
-			this->mPacketRead.pointer[this->mPacketRead.count] = readCache;	
-			++this->mPacketRead.count;
+      this->mPacketRead.mPointer[this->mPacketRead.mCount] = readCache;  
+      ++this->mPacketRead.mCount;
 
-			if(this->mPacketRead.count >= this->mPacketRead.length){  //receiver is successful
-				
-			}	
-		}else{
+      if(this->mPacketRead.mCount >= this->mPacketRead.mLength){  //receiver is successful
+        
+        if(!System::execute(this->mPacketRead))
+          this->mPacketRead.run();
+      }  
+    }else{
       this->insert(&readCache);
     }
   }
   
-	//send handle
+  //send handle
   if(USART_GetITStatus(base, USART_INT_TDE) != RESET){   
-		
+    
     /* Write one byte to the transmit data register */
-    USART_SendData(base, this->mPacketWrite.pointer[this->mPacketWrite.count]);
-		
-    ++this->mPacketWrite.count;
-		
-		if(this->mPacketWrite.count >= this->mPacketWrite.length){
-			/* Disable the USART1 Transmit interrupt */
-			USART_INTConfig(base, USART_INT_TDE, DISABLE);
-			
-		}
+    USART_SendData(base, this->mPacketWrite.mPointer[this->mPacketWrite.mCount]);
+    
+    ++this->mPacketWrite.mCount;
+    
+    if(this->mPacketWrite.mCount >= this->mPacketWrite.mLength){
+      /* Disable the USART1 Transmit interrupt */
+      USART_INTConfig(base, USART_INT_TDE, DISABLE);
+      if(!System::execute(this->mPacketWrite))
+        this->mPacketWrite.run();
+    }
   }
 }
 
@@ -276,6 +302,111 @@ void CoreUSART::run(void){
 /* ****************************************************************************************
  * Private Method
  */
+
+//-----------------------------------------------------------------------------------------
+//- Subclass Packet
+//-
+//-
+//-----------------------------------------------------------------------------------------
+
+/* ****************************************************************************************
+ * Variable
+ */
+
+/* ****************************************************************************************
+ * Construct Method
+ */
+
+/* ****************************************************************************************
+ * Operator Method
+ */
+
+/* ****************************************************************************************
+ * Public Method <Static>
+ */
+ 
+/* ****************************************************************************************
+ * Public Method <Override> - mcuf::function::Runnable
+ */
+
+/**
+ *
+ */
+void CoreUSART::Packet::run(void){
+  
+  ByteBuffer* byteBuffer = this->mByteBuffer;
+  Consumer<ByteBuffer&>* consumer = this->mConsumer;
+  byteBuffer->position(byteBuffer->position() + this->mCount);
+  this->clear();
+  
+  if(consumer)
+    consumer->accept(*byteBuffer);
+  
+}
+
+/* ****************************************************************************************
+ * Public Method
+ */
+
+/**
+ *
+ */
+void CoreUSART::Packet::clear(void){
+  this->mPointer = nullptr;
+  this->mByteBuffer = nullptr;
+  this->mCount = 0;
+  this->mLength = 0;
+}
+
+/**
+ *
+ */
+bool CoreUSART::Packet::init(ByteBuffer& byteBuffer, Consumer<ByteBuffer&>* consumer){
+  if(this->isExist())
+    return false;
+  
+  if(!byteBuffer.hasRemaining())
+    return false;
+  
+  this->mByteBuffer = &byteBuffer;
+  this->mConsumer = consumer;
+  this->mLength = byteBuffer.remaining();
+  this->mCount = 0;
+  this->mPointer = byteBuffer.lowerArray(byteBuffer.position());
+  
+  return true;
+}
+
+/**
+ *
+ */
+bool CoreUSART::Packet::isExist(void){
+  return this->mByteBuffer;
+}
+
+
+/* ****************************************************************************************
+ * Protected Method <Static>
+ */
+ 
+/* ****************************************************************************************
+ * Protected Method <Override>
+ */ 
+
+/* ****************************************************************************************
+ * Protected Method
+ */
+ 
+/* ****************************************************************************************
+ * Private Method <Static>
+ */
+ 
+/* ****************************************************************************************
+ * Private Method
+ */
+
+
+
  
 /* ****************************************************************************************
  * End of file
