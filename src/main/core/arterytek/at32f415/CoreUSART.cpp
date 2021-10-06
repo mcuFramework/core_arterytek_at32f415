@@ -209,6 +209,11 @@ bool CoreUSART::read(ByteBuffer& byteBuffer, Consumer<ByteBuffer&>* consumer){
       consumer->accept(byteBuffer);
     
     return true;
+  }else if(this->isEmpty()){
+    USART_INTConfig(BASE, USART_INT_RDNE, DISABLE);  //memory protected
+    this->mPacketRead.init(byteBuffer, consumer);
+    USART_INTConfig(BASE, USART_INT_RDNE, ENABLE);  //memory protected
+    
   }else{
     uint8_t* pointer = byteBuffer.lowerArray(byteBuffer.position());
     

@@ -51,6 +51,7 @@ class start::Main extends mcuf::lang::Thread
   private: start::SpeedReader* mSpeedReader[10];
   private: core::arterytek::at32f415::CoreUSART *usart;
   private: start::CommandWriteTask* mCommandWriteTask;
+  private: uint32_t mStatus;
     
   /* **************************************************************************************
    * Abstract method <Public>

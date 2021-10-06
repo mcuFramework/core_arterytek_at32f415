@@ -35,6 +35,7 @@ using namespace start;
 using namespace mcuf::io::channel;
 using namespace mcuf::lang;
 using namespace mcuf::util;
+using namespace mcuf::function;
 using namespace core::arterytek::at32f415;
 
 
@@ -68,7 +69,7 @@ class PulseGen extends TimerTask{
  * Construct.
  */
 Main::Main(void) construct Thread("mainThread"){
-  
+  this->mStatus = 0;
 }
 
 /**
@@ -98,7 +99,7 @@ void Main::run(void){
   
   this->mCommandWriteTask = new CommandWriteTask(*this->usart);
   ByteBuffer* mByteBuffer = new HeapByteBuffer(128);
-  mByteBuffer->limit(10);
+  mByteBuffer->limit(1);
   this->usart->read(*mByteBuffer, this);
   
   PulseGen *mPulseGen = new PulseGen(this->mLED[1]);
@@ -124,17 +125,30 @@ void Main::run(void){
  */
 void Main::accept(ByteBuffer& byteBuffer){
   uint8_t* array = byteBuffer.lowerArray();
-  if(array[3] == 0x03){
-    if(array[2] == 0x00){
-      this->mCommandWriteTask->writeConnect();
-    }else if(array[2] == 0x01){
-      this->mCommandWriteTask->writeData();
+  if(this->mStatus == 0){
+    if(array[0] == 0x52){
+      byteBuffer.limit(byteBuffer.limit() + 9);
+      this->mStatus = 1;
+      usart->read(byteBuffer, this);
+    }else{
+      byteBuffer.reset();
+      byteBuffer.limit(1);
+      usart->read(byteBuffer, this);
     }
+  }else{
+    if(array[3] == 0x03){
+      if(array[2] == 0x00){
+        this->mCommandWriteTask->writeConnect();
+      }else if(array[2] == 0x01){
+        this->mCommandWriteTask->writeData();
+      }
+      
+    }
+    byteBuffer.reset();
+    byteBuffer.limit(1);
+    this->mStatus = 0;
+    usart->read(byteBuffer, this);
   }
-  
-  byteBuffer.reset();
-  byteBuffer.limit(10);
-  usart->read(byteBuffer, this);
 }
 
 /* ****************************************************************************************
