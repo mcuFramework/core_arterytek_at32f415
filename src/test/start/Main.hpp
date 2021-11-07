@@ -15,8 +15,6 @@
 //-----------------------------------------------------------------------------------------
 #include "mcuf.h"
 #include "core_arterytek_at32f415.h"
-#include "start/SpeedReader.hpp"
-#include "start/CommandWriteTask.hpp"
 
 /* ****************************************************************************************
  * Namespace
@@ -28,8 +26,7 @@ namespace start{
 /* ****************************************************************************************
  * Class Object
  */  
-class start::Main extends mcuf::lang::Thread
-  implements mcuf::function::Consumer<mcuf::io::channel::ByteBuffer&>{
+class start::Main extends mcuf::lang::Thread{
 
   /* **************************************************************************************
    * Subclass
@@ -47,10 +44,6 @@ class start::Main extends mcuf::lang::Thread
    * Variable <Private>
    */
   private: core::arterytek::at32f415::CorePin* mLED[8];
-  private: core::arterytek::at32f415::CorePin* mEXTI[10];
-  private: start::SpeedReader* mSpeedReader[10];
-  private: core::arterytek::at32f415::CoreUSART *usart;
-  private: start::CommandWriteTask* mCommandWriteTask;
   private: uint32_t mStatus;
     
   /* **************************************************************************************
@@ -91,15 +84,6 @@ class start::Main extends mcuf::lang::Thread
    *
    */
   public: virtual void run(void) override;
-  
-  /* **************************************************************************************
-   * Public Method <Override> - mcuf::function::Consumer<mcuf::io::channel::ByteBuffer&>
-   */
-  
-  /**
-   *
-   */
-  public: virtual void accept(mcuf::io::channel::ByteBuffer& byteBuffer) override;
 
   /* **************************************************************************************
    * Public Method
@@ -134,6 +118,11 @@ class start::Main extends mcuf::lang::Thread
    */
   private: void initGPIO(void);
 
+
+  /**
+   *
+   */
+  private: void throwTest(int i) throw(mcuf::lang::Throwable);
 };
 
 /* *****************************************************************************************

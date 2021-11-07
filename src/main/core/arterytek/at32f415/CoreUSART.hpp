@@ -166,12 +166,12 @@ class core::arterytek::at32f415::CoreUSART extends mcuf::util::RingBuffer
   /**
    *
    */
-  public: virtual bool readBusy(void) override;
+  public: virtual bool readBusy(void);
 
   /**
    *
    */
-  public: virtual bool writeBusy(void) override;
+  public: virtual bool writeBusy(void);
 
   /**
    * 

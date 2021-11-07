@@ -44,19 +44,6 @@ using namespace core::arterytek::at32f415;
  * Namespace
  */  
 
-class PulseGen extends TimerTask{
-  private: CorePin* mPin;
-  
-  public: PulseGen(CorePin* pin){
-    this->mPin = pin;
-  }
-  public: virtual ~PulseGen() = default;
-  
-  public: void run(void){
-    mPin->setToggle();
-  }
-};
-
 /* ****************************************************************************************
  * Extern
  */
@@ -92,64 +79,15 @@ Main::~Main(void){
  */
 void Main::run(void){
   this->initGPIO();
-  
-  Memory* memory = new HeapMemory(128);
-  this->usart = new CoreUSART(CoreUSART::REG_UART4, *memory);
-  usart->init();
-  
-  this->mCommandWriteTask = new CommandWriteTask(*this->usart);
-  ByteBuffer* mByteBuffer = new HeapByteBuffer(128);
-  mByteBuffer->limit(1);
-  this->usart->read(*mByteBuffer, this);
-  
-  PulseGen *mPulseGen = new PulseGen(this->mLED[1]);
-  System::getTimer().scheduleAtFixedRate(*mPulseGen, 10, 10);
-  
-  
   while(1){
     this->mLED[0]->setToggle();
     this->delay(1000);
-    for(int i=0; i<10; i++){
-      this->mSpeedReader[i]->recode();
-      this->mCommandWriteTask->mData[i] = this->mSpeedReader[i]->getValue();
-    }
   }
 }
 
 /* ****************************************************************************************
  * Public Method <Override>
  */
-
-/** 
- *
- */
-void Main::accept(ByteBuffer& byteBuffer){
-  uint8_t* array = byteBuffer.lowerArray();
-  if(this->mStatus == 0){
-    if(array[0] == 0x52){
-      byteBuffer.limit(byteBuffer.limit() + 9);
-      this->mStatus = 1;
-      usart->read(byteBuffer, this);
-    }else{
-      byteBuffer.reset();
-      byteBuffer.limit(1);
-      usart->read(byteBuffer, this);
-    }
-  }else{
-    if(array[3] == 0x03){
-      if(array[2] == 0x00){
-        this->mCommandWriteTask->writeConnect();
-      }else if(array[2] == 0x01){
-        this->mCommandWriteTask->writeData();
-      }
-      
-    }
-    byteBuffer.reset();
-    byteBuffer.limit(1);
-    this->mStatus = 0;
-    usart->read(byteBuffer, this);
-  }
-}
 
 /* ****************************************************************************************
  * Public Method
@@ -186,15 +124,20 @@ void Main::initGPIO(void){
     this->mLED[i]->setLow();
   }
   
-  for(int i=0; i<10; i++){
-    this->mEXTI[i] = new CorePin(&Core::gpioc, i);
-    this->mEXTI[i]->setInput();
-    this->mEXTI[i]->pinMode(this->mEXTI[i]->PinMode_Pullup);
-    Core::afio.remapEXTI(Core::afio.EXTI_PC, i);
-    this->mSpeedReader[i] = new SpeedReader(static_cast<CoreEXTI::Register>(CoreEXTI::REG_EXTI0 + i));
-  }
-  
   Core::gpioc.configOutput(10, CoreGPIO::OutputMode_50M, false, true, true);
+}
+
+/**
+ *
+ */
+void Main::throwTest(int i) throw(Throwable){
+  if(i>=8)
+    throw Throwable();
+  
+  if(i<0)
+    throw Throwable();
+  
+  this->mLED[i]->setHigh();
 }
  
 /* ****************************************************************************************

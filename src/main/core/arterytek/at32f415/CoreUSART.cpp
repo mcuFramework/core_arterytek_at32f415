@@ -65,7 +65,7 @@ using mcuf::util::RingBuffer;
 /**
  * 
  */
-CoreUSART::CoreUSART(CoreUSART::Register reg, Memory& memory) construct RingBuffer(memory){
+CoreUSART::CoreUSART(CoreUSART::Register reg, Memory& memory) construct RingBuffer(memory.pointer(), memory.length()){
   this->mRegister = reg;
   this->mPacketRead.clear();
   this->mPacketWrite.clear();
