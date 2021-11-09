@@ -166,24 +166,24 @@ class core::arterytek::at32f415::CoreUSART extends mcuf::util::RingBuffer
   /**
    *
    */
-  public: virtual bool readBusy(void);
+  public: virtual bool readBusy(void) override;
 
   /**
    *
    */
-  public: virtual bool writeBusy(void);
+  public: virtual bool writeBusy(void) override;
 
   /**
    * 
    */
   public: virtual bool read(mcuf::io::channel::ByteBuffer& byteBuffer, 
-                            mcuf::function::Consumer<mcuf::io::channel::ByteBuffer&>* consumer) override;
+                            mcuf::hal::SerialPortEvent* event) override;
 
   /**
    * 
    */
   public: virtual bool write(mcuf::io::channel::ByteBuffer& byteBuffer, 
-                             mcuf::function::Consumer<mcuf::io::channel::ByteBuffer&>* consumer) override;
+                             mcuf::hal::SerialPortEvent* event) override;
 
   /* **************************************************************************************
    * Public Method <Override> - mcuf::function::Runnable

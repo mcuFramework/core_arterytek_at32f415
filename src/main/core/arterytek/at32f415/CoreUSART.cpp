@@ -51,6 +51,7 @@ using mcuf::lang::System;
 
 using mcuf::io::channel::ByteBuffer;
 using mcuf::util::RingBuffer;
+using mcuf::hal::SerialPortEvent;
 
 /* ****************************************************************************************
  * Macro
@@ -65,7 +66,7 @@ using mcuf::util::RingBuffer;
 /**
  * 
  */
-CoreUSART::CoreUSART(CoreUSART::Register reg, Memory& memory) construct RingBuffer(memory.pointer(), memory.length()){
+CoreUSART::CoreUSART(CoreUSART::Register reg, Memory& memory) construct RingBuffer(memory){
   this->mRegister = reg;
   this->mPacketRead.clear();
   this->mPacketWrite.clear();
@@ -195,7 +196,8 @@ bool CoreUSART::writeBusy(void){
 /**
  * 
  */
-bool CoreUSART::read(ByteBuffer& byteBuffer, Consumer<ByteBuffer&>* consumer){
+bool CoreUSART::read(ByteBuffer& byteBuffer, SerialPortEvent* event){
+  /*
   if(this->readBusy())
     return false;
   
@@ -227,14 +229,15 @@ bool CoreUSART::read(ByteBuffer& byteBuffer, Consumer<ByteBuffer&>* consumer){
     if(count)
       this->popMult(pointer, count);
   }
-  
+  */
   return true;
 }
 
 /**
  * 
  */
-bool CoreUSART::write(ByteBuffer& byteBuffer, Consumer<ByteBuffer&>* consumer){
+bool CoreUSART::write(ByteBuffer& byteBuffer, SerialPortEvent* event){
+  /*
   if(this->writeBusy())
     return false;
   
@@ -242,6 +245,7 @@ bool CoreUSART::write(ByteBuffer& byteBuffer, Consumer<ByteBuffer&>* consumer){
     return false;
   
   USART_INTConfig(BASE, USART_INT_TDE, ENABLE);
+  */
   return true;
 }
 

@@ -131,11 +131,6 @@ void Main::initGPIO(void){
  *
  */
 void Main::throwTest(int i) throw(Throwable){
-  if(i>=8)
-    throw Throwable();
-  
-  if(i<0)
-    throw Throwable();
   
   this->mLED[i]->setHigh();
 }

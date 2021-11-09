@@ -18,6 +18,7 @@
  * Using
  */  
 using mcuf::lang::System;
+using mcuf::lang::Memory;
 
 /* ****************************************************************************************
  * Extern
@@ -54,7 +55,13 @@ static start::Main mainThread;
  */
 extern "C" int main(void){
   SystemCoreClockUpdate();
-  System::start(mainThread, nullptr);
+  try{
+    System::start(mainThread, nullptr);
+    
+  }catch(mcuf::lang::Throwable throwable){
+    
+  }
+  
 }
 
 
