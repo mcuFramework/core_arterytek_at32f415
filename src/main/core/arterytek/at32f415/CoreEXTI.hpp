@@ -73,8 +73,8 @@ class core::arterytek::at32f415::CoreEXTI extends mcuf::lang::Object
 	private: static uint16_t channelLevel;
   
   private: Register mRegister;
-  private: mcuf::function::Runnable* mRunnableRise;
-  private: mcuf::function::Runnable* mRunnableFall;
+  private: Event* mRunnableRise;
+  private: Event* mRunnableFall;
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -149,12 +149,12 @@ class core::arterytek::at32f415::CoreEXTI extends mcuf::lang::Object
   /**
    * 
    */
-  public: virtual bool enableFall(mcuf::function::Runnable& runnable) override;
+  public: virtual bool enableFall(mcuf::hal::PinEdgeTrigger::Event* event) override;
 
   /**
    * 
    */
-  public: virtual bool enableRise(mcuf::function::Runnable& runnable) override;
+  public: virtual bool enableRise(mcuf::hal::PinEdgeTrigger::Event* event) override;
   
   /* **************************************************************************************
    * Public Method <Override> - mcuf::function::Runnable

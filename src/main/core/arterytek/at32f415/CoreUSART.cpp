@@ -12,8 +12,10 @@
 #include <string.h>
  
 //-----------------------------------------------------------------------------------------
-#include "core_arterytek_at32f415.h"
 #include "bsp_arterytek_at32f415/at32f4xx.h"
+#include "core/arterytek/at32f415/Core.hpp"
+#include "core/arterytek/at32f415/CoreInterrupt.hpp"
+#include "core/arterytek/at32f415/CoreUSART.hpp"
 
 /* ****************************************************************************************
  * Namespace
@@ -51,7 +53,7 @@ using mcuf::lang::System;
 
 using mcuf::io::channel::ByteBuffer;
 using mcuf::util::RingBuffer;
-using mcuf::hal::SerialPortEvent;
+using mcuf::hal::SerialPort;
 
 /* ****************************************************************************************
  * Macro
@@ -196,8 +198,7 @@ bool CoreUSART::writeBusy(void){
 /**
  * 
  */
-bool CoreUSART::read(ByteBuffer& byteBuffer, SerialPortEvent* event){
-  /*
+bool CoreUSART::read(ByteBuffer& byteBuffer, Event* event){
   if(this->readBusy())
     return false;
   
@@ -207,13 +208,13 @@ bool CoreUSART::read(ByteBuffer& byteBuffer, SerialPortEvent* event){
     this->popMult(pointer, count);
     byteBuffer.position(byteBuffer.position() + count);
     
-    if(consumer)
-      consumer->accept(byteBuffer);
+    if(event)
+      event->onSerialPortEvent(Event::RXD_SUCCESSFUL, byteBuffer);
     
     return true;
   }else if(this->isEmpty()){
     USART_INTConfig(BASE, USART_INT_RDNE, DISABLE);  //memory protected
-    this->mPacketRead.init(byteBuffer, consumer);
+    this->mPacketRead.init(byteBuffer, event);
     USART_INTConfig(BASE, USART_INT_RDNE, ENABLE);  //memory protected
     
   }else{
@@ -223,29 +224,29 @@ bool CoreUSART::read(ByteBuffer& byteBuffer, SerialPortEvent* event){
     uint32_t count = this->getCount();
     
     byteBuffer.position(byteBuffer.position() + count);
-    this->mPacketRead.init(byteBuffer, consumer);
+    this->mPacketRead.init(byteBuffer, event);
     USART_INTConfig(BASE, USART_INT_RDNE, ENABLE);  //memory protected
     
     if(count)
       this->popMult(pointer, count);
   }
-  */
+ 
   return true;
 }
 
 /**
  * 
  */
-bool CoreUSART::write(ByteBuffer& byteBuffer, SerialPortEvent* event){
-  /*
+bool CoreUSART::write(ByteBuffer& byteBuffer, Event* event){
+  
   if(this->writeBusy())
     return false;
   
-  if(!this->mPacketWrite.init(byteBuffer, consumer))
+  if(!this->mPacketWrite.init(byteBuffer, event))
     return false;
   
   USART_INTConfig(BASE, USART_INT_TDE, ENABLE);
-  */
+  
   return true;
 }
 
@@ -266,7 +267,7 @@ void CoreUSART::run(void){
       ++this->mPacketRead.mCount;
 
       if(this->mPacketRead.mCount >= this->mPacketRead.mLength){  //receiver is successful
-        
+        this->mPacketRead.mStatus = Event::RXD_SUCCESSFUL;
         if(!System::execute(this->mPacketRead))
           this->mPacketRead.run();
       }  
@@ -286,6 +287,7 @@ void CoreUSART::run(void){
     if(this->mPacketWrite.mCount >= this->mPacketWrite.mLength){
       /* Disable the USART1 Transmit interrupt */
       USART_INTConfig(base, USART_INT_TDE, DISABLE);
+      this->mPacketWrite.mStatus = Event::TXD_SUCCESSFUL;
       if(!System::execute(this->mPacketWrite))
         this->mPacketWrite.run();
     }
@@ -311,12 +313,6 @@ void CoreUSART::run(void){
 /* ****************************************************************************************
  * Private Method
  */
-
-//-----------------------------------------------------------------------------------------
-//- Subclass Packet
-//-
-//-
-//-----------------------------------------------------------------------------------------
 
 /* ****************************************************************************************
  * Variable
@@ -344,12 +340,12 @@ void CoreUSART::run(void){
 void CoreUSART::Packet::run(void){
   
   ByteBuffer* byteBuffer = this->mByteBuffer;
-  Consumer<ByteBuffer&>* consumer = this->mConsumer;
+  Event* event = this->mEvent;
   byteBuffer->position(byteBuffer->position() + this->mCount);
   this->clear();
   
-  if(consumer)
-    consumer->accept(*byteBuffer);
+  if(event)
+    event->onSerialPortEvent(this->mStatus, *byteBuffer);
   
 }
 
@@ -370,7 +366,7 @@ void CoreUSART::Packet::clear(void){
 /**
  *
  */
-bool CoreUSART::Packet::init(ByteBuffer& byteBuffer, Consumer<ByteBuffer&>* consumer){
+bool CoreUSART::Packet::init(ByteBuffer& byteBuffer, Event* event){
   if(this->isExist())
     return false;
   
@@ -378,7 +374,7 @@ bool CoreUSART::Packet::init(ByteBuffer& byteBuffer, Consumer<ByteBuffer&>* cons
     return false;
   
   this->mByteBuffer = &byteBuffer;
-  this->mConsumer = consumer;
+  this->mEvent = event;
   this->mLength = byteBuffer.remaining();
   this->mCount = 0;
   this->mPointer = byteBuffer.lowerArray(byteBuffer.position());
@@ -414,9 +410,6 @@ bool CoreUSART::Packet::isExist(void){
  * Private Method
  */
 
-
-
- 
 /* ****************************************************************************************
  * End of file
  */ 

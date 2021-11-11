@@ -71,8 +71,7 @@ using mcuf::function::Consumer;
  */
 CoreTimer::CoreTimer(Register reg){
   this->mRegister = reg;
-  this->mAttachment = nullptr;
-  this->mExecute = nullptr;
+  this->mEvent = nullptr;
   return;
 }
 
@@ -172,10 +171,10 @@ void CoreTimer::run(void){
   
   BASE_CLEAR_PENDING(BASE, TMR_FLAG_Update);
 
-  if(this->mExecute == nullptr)
+  if(this->mEvent == nullptr)
     return;
       
-  this->mExecute->accept(this->mAttachment);
+  this->mEvent->onTimerEvent(Event::TRIGGER);
   return;
 }
 
@@ -186,8 +185,7 @@ bool CoreTimer::startAtTick(uint32_t tick){
   if(this->isBusy())
     return false;
   
-  this->mAttachment = nullptr;
-  this->mExecute = nullptr;
+  this->mEvent = nullptr;
   
   this->configTick(tick);
   
@@ -198,12 +196,11 @@ bool CoreTimer::startAtTick(uint32_t tick){
 /**
  * 
  */
-bool CoreTimer::startAtTick(uint32_t tick, void* attachment, Consumer<void*>* execute){
+bool CoreTimer::startAtTick(uint32_t tick, Event* event){
   if(this->isBusy())
     return false;
   
-  this->mAttachment = attachment;
-  this->mExecute = execute;
+  this->mEvent = event;
   
   this->configTick(tick);
   
@@ -222,14 +219,12 @@ bool CoreTimer::startAtTime(uint32_t microSecond){
   if(this->isBusy())
     return false;
   
-  this->mAttachment = nullptr;
-  this->mExecute = nullptr;
+  this->mEvent = nullptr;
   
   if(!this->configTime(microSecond))
     return false;
   
   TMR_Cmd(BASE, ENABLE);
-  
   
   return true;
 }
@@ -237,16 +232,14 @@ bool CoreTimer::startAtTime(uint32_t microSecond){
 /**
  * 
  */
-bool CoreTimer::startAtTime(uint32_t microSecond, void* attachment, Consumer<void*>* execute){
+bool CoreTimer::startAtTime(uint32_t microSecond, Event* event){
   if(this->isBusy())
     return false;
   
-  this->mAttachment = attachment;
-  this->mExecute = execute;
+  this->mEvent = event;
   
   if(!this->configTime(microSecond)){
-    this->mAttachment = nullptr;
-    this->mExecute = nullptr;
+    this->mEvent = nullptr;
     return false;
   }
   
@@ -265,10 +258,10 @@ bool CoreTimer::startAtTime(uint32_t microSecond, void* attachment, Consumer<voi
  *
  */
 void CoreTimer::execute(void){
-  if(this->mExecute == nullptr)
+  if(this->mEvent == nullptr)
     return;
   
-  this->mExecute->accept(this->mAttachment);
+  this->mEvent->onTimerEvent(Event::TRIGGER);
   return;
 }
 

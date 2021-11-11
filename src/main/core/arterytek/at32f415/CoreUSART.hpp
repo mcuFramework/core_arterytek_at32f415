@@ -48,7 +48,8 @@ class core::arterytek::at32f415::CoreUSART extends mcuf::util::RingBuffer
     public: uint16_t mLength;
     public: uint16_t mCount;    
     public: uint8_t* mPointer;
-    public: mcuf::function::Consumer<mcuf::io::channel::ByteBuffer&>* mConsumer;
+    public: Event* mEvent;
+    public: Event::Status mStatus;
     public: mcuf::io::channel::ByteBuffer* mByteBuffer;
     
     public: Packet(void) = default;
@@ -56,8 +57,7 @@ class core::arterytek::at32f415::CoreUSART extends mcuf::util::RingBuffer
     
     public: void clear(void);
     public: bool isExist(void);
-    public: bool init(mcuf::io::channel::ByteBuffer& byteBuffer, 
-                      mcuf::function::Consumer<mcuf::io::channel::ByteBuffer&>* consumer);
+    public: bool init(mcuf::io::channel::ByteBuffer& byteBuffer, Event* event);
     
     public: virtual void run(void) override;
   };
@@ -177,13 +177,13 @@ class core::arterytek::at32f415::CoreUSART extends mcuf::util::RingBuffer
    * 
    */
   public: virtual bool read(mcuf::io::channel::ByteBuffer& byteBuffer, 
-                            mcuf::hal::SerialPortEvent* event) override;
+                            mcuf::hal::SerialPort::Event* event) override;
 
   /**
    * 
    */
   public: virtual bool write(mcuf::io::channel::ByteBuffer& byteBuffer, 
-                             mcuf::hal::SerialPortEvent* event) override;
+                             mcuf::hal::SerialPort::Event* event) override;
 
   /* **************************************************************************************
    * Public Method <Override> - mcuf::function::Runnable

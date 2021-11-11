@@ -11,7 +11,9 @@
 
 //-----------------------------------------------------------------------------------------
 #include "bsp_arterytek_at32f415/at32f4xx.h"
-#include "core_arterytek_at32f415.h"
+#include "core/arterytek/at32f415/Core.hpp"
+#include "core/arterytek/at32f415/CoreEXTI.hpp"
+#include "core/arterytek/at32f415/CoreInterrupt.hpp"
 #include "mcuf.h"
 
 /* ****************************************************************************************
@@ -48,6 +50,7 @@ namespace core{
 /* ****************************************************************************************
  * Using
  */  
+using mcuf::hal::PinEdgeTrigger;
 using core::arterytek::at32f415::Core;
 using core::arterytek::at32f415::CoreEXTI;
 
@@ -187,9 +190,9 @@ void CoreEXTI::disableRise(void){
 /**
  * 
  */
-bool CoreEXTI::enableFall(mcuf::function::Runnable& runnable){
+bool CoreEXTI::enableFall(PinEdgeTrigger::Event* event){
   uint32_t mask = (1 << this->mRegister);
-  this->mRunnableFall = &runnable;
+  this->mRunnableFall = event;
   
   if(this->mRunnableRise != nullptr)
     CoreEXTI::channelMode |= mask;    //set dualmode flag (rise and fall)
@@ -208,9 +211,9 @@ bool CoreEXTI::enableFall(mcuf::function::Runnable& runnable){
 /**
  * 
  */
-bool CoreEXTI::enableRise(mcuf::function::Runnable& runnable){
+bool CoreEXTI::enableRise(PinEdgeTrigger::Event* event){
   uint32_t mask = (1 << this->mRegister);
-  this->mRunnableRise = &runnable;
+  this->mRunnableRise = event;
   
   if(this->mRunnableFall != nullptr)
     CoreEXTI::channelMode |= mask;    //set dualmode flag (rise and fall)
@@ -252,9 +255,9 @@ void CoreEXTI::run(void){
 	EXTI->PND = mask;
 	
 	if(levelFlag){  //rise
-    this->mRunnableRise->run();
+    this->mRunnableRise->onPinEdgeTriggerEvent(Event::RISE);
 	}else{          //fall
-    this->mRunnableFall->run();
+    this->mRunnableFall->onPinEdgeTriggerEvent(Event::FALL);
 	}
 }
 

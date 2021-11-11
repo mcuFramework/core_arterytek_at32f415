@@ -73,6 +73,7 @@ void TestCoreEXTI::run(void){
  */
 void TestCoreEXTI::start(void){
   this->mCoreEXTI.init();
+  /*
   switch(this->mTestMode){
     case TESTMODE_RISE:
       this->mCoreEXTI.enableRise(*this);
@@ -87,6 +88,7 @@ void TestCoreEXTI::start(void){
       this->mCoreEXTI.enableFall(*this);
       break;
   }
+  */
 }
   
 /** 
