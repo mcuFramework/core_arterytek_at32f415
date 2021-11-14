@@ -15,7 +15,7 @@
 
 //   <o>Core memory size [byte] <256-65536>
 #ifndef MCUF_DEFINE_CORE_MEMORY_SIZE
-#define MCUF_DEFINE_CORE_MEMORY_SIZE 4608
+#define MCUF_DEFINE_CORE_MEMORY_SIZE 4864
 #endif
 
 //   <o>Main thread stack size [byte] <256-65536>

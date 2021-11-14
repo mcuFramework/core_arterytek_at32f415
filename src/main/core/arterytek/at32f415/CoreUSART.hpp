@@ -29,7 +29,7 @@ namespace core{
  * Class Object
  */  
 class core::arterytek::at32f415::CoreUSART extends mcuf::util::RingBuffer
-      implements mcuf::hal::SerialPort, mcuf::function::Runnable{
+  implements mcuf::hal::SerialPort, mcuf::function::Runnable, mcuf::io::OutputStream{
        
   /* **************************************************************************************
    * Subclass
@@ -176,13 +176,13 @@ class core::arterytek::at32f415::CoreUSART extends mcuf::util::RingBuffer
   /**
    * 
    */
-  public: virtual bool read(mcuf::io::channel::ByteBuffer& byteBuffer, 
+  public: virtual bool read(mcuf::io::channel::ByteBuffer* byteBuffer, 
                             mcuf::hal::SerialPort::Event* event) override;
 
   /**
    * 
    */
-  public: virtual bool write(mcuf::io::channel::ByteBuffer& byteBuffer, 
+  public: virtual bool write(mcuf::io::channel::ByteBuffer* byteBuffer, 
                              mcuf::hal::SerialPort::Event* event) override;
 
   /* **************************************************************************************
@@ -193,6 +193,22 @@ class core::arterytek::at32f415::CoreUSART extends mcuf::util::RingBuffer
    *
    */
   public: virtual void run(void) override;
+  
+  /* **************************************************************************************
+   * Public Method <Override> - mcuf::io::OutputStream
+   */
+  
+  /**
+   *
+   */
+  virtual void flush(void) override;
+  
+  /**
+   *  write nonBlocking
+   */
+  virtual void write(mcuf::io::channel::ByteBuffer* byteBuffer, 
+                     void* attachment,
+                     mcuf::io::channel::CompletionHandler<int, void*>* handler) override;  
                              
   /* **************************************************************************************
    * Public Method

@@ -83,7 +83,7 @@ void CorePin::dir(bool dir){
  * 
  */
 CorePin::PinMode CorePin::pinMode(void){
-  return PinMode::PinMode_NotSupport;
+  return PinMode::PINMODE_NOT_SUPPORT;
 }
 
 /**
@@ -103,11 +103,11 @@ bool CorePin::pinMode(PinMode mode){
 
   switch(mode){
     //-------------------------------------------------------------------------------------
-    case PinMode_NotSupport:
+    case PinMode::PINMODE_NOT_SUPPORT:
       return false;
     
     //-------------------------------------------------------------------------------------
-    case PinMode_PushPull:
+    case PinMode::PINMODE_PUSH_PULL:
       if(!this->dir())
         return false;
       
@@ -115,7 +115,7 @@ bool CorePin::pinMode(PinMode mode){
       return true;
     
     //-------------------------------------------------------------------------------------
-    case PinMode_Pullup:
+    case PinMode::PINMODE_PULL_UP:
       if(this->dir())
         return false;
       
@@ -124,7 +124,7 @@ bool CorePin::pinMode(PinMode mode){
       return true;
     
     //-------------------------------------------------------------------------------------
-    case PinMode_Pulldown:
+    case PinMode::PINMODE_PULL_DOWN:
       if(this->dir())
         return false;
       
@@ -133,7 +133,7 @@ bool CorePin::pinMode(PinMode mode){
       return true;      
       
     //-------------------------------------------------------------------------------------
-    case PinMode_opendrain:
+    case PinMode::PINMODE_OPEN_DRAIN:
       if(this->dir())
         *reg = (ctrl | (0x00000007 << shift));
       

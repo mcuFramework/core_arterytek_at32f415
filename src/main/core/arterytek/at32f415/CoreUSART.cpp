@@ -51,7 +51,9 @@ using mcuf::lang::Message;
 using mcuf::lang::Pointer;
 using mcuf::lang::System;
 
+
 using mcuf::io::channel::ByteBuffer;
+using mcuf::io::channel::CompletionHandler;
 using mcuf::util::RingBuffer;
 using mcuf::hal::SerialPort;
 
@@ -198,33 +200,33 @@ bool CoreUSART::writeBusy(void){
 /**
  * 
  */
-bool CoreUSART::read(ByteBuffer& byteBuffer, Event* event){
+bool CoreUSART::read(ByteBuffer* byteBuffer, Event* event){
   if(this->readBusy())
     return false;
   
-  if(this->getCount() >= byteBuffer.remaining()){
+  if(this->getCount() >= byteBuffer->remaining()){
     uint32_t count = this->getCount();
-    uint8_t* pointer = byteBuffer.lowerArray(byteBuffer.position());
+    uint8_t* pointer = byteBuffer->lowerArray(byteBuffer->position());
     this->popMult(pointer, count);
-    byteBuffer.position(byteBuffer.position() + count);
+    byteBuffer->position(byteBuffer->position() + count);
     
     if(event)
-      event->onSerialPortEvent(Event::RXD_SUCCESSFUL, byteBuffer);
+      event->onSerialPortEvent(Event::READ_SUCCESSFUL, byteBuffer);
     
     return true;
   }else if(this->isEmpty()){
     USART_INTConfig(BASE, USART_INT_RDNE, DISABLE);  //memory protected
-    this->mPacketRead.init(byteBuffer, event);
+    this->mPacketRead.init(*byteBuffer, event);
     USART_INTConfig(BASE, USART_INT_RDNE, ENABLE);  //memory protected
     
   }else{
-    uint8_t* pointer = byteBuffer.lowerArray(byteBuffer.position());
+    uint8_t* pointer = byteBuffer->lowerArray(byteBuffer->position());
     
     USART_INTConfig(BASE, USART_INT_RDNE, DISABLE);  //memory protected
     uint32_t count = this->getCount();
     
-    byteBuffer.position(byteBuffer.position() + count);
-    this->mPacketRead.init(byteBuffer, event);
+    byteBuffer->position(byteBuffer->position() + count);
+    this->mPacketRead.init(*byteBuffer, event);
     USART_INTConfig(BASE, USART_INT_RDNE, ENABLE);  //memory protected
     
     if(count)
@@ -237,12 +239,12 @@ bool CoreUSART::read(ByteBuffer& byteBuffer, Event* event){
 /**
  * 
  */
-bool CoreUSART::write(ByteBuffer& byteBuffer, Event* event){
+bool CoreUSART::write(ByteBuffer* byteBuffer, Event* event){
   
   if(this->writeBusy())
     return false;
   
-  if(!this->mPacketWrite.init(byteBuffer, event))
+  if(!this->mPacketWrite.init(*byteBuffer, event))
     return false;
   
   USART_INTConfig(BASE, USART_INT_TDE, ENABLE);
@@ -267,7 +269,7 @@ void CoreUSART::run(void){
       ++this->mPacketRead.mCount;
 
       if(this->mPacketRead.mCount >= this->mPacketRead.mLength){  //receiver is successful
-        this->mPacketRead.mStatus = Event::RXD_SUCCESSFUL;
+        this->mPacketRead.mStatus = Event::READ_SUCCESSFUL;
         if(!System::execute(this->mPacketRead))
           this->mPacketRead.run();
       }  
@@ -287,12 +289,30 @@ void CoreUSART::run(void){
     if(this->mPacketWrite.mCount >= this->mPacketWrite.mLength){
       /* Disable the USART1 Transmit interrupt */
       USART_INTConfig(base, USART_INT_TDE, DISABLE);
-      this->mPacketWrite.mStatus = Event::TXD_SUCCESSFUL;
+      this->mPacketWrite.mStatus = Event::WRITE_SUCCESSFUL;
       if(!System::execute(this->mPacketWrite))
         this->mPacketWrite.run();
     }
   }
 }
+
+/* ****************************************************************************************
+ * Public Method <Override> - mcuf::io::OutputStream
+ */
+  
+/**
+ *
+ */
+void CoreUSART::flush(void){
+
+}
+  
+/**
+ *  write nonBlocking
+ */
+void CoreUSART::write(ByteBuffer* byteBuffer, void* attachment, CompletionHandler<int, void*>* handler){
+                     
+}  
 
 /* ****************************************************************************************
  * Public Method
@@ -345,7 +365,7 @@ void CoreUSART::Packet::run(void){
   this->clear();
   
   if(event)
-    event->onSerialPortEvent(this->mStatus, *byteBuffer);
+    event->onSerialPortEvent(this->mStatus, byteBuffer);
   
 }
 
