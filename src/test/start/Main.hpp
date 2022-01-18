@@ -43,6 +43,7 @@ class start::Main extends mcuf::lang::Thread{
   /* **************************************************************************************
    * Variable <Private>
    */
+  private: mcuf::util::Stacker mStacker;
   private: core::arterytek::at32f415::CorePin* mLED[8];
   private: core::arterytek::at32f415::CorePin* mBTN[8];
   private: uint32_t mStatus;
@@ -62,7 +63,7 @@ class start::Main extends mcuf::lang::Thread{
   /**
    * Construct.
    */
-  public: Main(mcuf::lang::Memory& memory);
+  public: Main(mcuf::lang::Memory& memory, mcuf::lang::Memory& stacker);
 
   /**
    * Destruct.

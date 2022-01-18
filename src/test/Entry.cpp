@@ -33,6 +33,7 @@ extern "C" void SystemCoreClockUpdate(void);
 static Main* userMain;
 static uint32_t mainMemory[(sizeof(Main)+3)/4];
 static uint64_t mainStack[2048/8];
+static uint64_t stackerMemory[3072];
 
 
 /* ****************************************************************************************
@@ -62,7 +63,8 @@ extern "C" int main(void){
   SystemCoreClockUpdate();
   if(1){
     Memory stack = Memory(mainStack, sizeof(mainStack));
-    userMain = new(mainMemory)Main(stack);
+    Memory stacker = Memory(stackerMemory, sizeof(stackerMemory));
+    userMain = new(mainMemory)Main(stack, stacker);
   }
   
   System::start(userMain);

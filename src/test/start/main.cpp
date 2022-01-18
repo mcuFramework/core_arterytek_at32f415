@@ -54,7 +54,9 @@ using namespace core::arterytek::at32f415;
 /**
  * Construct.
  */
-Main::Main(Memory& memory) construct Thread(memory){
+Main::Main(Memory& memory, Memory& stacker) construct Thread(memory), 
+  mStacker(stacker){
+    
   this->mStatus = 0;
 }
 
@@ -123,7 +125,7 @@ void Main::initGPIO(void){
   Core::afio.remapDEBUG(Core::afio.DEBUG_JTAGDISABLE);
   
   for(int i=0; i<8; i++){
-    this->mLED[i] = new CorePin(&Core::gpiob, i);
+    this->mLED[i] = new(this->mStacker.allocAlignment32(sizeof(CorePin))) CorePin(&Core::gpiob, i);
     this->mLED[i]->setOutput();
     this->mLED[i]->setHigh();
   }

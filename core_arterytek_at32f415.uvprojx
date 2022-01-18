@@ -185,6 +185,7 @@
             <uocXRam>0</uocXRam>
             <RvdsVP>0</RvdsVP>
             <RvdsMve>0</RvdsMve>
+            <RvdsCdeCp>0</RvdsCdeCp>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -351,7 +352,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <uClangAs>0</uClangAs>
+            <ClangAsOpt>4</ClangAsOpt>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -413,19 +414,9 @@
           <GroupName>main/core/arterytek/at32f415</GroupName>
           <Files>
             <File>
-              <FileName>at32f415.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\at32f415.h</FilePath>
-            </File>
-            <File>
               <FileName>Core.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\main\core\arterytek\at32f415\Core.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>Core.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\Core.hpp</FilePath>
             </File>
             <File>
               <FileName>CoreAFIO.cpp</FileName>
@@ -433,19 +424,9 @@
               <FilePath>.\src\main\core\arterytek\at32f415\CoreAFIO.cpp</FilePath>
             </File>
             <File>
-              <FileName>CoreAFIO.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreAFIO.hpp</FilePath>
-            </File>
-            <File>
               <FileName>CoreEntitySPI.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\main\core\arterytek\at32f415\CoreEntitySPI.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreEntitySPI.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreEntitySPI.hpp</FilePath>
             </File>
             <File>
               <FileName>CoreGPIO.cpp</FileName>
@@ -453,19 +434,9 @@
               <FilePath>.\src\main\core\arterytek\at32f415\CoreGPIO.cpp</FilePath>
             </File>
             <File>
-              <FileName>CoreGPIO.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreGPIO.hpp</FilePath>
-            </File>
-            <File>
               <FileName>CoreIIC.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\main\core\arterytek\at32f415\CoreIIC.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreIIC.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreIIC.hpp</FilePath>
             </File>
             <File>
               <FileName>CorePin.cpp</FileName>
@@ -473,19 +444,9 @@
               <FilePath>.\src\main\core\arterytek\at32f415\CorePin.cpp</FilePath>
             </File>
             <File>
-              <FileName>CorePin.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CorePin.hpp</FilePath>
-            </File>
-            <File>
               <FileName>CoreSPI.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\main\core\arterytek\at32f415\CoreSPI.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSPI.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreSPI.hpp</FilePath>
             </File>
             <File>
               <FileName>CoreTimer.cpp</FileName>
@@ -493,19 +454,9 @@
               <FilePath>.\src\main\core\arterytek\at32f415\CoreTimer.cpp</FilePath>
             </File>
             <File>
-              <FileName>CoreTimer.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreTimer.hpp</FilePath>
-            </File>
-            <File>
               <FileName>CoreUSART.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\main\core\arterytek\at32f415\CoreUSART.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreUSART.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreUSART.hpp</FilePath>
             </File>
             <File>
               <FileName>CoreInterrupt.cpp</FileName>
@@ -513,19 +464,14 @@
               <FilePath>.\src\main\core\arterytek\at32f415\CoreInterrupt.cpp</FilePath>
             </File>
             <File>
-              <FileName>CoreInterrupt.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreInterrupt.hpp</FilePath>
-            </File>
-            <File>
               <FileName>CoreEXTI.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\main\core\arterytek\at32f415\CoreEXTI.cpp</FilePath>
             </File>
             <File>
-              <FileName>CoreEXTI.hpp</FileName>
+              <FileName>at32f415.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreEXTI.hpp</FilePath>
+              <FilePath>.\src\main\core\arterytek\at32f415\at32f415.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -590,7 +536,7 @@
                 <NoWarn>2</NoWarn>
                 <uSurpInc>2</uSurpInc>
                 <useXO>2</useXO>
-                <uClangAs>2</uClangAs>
+                <ClangAsOpt>0</ClangAsOpt>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>
@@ -749,7 +695,7 @@
                 <NoWarn>2</NoWarn>
                 <uSurpInc>2</uSurpInc>
                 <useXO>2</useXO>
-                <uClangAs>2</uClangAs>
+                <ClangAsOpt>0</ClangAsOpt>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>
@@ -952,6 +898,7 @@
             <uocXRam>0</uocXRam>
             <RvdsVP>0</RvdsVP>
             <RvdsMve>0</RvdsMve>
+            <RvdsCdeCp>0</RvdsCdeCp>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -1118,7 +1065,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <uClangAs>0</uClangAs>
+            <ClangAsOpt>4</ClangAsOpt>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -1180,19 +1127,9 @@
           <GroupName>main/core/arterytek/at32f415</GroupName>
           <Files>
             <File>
-              <FileName>at32f415.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\at32f415.h</FilePath>
-            </File>
-            <File>
               <FileName>Core.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\main\core\arterytek\at32f415\Core.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>Core.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\Core.hpp</FilePath>
             </File>
             <File>
               <FileName>CoreAFIO.cpp</FileName>
@@ -1200,19 +1137,9 @@
               <FilePath>.\src\main\core\arterytek\at32f415\CoreAFIO.cpp</FilePath>
             </File>
             <File>
-              <FileName>CoreAFIO.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreAFIO.hpp</FilePath>
-            </File>
-            <File>
               <FileName>CoreEntitySPI.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\main\core\arterytek\at32f415\CoreEntitySPI.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreEntitySPI.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreEntitySPI.hpp</FilePath>
             </File>
             <File>
               <FileName>CoreGPIO.cpp</FileName>
@@ -1220,19 +1147,9 @@
               <FilePath>.\src\main\core\arterytek\at32f415\CoreGPIO.cpp</FilePath>
             </File>
             <File>
-              <FileName>CoreGPIO.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreGPIO.hpp</FilePath>
-            </File>
-            <File>
               <FileName>CoreIIC.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\main\core\arterytek\at32f415\CoreIIC.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreIIC.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreIIC.hpp</FilePath>
             </File>
             <File>
               <FileName>CorePin.cpp</FileName>
@@ -1240,19 +1157,9 @@
               <FilePath>.\src\main\core\arterytek\at32f415\CorePin.cpp</FilePath>
             </File>
             <File>
-              <FileName>CorePin.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CorePin.hpp</FilePath>
-            </File>
-            <File>
               <FileName>CoreSPI.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\main\core\arterytek\at32f415\CoreSPI.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSPI.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreSPI.hpp</FilePath>
             </File>
             <File>
               <FileName>CoreTimer.cpp</FileName>
@@ -1260,19 +1167,9 @@
               <FilePath>.\src\main\core\arterytek\at32f415\CoreTimer.cpp</FilePath>
             </File>
             <File>
-              <FileName>CoreTimer.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreTimer.hpp</FilePath>
-            </File>
-            <File>
               <FileName>CoreUSART.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\main\core\arterytek\at32f415\CoreUSART.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreUSART.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreUSART.hpp</FilePath>
             </File>
             <File>
               <FileName>CoreInterrupt.cpp</FileName>
@@ -1280,19 +1177,14 @@
               <FilePath>.\src\main\core\arterytek\at32f415\CoreInterrupt.cpp</FilePath>
             </File>
             <File>
-              <FileName>CoreInterrupt.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreInterrupt.hpp</FilePath>
-            </File>
-            <File>
               <FileName>CoreEXTI.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\main\core\arterytek\at32f415\CoreEXTI.cpp</FilePath>
             </File>
             <File>
-              <FileName>CoreEXTI.hpp</FileName>
+              <FileName>at32f415.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreEXTI.hpp</FilePath>
+              <FilePath>.\src\main\core\arterytek\at32f415\at32f415.h</FilePath>
             </File>
           </Files>
         </Group>
