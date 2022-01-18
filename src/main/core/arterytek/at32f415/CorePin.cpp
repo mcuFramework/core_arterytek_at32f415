@@ -34,9 +34,6 @@ using core::arterytek::at32f415::CorePin;
  * 
  */
 CorePin::CorePin(CoreGPIO* base, uint32_t pin){
-  ASSERT_THROW_ERROR(base, MESSAGE_NULL_POINTER);
-  ASSERT_THROW_ERROR((pin<16), MESSAGE_OUT_OF_RANGE);
-  
   this->mBase = base->getBase();
   this->mPin = pin;
 }

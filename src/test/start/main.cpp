@@ -27,7 +27,6 @@
  */  
 
 
-using mcuf::lang::managerment::MemoryManager;
 using mcuf::function::Runnable;
 using mcuf::function::ConsumerEvent;
 
@@ -55,7 +54,7 @@ using namespace core::arterytek::at32f415;
 /**
  * Construct.
  */
-Main::Main(void) construct Thread("mainThread"){
+Main::Main(Memory& memory) construct Thread(memory){
   this->mStatus = 0;
 }
 
@@ -79,25 +78,14 @@ Main::~Main(void){
  */
 void Main::run(void){
   this->initGPIO();
-  ByteBuffer b = ByteBuffer(256);
-  Memory usartMemory = Memory(256);
-  
-  CoreUSART usart = CoreUSART(CoreUSART::REG_USART2, usartMemory);
-  usart.init();
-  usart.baudrate(128000);
-  
-  
-  int c = 0;
-  while(1){
-    b.reset();
-    String s = String::format("Hello %d\n", sizeof(mcuf::util::Fifo));
-    b.put(s);
-    b.flip();
-    usart.write(&b, nullptr);
-    this->mLED[0]->setToggle();
-    this->delay(50);
-    ++c;
+
+  while(true){
+    this->mLED[0]->setHigh();
+    this->delay(100);
+    this->mLED[0]->setLow();
+    this->delay(100);
   }
+  
 }
 
 /* ****************************************************************************************
@@ -137,21 +125,13 @@ void Main::initGPIO(void){
   for(int i=0; i<8; i++){
     this->mLED[i] = new CorePin(&Core::gpiob, i);
     this->mLED[i]->setOutput();
-    this->mLED[i]->setLow();
+    this->mLED[i]->setHigh();
   }
   
   Core::gpioa.configOutput(2, CoreGPIO::OutputMode_50M, false, true, true);
   
 }
 
-/**
- *
- */
-void Main::throwTest(int i) throw(Throwable){
-  
-  this->mLED[i]->setHigh();
-}
- 
 /* ****************************************************************************************
  * End of file
  */ 

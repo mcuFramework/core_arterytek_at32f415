@@ -47,7 +47,6 @@ namespace core{
 using core::arterytek::at32f415::CoreUSART;
 using mcuf::function::Consumer;
 using mcuf::lang::Memory;
-using mcuf::lang::Message;
 using mcuf::lang::Pointer;
 using mcuf::lang::System;
 
@@ -270,7 +269,7 @@ void CoreUSART::run(void){
 
       if(this->mPacketRead.mCount >= this->mPacketRead.mLength){  //receiver is successful
         this->mPacketRead.mStatus = Event::READ_SUCCESSFUL;
-        if(!System::execute(this->mPacketRead))
+        //if(!System::execute(this->mPacketRead))
           this->mPacketRead.run();
       }  
     }else{
@@ -290,7 +289,7 @@ void CoreUSART::run(void){
       /* Disable the USART1 Transmit interrupt */
       USART_INTConfig(base, USART_INT_TDE, DISABLE);
       this->mPacketWrite.mStatus = Event::WRITE_SUCCESSFUL;
-      if(!System::execute(this->mPacketWrite))
+      //if(!System::execute(this->mPacketWrite))
         this->mPacketWrite.run();
     }
   }

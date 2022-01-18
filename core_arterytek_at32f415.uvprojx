@@ -185,7 +185,6 @@
             <uocXRam>0</uocXRam>
             <RvdsVP>0</RvdsVP>
             <RvdsMve>0</RvdsMve>
-            <RvdsCdeCp>0</RvdsCdeCp>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -352,7 +351,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <ClangAsOpt>4</ClangAsOpt>
+            <uClangAs>0</uClangAs>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -591,7 +590,7 @@
                 <NoWarn>2</NoWarn>
                 <uSurpInc>2</uSurpInc>
                 <useXO>2</useXO>
-                <ClangAsOpt>0</ClangAsOpt>
+                <uClangAs>2</uClangAs>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>
@@ -622,6 +621,26 @@
               <FileType>1</FileType>
               <FilePath>.\src\resources\core_arterytek_system.c</FilePath>
             </File>
+            <File>
+              <FileName>mcuf_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\resources\mcuf_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>mcuf_lib.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\resources\mcuf_lib.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>rtx_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\resources\rtx_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>rtx_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\resources\rtx_lib.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -631,21 +650,6 @@
               <FileName>Entry.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\test\Entry.cpp</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>test/mcuf</GroupName>
-          <Files>
-            <File>
-              <FileName>mcuf_resources.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\test\mcuf\mcuf_resources.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>mcuf_resources.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\test\mcuf\mcuf_resources.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -745,7 +749,7 @@
                 <NoWarn>2</NoWarn>
                 <uSurpInc>2</uSurpInc>
                 <useXO>2</useXO>
-                <ClangAsOpt>0</ClangAsOpt>
+                <uClangAs>2</uClangAs>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>
@@ -948,7 +952,6 @@
             <uocXRam>0</uocXRam>
             <RvdsVP>0</RvdsVP>
             <RvdsMve>0</RvdsMve>
-            <RvdsCdeCp>0</RvdsCdeCp>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -1099,10 +1102,10 @@
             <v6WtE>0</v6WtE>
             <v6Rtti>0</v6Rtti>
             <VariousControls>
-              <MiscControls>-fexceptions</MiscControls>
+              <MiscControls></MiscControls>
               <Define>SYSCLK_FREQ_144MHz_HSI, DEBUG</Define>
               <Undefine></Undefine>
-              <IncludePath>.\src\main;.\src\test;.\ref\mcuf\src\main;.\ref\bsp_arterytek_at32f415\src\main</IncludePath>
+              <IncludePath>.\src\main;.\src\test;.\src\resources;.\ref\mcuf\src\main;.\ref\bsp_arterytek_at32f415\src\main</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1115,7 +1118,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <ClangAsOpt>4</ClangAsOpt>
+            <uClangAs>0</uClangAs>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -1316,6 +1319,26 @@
               <FileType>1</FileType>
               <FilePath>.\src\resources\core_arterytek_system.c</FilePath>
             </File>
+            <File>
+              <FileName>mcuf_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\resources\mcuf_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>mcuf_lib.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\resources\mcuf_lib.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>rtx_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\resources\rtx_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>rtx_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\resources\rtx_lib.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1325,21 +1348,6 @@
               <FileName>Entry.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\test\Entry.cpp</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>test/mcuf</GroupName>
-          <Files>
-            <File>
-              <FileName>mcuf_resources.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\test\mcuf\mcuf_resources.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>mcuf_resources.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\test\mcuf\mcuf_resources.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1415,14 +1423,5 @@
       </file>
     </files>
   </RTE>
-
-  <LayerInfo>
-    <Layers>
-      <Layer>
-        <LayName>core_arterytek_at32f415</LayName>
-        <LayPrjMark>1</LayPrjMark>
-      </Layer>
-    </Layers>
-  </LayerInfo>
 
 </Project>

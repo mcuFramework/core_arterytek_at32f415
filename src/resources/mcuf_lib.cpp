@@ -8,81 +8,69 @@
 /* ****************************************************************************************
  * Include
  */  
-
-//-----------------------------------------------------------------------------------------
+#include "stdint.h"
+#include "mcuf_config.h"
 #include "mcuf.h"
-#include "core_arterytek_at32f415.h"
-#include "start/Main.hpp"
-
+ 
 /* ****************************************************************************************
- * Using
- */  
-using mcuf::lang::System;
-using mcuf::lang::Memory;
-using mcuf::util::Stacker;
-using start::Main;
+ * Macro
+ */
 
 /* ****************************************************************************************
  * Extern
  */
-extern "C" void SystemCoreClockUpdate(void);
 
 /* ****************************************************************************************
- * Variable <Static>
- */
-static Main* userMain;
-static uint32_t mainMemory[(sizeof(Main)+3)/4];
-static uint64_t mainStack[2048/8];
-
-
-/* ****************************************************************************************
- * Construct Method
+ * Struct
  */
 
 /* ****************************************************************************************
- * Operator Method
- */
-
-/* ****************************************************************************************
- * Public Method <Static>
+ * Static Variable
  */
  
 /* ****************************************************************************************
- * Public Method <Override>
+ * Variable
  */
+
+static uint64_t mcufCoreThreadMemoryEntity[(sizeof(mcuf::lang::managerment::CoreThread) + 7) / 8];
+void* mcufCoreThreadMemory = mcufCoreThreadMemoryEntity;
+uint32_t mcufCoreThreadMemorySize = sizeof(mcufCoreThreadMemoryEntity);
+
+static uint64_t mcufCoreStackMemoryEntity[MCUF_DEFINE_CORE_STACK_SIZE/8];
+void* mcufCoreStackMemory = mcufCoreStackMemoryEntity;
+uint32_t mcufCoreStackMemorySize = sizeof(mcufCoreStackMemoryEntity);
+
+static uint32_t mcufCoreEcecutorMemoryEntity[MCUF_DEFINE_EXECUTOR_TASK_NUMBER];
+void* mcufCoreEcecutorMemory = mcufCoreEcecutorMemoryEntity;
+uint32_t mcufCoreEcecutorMemorySize = sizeof(mcufCoreEcecutorMemoryEntity);
+
+static uint32_t mcufTimerTaskMemoryEntity[MCUF_DEFINE_TIMER_TASK_NUMBER + ((MCUF_DEFINE_TIMER_TASK_NUMBER+31)/32)];
+void* mcufTimerTaskMemory = mcufTimerTaskMemoryEntity;
+uint32_t mcufTimerTaskMemorySize = sizeof(mcufTimerTaskMemoryEntity);
+uint32_t mcufTimerTick = MCUF_DEFINE_TIMER_TICK;
 
 /* ****************************************************************************************
- * Public Method
+ * List
  */
-
+ 
 /**
- *
- */
-extern "C" int main(void){
-  SystemCoreClockUpdate();
-  if(1){
-    Memory stack = Memory(mainStack, sizeof(mainStack));
-    userMain = new(mainMemory)Main(stack);
-  }
-  
-  System::start(userMain);
-}
-
-
-/* ****************************************************************************************
- * Protected Method <Static>
+ * Inline function list
  */
  
-/* ****************************************************************************************
- * Protected Method <Override>
- */ 
-
-/* ****************************************************************************************
- * Protected Method
+/**
+ * Static function list
  */
 
 /* ****************************************************************************************
- * Private Method
+ * Inline Function
+ */
+
+/* ****************************************************************************************
+ * Static Function
+ */
+
+/* ****************************************************************************************
+ * Function
  */
  
 /* ****************************************************************************************

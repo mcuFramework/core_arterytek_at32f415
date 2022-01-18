@@ -290,7 +290,7 @@ bool CoreGPIO::configInput(uint32_t pin, InputMode mode){
   if(pin < 8)  // 0~7pin
     reg = &base->CTRLL;
     
-  else        // 8~15pin
+  else         // 8~15pin
     reg = &base->CTRLH;
   
   ctrl = ((*reg) & (0x0000000F << shift));

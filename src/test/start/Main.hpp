@@ -44,6 +44,7 @@ class start::Main extends mcuf::lang::Thread{
    * Variable <Private>
    */
   private: core::arterytek::at32f415::CorePin* mLED[8];
+  private: core::arterytek::at32f415::CorePin* mBTN[8];
   private: uint32_t mStatus;
     
   /* **************************************************************************************
@@ -61,7 +62,7 @@ class start::Main extends mcuf::lang::Thread{
   /**
    * Construct.
    */
-  public: Main(void);
+  public: Main(mcuf::lang::Memory& memory);
 
   /**
    * Destruct.
@@ -118,11 +119,6 @@ class start::Main extends mcuf::lang::Thread{
    */
   private: void initGPIO(void);
 
-
-  /**
-   *
-   */
-  private: void throwTest(int i) throw(mcuf::lang::Throwable);
 };
 
 /* *****************************************************************************************

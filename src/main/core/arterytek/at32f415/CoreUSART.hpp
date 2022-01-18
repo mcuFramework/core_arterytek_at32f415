@@ -29,7 +29,7 @@ namespace core{
  * Class Object
  */  
 class core::arterytek::at32f415::CoreUSART extends mcuf::util::RingBuffer
-  implements mcuf::hal::SerialPort, mcuf::function::Runnable, mcuf::io::OutputStream{
+  implements mcuf::hal::SerialPort, mcuf::function::Runnable{
        
   /* **************************************************************************************
    * Subclass
@@ -201,14 +201,14 @@ class core::arterytek::at32f415::CoreUSART extends mcuf::util::RingBuffer
   /**
    *
    */
-  virtual void flush(void) override;
+  virtual void flush(void);
   
   /**
    *  write nonBlocking
    */
   virtual void write(mcuf::io::channel::ByteBuffer* byteBuffer, 
                      void* attachment,
-                     mcuf::io::channel::CompletionHandler<int, void*>* handler) override;  
+                     mcuf::io::channel::CompletionHandler<int, void*>* handler);  
                              
   /* **************************************************************************************
    * Public Method
