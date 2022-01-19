@@ -50,7 +50,7 @@ namespace core{
 /* ****************************************************************************************
  * Using
  */  
-using mcuf::hal::PinEdgeTrigger;
+using mcuf::hal::EdgeTrigger;
 using core::arterytek::at32f415::Core;
 using core::arterytek::at32f415::CoreEXTI;
 
@@ -190,7 +190,7 @@ void CoreEXTI::disableRise(void){
 /**
  * 
  */
-bool CoreEXTI::enableFall(PinEdgeTrigger::Event* event){
+bool CoreEXTI::enableFall(EdgeTrigger::Event* event){
   uint32_t mask = (1 << this->mRegister);
   this->mRunnableFall = event;
   
@@ -211,7 +211,7 @@ bool CoreEXTI::enableFall(PinEdgeTrigger::Event* event){
 /**
  * 
  */
-bool CoreEXTI::enableRise(PinEdgeTrigger::Event* event){
+bool CoreEXTI::enableRise(EdgeTrigger::Event* event){
   uint32_t mask = (1 << this->mRegister);
   this->mRunnableRise = event;
   
@@ -255,9 +255,9 @@ void CoreEXTI::run(void){
 	EXTI->PND = mask;
 	
 	if(levelFlag){  //rise
-    this->mRunnableRise->onPinEdgeTriggerEvent(Event::RISE);
+    this->mRunnableRise->onEdgeTriggerEvent(Event::RISE);
 	}else{          //fall
-    this->mRunnableFall->onPinEdgeTriggerEvent(Event::FALL);
+    this->mRunnableFall->onEdgeTriggerEvent(Event::FALL);
 	}
 }
 

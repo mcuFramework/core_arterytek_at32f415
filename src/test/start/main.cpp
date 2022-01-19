@@ -80,12 +80,21 @@ Main::~Main(void){
  */
 void Main::run(void){
   this->initGPIO();
-
+  
+  CoreUSART uart2 = CoreUSART(CoreUSART::REG_USART2, this->mStacker.allocMemory(128));
+  uart2.init();
+  
+  ByteBuffer b = ByteBuffer(Memory("12345", 5));
+  b.position(5);
+  b.flip();
+  
   while(true){
     this->mLED[0]->setHigh();
-    this->delay(100);
+    this->delay(500);
     this->mLED[0]->setLow();
-    this->delay(100);
+    this->delay(500);
+    b.rewind();
+    uart2.write(&b, nullptr);
   }
   
 }
@@ -129,6 +138,7 @@ void Main::initGPIO(void){
     this->mLED[i]->setOutput();
     this->mLED[i]->setHigh();
   }
+  
   
   Core::gpioa.configOutput(2, CoreGPIO::OutputMode_50M, false, true, true);
   

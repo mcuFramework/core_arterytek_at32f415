@@ -69,7 +69,7 @@ using mcuf::hal::SerialPort;
 /**
  * 
  */
-CoreUSART::CoreUSART(CoreUSART::Register reg, Memory& memory) construct RingBuffer(memory){
+CoreUSART::CoreUSART(CoreUSART::Register reg, const Memory& memory) construct RingBuffer(memory){
   this->mRegister = reg;
   this->mPacketRead.clear();
   this->mPacketWrite.clear();
@@ -205,7 +205,7 @@ bool CoreUSART::read(ByteBuffer* byteBuffer, Event* event){
   
   if(this->getCount() >= byteBuffer->remaining()){
     uint32_t count = this->getCount();
-    uint8_t* pointer = byteBuffer->lowerArray(byteBuffer->position());
+    uint8_t* pointer = static_cast<uint8_t*>(byteBuffer->pointer(byteBuffer->position()));
     this->popMult(pointer, count);
     byteBuffer->position(byteBuffer->position() + count);
     
@@ -219,7 +219,7 @@ bool CoreUSART::read(ByteBuffer* byteBuffer, Event* event){
     USART_INTConfig(BASE, USART_INT_RDNE, ENABLE);  //memory protected
     
   }else{
-    uint8_t* pointer = byteBuffer->lowerArray(byteBuffer->position());
+    uint8_t* pointer = static_cast<uint8_t*>(byteBuffer->pointer(byteBuffer->position()));
     
     USART_INTConfig(BASE, USART_INT_RDNE, DISABLE);  //memory protected
     uint32_t count = this->getCount();
@@ -396,7 +396,7 @@ bool CoreUSART::Packet::init(ByteBuffer& byteBuffer, Event* event){
   this->mEvent = event;
   this->mLength = byteBuffer.remaining();
   this->mCount = 0;
-  this->mPointer = byteBuffer.lowerArray(byteBuffer.position());
+  this->mPointer = static_cast<uint8_t*>(byteBuffer.pointer(byteBuffer.position()));
   
   return true;
 }

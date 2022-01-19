@@ -103,7 +103,7 @@ class core::arterytek::at32f415::CoreUSART extends mcuf::util::RingBuffer
   /**
    * Construct.
    */
-   public: CoreUSART(Register reg, mcuf::lang::Memory& memory);
+   public: CoreUSART(Register reg, const mcuf::lang::Memory& memory);
 
   /**
    * Disconstruct.

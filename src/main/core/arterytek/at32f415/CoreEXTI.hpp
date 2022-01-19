@@ -29,7 +29,7 @@ namespace core{
  * Class Object
  */  
 class core::arterytek::at32f415::CoreEXTI extends mcuf::lang::Object
-  implements mcuf::hal::PinEdgeTrigger, mcuf::function::Runnable{
+  implements mcuf::hal::EdgeTrigger, mcuf::function::Runnable{
 
   /* **************************************************************************************
    * Enum Registor
@@ -149,12 +149,12 @@ class core::arterytek::at32f415::CoreEXTI extends mcuf::lang::Object
   /**
    * 
    */
-  public: virtual bool enableFall(mcuf::hal::PinEdgeTrigger::Event* event) override;
+  public: virtual bool enableFall(mcuf::hal::EdgeTrigger::Event* event) override;
 
   /**
    * 
    */
-  public: virtual bool enableRise(mcuf::hal::PinEdgeTrigger::Event* event) override;
+  public: virtual bool enableRise(mcuf::hal::EdgeTrigger::Event* event) override;
   
   /* **************************************************************************************
    * Public Method <Override> - mcuf::function::Runnable
