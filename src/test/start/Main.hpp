@@ -63,7 +63,7 @@ class start::Main extends mcuf::lang::Thread{
   /**
    * Construct.
    */
-  public: Main(mcuf::lang::Memory& memory, mcuf::lang::Memory& stacker);
+   public: Main(mcuf::lang::Memory& memory, mcuf::lang::Memory& stacker);
 
   /**
    * Destruct.
