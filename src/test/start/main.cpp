@@ -79,17 +79,22 @@ Main::~Main(void){
 void Main::run(void){
   this->initGPIO();
   
+  CoreUsart uart2 = CoreUsart(CoreUsart::REG_USART2, this->mStacker.allocMemory(128));
+  uart2.init();
+  
+  ByteBuffer b = ByteBuffer(this->mStacker.allocMemory(64));
+  String s = String(this->mStacker.allocMemory(64));
+  
+  
   while(true){
-    for(int i=0; i<8; i++){
-      this->delay(200);
-      this->mLED[i]->setHigh();
-    }
-    
-    this->delay(750);
-    
-    for(int i=0; i<8; i++){
-      this->mLED[i]->setLow();
-    }
+    b.reset();
+    b.putFormat("clock:%d\n", Core::getSystemCoreClock());
+    b.flip();
+    this->mLED[0]->setHigh();
+    this->delay(500);
+    this->mLED[0]->setLow();
+    this->delay(500);
+    uart2.write(&b, nullptr);
   }
 }
 

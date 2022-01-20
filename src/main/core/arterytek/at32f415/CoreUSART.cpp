@@ -26,16 +26,15 @@ namespace core{
       
       struct CoreUsartConfig{
         void* Register;
-        volatile uint32_t* clock;
-        uint32_t clockMask;
+        crm_periph_clock_type crmClock;
         CoreInterrupt::Irq irq;
         
-      }const coreTimerConfig[5] = {
-        {USART1 , &RCC->APB2EN, RCC_APB2PERIPH_USART1 , CoreInterrupt::IRQ_USART1 },
-        {USART2 , &RCC->APB1EN, RCC_APB1PERIPH_USART2 , CoreInterrupt::IRQ_USART2 },
-        {USART3 , &RCC->APB1EN, RCC_APB1PERIPH_USART3 , CoreInterrupt::IRQ_USART3 },
-        {UART4  , &RCC->APB1EN, RCC_APB1PERIPH_UART4  , CoreInterrupt::IRQ_UART4  },
-        {UART5  , &RCC->APB1EN, RCC_APB1PERIPH_UART4  , CoreInterrupt::IRQ_UART5  },
+      }const coreUsartConfig[5] = {
+        {USART1 , CRM_USART1_PERIPH_CLOCK , CoreInterrupt::IRQ_USART1 },
+        {USART2 , CRM_USART2_PERIPH_CLOCK , CoreInterrupt::IRQ_USART2 },
+        {USART3 , CRM_USART3_PERIPH_CLOCK , CoreInterrupt::IRQ_USART3 },
+        {UART4  , CRM_UART4_PERIPH_CLOCK  , CoreInterrupt::IRQ_UART4  },
+        {UART5  , CRM_UART5_PERIPH_CLOCK  , CoreInterrupt::IRQ_UART5  },
       };
     }
   }
@@ -59,8 +58,8 @@ using mcuf::hal::SerialPort;
 /* ****************************************************************************************
  * Macro
  */
-#define CONFIG                   (coreTimerConfig[this->mRegister])
-#define BASE                     ((USART_Type*)CONFIG.Register)
+#define CONFIG                   (coreUsartConfig[this->mRegister])
+#define BASE                     ((usart_type*)CONFIG.Register)
 
 /* ****************************************************************************************
  * Construct Method
@@ -104,8 +103,8 @@ bool CoreUsart::deinit(void){
     return false;
   
   Core::interrupt.irqHandler(CONFIG.irq, false);
-  USART_Reset(BASE);
-  *CONFIG.clock &= ~CONFIG.clockMask;
+  usart_reset(BASE);
+  crm_periph_clock_enable(CONFIG.crmClock, FALSE);
   this->abortRead();
   this->abortWrite();
   Core::interrupt.setHandler(CONFIG.irq, nullptr);
@@ -119,24 +118,16 @@ bool CoreUsart::init(void){
   if(this->isInit())
     return false;
   
-  *CONFIG.clock |= CONFIG.clockMask;
+  crm_periph_clock_enable(CONFIG.crmClock, TRUE);
   Core::interrupt.setHandler(CONFIG.irq, this);
   
-  USART_InitType config;
-  
-  config.USART_BaudRate = 9600;
-  config.USART_WordLength = USART_WordLength_8b;
-  config.USART_StopBits = USART_StopBits_1;
-  config.USART_Parity = USART_Parity_No;
-  config.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-  config.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
-  
-  USART_Init(BASE, &config);
+  usart_init(BASE, 9600, USART_DATA_8BITS, USART_STOP_1_BIT);
+  usart_transmitter_enable(BASE, TRUE);
+  usart_receiver_enable(BASE, TRUE);
   
   Core::interrupt.irqHandler(CONFIG.irq, true);
-  USART_INTConfig(BASE, USART_INT_RDNE, ENABLE);
-  USART_Cmd(BASE, ENABLE);
- 
+  usart_interrupt_enable(BASE, USART_RDBF_INT, TRUE);
+  usart_enable(BASE, TRUE);
   return true;
 }
   
@@ -146,7 +137,7 @@ bool CoreUsart::init(void){
  * @return false = not init, true = initd
  */
 bool CoreUsart::isInit(void){
-  return *CONFIG.clock & CONFIG.clockMask;
+  return CRM_REG(CONFIG.crmClock) & CRM_REG_BIT(CONFIG.crmClock);
 }
 
 /* ****************************************************************************************
@@ -178,7 +169,9 @@ uint32_t CoreUsart::baudrate(void){
  * 
  */
 uint32_t CoreUsart::baudrate(uint32_t rate){
-  USART_SetBaudrate(BASE, rate);
+  usart_enable(BASE, FALSE);
+  usart_init(BASE, rate, USART_DATA_8BITS, USART_STOP_1_BIT);
+  usart_enable(BASE, TRUE);
   return 0;
 }
 
@@ -214,19 +207,19 @@ bool CoreUsart::read(ByteBuffer* byteBuffer, Event* event){
     
     return true;
   }else if(this->isEmpty()){
-    USART_INTConfig(BASE, USART_INT_RDNE, DISABLE);  //memory protected
+    usart_interrupt_enable(BASE, USART_RDBF_INT, FALSE);  //memory protected
     this->mPacketRead.init(*byteBuffer, event);
-    USART_INTConfig(BASE, USART_INT_RDNE, ENABLE);  //memory protected
+    usart_interrupt_enable(BASE, USART_RDBF_INT, TRUE);  //memory protected
     
   }else{
     uint8_t* pointer = static_cast<uint8_t*>(byteBuffer->pointer(byteBuffer->position()));
     
-    USART_INTConfig(BASE, USART_INT_RDNE, DISABLE);  //memory protected
+    usart_interrupt_enable(BASE, USART_RDBF_INT, FALSE);  //memory protected
     uint32_t count = this->getCount();
     
     byteBuffer->position(byteBuffer->position() + count);
     this->mPacketRead.init(*byteBuffer, event);
-    USART_INTConfig(BASE, USART_INT_RDNE, ENABLE);  //memory protected
+    usart_interrupt_enable(BASE, USART_RDBF_INT, TRUE);  //memory protected
     
     if(count)
       this->popMult(pointer, count);
@@ -246,7 +239,7 @@ bool CoreUsart::write(ByteBuffer* byteBuffer, Event* event){
   if(!this->mPacketWrite.init(*byteBuffer, event))
     return false;
   
-  USART_INTConfig(BASE, USART_INT_TDE, ENABLE);
+  usart_interrupt_enable(BASE, USART_TDBE_INT, TRUE);
   
   return true;
 }
@@ -257,10 +250,10 @@ bool CoreUsart::write(ByteBuffer* byteBuffer, Event* event){
  * Public Method <Override> - mcuf::function::Runnable
  */
 void CoreUsart::run(void){
-  USART_Type* base = BASE;
+  usart_type* base = BASE;
   
-  if(USART_GetITStatus(base, USART_INT_RDNE) != RESET){
-    uint8_t readCache = USART_ReceiveData(base);
+  if(usart_flag_get(base, USART_RDBF_FLAG) != RESET){
+    uint8_t readCache = usart_data_receive(base);
     
     if(this->mPacketRead.mPointer && (this->mPacketRead.mLength > this->mPacketRead.mCount)){  //receiver pointer is not null
       /* Read one byte from the receive data register */
@@ -278,16 +271,16 @@ void CoreUsart::run(void){
   }
   
   //send handle
-  if(USART_GetITStatus(base, USART_INT_TDE) != RESET){   
+  if(usart_flag_get(base, USART_TDBE_FLAG) != RESET){   
     
     /* Write one byte to the transmit data register */
-    USART_SendData(base, this->mPacketWrite.mPointer[this->mPacketWrite.mCount]);
+    usart_data_transmit(base, this->mPacketWrite.mPointer[this->mPacketWrite.mCount]);
     
     ++this->mPacketWrite.mCount;
     
     if(this->mPacketWrite.mCount >= this->mPacketWrite.mLength){
       /* Disable the USART1 Transmit interrupt */
-      USART_INTConfig(base, USART_INT_TDE, DISABLE);
+      usart_interrupt_enable(base, USART_TDBE_INT, FALSE);
       this->mPacketWrite.mStatus = Event::WRITE_SUCCESSFUL;
       //if(!System::execute(this->mPacketWrite))
         this->mPacketWrite.run();

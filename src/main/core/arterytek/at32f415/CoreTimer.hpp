@@ -206,7 +206,7 @@ class core::arterytek::at32f415::CoreTimer extends mcuf::lang::Object
   /**
    *
    */
-  private: bool configTime(uint32_t microSecond);
+  private: uint32_t getTickAtMicroSecond(uint32_t microSecond);
   
   /**
    *

@@ -18,7 +18,7 @@
 #include "CoreIomux.hpp"
 #include "CorePin.hpp"
 //#include "CoreTimer.hpp"  
-//#include "CoreUsart.hpp"
+#include "CoreUsart.hpp"
 
 
 /* ****************************************************************************************

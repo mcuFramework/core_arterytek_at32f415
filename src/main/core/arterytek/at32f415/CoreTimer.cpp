@@ -9,7 +9,7 @@
  * Include
  */ 
 
-#include "bsp_arterytek_at32f415/at32f4xx_tim.h"
+#include "bsp_arterytek_at32f415/at32f415.h"
 
 #include "core/arterytek/at32f415/Core.hpp"
 #include "core/arterytek/at32f415/CoreInterrupt.hpp"
@@ -24,19 +24,18 @@ namespace core{
       
       struct CoreTimerConfig{
         void* Register;
-        volatile uint32_t* clock;
-        uint32_t clockMask;
+        crm_periph_clock_type crmClock;
         CoreInterrupt::Irq irq;
         
       }const coreTimerConfig[8] = {
-        {TMR1 , &RCC->APB2EN, RCC_APB2PERIPH_TMR1 , CoreInterrupt::IRQ_TMR1 },
-        {TMR2 , &RCC->APB1EN, RCC_APB1PERIPH_TMR2 , CoreInterrupt::IRQ_TMR2 },
-        {TMR3 , &RCC->APB1EN, RCC_APB1PERIPH_TMR3 , CoreInterrupt::IRQ_TMR3 },
-        {TMR4 , &RCC->APB1EN, RCC_APB1PERIPH_TMR4 , CoreInterrupt::IRQ_TMR4 },
-        {TMR5 , &RCC->APB1EN, RCC_APB1PERIPH_TMR5 , CoreInterrupt::IRQ_TMR5 },
-        {TMR9 , &RCC->APB2EN, RCC_APB2PERIPH_TMR9 , CoreInterrupt::IRQ_TMR9 },
-        {TMR10, &RCC->APB2EN, RCC_APB2PERIPH_TMR10, CoreInterrupt::IRQ_TMR10},
-        {TMR11, &RCC->APB2EN, RCC_APB2PERIPH_TMR11, CoreInterrupt::IRQ_TMR11},
+        {TMR1 , CRM_TMR1_PERIPH_CLOCK , CoreInterrupt::IRQ_TMR1 },
+        {TMR2 , CRM_TMR2_PERIPH_CLOCK , CoreInterrupt::IRQ_TMR2 },
+        {TMR3 , CRM_TMR3_PERIPH_CLOCK , CoreInterrupt::IRQ_TMR3 },
+        {TMR4 , CRM_TMR4_PERIPH_CLOCK , CoreInterrupt::IRQ_TMR4 },
+        {TMR5 , CRM_TMR5_PERIPH_CLOCK , CoreInterrupt::IRQ_TMR5 },
+        {TMR9 , CRM_TMR9_PERIPH_CLOCK , CoreInterrupt::IRQ_TMR9 },
+        {TMR10, CRM_TMR10_PERIPH_CLOCK, CoreInterrupt::IRQ_TMR10},
+        {TMR11, CRM_TMR11_PERIPH_CLOCK, CoreInterrupt::IRQ_TMR11},
       };
     }
   }
@@ -54,9 +53,7 @@ using mcuf::function::Consumer;
  * Macro
  */
 #define CONFIG                   (coreTimerConfig[this->mRegister])
-#define BASE                     ((TMR_Type*)CONFIG.Register)
-#define BASE_CLEAR_PENDING(x, y) (x->STS=(uint16_t)~y)
-#define BASE_GET_FLAG(x, y)      (((x->STS & y) != (uint16_t)RESET)?SET:RESET)
+#define BASE                     ((tmr_type*)CONFIG.Register)
 
 /* ****************************************************************************************
  * Extern
@@ -91,29 +88,51 @@ CoreTimer::~CoreTimer(void){
  */
  
 /* ****************************************************************************************
- * Public Method <Override>
+ * Public Method <Override> mcuf::hal::Base
  */
 
 /**
- *
+ * uninitialze hardware.
  */
 bool CoreTimer::deinit(void){
-  if(!this->isInit())
+	if(!this->isInit())
+		return false;
+	
+  crm_periph_clock_enable(CONFIG.crmClock, FALSE);
+	return true;
+}
+
+/**
+ * initialze hardware;
+ */
+bool CoreTimer::init(void){
+  if(this->isInit())
     return false;
   
-  this->cancel();
-  
-  *CONFIG.clock &= ~CONFIG.clockMask;
-  return true;
+  crm_periph_clock_enable(CONFIG.crmClock, TRUE);
+  return false;
 }
+
+/**
+ * get hardware initialzed status.
+ * 
+ * @return false = not init, true = initd
+ */
+bool CoreTimer::isInit(void){
+  return CRM_REG(CONFIG.crmClock) & CRM_REG_BIT(CONFIG.crmClock);
+}
+
+/* ****************************************************************************************
+ * Public Method <Override> mcuf::hal::Timer
+ */
 
 /**
  * 
  */
 void CoreTimer::cancel(void){
   this->interruptEnable(false);
-  TMR_INTConfig(BASE, TMR_INT_Overflow, DISABLE);
-  TMR_Cmd(BASE, DISABLE);
+  tmr_interrupt_enable(BASE, TMR_OVF_INT, FALSE);
+  tmr_counter_enable(BASE, FALSE);
   
 }
 
@@ -125,30 +144,11 @@ bool CoreTimer::isBusy(void){
 }
 
 /**
- *
- */
-bool CoreTimer::init(void){
-  if(this->isInit())
-    return false;
-
-  *CONFIG.clock |= CONFIG.clockMask;
-  Core::interrupt.setHandler(CONFIG.irq, this);
-  return true;
-}
-  
-/**
- *
- */
-bool CoreTimer::isInit(void){
-  return *CONFIG.clock & CONFIG.clockMask;
-}
-
-/**
  * 
  */
 bool CoreTimer::isDone(void){
-  if(BASE->STS & TMR_STS_UEVIF){
-		BASE->STS &= ~TMR_STS_UEVIF;
+  if(BASE->ists_bit.ovfif){
+		BASE->ists_bit.ovfif = 0;
     return true;
   }
   
@@ -163,34 +163,10 @@ uint32_t CoreTimer::getTickBaseMilliSecond(void){
 }
 
 /**
- *
- */
-void CoreTimer::run(void){
-  if(BASE_GET_FLAG(BASE, TMR_FLAG_Update) == RESET)
-    return;
-  
-  BASE_CLEAR_PENDING(BASE, TMR_FLAG_Update);
-
-  if(this->mEvent == nullptr)
-    return;
-      
-  this->mEvent->onTimerEvent(Event::TRIGGER);
-  return;
-}
-
-/**
  * 
  */
 bool CoreTimer::startAtTick(uint32_t tick){
-  if(this->isBusy())
-    return false;
-  
-  this->mEvent = nullptr;
-  
-  this->configTick(tick);
-  
-  TMR_Cmd(BASE, ENABLE);
-  return true;
+  return this->startAtTick(tick, nullptr);
 }
 
 /**
@@ -200,13 +176,22 @@ bool CoreTimer::startAtTick(uint32_t tick, Event* event){
   if(this->isBusy())
     return false;
   
+  if(tick == 0)
+    return false;
+  
   this->mEvent = event;
   
   this->configTick(tick);
   
-  TMR_INTConfig(BASE, TMR_INT_Overflow, ENABLE);
-  this->interruptEnable(true);
-  TMR_Cmd(BASE, ENABLE);
+  tmr_cnt_dir_set(BASE, TMR_COUNT_UP);
+  tmr_clock_source_div_set(BASE, TMR_CLOCK_DIV1);
+  
+  if(event != nullptr){
+    tmr_interrupt_enable(BASE, TMR_OVF_INT, TRUE);
+    this->interruptEnable(true);
+  }
+  
+  tmr_counter_enable(BASE, TRUE);
   
   return true;
 }
@@ -216,38 +201,34 @@ bool CoreTimer::startAtTick(uint32_t tick, Event* event){
  * 
  */
 bool CoreTimer::startAtTime(uint32_t microSecond){
-  if(this->isBusy())
-    return false;
-  
-  this->mEvent = nullptr;
-  
-  if(!this->configTime(microSecond))
-    return false;
-  
-  TMR_Cmd(BASE, ENABLE);
-  
-  return true;
+  return this->startAtTick(this->getTickAtMicroSecond(microSecond), nullptr);
 }
 
 /**
  * 
  */
 bool CoreTimer::startAtTime(uint32_t microSecond, Event* event){
-  if(this->isBusy())
-    return false;
+  return this->startAtTick(this->getTickAtMicroSecond(microSecond), event);
+}
+
+/* ****************************************************************************************
+ * Public Method <Override> mcuf::function::Runnable
+ */
+
+/**
+ *
+ */
+void CoreTimer::run(void){
+  if(tmr_flag_get(BASE, TMR_OVF_FLAG) == RESET)
+    return;
   
-  this->mEvent = event;
-  
-  if(!this->configTime(microSecond)){
-    this->mEvent = nullptr;
-    return false;
-  }
-  
-  TMR_INTConfig(BASE, TMR_INT_Overflow, ENABLE);
-  this->interruptEnable(true);
-  TMR_Cmd(BASE, ENABLE);
-  
-  return true;
+  tmr_flag_clear(BASE, TMR_OVF_FLAG);
+
+  if(this->mEvent == nullptr)
+    return;
+      
+  this->mEvent->onTimerEvent(Event::TRIGGER);
+  return;
 }
 
 /* ****************************************************************************************
@@ -285,28 +266,23 @@ void CoreTimer::execute(void){
  *
  */
 void CoreTimer::configTick(uint32_t tick){
-  TMR_TimerBaseInitType config;
-  TMR_TimeBaseStructInit(&config);
-  config.TMR_DIV = 1 + (tick>>16);
-  config.TMR_Period = (tick/config.TMR_DIV);
-  config.TMR_ClockDivision = 0;
-  config.TMR_CounterMode = TMR_CounterDIR_Up;
+  uint32_t div = 1 + (tick>>16);
+  uint32_t period = (tick/div);  
   
-  TMR_TimeBaseInit(BASE, &config);
+  tmr_base_init(BASE, period, div);
   return;
 }
   
 /**
  *
  */
-bool CoreTimer::configTime(uint32_t microSecond){
+uint32_t CoreTimer::getTickAtMicroSecond(uint32_t microSecond){
   uint32_t timeUsBase = (Core::getSystemCoreClock()/1000000);
   
   if(microSecond > (0xFFFFFFFF/timeUsBase))
-    return false;
-  
-  this->configTick(microSecond * timeUsBase);
-  return true;
+    return 0;
+
+  return (microSecond * timeUsBase);
 }
 
 /**
