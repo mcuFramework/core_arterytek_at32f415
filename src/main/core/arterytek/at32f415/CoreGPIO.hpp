@@ -20,7 +20,7 @@ namespace core{
   namespace arterytek{
     namespace at32f415{
       class Core;
-      class CoreGPIO;
+      class CoreGpio;
       class CorePin;
     }
   }
@@ -31,7 +31,7 @@ namespace core{
 /* ****************************************************************************************
  * Class Object
  */  
-class core::arterytek::at32f415::CoreGPIO extends mcuf::lang::Object
+class core::arterytek::at32f415::CoreGpio extends mcuf::lang::Object
       implements mcuf::hal::GeneralPurposeIO{
 
   friend Core;   
@@ -99,12 +99,12 @@ class core::arterytek::at32f415::CoreGPIO extends mcuf::lang::Object
   /**
    * Construct.
    */
-  private: CoreGPIO(Register reg);
+  private: CoreGpio(Register reg);
 
   /**
    * Disconstruct.
    */
-  public: virtual ~CoreGPIO(void) = default;
+  public: virtual ~CoreGpio(void) = default;
 
   /* **************************************************************************************
    * Operator Method
@@ -115,13 +115,29 @@ class core::arterytek::at32f415::CoreGPIO extends mcuf::lang::Object
    */
 
   /* **************************************************************************************
-   * Public Method <Override>
+   * Public Method <Override> mcuf::hal::Base
    */
 
   /**
    * uninitialze hardware.
    */
   public: virtual bool deinit(void) override;
+
+  /**
+   * initialze hardware;
+   */
+  public: virtual bool init(void) override;
+
+  /**
+   * get hardware initialzed status.
+   * 
+   * @return false = not init, true = initd
+   */
+  public: virtual bool isInit(void) override;
+
+  /* **************************************************************************************
+   * Public Method <Override>
+   */
 
   /**
    * 
@@ -142,18 +158,6 @@ class core::arterytek::at32f415::CoreGPIO extends mcuf::lang::Object
    * 
    */
   public: virtual void dirSet(uint32_t port, uint32_t mask) override;
-
-  /**
-   * initialze hardware;
-   */
-  public: virtual bool init(void) override;
-
-  /**
-   * get hardware initialzed status.
-   * 
-   * @return false = not init, true = initd
-   */
-  public: virtual bool isInit(void) override;
 
   /**
    * 

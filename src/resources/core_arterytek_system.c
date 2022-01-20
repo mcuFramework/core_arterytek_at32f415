@@ -19,7 +19,7 @@
   * @{
   */
 
-#include "bsp_arterytek_at32f415/at32f4xx.h"
+#include "bsp_arterytek_at32f415/at32f415.h"
 
 /**
   * @}

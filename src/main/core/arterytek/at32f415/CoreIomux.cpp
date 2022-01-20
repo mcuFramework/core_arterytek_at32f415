@@ -8,14 +8,14 @@
 /* ****************************************************************************************
  * Include
  */ 
-#include "CoreAFIO.hpp"
+#include "CoreIomux.hpp"
 
-#include "bsp_arterytek_at32f415/at32f4xx.h"
+#include "bsp_arterytek_at32f415/at32f415.h"
 
 /* ****************************************************************************************
  * Using
  */  
-using core::arterytek::at32f415::CoreAFIO;
+using core::arterytek::at32f415::CoreIomux;
 
 /* ****************************************************************************************
  * Variable <Static>
@@ -40,30 +40,30 @@ using core::arterytek::at32f415::CoreAFIO;
 /** 
  *
  */
-bool CoreAFIO::deinit(void){
+bool CoreIomux::deinit(void){
   if(!this->isInit())
     return false;
   
-  RCC->APB2EN &= ~RCC_APB2PERIPH_AFIO;
+  crm_periph_clock_enable(CRM_IOMUX_PERIPH_CLOCK, FALSE);
   return true;
 }
 
 /**
  *
  */
-bool CoreAFIO::init(void){
+bool CoreIomux::init(void){
   if(this->isInit())
     return false;
   
-  RCC->APB2EN |= RCC_APB2PERIPH_AFIO;
+   crm_periph_clock_enable(CRM_IOMUX_PERIPH_CLOCK, TRUE);
   return true;
 }
 
 /**
  *
  */
-bool CoreAFIO::isInit(void){
-  return (RCC->APB2EN & RCC_APB2PERIPH_AFIO); 
+bool CoreIomux::isInit(void){
+  return CRM_REG(CRM_IOMUX_PERIPH_CLOCK) & CRM_REG_BIT(CRM_IOMUX_PERIPH_CLOCK);
 }
 
 /* ****************************************************************************************
@@ -73,98 +73,98 @@ bool CoreAFIO::isInit(void){
 /**
  *
  */
-void CoreAFIO::remapCAN(MapCAN map){
-  this->remap(&AFIO->MAP6, MapCAN::CAN_MASK, map);
+void CoreIomux::remapCAN(MapCAN map){
+  this->remap(&IOMUX->remap6, MapCAN::CAN_MASK, map);
 }
 
 /**
  *
  */
-void CoreAFIO::remapCOMP(MapCOMP map){
-  this->remap(&AFIO->MAP6, MapCOMP::COMP_MASK, map);
+void CoreIomux::remapCOMP(MapCOMP map){
+  this->remap(&IOMUX->remap6, MapCOMP::COMP_MASK, map);
 }
 
 /**
  *
  */
-void CoreAFIO::remapDEBUG(MapDEBUG map){
-  this->remap(&AFIO->MAP7, MapDEBUG::DEBUG_MASK, map);
+void CoreIomux::remapDEBUG(MapDEBUG map){
+  this->remap(&IOMUX->remap7, MapDEBUG::DEBUG_MASK, map);
 }
 
 /**
  *
  */
-void CoreAFIO::remapEXTI(MapEXTI map, uint8_t pin){
+void CoreIomux::remapEXTI(MapEXTI map, uint8_t pin){
   if(pin >= 16)
     return;
   
   uint8_t array = (pin >> 2);  //pin/4
   uint8_t shift = ((pin & 0x00000003) << 2);  //(pin%4)*4
-  
-  this->remap(&AFIO->EXTIC[array], (0x0000000F << shift), (map << shift));
+  volatile uint32_t* reg = &IOMUX->exintc1;
+  this->remap(&reg[array], (0x0000000F << shift), (map << shift));
   return;
 }
 
 /**
  *
  */
-void CoreAFIO::remapI2C1(MapI2C1 map){
-  this->remap(&AFIO->MAP5, MapI2C1::I2C1_MASK, map);
+void CoreIomux::remapI2C1(MapI2C1 map){
+  this->remap(&IOMUX->remap5, MapI2C1::I2C1_MASK, map);
 }
 
 /**
  *
  */
-void CoreAFIO::remapI2C2(MapI2C2 map){
-  this->remap(&AFIO->MAP5, MapI2C2::I2C2_MASK, map);
-}
-
-
-/**
- *
- */
-void CoreAFIO::remapSDIO(MapSDIO map){
-  this->remap(&AFIO->MAP6, MapSDIO::SDIO_MASK, map);
+void CoreIomux::remapI2C2(MapI2C2 map){
+  this->remap(&IOMUX->remap5, MapI2C2::I2C2_MASK, map);
 }
 
 
 /**
  *
  */
-void CoreAFIO::remapSPI1(MapSPI1 map){
-  this->remap(&AFIO->MAP5, MapSPI1::SPI1_MASK, map);
+void CoreIomux::remapSDIO(MapSDIO map){
+  this->remap(&IOMUX->remap6, MapSDIO::SDIO_MASK, map);
 }
 
 
 /**
  *
  */
-void CoreAFIO::remapSPI2(MapSPI2 map){
-  this->remap(&AFIO->MAP5, MapSPI2::SPI2_MASK, map);
+void CoreIomux::remapSPI1(MapSPI1 map){
+  this->remap(&IOMUX->remap5, MapSPI1::SPI1_MASK, map);
 }
 
 
 /**
  *
  */
-void CoreAFIO::remapUSART1(MapUSART1 map){
-  this->remap(&AFIO->MAP6, MapUSART1::USART1_MASK, map);
+void CoreIomux::remapSPI2(MapSPI2 map){
+  this->remap(&IOMUX->remap5, MapSPI2::SPI2_MASK, map);
 }
 
 
 /**
  *
  */
-void CoreAFIO::remapUSART3(MapUSART3 map){
-  this->remap(&AFIO->MAP6, MapUSART3::USART3_MASK, map);
+void CoreIomux::remapUSART1(MapUSART1 map){
+  this->remap(&IOMUX->remap6, MapUSART1::USART1_MASK, map);
 }
 
 
 /**
  *
  */
-void CoreAFIO::remapUART4(MapUART4 map){
-  this->remap(&AFIO->MAP6, MapUART4::UART4_MASK, map);
+void CoreIomux::remapUSART3(MapUSART3 map){
+  this->remap(&IOMUX->remap6, MapUSART3::USART3_MASK, map);
+}
+
+
+/**
+ *
+ */
+void CoreIomux::remapUART4(MapUART4 map){
+  this->remap(&IOMUX->remap6, MapUART4::UART4_MASK, map);
 }
 
 
@@ -183,7 +183,7 @@ void CoreAFIO::remapUART4(MapUART4 map){
 /* ****************************************************************************************
  * Private Method
  */
-void CoreAFIO::remap(volatile uint32_t* reg, uint32_t mask, uint32_t value){
+void CoreIomux::remap(volatile uint32_t* reg, uint32_t mask, uint32_t value){
   uint32_t cache = (*reg & ~mask);
   *reg = (cache | value);
   return;

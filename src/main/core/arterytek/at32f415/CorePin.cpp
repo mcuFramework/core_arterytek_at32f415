@@ -10,19 +10,19 @@
  */  
 #include "CorePin.hpp"
 
-#include "bsp_arterytek_at32f415/at32f4xx.h"
-#include "core/arterytek/at32f415/CoreGPIO.hpp"
+#include "bsp_arterytek_at32f415/at32f415.h"
+#include "core/arterytek/at32f415/CoreGpio.hpp"
 
 /* ****************************************************************************************
  * Macro
  */  
 #define GET_CTRL_DIR(source, shift) ((source & (0x00000003 << (shift << 2)))?1:0)
-#define GET_BASE(x)                 ((GPIO_Type*)x)
+#define GET_BASE(x)                 ((gpio_type*)x)
 
 /* ****************************************************************************************
  * Using
  */  
-using core::arterytek::at32f415::CoreGPIO;
+using core::arterytek::at32f415::CoreGpio;
 using core::arterytek::at32f415::CorePin;
 
 
@@ -33,7 +33,7 @@ using core::arterytek::at32f415::CorePin;
 /**
  * 
  */
-CorePin::CorePin(CoreGPIO* base, uint32_t pin){
+CorePin::CorePin(CoreGpio* base, uint32_t pin){
   this->mBase = base->getBase();
   this->mPin = pin;
 }
@@ -58,9 +58,9 @@ CorePin::CorePin(CoreGPIO* base, uint32_t pin){
  */
 bool CorePin::dir(void){
   if(this->mPin >= 8)
-    return GET_CTRL_DIR(GET_BASE(this->mBase)->CTRLL, this->mPin);
+    return GET_CTRL_DIR(GET_BASE(this->mBase)->cfglr, this->mPin);
   else
-    return GET_CTRL_DIR(GET_BASE(this->mBase)->CTRLH, (this->mPin-8));
+    return GET_CTRL_DIR(GET_BASE(this->mBase)->cfghr, (this->mPin-8));
 }
 
 /**   
@@ -91,10 +91,10 @@ bool CorePin::pinMode(PinMode mode){
   volatile uint32_t *reg;
   
   if(this->mPin < 8)
-    reg = &GET_BASE(this->mBase)->CTRLL;
+    reg = &GET_BASE(this->mBase)->cfglr;
   
   else
-    reg = &GET_BASE(this->mBase)->CTRLH;
+    reg = &GET_BASE(this->mBase)->cfghr;
   
   uint32_t ctrl = ((*reg) & ~(0x0000000F << shift)); 
 
@@ -117,7 +117,7 @@ bool CorePin::pinMode(PinMode mode){
         return false;
       
       *reg = (ctrl | (0x00000008 << shift));
-      GET_BASE(this->mBase)->BSRE |= (1 << this->mPin);
+      GET_BASE(this->mBase)->scr |= (1 << this->mPin);
       return true;
     
     //-------------------------------------------------------------------------------------
@@ -126,7 +126,7 @@ bool CorePin::pinMode(PinMode mode){
         return false;
       
       *reg = (ctrl | (0x00000008 << shift));
-      GET_BASE(this->mBase)->BRE |= (1 << this->mPin);
+      GET_BASE(this->mBase)->clr |= (1 << this->mPin);
       return true;      
       
     //-------------------------------------------------------------------------------------
@@ -151,7 +151,7 @@ bool CorePin::pinMode(PinMode mode){
  * Set io pin to high.
  */
 void CorePin::setHigh(void){
-  GET_BASE(this->mBase)->BSRE |= (1 << this->mPin);
+  GET_BASE(this->mBase)->scr |= (1 << this->mPin);
   return;
 }
 
@@ -163,10 +163,10 @@ void CorePin::setInput(void){
   volatile uint32_t *reg;
   
   if(this->mPin < 8)
-    reg = &GET_BASE(this->mBase)->CTRLL;
+    reg = &GET_BASE(this->mBase)->cfglr;
   
   else
-    reg = &GET_BASE(this->mBase)->CTRLH;
+    reg = &GET_BASE(this->mBase)->cfghr;
   
   uint32_t ctrl = ((*reg) & ~(0x0000000F << shift));   
   
@@ -177,7 +177,7 @@ void CorePin::setInput(void){
  * Set io pin to low.
  */
 void CorePin::setLow(void){
-  GET_BASE(this->mBase)->BRE |= (1 << this->mPin);
+  GET_BASE(this->mBase)->clr |= (1 << this->mPin);
 }
 
 /**
@@ -188,10 +188,10 @@ void CorePin::setOutput(void){
   volatile uint32_t *reg;
   
   if(this->mPin < 8)
-    reg = &GET_BASE(this->mBase)->CTRLL;
+    reg = &GET_BASE(this->mBase)->cfglr;
   
   else
-    reg = &GET_BASE(this->mBase)->CTRLH;
+    reg = &GET_BASE(this->mBase)->cfghr;
   
   uint32_t ctrl = ((*reg) & ~(0x0000000F << shift));   
   
@@ -202,7 +202,7 @@ void CorePin::setOutput(void){
  * Set io not logic.
  */
 void CorePin::setToggle(void){
-  GET_BASE(this->mBase)->OPTDT ^= (1 << this->mPin);
+  GET_BASE(this->mBase)->odt ^= (1 << this->mPin);
 }
 
 /**
@@ -211,7 +211,7 @@ void CorePin::setToggle(void){
  * @return false = low, true = high.
  */
 bool CorePin::value(void){
-	return (GET_BASE(this->mBase)->IPTDT & (1 << this->mPin));
+	return (GET_BASE(this->mBase)->idt & (1 << this->mPin));
 }
 
 /**
@@ -221,9 +221,9 @@ bool CorePin::value(void){
  */
 void CorePin::value(bool level){
 	if(level)
-	  GET_BASE(this->mBase)->BSRE |= (1 << this->mPin);
+	  GET_BASE(this->mBase)->scr |= (1 << this->mPin);
 	else
-	  GET_BASE(this->mBase)->BRE |= (1 << this->mPin);
+	  GET_BASE(this->mBase)->clr |= (1 << this->mPin);
 }
 
 /* ****************************************************************************************

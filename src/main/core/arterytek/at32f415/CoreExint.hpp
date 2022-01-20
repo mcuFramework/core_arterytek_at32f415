@@ -20,7 +20,7 @@
 namespace core{
   namespace arterytek{
     namespace at32f415{
-      class CoreEXTI;
+      class CoreExint;
     }
   }
 }
@@ -28,7 +28,7 @@ namespace core{
 /* ****************************************************************************************
  * Class Object
  */  
-class core::arterytek::at32f415::CoreEXTI extends mcuf::lang::Object
+class core::arterytek::at32f415::CoreExint extends mcuf::lang::Object
   implements mcuf::hal::EdgeTrigger, mcuf::function::Runnable{
 
   /* **************************************************************************************
@@ -91,12 +91,12 @@ class core::arterytek::at32f415::CoreEXTI extends mcuf::lang::Object
   /**
    * Construct.
    */
-  public: CoreEXTI(Register reg);
+  public: CoreExint(Register reg);
 
   /**
    * Destruct.
    */
-  public: ~CoreEXTI(void);
+  public: ~CoreExint(void);
 
   /* **************************************************************************************
    * Operator Method

@@ -11,9 +11,9 @@
 #include "core/arterytek/at32f415/Core.hpp" 
 #include "core/arterytek/at32f415/CoreInterrupt.hpp" 
 
-#include "bsp_arterytek_at32f415/at32f4xx.h"
+#include "bsp_arterytek_at32f415/at32f415.h"
 #include "bsp_arterytek_at32f415/core_cm4.h"
-#include "bsp_arterytek_at32f415/at32f4xx_exti.h"
+#include "bsp_arterytek_at32f415/at32f415_exint.h"
 
 /* ****************************************************************************************
  * Using
@@ -129,7 +129,7 @@ extern "C" void UART5_IRQHandler(void){
 /**
  *
  */
-extern "C" void TMR1_CC_IRQHandler(void){
+extern "C" void TMR1_CH_IRQHandler(void){
   Core::interrupt.mHandle[CoreInterrupt::IRQ_TMR1_CC]->run();
 }
 
@@ -137,10 +137,10 @@ extern "C" void TMR1_CC_IRQHandler(void){
  *
  */
 extern "C" void TMR1_BRK_TMR9_IRQHandler(void){
-  if(TMR1->STS & TMR_STS_BRKIF)
+  if(TMR1->ists_bit.brkif)
     Core::interrupt.mHandle[CoreInterrupt::IRQ_TMR1_BRK]->run();
   
-  if(TMR9->STS)
+  if(TMR9->ists)
     Core::interrupt.mHandle[CoreInterrupt::IRQ_TMR9]->run();
 
 }
@@ -148,23 +148,23 @@ extern "C" void TMR1_BRK_TMR9_IRQHandler(void){
 /**
  *
  */
-extern "C" void TMR1_OV_TMR10_IRQHandler(void){
-  if(TMR1->STS & TMR_STS_UEVIF)
+extern "C" void TMR1_OVF_TMR10_IRQHandler(void){
+  if(TMR1->ists_bit.ovfif)
     Core::interrupt.mHandle[CoreInterrupt::IRQ_TMR1]->run();
     
   
-  if(TMR10->STS)
+  if(TMR10->ists)
      Core::interrupt.mHandle[CoreInterrupt::IRQ_TMR10]->run();
 }
 
 /**
  *
  */
-extern "C" void TMR1_TRG_COM_TMR11_IRQHandler(void){
-  if(TMR1->STS)
+extern "C" void TMR1_TRG_HALL_TMR11_IRQHandler(void){
+  if(TMR1->ists_bit.trgif)
     Core::interrupt.mHandle[CoreInterrupt::IRQ_TMR1_TRG_COM]->run();
   
-  if(TMR11->STS)
+  if(TMR11->ists)
     Core::interrupt.mHandle[CoreInterrupt::IRQ_TMR11]->run();
 }
 
@@ -199,63 +199,63 @@ extern "C" void TMR5_GLOBAL_IRQHandler(void){
 
 
 /* ****************************************************************************************
- * Function - EXTI
+ * Function - EXINT
  */
 
 /**
  *
  */
-extern "C" void EXTI0_IRQHandler(void){
-  Core::interrupt.mHandle[CoreInterrupt::IRQ_EXTI0]->run();
+extern "C" void EXINT0_IRQHandler(void){
+  Core::interrupt.mHandle[CoreInterrupt::IRQ_EXINT0]->run();
 }
 
 /**
  *
  */
-extern "C" void EXTI1_IRQHandler(void){
-  Core::interrupt.mHandle[CoreInterrupt::IRQ_EXTI1]->run();
+extern "C" void EXINT1_IRQHandler(void){
+  Core::interrupt.mHandle[CoreInterrupt::IRQ_EXINT1]->run();
 }
 
 /**
  *
  */
-extern "C" void EXTI2_IRQHandler(void){
-  Core::interrupt.mHandle[CoreInterrupt::IRQ_EXTI2]->run();
+extern "C" void EXINT2_IRQHandler(void){
+  Core::interrupt.mHandle[CoreInterrupt::IRQ_EXINT2]->run();
 }
 
 /**
  *
  */
-extern "C" void EXTI3_IRQHandler(void){
-  Core::interrupt.mHandle[CoreInterrupt::IRQ_EXTI3]->run();
+extern "C" void EXINT3_IRQHandler(void){
+  Core::interrupt.mHandle[CoreInterrupt::IRQ_EXINT3]->run();
 }
 
 /**
  *
  */
-extern "C" void EXTI4_IRQHandler(void){
-  Core::interrupt.mHandle[CoreInterrupt::IRQ_EXTI4]->run();
+extern "C" void EXINT4_IRQHandler(void){
+  Core::interrupt.mHandle[CoreInterrupt::IRQ_EXINT4]->run();
 }
 
 /**
  *
  */
-extern "C" void EXTI9_5_IRQHandler(void){
+extern "C" void EXINT9_5_IRQHandler(void){
   for(;;){
-		if(EXTI->PND & 0x00000020)
-      Core::interrupt.mHandle[CoreInterrupt::IRQ_EXTI5]->run();
+		if(EXINT->intsts & 0x00000020)
+      Core::interrupt.mHandle[CoreInterrupt::IRQ_EXINT5]->run();
 		
-		else if(EXTI->PND & 0x00000040)
-			Core::interrupt.mHandle[CoreInterrupt::IRQ_EXTI6]->run();
+		else if(EXINT->intsts & 0x00000040)
+			Core::interrupt.mHandle[CoreInterrupt::IRQ_EXINT6]->run();
 		
-		else if(EXTI->PND & 0x00000080)
-			Core::interrupt.mHandle[CoreInterrupt::IRQ_EXTI7]->run();
+		else if(EXINT->intsts & 0x00000080)
+			Core::interrupt.mHandle[CoreInterrupt::IRQ_EXINT7]->run();
 		
-		else if(EXTI->PND & 0x00000100)
-			Core::interrupt.mHandle[CoreInterrupt::IRQ_EXTI8]->run();
+		else if(EXINT->intsts & 0x00000100)
+			Core::interrupt.mHandle[CoreInterrupt::IRQ_EXINT8]->run();
 		
-		else if(EXTI->PND & 0x00000200)
-			Core::interrupt.mHandle[CoreInterrupt::IRQ_EXTI9]->run();
+		else if(EXINT->intsts & 0x00000200)
+			Core::interrupt.mHandle[CoreInterrupt::IRQ_EXINT9]->run();
 		
 		else
 			break;
@@ -265,25 +265,25 @@ extern "C" void EXTI9_5_IRQHandler(void){
 /**
  *
  */
-extern "C" void EXTI15_10_IRQHandler(void){
+extern "C" void EXINT15_10_IRQHandler(void){
 	for(;;){
-		if(EXTI->PND & 0x00000400)
-			Core::interrupt.mHandle[CoreInterrupt::IRQ_EXTI10]->run();
+		if(EXINT->intsts & 0x00000400)
+			Core::interrupt.mHandle[CoreInterrupt::IRQ_EXINT10]->run();
 		
-		else if(EXTI->PND & 0x00000800)
-			Core::interrupt.mHandle[CoreInterrupt::IRQ_EXTI11]->run();
+		else if(EXINT->intsts & 0x00000800)
+			Core::interrupt.mHandle[CoreInterrupt::IRQ_EXINT11]->run();
 		
-		else if(EXTI->PND & 0x00001000)
-			Core::interrupt.mHandle[CoreInterrupt::IRQ_EXTI12]->run();
+		else if(EXINT->intsts & 0x00001000)
+			Core::interrupt.mHandle[CoreInterrupt::IRQ_EXINT12]->run();
 		
-		else if(EXTI->PND & 0x00002000)
-			Core::interrupt.mHandle[CoreInterrupt::IRQ_EXTI13]->run();
+		else if(EXINT->intsts & 0x00002000)
+			Core::interrupt.mHandle[CoreInterrupt::IRQ_EXINT13]->run();
 		
-		else if(EXTI->PND & 0x00004000)
-			Core::interrupt.mHandle[CoreInterrupt::IRQ_EXTI14]->run();
+		else if(EXINT->intsts & 0x00004000)
+			Core::interrupt.mHandle[CoreInterrupt::IRQ_EXINT14]->run();
 		
-		else if(EXTI->PND & 0x00008000)
-			Core::interrupt.mHandle[CoreInterrupt::IRQ_EXTI15]->run();
+		else if(EXINT->intsts & 0x00008000)
+			Core::interrupt.mHandle[CoreInterrupt::IRQ_EXINT15]->run();
 		
 		else
 			break;

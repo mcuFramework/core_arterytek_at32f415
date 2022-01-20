@@ -12,10 +12,10 @@
 #include <string.h>
  
 //-----------------------------------------------------------------------------------------
-#include "bsp_arterytek_at32f415/at32f4xx.h"
+#include "bsp_arterytek_at32f415/at32f415.h"
 #include "core/arterytek/at32f415/Core.hpp"
 #include "core/arterytek/at32f415/CoreInterrupt.hpp"
-#include "core/arterytek/at32f415/CoreUSART.hpp"
+#include "core/arterytek/at32f415/CoreUsart.hpp"
 
 /* ****************************************************************************************
  * Namespace
@@ -24,7 +24,7 @@ namespace core{
   namespace arterytek{
     namespace at32f415{
       
-      struct CoreUSARTConfig{
+      struct CoreUsartConfig{
         void* Register;
         volatile uint32_t* clock;
         uint32_t clockMask;
@@ -44,7 +44,7 @@ namespace core{
 /* ****************************************************************************************
  * Using
  */  
-using core::arterytek::at32f415::CoreUSART;
+using core::arterytek::at32f415::CoreUsart;
 using mcuf::function::Consumer;
 using mcuf::lang::Memory;
 using mcuf::lang::Pointer;
@@ -69,7 +69,7 @@ using mcuf::hal::SerialPort;
 /**
  * 
  */
-CoreUSART::CoreUSART(CoreUSART::Register reg, const Memory& memory) construct RingBuffer(memory){
+CoreUsart::CoreUsart(CoreUsart::Register reg, const Memory& memory) construct RingBuffer(memory){
   this->mRegister = reg;
   this->mPacketRead.clear();
   this->mPacketWrite.clear();
@@ -79,7 +79,7 @@ CoreUSART::CoreUSART(CoreUSART::Register reg, const Memory& memory) construct Ri
 /**
  * 
  */
-CoreUSART::~CoreUSART(void){
+CoreUsart::~CoreUsart(void){
   this->deinit();
   return;
 }
@@ -99,7 +99,7 @@ CoreUSART::~CoreUSART(void){
 /**
  * uninitialze hardware.
  */
-bool CoreUSART::deinit(void){
+bool CoreUsart::deinit(void){
   if(!this->isInit())
     return false;
   
@@ -115,7 +115,7 @@ bool CoreUSART::deinit(void){
 /**
  * initialze hardware;
  */
-bool CoreUSART::init(void){
+bool CoreUsart::init(void){
   if(this->isInit())
     return false;
   
@@ -145,7 +145,7 @@ bool CoreUSART::init(void){
  * 
  * @return false = not init, true = initd
  */
-bool CoreUSART::isInit(void){
+bool CoreUsart::isInit(void){
   return *CONFIG.clock & CONFIG.clockMask;
 }
 
@@ -156,28 +156,28 @@ bool CoreUSART::isInit(void){
 /**
  * 
  */
-bool CoreUSART::abortRead(void){
+bool CoreUsart::abortRead(void){
   return false;
 }
 
 /**
  * 
  */
-bool CoreUSART::abortWrite(void){
+bool CoreUsart::abortWrite(void){
   return false;
 }
 
 /**
  * 
  */
-uint32_t CoreUSART::baudrate(void){
+uint32_t CoreUsart::baudrate(void){
   return 0;
 }
 
 /**
  * 
  */
-uint32_t CoreUSART::baudrate(uint32_t rate){
+uint32_t CoreUsart::baudrate(uint32_t rate){
   USART_SetBaudrate(BASE, rate);
   return 0;
 }
@@ -185,21 +185,21 @@ uint32_t CoreUSART::baudrate(uint32_t rate){
 /**
  *
  */
-bool CoreUSART::readBusy(void){
+bool CoreUsart::readBusy(void){
   return this->mPacketRead.isExist();
 }
 
 /**
  *
  */
-bool CoreUSART::writeBusy(void){
+bool CoreUsart::writeBusy(void){
   return this->mPacketWrite.isExist();
 }
 
 /**
  * 
  */
-bool CoreUSART::read(ByteBuffer* byteBuffer, Event* event){
+bool CoreUsart::read(ByteBuffer* byteBuffer, Event* event){
   if(this->readBusy())
     return false;
   
@@ -238,7 +238,7 @@ bool CoreUSART::read(ByteBuffer* byteBuffer, Event* event){
 /**
  * 
  */
-bool CoreUSART::write(ByteBuffer* byteBuffer, Event* event){
+bool CoreUsart::write(ByteBuffer* byteBuffer, Event* event){
   
   if(this->writeBusy())
     return false;
@@ -256,7 +256,7 @@ bool CoreUSART::write(ByteBuffer* byteBuffer, Event* event){
 /* ****************************************************************************************
  * Public Method <Override> - mcuf::function::Runnable
  */
-void CoreUSART::run(void){
+void CoreUsart::run(void){
   USART_Type* base = BASE;
   
   if(USART_GetITStatus(base, USART_INT_RDNE) != RESET){
@@ -302,14 +302,14 @@ void CoreUSART::run(void){
 /**
  *
  */
-void CoreUSART::flush(void){
+void CoreUsart::flush(void){
 
 }
   
 /**
  *  write nonBlocking
  */
-void CoreUSART::write(ByteBuffer* byteBuffer, void* attachment, CompletionHandler<int, void*>* handler){
+void CoreUsart::write(ByteBuffer* byteBuffer, void* attachment, CompletionHandler<int, void*>* handler){
                      
 }  
 
@@ -356,7 +356,7 @@ void CoreUSART::write(ByteBuffer* byteBuffer, void* attachment, CompletionHandle
 /**
  *
  */
-void CoreUSART::Packet::run(void){
+void CoreUsart::Packet::run(void){
   
   ByteBuffer* byteBuffer = this->mByteBuffer;
   Event* event = this->mEvent;
@@ -375,7 +375,7 @@ void CoreUSART::Packet::run(void){
 /**
  *
  */
-void CoreUSART::Packet::clear(void){
+void CoreUsart::Packet::clear(void){
   this->mPointer = nullptr;
   this->mByteBuffer = nullptr;
   this->mCount = 0;
@@ -385,7 +385,7 @@ void CoreUSART::Packet::clear(void){
 /**
  *
  */
-bool CoreUSART::Packet::init(ByteBuffer& byteBuffer, Event* event){
+bool CoreUsart::Packet::init(ByteBuffer& byteBuffer, Event* event){
   if(this->isExist())
     return false;
   
@@ -404,7 +404,7 @@ bool CoreUSART::Packet::init(ByteBuffer& byteBuffer, Event* event){
 /**
  *
  */
-bool CoreUSART::Packet::isExist(void){
+bool CoreUsart::Packet::isExist(void){
   return this->mByteBuffer;
 }
 

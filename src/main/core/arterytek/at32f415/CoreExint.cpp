@@ -10,9 +10,9 @@
  */  
 
 //-----------------------------------------------------------------------------------------
-#include "bsp_arterytek_at32f415/at32f4xx.h"
+#include "bsp_arterytek_at32f415/at32f415.h"
 #include "core/arterytek/at32f415/Core.hpp"
-#include "core/arterytek/at32f415/CoreEXTI.hpp"
+#include "core/arterytek/at32f415/CoreExint.hpp"
 #include "core/arterytek/at32f415/CoreInterrupt.hpp"
 #include "mcuf.h"
 
@@ -22,25 +22,25 @@
 namespace core{
   namespace arterytek{
     namespace at32f415{
-      struct ConfigCoreEXTI{
+      struct ConfigCoreExint{
         CoreInterrupt::Irq irq;
-      }const configCoreEXTI[16]{
-        {CoreInterrupt::IRQ_EXTI0},
-        {CoreInterrupt::IRQ_EXTI1},
-        {CoreInterrupt::IRQ_EXTI2},
-        {CoreInterrupt::IRQ_EXTI3},
-        {CoreInterrupt::IRQ_EXTI4},
-        {CoreInterrupt::IRQ_EXTI5},
-        {CoreInterrupt::IRQ_EXTI6},
-        {CoreInterrupt::IRQ_EXTI7},
-        {CoreInterrupt::IRQ_EXTI8},
-        {CoreInterrupt::IRQ_EXTI9},
-        {CoreInterrupt::IRQ_EXTI10},
-        {CoreInterrupt::IRQ_EXTI11},
-        {CoreInterrupt::IRQ_EXTI12},
-        {CoreInterrupt::IRQ_EXTI13},
-        {CoreInterrupt::IRQ_EXTI14},
-        {CoreInterrupt::IRQ_EXTI15},
+      }const configCoreExint[16]{
+        {CoreInterrupt::IRQ_EXINT0},
+        {CoreInterrupt::IRQ_EXINT1},
+        {CoreInterrupt::IRQ_EXINT2},
+        {CoreInterrupt::IRQ_EXINT3},
+        {CoreInterrupt::IRQ_EXINT4},
+        {CoreInterrupt::IRQ_EXINT5},
+        {CoreInterrupt::IRQ_EXINT6},
+        {CoreInterrupt::IRQ_EXINT7},
+        {CoreInterrupt::IRQ_EXINT8},
+        {CoreInterrupt::IRQ_EXINT9},
+        {CoreInterrupt::IRQ_EXINT10},
+        {CoreInterrupt::IRQ_EXINT11},
+        {CoreInterrupt::IRQ_EXINT12},
+        {CoreInterrupt::IRQ_EXINT13},
+        {CoreInterrupt::IRQ_EXINT14},
+        {CoreInterrupt::IRQ_EXINT15},
       };
       
     }
@@ -52,20 +52,20 @@ namespace core{
  */  
 using mcuf::hal::EdgeTrigger;
 using core::arterytek::at32f415::Core;
-using core::arterytek::at32f415::CoreEXTI;
+using core::arterytek::at32f415::CoreExint;
 
 /* ****************************************************************************************
  * Macro
  */
-#define CONFIG                   (configCoreEXTI[this->mRegister])
-#define BASE                     (EXTI)
+#define CONFIG                   (configCoreExint[this->mRegister])
+#define BASE                     (EXINT)
 
 /* ****************************************************************************************
  * Variable <Static>
  */
-uint16_t CoreEXTI::channelEnable = 0x0000U;
-uint16_t CoreEXTI::channelMode = 0x0000U;
-uint16_t CoreEXTI::channelLevel = 0x0000U;
+uint16_t CoreExint::channelEnable = 0x0000U;
+uint16_t CoreExint::channelMode = 0x0000U;
+uint16_t CoreExint::channelLevel = 0x0000U;
 
 /* ****************************************************************************************
  * Construct Method
@@ -74,14 +74,14 @@ uint16_t CoreEXTI::channelLevel = 0x0000U;
 /**
  *
  */
-CoreEXTI::CoreEXTI(Register reg){
+CoreExint::CoreExint(Register reg){
   this->mRegister = reg;
 }
 
 /**
  *
  */
-CoreEXTI::~CoreEXTI(void){
+CoreExint::~CoreExint(void){
   this->deinit();
 }
 
@@ -100,11 +100,11 @@ CoreEXTI::~CoreEXTI(void){
 /**
  * uninitialze hardware.
  */
-bool CoreEXTI::deinit(void){
-	if(!(CoreEXTI::channelEnable & (1 << this->mRegister)))
+bool CoreExint::deinit(void){
+	if(!(CoreExint::channelEnable & (1 << this->mRegister)))
 		return false;
   
-  CoreEXTI::channelEnable &= ~(1 << this->mRegister);
+  CoreExint::channelEnable &= ~(1 << this->mRegister);
   Core::interrupt.irqHandler(CONFIG.irq, false);
   Core::interrupt.setHandler(CONFIG.irq, nullptr);  
   this->periphReset();
@@ -114,11 +114,11 @@ bool CoreEXTI::deinit(void){
 /**
  * initialze hardware;
  */
-bool CoreEXTI::init(void){
-  if(CoreEXTI::channelEnable & (1 << this->mRegister))
+bool CoreExint::init(void){
+  if(CoreExint::channelEnable & (1 << this->mRegister))
     return false;
   
-  CoreEXTI::channelEnable |= (1 << this->mRegister);
+  CoreExint::channelEnable |= (1 << this->mRegister);
   this->periphReset();
   Core::interrupt.setHandler(CONFIG.irq, this);
   Core::interrupt.irqHandler(CONFIG.irq, true);
@@ -131,8 +131,8 @@ bool CoreEXTI::init(void){
  * 
  * @return false = not init, true = initd
  */
-bool CoreEXTI::isInit(void){
-  if(CoreEXTI::channelEnable & (1 << this->mRegister))
+bool CoreExint::isInit(void){
+  if(CoreExint::channelEnable & (1 << this->mRegister))
 		return true;
   
   return false;
@@ -145,21 +145,21 @@ bool CoreEXTI::isInit(void){
 /**
  * 
  */
-void CoreEXTI::disableAll(void){
+void CoreExint::disableAll(void){
   this->periphReset();
 }
 
 /**
  * 
  */
-void CoreEXTI::disableFall(void){
+void CoreExint::disableFall(void){
 	uint32_t mask = (1 << this->mRegister);
 	
 	if(this->mRunnableRise != nullptr){	        //rise disable fall enable
-		CoreEXTI::channelMode &= (~mask);	        //clear dualmode flag (rise and fall)
-		CoreEXTI::channelLevel |= mask;           //set rise mode flag
-		BASE->FTRSEL &= (~mask);                  //disable fall flag
-		BASE->RTRSEL |= mask;                     //enable rise flag
+		CoreExint::channelMode &= (~mask);	        //clear dualmode flag (rise and fall)
+		CoreExint::channelLevel |= mask;           //set rise mode flag
+		BASE->polcfg2 &= (~mask);                  //disable fall flag
+		BASE->polcfg1 |= mask;                     //enable rise flag
 		
 	}else{  //all disable
 		this->periphReset();
@@ -171,14 +171,14 @@ void CoreEXTI::disableFall(void){
 /**
  * 
  */
-void CoreEXTI::disableRise(void){
+void CoreExint::disableRise(void){
 	uint32_t mask = (1 << this->mRegister);
 	
 	if(this->mRunnableFall != nullptr){	        //rise disable fall enable
-		CoreEXTI::channelMode &= (~mask);	        //clear dualmode flag (rise and fall)
-		CoreEXTI::channelLevel &= (~mask);        //set rise mode flag
-		BASE->RTRSEL &= (~mask);                  //diasble rise flag;
-		BASE->FTRSEL |= mask;                     //enable fall flag;		
+		CoreExint::channelMode &= (~mask);	        //clear dualmode flag (rise and fall)
+		CoreExint::channelLevel &= (~mask);        //set rise mode flag
+		BASE->polcfg1 &= (~mask);                  //diasble rise flag;
+		BASE->polcfg2 |= mask;                     //enable fall flag;		
 		
 	}else{  //all disable
 		this->periphReset();
@@ -190,19 +190,19 @@ void CoreEXTI::disableRise(void){
 /**
  * 
  */
-bool CoreEXTI::enableFall(EdgeTrigger::Event* event){
+bool CoreExint::enableFall(EdgeTrigger::Event* event){
   uint32_t mask = (1 << this->mRegister);
   this->mRunnableFall = event;
   
   if(this->mRunnableRise != nullptr)
-    CoreEXTI::channelMode |= mask;    //set dualmode flag (rise and fall)
+    CoreExint::channelMode |= mask;    //set dualmode flag (rise and fall)
   
   else{
-    CoreEXTI::channelMode &= ~mask;   //clear dualmode flag (rise and fall)
-    CoreEXTI::channelLevel &= ~mask;  //set fall mode flag
-    BASE->RTRSEL &= ~mask;            //disable rise flag
-		BASE->FTRSEL |= mask;             //enable fall flag
-		BASE->INTEN |= mask;              //enable interrupt flag        
+    CoreExint::channelMode &= ~mask;   //clear dualmode flag (rise and fall)
+    CoreExint::channelLevel &= ~mask;  //set fall mode flag
+    BASE->polcfg1 &= ~mask;            //disable rise flag
+		BASE->polcfg2 |= mask;             //enable fall flag
+		BASE->inten |= mask;              //enable interrupt flag        
   }
   
   return true;
@@ -211,19 +211,19 @@ bool CoreEXTI::enableFall(EdgeTrigger::Event* event){
 /**
  * 
  */
-bool CoreEXTI::enableRise(EdgeTrigger::Event* event){
+bool CoreExint::enableRise(EdgeTrigger::Event* event){
   uint32_t mask = (1 << this->mRegister);
   this->mRunnableRise = event;
   
   if(this->mRunnableFall != nullptr)
-    CoreEXTI::channelMode |= mask;    //set dualmode flag (rise and fall)
+    CoreExint::channelMode |= mask;    //set dualmode flag (rise and fall)
   
   else{
-		CoreEXTI::channelMode &= ~mask;   //clear dualmode flag (rise and fall)
-		CoreEXTI::channelLevel |= mask;   //set rise mode flag
-		BASE->FTRSEL &= ~mask;            //disable fall flag
-		BASE->RTRSEL |= mask;             //enable rise flag
-		BASE->INTEN |= mask;              //enable interrupt flag
+		CoreExint::channelMode &= ~mask;   //clear dualmode flag (rise and fall)
+		CoreExint::channelLevel |= mask;   //set rise mode flag
+		BASE->polcfg2 &= ~mask;            //disable fall flag
+		BASE->polcfg1 |= mask;             //enable rise flag
+		BASE->inten |= mask;              //enable interrupt flag
   }
   
   return true;
@@ -236,23 +236,23 @@ bool CoreEXTI::enableRise(EdgeTrigger::Event* event){
 /**
  *
  */
-void CoreEXTI::run(void){
+void CoreExint::run(void){
 	uint32_t mask = (1 << this->mRegister);
-	bool levelFlag = (CoreEXTI::channelLevel & mask);
+	bool levelFlag = (CoreExint::channelLevel & mask);
 	
-  if(CoreEXTI::channelMode & mask){
+  if(CoreExint::channelMode & mask){
     if(levelFlag){
-      EXTI->RTRSEL &= (~mask);
-      EXTI->FTRSEL |= mask;
+      BASE->polcfg1 &= (~mask);
+      BASE->polcfg2 |= mask;
         
     }else{
-      EXTI->RTRSEL |= mask;
-      EXTI->FTRSEL &= (~mask);
+      BASE->polcfg1 |= mask;
+      BASE->polcfg2 &= (~mask);
     }
-    CoreEXTI::channelLevel ^= mask;
+    CoreExint::channelLevel ^= mask;
   }
   
-	EXTI->PND = mask;
+	BASE->intsts = mask;
 	
 	if(levelFlag){  //rise
     this->mRunnableRise->onEdgeTriggerEvent(Event::RISE);
@@ -284,14 +284,14 @@ void CoreEXTI::run(void){
 /**
  *
  */
-void CoreEXTI::periphReset(void){
+void CoreExint::periphReset(void){
   uint8_t ch = this->mRegister;
   
-  EXTI->INTEN  &= ~(1 << ch);
-  EXTI->EVTEN  &= ~(1 << ch);
-  EXTI->RTRSEL &= ~(1 << ch);
-  EXTI->FTRSEL &= ~(1 << ch);
-  EXTI->PND    |= (1 << ch);
+  BASE->inten  &= ~(1 << ch);
+  BASE->evten  &= ~(1 << ch);
+  BASE->polcfg1 &= ~(1 << ch);
+  BASE->polcfg2 &= ~(1 << ch);
+  BASE->intsts    |= (1 << ch);
   
   this->mRunnableRise = nullptr;
   this->mRunnableFall = nullptr;  

@@ -25,7 +25,6 @@ using start::Main;
 /* ****************************************************************************************
  * Extern
  */
-extern "C" void SystemCoreClockUpdate(void);
 
 /* ****************************************************************************************
  * Variable <Static>
@@ -39,6 +38,8 @@ static uint64_t stackerMemory[3072];
 /* ****************************************************************************************
  * Construct Method
  */
+
+
 
 /* ****************************************************************************************
  * Operator Method
@@ -60,7 +61,8 @@ static uint64_t stackerMemory[3072];
  *
  */
 extern "C" int main(void){
-  SystemCoreClockUpdate();
+  core::arterytek::at32f415::Core::setSystemCoreClock(144);
+  
   if(1){
     Memory stack = Memory(mainStack, sizeof(mainStack));
     Memory stacker = Memory(stackerMemory, sizeof(stackerMemory));

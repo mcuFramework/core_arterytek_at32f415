@@ -13,8 +13,8 @@
  */  
 #include "mcuf.h"
 
-#include "core/arterytek/at32f415/CoreAFIO.hpp"
-#include "core/arterytek/at32f415/CoreGPIO.hpp"
+#include "core/arterytek/at32f415/CoreIomux.hpp"
+#include "core/arterytek/at32f415/CoreGpio.hpp"
 #include "core/arterytek/at32f415/CoreInterrupt.hpp"
 
 /* ****************************************************************************************
@@ -40,12 +40,12 @@ class core::arterytek::at32f415::Core extends mcuf::lang::Object{
    * Variable <Public>
    */
   public: static core::arterytek::at32f415::CoreInterrupt interrupt;
-  public: static core::arterytek::at32f415::CoreAFIO afio;
-  public: static core::arterytek::at32f415::CoreGPIO gpioa;
-  public: static core::arterytek::at32f415::CoreGPIO gpiob;
-  public: static core::arterytek::at32f415::CoreGPIO gpioc;
-  public: static core::arterytek::at32f415::CoreGPIO gpiod;
-  public: static core::arterytek::at32f415::CoreGPIO gpiof;
+  public: static core::arterytek::at32f415::CoreIomux iomux;
+  public: static core::arterytek::at32f415::CoreGpio gpioa;
+  public: static core::arterytek::at32f415::CoreGpio gpiob;
+  public: static core::arterytek::at32f415::CoreGpio gpioc;
+  public: static core::arterytek::at32f415::CoreGpio gpiod;
+  public: static core::arterytek::at32f415::CoreGpio gpiof;
     
   /* **************************************************************************************
    * Variable <Protected>
@@ -89,6 +89,11 @@ class core::arterytek::at32f415::Core extends mcuf::lang::Object{
    *
    */
   public: static uint32_t getSystemCoreClock(void);
+  
+  /**
+   *
+   */
+  public: static bool setSystemCoreClock(uint32_t mhz);
   
 
   /* **************************************************************************************

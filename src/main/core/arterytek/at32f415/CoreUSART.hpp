@@ -20,7 +20,7 @@
 namespace core{
   namespace arterytek{
     namespace at32f415{
-      class CoreUSART;
+      class CoreUsart;
     }
   }
 }
@@ -28,7 +28,7 @@ namespace core{
 /* ****************************************************************************************
  * Class Object
  */  
-class core::arterytek::at32f415::CoreUSART extends mcuf::util::RingBuffer
+class core::arterytek::at32f415::CoreUsart extends mcuf::util::RingBuffer
   implements mcuf::hal::SerialPort, mcuf::function::Runnable{
        
   /* **************************************************************************************
@@ -103,12 +103,12 @@ class core::arterytek::at32f415::CoreUSART extends mcuf::util::RingBuffer
   /**
    * Construct.
    */
-   public: CoreUSART(Register reg, const mcuf::lang::Memory& memory);
+   public: CoreUsart(Register reg, const mcuf::lang::Memory& memory);
 
   /**
    * Disconstruct.
    */
-  public: ~CoreUSART(void);
+  public: ~CoreUsart(void);
 
   /* **************************************************************************************
    * Operator Method

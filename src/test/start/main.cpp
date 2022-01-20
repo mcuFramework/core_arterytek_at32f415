@@ -18,8 +18,6 @@
 
 //-----------------------------------------------------------------------------------------
 #include "start/Main.hpp"
-#include "start/SpeedReader.hpp"
-#include "start/CommandWriteTask.hpp"
 
 
 /* ****************************************************************************************
@@ -81,22 +79,18 @@ Main::~Main(void){
 void Main::run(void){
   this->initGPIO();
   
-  CoreUSART uart2 = CoreUSART(CoreUSART::REG_USART2, this->mStacker.allocMemory(128));
-  uart2.init();
-  
-  ByteBuffer b = ByteBuffer(Memory("12345", 5));
-  b.position(5);
-  b.flip();
-  
   while(true){
-    this->mLED[0]->setHigh();
-    this->delay(500);
-    this->mLED[0]->setLow();
-    this->delay(500);
-    b.rewind();
-    uart2.write(&b, nullptr);
+    for(int i=0; i<8; i++){
+      this->delay(200);
+      this->mLED[i]->setHigh();
+    }
+    
+    this->delay(750);
+    
+    for(int i=0; i<8; i++){
+      this->mLED[i]->setLow();
+    }
   }
-  
 }
 
 /* ****************************************************************************************
@@ -130,17 +124,17 @@ void Main::initGPIO(void){
   Core::gpioa.init();
   Core::gpiob.init();
   Core::gpioc.init();
-  Core::afio.init();
-  Core::afio.remapDEBUG(Core::afio.DEBUG_JTAGDISABLE);
+  Core::iomux.init();
+  Core::iomux.remapDEBUG(Core::iomux.DEBUG_JTAGDISABLE);
   
   for(int i=0; i<8; i++){
     this->mLED[i] = new(this->mStacker.allocAlignment32(sizeof(CorePin))) CorePin(&Core::gpiob, i);
     this->mLED[i]->setOutput();
-    this->mLED[i]->setHigh();
+    this->mLED[i]->setLow();
   }
   
   
-  Core::gpioa.configOutput(2, CoreGPIO::OutputMode_50M, false, true, true);
+  Core::gpioa.configOutput(2, CoreGpio::OutputMode_50M, false, true, true);
   
 }
 

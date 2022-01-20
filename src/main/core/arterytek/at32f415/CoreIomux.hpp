@@ -19,7 +19,7 @@
 namespace core{
   namespace arterytek{
     namespace at32f415{
-      class CoreAFIO;
+      class CoreIomux;
     }
   }
 }
@@ -27,7 +27,7 @@ namespace core{
 /* ****************************************************************************************
  * Class Object
  */  
-class core::arterytek::at32f415::CoreAFIO extends mcuf::lang::Object
+class core::arterytek::at32f415::CoreIomux extends mcuf::lang::Object
       implements mcuf::hal::Base{
   
   /* **************************************************************************************
@@ -182,12 +182,12 @@ class core::arterytek::at32f415::CoreAFIO extends mcuf::lang::Object
   /**
    * Construct.
    */
-  public: CoreAFIO(void) = default;
+  public: CoreIomux(void) = default;
 
   /**
    * Disconstruct.
    */
-  public: virtual ~CoreAFIO(void) = default;
+  public: virtual ~CoreIomux(void) = default;
 
   /* **************************************************************************************
    * Operator Method
