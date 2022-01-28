@@ -1,0 +1,34 @@
+# at32f415 function pin out
+***
+## USART
+
+```
+USART1
+  USART1_TX   - PA9  / PB6
+  USART1_RX   - PA10 / PB7
+  USART1_CK   - PA8  /
+  USART1_CTS  - PA11 /
+  USART1_RTS  - PA12 /
+  
+USART2: 
+  USART2_TX   - PA2
+  USART2_RX   - PA3
+  USART2_CK   - PA4
+  USART2_CTS  - PA0
+  USART2_RTS  - PA1
+
+USART3:
+  USART3_TX   - PB10 / PA7
+  USART3_RX   - PB11 / PA6 
+  USART3_CK   - PB12 / PA5
+  USART3_CTS  - PB13 / PB1
+  USART3_RTS  - PB14 / PB0
+
+UART4:
+  UART4_TX    - PC10 / PF4
+  UART4_RX    - PC11 / PF5
+
+UART5:
+  UART5_TX    - PC12
+  UART5_RX    - PD2
+```

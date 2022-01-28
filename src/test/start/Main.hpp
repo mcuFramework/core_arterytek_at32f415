@@ -26,7 +26,7 @@ namespace start{
 /* ****************************************************************************************
  * Class Object
  */  
-class start::Main extends mcuf::lang::Thread{
+class start::Main extends mcuf::lang::Thread implements mcuf::hal::TimerEvent{
 
   /* **************************************************************************************
    * Subclass
@@ -86,6 +86,19 @@ class start::Main extends mcuf::lang::Thread{
    *
    */
   public: virtual void run(void) override;
+
+  /* **************************************************************************************
+   * Public Method <Override> - mcuf::hal::Timer::Event
+   */
+  
+  /**
+   *
+   */
+  public: void onTimerEvent(TimerStatus status) override;   
+
+  /* **************************************************************************************
+   * Public Method <Override> - mcuf::hal::Timer::Event
+   */
 
   /* **************************************************************************************
    * Public Method

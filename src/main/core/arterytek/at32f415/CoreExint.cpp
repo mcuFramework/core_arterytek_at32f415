@@ -51,6 +51,7 @@ namespace core{
  * Using
  */  
 using mcuf::hal::EdgeTrigger;
+using mcuf::hal::EdgeTriggerEvent;
 using core::arterytek::at32f415::Core;
 using core::arterytek::at32f415::CoreExint;
 
@@ -105,7 +106,7 @@ bool CoreExint::deinit(void){
 		return false;
   
   CoreExint::channelEnable &= ~(1 << this->mRegister);
-  Core::interrupt.irqHandler(CONFIG.irq, false);
+  Core::interrupt.irqEnable(CONFIG.irq, false);
   Core::interrupt.setHandler(CONFIG.irq, nullptr);  
   this->periphReset();
   return true;
@@ -121,7 +122,7 @@ bool CoreExint::init(void){
   CoreExint::channelEnable |= (1 << this->mRegister);
   this->periphReset();
   Core::interrupt.setHandler(CONFIG.irq, this);
-  Core::interrupt.irqHandler(CONFIG.irq, true);
+  Core::interrupt.irqEnable(CONFIG.irq, true);
   
   return true;
 }
@@ -190,7 +191,7 @@ void CoreExint::disableRise(void){
 /**
  * 
  */
-bool CoreExint::enableFall(EdgeTrigger::Event* event){
+bool CoreExint::enableFall(EdgeTriggerEvent* event){
   uint32_t mask = (1 << this->mRegister);
   this->mRunnableFall = event;
   
@@ -211,7 +212,7 @@ bool CoreExint::enableFall(EdgeTrigger::Event* event){
 /**
  * 
  */
-bool CoreExint::enableRise(EdgeTrigger::Event* event){
+bool CoreExint::enableRise(EdgeTriggerEvent* event){
   uint32_t mask = (1 << this->mRegister);
   this->mRunnableRise = event;
   
@@ -255,9 +256,9 @@ void CoreExint::run(void){
 	BASE->intsts = mask;
 	
 	if(levelFlag){  //rise
-    this->mRunnableRise->onEdgeTriggerEvent(Event::RISE);
+    this->mRunnableRise->onEdgeTriggerEvent(EdgeTriggerEvent::HAL_EDGETRIGGER_RISE);
 	}else{          //fall
-    this->mRunnableFall->onEdgeTriggerEvent(Event::FALL);
+    this->mRunnableFall->onEdgeTriggerEvent(EdgeTriggerEvent::HAL_EDGETRIGGER_FALL);
 	}
 }
 

@@ -8,6 +8,43 @@
 #ifndef CORE_ARTERYTEK_AT32F415_D5941889_B076_4A75_A2BB_6381B6E20141
 #define CORE_ARTERYTEK_AT32F415_D5941889_B076_4A75_A2BB_6381B6E20141
 
+/**
+ *  USART1:
+ *    Pin out:
+ *      USART1_TX   - PA9
+ *      USART1_RX   - PA10
+ *      USART1_CK   - PA8
+ *      USART1_CTS  - PA11
+ *      USART1_RTS  - PA12
+ *
+ *  USART2: 
+ *    Pin out:
+ *      USART2_TX   - PA2
+ *      USART2_RX   - PA3
+ *      USART2_CK   - PA4
+ *      USART2_CTS  - PA0
+ *      USART2_RTS  - PA1
+ *
+ *  USART3:
+ *    Pin out:
+ *      USART3_TX   - PB10 / PA7
+ *      USART3_RX   - PB11 / PA6 
+ *      USART3_CK   - PB12 / PA5
+ *      USART3_CTS  - PB13 / PB1
+ *      USART3_RTS  - PB14 / PB0
+ *
+ *  UART4:
+ *    Pin out:
+ *      UART4_TX    - PC10 / PF4
+ *      UART4_RX    - PC11 / PF5
+ *
+ *  UART5:
+ *    Pin out:
+ *      UART5_TX    - PC12
+ *      UART5_RX    - PD2
+ *      
+ */
+
 /* ****************************************************************************************
  * Include
  */  
@@ -48,16 +85,16 @@ class core::arterytek::at32f415::CoreUsart extends mcuf::util::RingBuffer
     public: uint16_t mLength;
     public: uint16_t mCount;    
     public: uint8_t* mPointer;
-    public: Event* mEvent;
-    public: Event::Status mStatus;
-    public: mcuf::io::channel::ByteBuffer* mByteBuffer;
+    public: mcuf::hal::SerialPortEvent* mEvent;
+    public: mcuf::hal::SerialPortEvent::SerialPortStatus mStatus;
+    public: mcuf::io::ByteBuffer* mByteBuffer;
     
     public: Packet(void) = default;
     public: virtual ~Packet(void) = default;
     
     public: void clear(void);
     public: bool isExist(void);
-    public: bool init(mcuf::io::channel::ByteBuffer& byteBuffer, Event* event);
+    public: bool init(mcuf::io::ByteBuffer& byteBuffer, mcuf::hal::SerialPortEvent* event);
     
     public: virtual void run(void) override;
   };
@@ -176,14 +213,14 @@ class core::arterytek::at32f415::CoreUsart extends mcuf::util::RingBuffer
   /**
    * 
    */
-  public: virtual bool read(mcuf::io::channel::ByteBuffer* byteBuffer, 
-                            mcuf::hal::SerialPort::Event* event) override;
+  public: virtual bool read(mcuf::io::ByteBuffer* byteBuffer, 
+                            mcuf::hal::SerialPortEvent* event) override;
 
   /**
    * 
    */
-  public: virtual bool write(mcuf::io::channel::ByteBuffer* byteBuffer, 
-                             mcuf::hal::SerialPort::Event* event) override;
+  public: virtual bool write(mcuf::io::ByteBuffer* byteBuffer, 
+                             mcuf::hal::SerialPortEvent* event) override;
 
   /* **************************************************************************************
    * Public Method <Override> - mcuf::function::Runnable
@@ -206,9 +243,9 @@ class core::arterytek::at32f415::CoreUsart extends mcuf::util::RingBuffer
   /**
    *  write nonBlocking
    */
-  virtual void write(mcuf::io::channel::ByteBuffer* byteBuffer, 
+  virtual void write(mcuf::io::ByteBuffer* byteBuffer, 
                      void* attachment,
-                     mcuf::io::channel::CompletionHandler<int, void*>* handler);  
+                     mcuf::io::CompletionHandler<int, void*>* handler);  
                              
   /* **************************************************************************************
    * Public Method

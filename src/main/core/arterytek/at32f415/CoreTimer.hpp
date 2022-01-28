@@ -62,7 +62,7 @@ class core::arterytek::at32f415::CoreTimer extends mcuf::lang::Object
    */
   
   private: Register mRegister;
-  private: Event* mEvent;
+  private: mcuf::hal::TimerEvent* mEvent;
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -148,7 +148,7 @@ class core::arterytek::at32f415::CoreTimer extends mcuf::lang::Object
   /**
    * 
    */
-   public: virtual bool startAtTick(uint32_t tick, mcuf::hal::Timer::Event* event) override;
+   public: virtual bool startAtTick(uint32_t tick, mcuf::hal::TimerEvent* event) override;
   
   /**
    * 
@@ -158,7 +158,7 @@ class core::arterytek::at32f415::CoreTimer extends mcuf::lang::Object
   /**
    * 
    */
-  public: virtual bool startAtTime(uint32_t tick, mcuf::hal::Timer::Event* event) override;
+  public: virtual bool startAtTime(uint32_t tick, mcuf::hal::TimerEvent* event) override;
 
   /* **************************************************************************************
    * Public Method

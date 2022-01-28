@@ -176,7 +176,7 @@ void CoreInterrupt::setHandler(Irq irq, mcuf::function::Runnable* runnable){
 /**
  *
  */
-void CoreInterrupt::irqHandler(Irq irq, bool enable){
+void CoreInterrupt::irqEnable(Irq irq, bool enable){
   uint8_t* flag;
   uint8_t shift;
   

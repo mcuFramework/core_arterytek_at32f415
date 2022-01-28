@@ -50,10 +50,11 @@ using mcuf::lang::Pointer;
 using mcuf::lang::System;
 
 
-using mcuf::io::channel::ByteBuffer;
-using mcuf::io::channel::CompletionHandler;
+using mcuf::io::ByteBuffer;
+using mcuf::io::CompletionHandler;
 using mcuf::util::RingBuffer;
 using mcuf::hal::SerialPort;
+using mcuf::hal::SerialPortEvent;
 
 /* ****************************************************************************************
  * Macro
@@ -102,7 +103,7 @@ bool CoreUsart::deinit(void){
   if(!this->isInit())
     return false;
   
-  Core::interrupt.irqHandler(CONFIG.irq, false);
+  Core::interrupt.irqEnable(CONFIG.irq, false);
   usart_reset(BASE);
   crm_periph_clock_enable(CONFIG.crmClock, FALSE);
   this->abortRead();
@@ -125,7 +126,7 @@ bool CoreUsart::init(void){
   usart_transmitter_enable(BASE, TRUE);
   usart_receiver_enable(BASE, TRUE);
   
-  Core::interrupt.irqHandler(CONFIG.irq, true);
+  Core::interrupt.irqEnable(CONFIG.irq, true);
   usart_interrupt_enable(BASE, USART_RDBF_INT, TRUE);
   usart_enable(BASE, TRUE);
   return true;
@@ -192,7 +193,7 @@ bool CoreUsart::writeBusy(void){
 /**
  * 
  */
-bool CoreUsart::read(ByteBuffer* byteBuffer, Event* event){
+bool CoreUsart::read(ByteBuffer* byteBuffer, SerialPortEvent* event){
   if(this->readBusy())
     return false;
   
@@ -203,7 +204,7 @@ bool CoreUsart::read(ByteBuffer* byteBuffer, Event* event){
     byteBuffer->position(byteBuffer->position() + count);
     
     if(event)
-      event->onSerialPortEvent(Event::READ_SUCCESSFUL, byteBuffer);
+      event->onSerialPortEvent(SerialPortEvent::HAL_SERIALPORT_READ_SUCCESSFUL, byteBuffer);
     
     return true;
   }else if(this->isEmpty()){
@@ -231,7 +232,7 @@ bool CoreUsart::read(ByteBuffer* byteBuffer, Event* event){
 /**
  * 
  */
-bool CoreUsart::write(ByteBuffer* byteBuffer, Event* event){
+bool CoreUsart::write(ByteBuffer* byteBuffer, SerialPortEvent* event){
   
   if(this->writeBusy())
     return false;
@@ -261,7 +262,7 @@ void CoreUsart::run(void){
       ++this->mPacketRead.mCount;
 
       if(this->mPacketRead.mCount >= this->mPacketRead.mLength){  //receiver is successful
-        this->mPacketRead.mStatus = Event::READ_SUCCESSFUL;
+        this->mPacketRead.mStatus = SerialPortEvent::HAL_SERIALPORT_READ_SUCCESSFUL;
         //if(!System::execute(this->mPacketRead))
           this->mPacketRead.run();
       }  
@@ -281,7 +282,7 @@ void CoreUsart::run(void){
     if(this->mPacketWrite.mCount >= this->mPacketWrite.mLength){
       /* Disable the USART1 Transmit interrupt */
       usart_interrupt_enable(base, USART_TDBE_INT, FALSE);
-      this->mPacketWrite.mStatus = Event::WRITE_SUCCESSFUL;
+      this->mPacketWrite.mStatus = SerialPortEvent::HAL_SERIALPORT_WRITE_SUCCESSFUL;
       //if(!System::execute(this->mPacketWrite))
         this->mPacketWrite.run();
     }
@@ -352,7 +353,7 @@ void CoreUsart::write(ByteBuffer* byteBuffer, void* attachment, CompletionHandle
 void CoreUsart::Packet::run(void){
   
   ByteBuffer* byteBuffer = this->mByteBuffer;
-  Event* event = this->mEvent;
+  SerialPortEvent* event = this->mEvent;
   byteBuffer->position(byteBuffer->position() + this->mCount);
   this->clear();
   
@@ -378,7 +379,7 @@ void CoreUsart::Packet::clear(void){
 /**
  *
  */
-bool CoreUsart::Packet::init(ByteBuffer& byteBuffer, Event* event){
+bool CoreUsart::Packet::init(ByteBuffer& byteBuffer, SerialPortEvent* event){
   if(this->isExist())
     return false;
   

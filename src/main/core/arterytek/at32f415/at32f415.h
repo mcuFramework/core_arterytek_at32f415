@@ -17,7 +17,7 @@
 #include "CoreGpio.hpp"
 #include "CoreIomux.hpp"
 #include "CorePin.hpp"
-//#include "CoreTimer.hpp"  
+#include "CoreTimer.hpp"  
 #include "CoreUsart.hpp"
 
 

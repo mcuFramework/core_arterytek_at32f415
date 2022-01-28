@@ -182,7 +182,7 @@ class core::arterytek::at32f415::CoreInterrupt extends mcuf::lang::Object
   /**
    * enable or disable interrupt.
    */
-  public: void irqHandler(Irq irq, bool enable);
+  public: void irqEnable(Irq irq, bool enable);
 
   /* **************************************************************************************
    * Protected Method <Static>

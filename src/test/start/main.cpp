@@ -29,12 +29,11 @@ using mcuf::function::Runnable;
 using mcuf::function::ConsumerEvent;
 
 using namespace start;
-using namespace mcuf::io::channel;
+using namespace mcuf::io;
 using namespace mcuf::lang;
 using namespace mcuf::util;
 using namespace mcuf::function;
 using namespace core::arterytek::at32f415;
-
 
 
 /* ****************************************************************************************
@@ -70,7 +69,7 @@ Main::~Main(void){
  */
  
 /* ****************************************************************************************
- * Public Method <Override>
+ * Public Method <Override> mcuf::function::Runnable
  */
 
 /**
@@ -79,12 +78,16 @@ Main::~Main(void){
 void Main::run(void){
   this->initGPIO();
   
-  CoreUsart uart2 = CoreUsart(CoreUsart::REG_USART2, this->mStacker.allocMemory(128));
+  CoreUsart uart2 = CoreUsart(CoreUsart::REG_UART4, this->mStacker.allocMemory(128));
   uart2.init();
+  uart2.baudrate(128000);
   
   ByteBuffer b = ByteBuffer(this->mStacker.allocMemory(64));
   String s = String(this->mStacker.allocMemory(64));
   
+  CoreTimer t = CoreTimer(CoreTimer::REG_TMR2);
+  t.init();
+  t.startAtTime(100000, this);
   
   while(true){
     b.reset();
@@ -96,6 +99,17 @@ void Main::run(void){
     this->delay(500);
     uart2.write(&b, nullptr);
   }
+}
+
+/* ****************************************************************************************
+ * Public Method <Override> mcuf::hal::Timer::Event
+ */
+
+/**
+ *
+ */
+void Main::onTimerEvent(TimerStatus status){
+  this->mLED[1]->setToggle();
 }
 
 /* ****************************************************************************************
@@ -139,7 +153,7 @@ void Main::initGPIO(void){
   }
   
   
-  Core::gpioa.configOutput(2, CoreGpio::OutputMode_50M, false, true, true);
+  Core::gpioc.configOutput(10, CoreGpio::OutputMode_50M, false, true, true);
   
 }
 

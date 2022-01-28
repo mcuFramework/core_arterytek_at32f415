@@ -48,6 +48,7 @@ using core::arterytek::at32f415::Core;
 using core::arterytek::at32f415::CoreInterrupt;
 using core::arterytek::at32f415::CoreTimer;
 using mcuf::function::Consumer;
+using mcuf::hal::TimerEvent;
 
 /* ****************************************************************************************
  * Macro
@@ -98,7 +99,8 @@ bool CoreTimer::deinit(void){
 	if(!this->isInit())
 		return false;
 	
-  crm_periph_clock_enable(CONFIG.crmClock, FALSE);
+  this->interruptEnable(false);
+  Core::interrupt.setHandler(CONFIG.irq, nullptr);
 	return true;
 }
 
@@ -110,6 +112,7 @@ bool CoreTimer::init(void){
     return false;
   
   crm_periph_clock_enable(CONFIG.crmClock, TRUE);
+  Core::interrupt.setHandler(CONFIG.irq, this);
   return false;
 }
 
@@ -172,7 +175,7 @@ bool CoreTimer::startAtTick(uint32_t tick){
 /**
  * 
  */
-bool CoreTimer::startAtTick(uint32_t tick, Event* event){
+bool CoreTimer::startAtTick(uint32_t tick, TimerEvent* event){
   if(this->isBusy())
     return false;
   
@@ -207,7 +210,7 @@ bool CoreTimer::startAtTime(uint32_t microSecond){
 /**
  * 
  */
-bool CoreTimer::startAtTime(uint32_t microSecond, Event* event){
+bool CoreTimer::startAtTime(uint32_t microSecond, TimerEvent* event){
   return this->startAtTick(this->getTickAtMicroSecond(microSecond), event);
 }
 
@@ -227,7 +230,7 @@ void CoreTimer::run(void){
   if(this->mEvent == nullptr)
     return;
       
-  this->mEvent->onTimerEvent(Event::TRIGGER);
+  this->mEvent->onTimerEvent(TimerEvent::HAL_TIMER_TRIGGER);
   return;
 }
 
@@ -242,7 +245,7 @@ void CoreTimer::execute(void){
   if(this->mEvent == nullptr)
     return;
   
-  this->mEvent->onTimerEvent(Event::TRIGGER);
+  this->mEvent->onTimerEvent(TimerEvent::HAL_TIMER_TRIGGER);
   return;
 }
 
@@ -289,7 +292,7 @@ uint32_t CoreTimer::getTickAtMicroSecond(uint32_t microSecond){
  *
  */
 void CoreTimer::interruptEnable(bool enable){
-  Core::interrupt.irqHandler(CONFIG.irq, enable);
+  Core::interrupt.irqEnable(CONFIG.irq, enable);
   return;
 }
 
