@@ -5,28 +5,35 @@
  * SPDX-License-Identifier: MIT
  */
 
-#ifndef CORE_ARTERYTEK_AT32F415_C5145AF1_08A9_4082_93D8_9F4ACA2D712C
-#define CORE_ARTERYTEK_AT32F415_C5145AF1_08A9_4082_93D8_9F4ACA2D712C
+#ifndef CORE_ARTERYTEK_AT32F415_EF4F5B70_C257_44EE_8874_9BBD7AFAD856
+#define CORE_ARTERYTEK_AT32F415_EF4F5B70_C257_44EE_8874_9BBD7AFAD856
 
 /* ****************************************************************************************
  * Include
  */  
- 
-//-----------------------------------------------------------------------------------------
+#include "core/arterytek/at32f415/CoreGpio.h" 
+
 #include "mcuf.h"
-#include "core_arterytek_at32f415.h"
+
 
 /* ****************************************************************************************
  * Namespace
  */  
-namespace start{
-  class Main;
+namespace core{
+  namespace arterytek{
+    namespace at32f415{
+      class CorePin;
+    }
+  }
 }
+
+
 
 /* ****************************************************************************************
  * Class Object
  */  
-class start::Main extends mcuf::lang::Thread implements mcuf::hal::TimerEvent{
+class core::arterytek::at32f415::CorePin  extends mcuf::lang::Object
+      implements mcuf::hal::GeneralPurposePin{
 
   /* **************************************************************************************
    * Subclass
@@ -43,11 +50,10 @@ class start::Main extends mcuf::lang::Thread implements mcuf::hal::TimerEvent{
   /* **************************************************************************************
    * Variable <Private>
    */
-  private: mcuf::util::Stacker mStacker;
-  private: core::arterytek::at32f415::CorePin* mLED[8];
-  private: core::arterytek::at32f415::CorePin* mBTN[8];
-  private: uint32_t mStatus;
-    
+  private: void* mBase;
+  private: uint32_t mPin;
+
+
   /* **************************************************************************************
    * Abstract method <Public>
    */
@@ -63,12 +69,12 @@ class start::Main extends mcuf::lang::Thread implements mcuf::hal::TimerEvent{
   /**
    * Construct.
    */
-   public: Main(mcuf::lang::Memory& memory, mcuf::lang::Memory& stacker);
+  public: CorePin(core::arterytek::at32f415::CoreGpio* base, uint32_t pin);
 
   /**
-   * Destruct.
+   * Disconstruct.
    */
-  public: ~Main(void);
+  public: virtual ~CorePin(void) = default;
 
   /* **************************************************************************************
    * Operator Method
@@ -79,26 +85,72 @@ class start::Main extends mcuf::lang::Thread implements mcuf::hal::TimerEvent{
    */
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::function::Runnable
+   * Public Method <Override>
    */
+
+  /**
+   * Get io direction.
+   * 
+   * @return false = input, true = output.
+   */
+  public: virtual bool dir(void) override;
+
+  /**
+   * Set io direction.
+   * 
+   * @param dir false = input, true = output.
+   */
+  public: virtual void dir(bool dir) override;
+  
+   /**
+   * 
+   */
+  public: virtual PinMode pinMode(void) override;
+
+  /**
+   * 
+   */
+  public: virtual bool pinMode(PinMode mode) override; 
+
+  /**
+   * Set io pin to high.
+   */
+  public: virtual void setHigh(void) override;
   
   /**
-   *
+   * Set io direction to input.
    */
-  public: virtual void run(void) override;
+  public: virtual void setInput(void) override;
 
-  /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::Timer::Event
+  /**
+   * Set io pin to low.
    */
+  public: virtual void setLow(void) override;
   
   /**
-   *
+   * Set io direction to output.
    */
-  public: void onTimerEvent(TimerStatus status) override;   
+  public: virtual void setOutput(void) override;
 
-  /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::Timer::Event
+  /**
+   * Set io not logic.
    */
+  public: virtual void setToggle(void) override;
+
+  /**
+   * Get io pin.
+   *
+   * @return false = low, true = high.
+   */
+  public: virtual bool value(void) override;
+
+  /**
+   * Set io pin to high or low.
+   *
+   * @param value false = low, true = high.
+   */
+  public: virtual void value(bool level) override;
+
 
   /* **************************************************************************************
    * Public Method
@@ -127,16 +179,13 @@ class start::Main extends mcuf::lang::Thread implements mcuf::hal::TimerEvent{
   /* **************************************************************************************
    * Private Method
    */  
-  
-  /**
-   *
-   */
-  private: void initGPIO(void);
 
 };
+
+
 
 /* *****************************************************************************************
  * End of file
  */ 
 
-#endif/* CORE_ARTERYTEK_AT32F415_C5145AF1_08A9_4082_93D8_9F4ACA2D712C */
+#endif/* CORE_ARTERYTEK_AT32F415_EF4F5B70_C257_44EE_8874_9BBD7AFAD856 */

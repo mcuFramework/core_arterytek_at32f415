@@ -29,7 +29,7 @@ namespace core{
  * Class Object
  */  
 class core::arterytek::at32f415::CoreEntitySPI extends mcuf::lang::Object
-      implements mcuf::hal::SerialPeripheral{
+      implements mcuf::hal::SerialPeriph{
 
   /* **************************************************************************************
    * Subclass

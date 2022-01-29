@@ -5,16 +5,17 @@
  * SPDX-License-Identifier: MIT
  */
 
-#ifndef CORE_ARTERYTEK_AT32F415_EF4F5B70_C257_44EE_8874_9BBD7AFAD856
-#define CORE_ARTERYTEK_AT32F415_EF4F5B70_C257_44EE_8874_9BBD7AFAD856
+#ifndef CORE_ARTERYTEK_AT32F415_B783141D_7465_4A74_900D_2B6244C11E04
+#define CORE_ARTERYTEK_AT32F415_B783141D_7465_4A74_900D_2B6244C11E04
 
 /* ****************************************************************************************
  * Include
  */  
-#include "core/arterytek/at32f415/CoreGpio.hpp" 
-
 #include "mcuf.h"
 
+#include "core/arterytek/at32f415/CoreIomux.h"
+#include "core/arterytek/at32f415/CoreGpio.h"
+#include "core/arterytek/at32f415/CoreInterrupt.h"
 
 /* ****************************************************************************************
  * Namespace
@@ -22,18 +23,14 @@
 namespace core{
   namespace arterytek{
     namespace at32f415{
-      class CorePin;
+      class Core;
     }
   }
 }
-
-
-
 /* ****************************************************************************************
  * Class Object
  */  
-class core::arterytek::at32f415::CorePin  extends mcuf::lang::Object
-      implements mcuf::hal::GeneralPurposePin{
+class core::arterytek::at32f415::Core extends mcuf::lang::Object{
 
   /* **************************************************************************************
    * Subclass
@@ -42,7 +39,14 @@ class core::arterytek::at32f415::CorePin  extends mcuf::lang::Object
   /* **************************************************************************************
    * Variable <Public>
    */
-
+  public: static core::arterytek::at32f415::CoreInterrupt interrupt;
+  public: static core::arterytek::at32f415::CoreIomux iomux;
+  public: static core::arterytek::at32f415::CoreGpio gpioa;
+  public: static core::arterytek::at32f415::CoreGpio gpiob;
+  public: static core::arterytek::at32f415::CoreGpio gpioc;
+  public: static core::arterytek::at32f415::CoreGpio gpiod;
+  public: static core::arterytek::at32f415::CoreGpio gpiof;
+    
   /* **************************************************************************************
    * Variable <Protected>
    */
@@ -50,9 +54,6 @@ class core::arterytek::at32f415::CorePin  extends mcuf::lang::Object
   /* **************************************************************************************
    * Variable <Private>
    */
-  private: void* mBase;
-  private: uint32_t mPin;
-
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -69,12 +70,12 @@ class core::arterytek::at32f415::CorePin  extends mcuf::lang::Object
   /**
    * Construct.
    */
-  public: CorePin(core::arterytek::at32f415::CoreGpio* base, uint32_t pin);
+  private: Core(void) = default;
 
   /**
    * Disconstruct.
    */
-  public: virtual ~CorePin(void) = default;
+  public: virtual ~Core(void) = default;
 
   /* **************************************************************************************
    * Operator Method
@@ -83,74 +84,21 @@ class core::arterytek::at32f415::CorePin  extends mcuf::lang::Object
   /* **************************************************************************************
    * Public Method <Static>
    */
+  
+  /**
+   *
+   */
+  public: static uint32_t getSystemCoreClock(void);
+  
+  /**
+   *
+   */
+  public: static bool setSystemCoreClock(uint32_t mhz);
+  
 
   /* **************************************************************************************
    * Public Method <Override>
    */
-
-  /**
-   * Get io direction.
-   * 
-   * @return false = input, true = output.
-   */
-  public: virtual bool dir(void) override;
-
-  /**
-   * Set io direction.
-   * 
-   * @param dir false = input, true = output.
-   */
-  public: virtual void dir(bool dir) override;
-  
-   /**
-   * 
-   */
-  public: virtual PinMode pinMode(void) override;
-
-  /**
-   * 
-   */
-  public: virtual bool pinMode(PinMode mode) override; 
-
-  /**
-   * Set io pin to high.
-   */
-  public: virtual void setHigh(void) override;
-  
-  /**
-   * Set io direction to input.
-   */
-  public: virtual void setInput(void) override;
-
-  /**
-   * Set io pin to low.
-   */
-  public: virtual void setLow(void) override;
-  
-  /**
-   * Set io direction to output.
-   */
-  public: virtual void setOutput(void) override;
-
-  /**
-   * Set io not logic.
-   */
-  public: virtual void setToggle(void) override;
-
-  /**
-   * Get io pin.
-   *
-   * @return false = low, true = high.
-   */
-  public: virtual bool value(void) override;
-
-  /**
-   * Set io pin to high or low.
-   *
-   * @param value false = low, true = high.
-   */
-  public: virtual void value(bool level) override;
-
 
   /* **************************************************************************************
    * Public Method
@@ -188,4 +136,4 @@ class core::arterytek::at32f415::CorePin  extends mcuf::lang::Object
  * End of file
  */ 
 
-#endif/* CORE_ARTERYTEK_AT32F415_EF4F5B70_C257_44EE_8874_9BBD7AFAD856 */
+#endif/* CORE_ARTERYTEK_AT32F415_B783141D_7465_4A74_900D_2B6244C11E04 */

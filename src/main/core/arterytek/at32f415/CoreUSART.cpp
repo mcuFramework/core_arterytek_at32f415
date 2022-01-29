@@ -13,9 +13,9 @@
  
 //-----------------------------------------------------------------------------------------
 #include "bsp_arterytek_at32f415/at32f415.h"
-#include "core/arterytek/at32f415/Core.hpp"
-#include "core/arterytek/at32f415/CoreInterrupt.hpp"
-#include "core/arterytek/at32f415/CoreUsart.hpp"
+#include "core/arterytek/at32f415/Core.h"
+#include "core/arterytek/at32f415/CoreInterrupt.h"
+#include "core/arterytek/at32f415/CoreUsart.h"
 
 /* ****************************************************************************************
  * Namespace
@@ -263,13 +263,17 @@ void CoreUsart::run(void){
 
       if(this->mPacketRead.mCount >= this->mPacketRead.mLength){  //receiver is successful
         this->mPacketRead.mStatus = SerialPortEvent::HAL_SERIALPORT_READ_SUCCESSFUL;
-        //if(!System::execute(this->mPacketRead))
+        if(!System::execute(this->mPacketRead))
           this->mPacketRead.run();
       }  
     }else{
       this->insert(&readCache);
     }
   }
+  
+  //check usart tx empty interrupt flag
+  if(!((PERIPH_REG((uint32_t)base, USART_TDBE_INT)) & PERIPH_REG_BIT(USART_TDBE_INT)))
+    return;
   
   //send handle
   if(usart_flag_get(base, USART_TDBE_FLAG) != RESET){   
@@ -283,7 +287,7 @@ void CoreUsart::run(void){
       /* Disable the USART1 Transmit interrupt */
       usart_interrupt_enable(base, USART_TDBE_INT, FALSE);
       this->mPacketWrite.mStatus = SerialPortEvent::HAL_SERIALPORT_WRITE_SUCCESSFUL;
-      //if(!System::execute(this->mPacketWrite))
+      if(!System::execute(this->mPacketWrite))
         this->mPacketWrite.run();
     }
   }

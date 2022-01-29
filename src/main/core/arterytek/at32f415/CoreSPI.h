@@ -5,17 +5,14 @@
  * SPDX-License-Identifier: MIT
  */
 
-#ifndef CORE_ARTERYTEK_AT32F415_B783141D_7465_4A74_900D_2B6244C11E04
-#define CORE_ARTERYTEK_AT32F415_B783141D_7465_4A74_900D_2B6244C11E04
+#ifndef CORE_ARTERYTEK_AT32F415_ABB9BEEF_3AF5_49CB_AB49_A1A1B3886DA7
+#define CORE_ARTERYTEK_AT32F415_ABB9BEEF_3AF5_49CB_AB49_A1A1B3886DA7
 
 /* ****************************************************************************************
  * Include
  */  
 #include "mcuf.h"
-
-#include "core/arterytek/at32f415/CoreIomux.hpp"
-#include "core/arterytek/at32f415/CoreGpio.hpp"
-#include "core/arterytek/at32f415/CoreInterrupt.hpp"
+#include "CoreEntitySPI.h"
 
 /* ****************************************************************************************
  * Namespace
@@ -23,30 +20,40 @@
 namespace core{
   namespace arterytek{
     namespace at32f415{
-      class Core;
+      class CoreSPI;
     }
   }
 }
+
 /* ****************************************************************************************
  * Class Object
  */  
-class core::arterytek::at32f415::Core extends mcuf::lang::Object{
+class core::arterytek::at32f415::CoreSPI  extends mcuf::lang::Object
+      implements mcuf::hal::Base{
 
   /* **************************************************************************************
    * Subclass
    */
+  
+  /* **************************************************************************************
+   * Struct Packet
+   */
+  private: struct Packet{
+    core::arterytek::at32f415::CoreEntitySPI* coreEntitySPI;
+  };
 
+  /* **************************************************************************************
+   * Enum Register
+   */
+  public: enum Register{
+    SPI1,
+    SPI2
+  };
+        
   /* **************************************************************************************
    * Variable <Public>
    */
-  public: static core::arterytek::at32f415::CoreInterrupt interrupt;
-  public: static core::arterytek::at32f415::CoreIomux iomux;
-  public: static core::arterytek::at32f415::CoreGpio gpioa;
-  public: static core::arterytek::at32f415::CoreGpio gpiob;
-  public: static core::arterytek::at32f415::CoreGpio gpioc;
-  public: static core::arterytek::at32f415::CoreGpio gpiod;
-  public: static core::arterytek::at32f415::CoreGpio gpiof;
-    
+
   /* **************************************************************************************
    * Variable <Protected>
    */
@@ -54,6 +61,8 @@ class core::arterytek::at32f415::Core extends mcuf::lang::Object{
   /* **************************************************************************************
    * Variable <Private>
    */
+  private: void* regAddress;
+  private: mcuf::util::Fifo* fifo;
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -70,12 +79,12 @@ class core::arterytek::at32f415::Core extends mcuf::lang::Object{
   /**
    * Construct.
    */
-  private: Core(void) = default;
+  public: CoreSPI(Register reg);
 
   /**
-   * Disconstruct.
+   * Destruct.
    */
-  public: virtual ~Core(void) = default;
+  public: virtual ~CoreSPI(void);
 
   /* **************************************************************************************
    * Operator Method
@@ -84,17 +93,6 @@ class core::arterytek::at32f415::Core extends mcuf::lang::Object{
   /* **************************************************************************************
    * Public Method <Static>
    */
-  
-  /**
-   *
-   */
-  public: static uint32_t getSystemCoreClock(void);
-  
-  /**
-   *
-   */
-  public: static bool setSystemCoreClock(uint32_t mhz);
-  
 
   /* **************************************************************************************
    * Public Method <Override>
@@ -119,7 +117,53 @@ class core::arterytek::at32f415::Core extends mcuf::lang::Object{
   /* **************************************************************************************
    * Private Method <Static>
    */
+  
+  /**
+   *
+   */
+  private: inline void xferClear(void);
 
+  /**
+   * 
+   */
+  private: inline void spiEnable(void);
+
+  /**
+   * 
+   */
+  private: inline void spiDisable(void);
+
+  /**
+   * 
+   */
+  private: inline void isrTransferEnable(void);
+
+  /**
+   * 
+   */
+  private: inline void isrTransferDisable(void);
+
+  /**
+   * 
+   */
+  private: inline void isrReceiverEnable(void);
+
+  /**
+   * 
+   */
+  private: inline void isrReceiverDisable(void);
+
+  /**
+   * 
+   */
+  private: inline void isrEnable(void);
+
+  /**
+   * 
+   */
+  private: inline void isrDisable(void);
+  
+  
   /* **************************************************************************************
    * Private Method <Override>
    */
@@ -136,4 +180,5 @@ class core::arterytek::at32f415::Core extends mcuf::lang::Object{
  * End of file
  */ 
 
-#endif/* CORE_ARTERYTEK_AT32F415_B783141D_7465_4A74_900D_2B6244C11E04 */
+
+#endif/* CORE_ARTERYTEK_AT32F415_ABB9BEEF_3AF5_49CB_AB49_A1A1B3886DA7 */

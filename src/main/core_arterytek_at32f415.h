@@ -18,7 +18,7 @@
 /* ****************************************************************************************
  * Include folder
  */
-#include "core\core.h"
+#include "core\package-info.h"
 
 
 

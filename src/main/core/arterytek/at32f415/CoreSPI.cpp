@@ -8,12 +8,9 @@
 /* ****************************************************************************************
  * Include
  */  
-#include "core/arterytek/at32f415/CoreSPI.hpp"
+#include "core/arterytek/at32f415/CoreSPI.h"
 
-#include "bsp_arterytek_at32f415/at32f4xx_rcc.h"
-#include "bsp_arterytek_at32f415/at32f4xx_spi.h"
-
-
+#include "bsp_arterytek_at32f415/at32f415.h"
 
 /* ****************************************************************************************
  * Using

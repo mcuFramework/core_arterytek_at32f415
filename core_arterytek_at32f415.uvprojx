@@ -394,9 +394,9 @@
           <GroupName>main/core</GroupName>
           <Files>
             <File>
-              <FileName>core.h</FileName>
+              <FileName>package-info.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\core.h</FilePath>
+              <FilePath>.\src\main\core\package-info.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -404,9 +404,9 @@
           <GroupName>main/core/arterytek</GroupName>
           <Files>
             <File>
-              <FileName>arterytek.h</FileName>
+              <FileName>package-info.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\arterytek.h</FilePath>
+              <FilePath>.\src\main\core\arterytek\package-info.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -414,9 +414,29 @@
           <GroupName>main/core/arterytek/at32f415</GroupName>
           <Files>
             <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\package-info.h</FilePath>
+            </File>
+            <File>
               <FileName>Core.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\main\core\arterytek\at32f415\Core.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Core.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\Core.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreEntitySPI.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreEntitySPI.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreEntitySPI.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreEntitySPI.h</FilePath>
             </File>
             <File>
               <FileName>CoreExint.cpp</FileName>
@@ -424,9 +444,29 @@
               <FilePath>.\src\main\core\arterytek\at32f415\CoreExint.cpp</FilePath>
             </File>
             <File>
-              <FileName>CoreGpio.cpp</FileName>
+              <FileName>CoreExint.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreExint.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreGPIO.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreGpio.cpp</FilePath>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreGPIO.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreGPIO.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreGPIO.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreIIC.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreIIC.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreIIC.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreIIC.h</FilePath>
             </File>
             <File>
               <FileName>CoreInterrupt.cpp</FileName>
@@ -434,9 +474,19 @@
               <FilePath>.\src\main\core\arterytek\at32f415\CoreInterrupt.cpp</FilePath>
             </File>
             <File>
+              <FileName>CoreInterrupt.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreInterrupt.h</FilePath>
+            </File>
+            <File>
               <FileName>CoreIomux.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\main\core\arterytek\at32f415\CoreIomux.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreIomux.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreIomux.h</FilePath>
             </File>
             <File>
               <FileName>CorePin.cpp</FileName>
@@ -444,9 +494,9 @@
               <FilePath>.\src\main\core\arterytek\at32f415\CorePin.cpp</FilePath>
             </File>
             <File>
-              <FileName>CoreUsart.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreUsart.cpp</FilePath>
+              <FileName>CorePin.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CorePin.h</FilePath>
             </File>
             <File>
               <FileName>CoreTimer.cpp</FileName>
@@ -454,9 +504,19 @@
               <FilePath>.\src\main\core\arterytek\at32f415\CoreTimer.cpp</FilePath>
             </File>
             <File>
-              <FileName>at32f415.h</FileName>
+              <FileName>CoreTimer.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\at32f415.h</FilePath>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreTimer.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreUSART.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreUSART.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreUSART.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreUSART.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -581,13 +641,6 @@
         </Group>
         <Group>
           <GroupName>test/periph</GroupName>
-          <Files>
-            <File>
-              <FileName>Test.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\test\periph\Test.hpp</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>test/start</GroupName>
@@ -598,9 +651,9 @@
               <FilePath>.\src\test\start\Main.cpp</FilePath>
             </File>
             <File>
-              <FileName>Main.hpp</FileName>
+              <FileName>Main.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\test\start\Main.hpp</FilePath>
+              <FilePath>.\src\test\start\Main.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1077,9 +1130,9 @@
           <GroupName>main/core</GroupName>
           <Files>
             <File>
-              <FileName>core.h</FileName>
+              <FileName>package-info.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\core.h</FilePath>
+              <FilePath>.\src\main\core\package-info.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1087,9 +1140,9 @@
           <GroupName>main/core/arterytek</GroupName>
           <Files>
             <File>
-              <FileName>arterytek.h</FileName>
+              <FileName>package-info.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\arterytek.h</FilePath>
+              <FilePath>.\src\main\core\arterytek\package-info.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1097,9 +1150,29 @@
           <GroupName>main/core/arterytek/at32f415</GroupName>
           <Files>
             <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\package-info.h</FilePath>
+            </File>
+            <File>
               <FileName>Core.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\main\core\arterytek\at32f415\Core.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Core.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\Core.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreEntitySPI.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreEntitySPI.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreEntitySPI.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreEntitySPI.h</FilePath>
             </File>
             <File>
               <FileName>CoreExint.cpp</FileName>
@@ -1107,9 +1180,29 @@
               <FilePath>.\src\main\core\arterytek\at32f415\CoreExint.cpp</FilePath>
             </File>
             <File>
-              <FileName>CoreGpio.cpp</FileName>
+              <FileName>CoreExint.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreExint.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreGPIO.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreGpio.cpp</FilePath>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreGPIO.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreGPIO.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreGPIO.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreIIC.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreIIC.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreIIC.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreIIC.h</FilePath>
             </File>
             <File>
               <FileName>CoreInterrupt.cpp</FileName>
@@ -1117,9 +1210,19 @@
               <FilePath>.\src\main\core\arterytek\at32f415\CoreInterrupt.cpp</FilePath>
             </File>
             <File>
+              <FileName>CoreInterrupt.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreInterrupt.h</FilePath>
+            </File>
+            <File>
               <FileName>CoreIomux.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\main\core\arterytek\at32f415\CoreIomux.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreIomux.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreIomux.h</FilePath>
             </File>
             <File>
               <FileName>CorePin.cpp</FileName>
@@ -1127,9 +1230,9 @@
               <FilePath>.\src\main\core\arterytek\at32f415\CorePin.cpp</FilePath>
             </File>
             <File>
-              <FileName>CoreUsart.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreUsart.cpp</FilePath>
+              <FileName>CorePin.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CorePin.h</FilePath>
             </File>
             <File>
               <FileName>CoreTimer.cpp</FileName>
@@ -1137,9 +1240,19 @@
               <FilePath>.\src\main\core\arterytek\at32f415\CoreTimer.cpp</FilePath>
             </File>
             <File>
-              <FileName>at32f415.h</FileName>
+              <FileName>CoreTimer.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\at32f415.h</FilePath>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreTimer.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreUSART.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreUSART.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreUSART.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\CoreUSART.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1195,13 +1308,6 @@
         </Group>
         <Group>
           <GroupName>test/periph</GroupName>
-          <Files>
-            <File>
-              <FileName>Test.hpp</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\test\periph\Test.hpp</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>test/start</GroupName>
@@ -1212,9 +1318,9 @@
               <FilePath>.\src\test\start\Main.cpp</FilePath>
             </File>
             <File>
-              <FileName>Main.hpp</FileName>
+              <FileName>Main.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\test\start\Main.hpp</FilePath>
+              <FilePath>.\src\test\start\Main.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1255,5 +1361,14 @@
       </file>
     </files>
   </RTE>
+
+  <LayerInfo>
+    <Layers>
+      <Layer>
+        <LayName>core_arterytek_at32f415</LayName>
+        <LayPrjMark>1</LayPrjMark>
+      </Layer>
+    </Layers>
+  </LayerInfo>
 
 </Project>

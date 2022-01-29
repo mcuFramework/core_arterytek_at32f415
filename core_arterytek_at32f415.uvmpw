@@ -9,8 +9,6 @@
 
   <project>
     <PathAndName>.\core_arterytek_at32f415.uvprojx</PathAndName>
-    <NodeIsActive>1</NodeIsActive>
-    <NodeIsExpanded>1</NodeIsExpanded>
   </project>
 
   <project>
@@ -19,6 +17,7 @@
 
   <project>
     <PathAndName>.\ref\mcuf\mcuf.uvprojx</PathAndName>
+    <NodeIsActive>1</NodeIsActive>
     <NodeIsExpanded>1</NodeIsExpanded>
   </project>
 

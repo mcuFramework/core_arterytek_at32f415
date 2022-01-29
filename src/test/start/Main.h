@@ -5,51 +5,34 @@
  * SPDX-License-Identifier: MIT
  */
 
-#ifndef CORE_ARTERYTEK_AT32F415_ABB9BEEF_3AF5_49CB_AB49_A1A1B3886DA7
-#define CORE_ARTERYTEK_AT32F415_ABB9BEEF_3AF5_49CB_AB49_A1A1B3886DA7
+#ifndef CORE_ARTERYTEK_AT32F415_C5145AF1_08A9_4082_93D8_9F4ACA2D712C
+#define CORE_ARTERYTEK_AT32F415_C5145AF1_08A9_4082_93D8_9F4ACA2D712C
 
 /* ****************************************************************************************
  * Include
  */  
+ 
+//-----------------------------------------------------------------------------------------
 #include "mcuf.h"
-#include "CoreEntitySPI.hpp"
+#include "core_arterytek_at32f415.h"
 
 /* ****************************************************************************************
  * Namespace
  */  
-namespace core{
-  namespace arterytek{
-    namespace at32f415{
-      class CoreSPI;
-    }
-  }
+namespace start{
+  class Main;
 }
 
 /* ****************************************************************************************
  * Class Object
  */  
-class core::arterytek::at32f415::CoreSPI  extends mcuf::lang::Object
-      implements mcuf::hal::Base{
+class start::Main extends mcuf::lang::Thread implements mcuf::hal::TimerEvent, 
+  mcuf::hal::SerialPortEvent{
 
   /* **************************************************************************************
    * Subclass
    */
-  
-  /* **************************************************************************************
-   * Struct Packet
-   */
-  private: struct Packet{
-    core::arterytek::at32f415::CoreEntitySPI* coreEntitySPI;
-  };
 
-  /* **************************************************************************************
-   * Enum Register
-   */
-  public: enum Register{
-    SPI1,
-    SPI2
-  };
-        
   /* **************************************************************************************
    * Variable <Public>
    */
@@ -61,9 +44,14 @@ class core::arterytek::at32f415::CoreSPI  extends mcuf::lang::Object
   /* **************************************************************************************
    * Variable <Private>
    */
-  private: void* regAddress;
-  private: mcuf::util::Fifo* fifo;
-
+  private: mcuf::util::Stacker mStacker;
+  private: core::arterytek::at32f415::CorePin* mLED[8];
+  private: core::arterytek::at32f415::CorePin* mBTN[8];
+  private: uint32_t mStatus;
+  private: mcuf::io::ByteBuffer* txBuffer;
+  private: mcuf::io::ByteBuffer* rxBuffer;
+  private: core::arterytek::at32f415::CoreUsart* usart;
+    
   /* **************************************************************************************
    * Abstract method <Public>
    */
@@ -79,12 +67,12 @@ class core::arterytek::at32f415::CoreSPI  extends mcuf::lang::Object
   /**
    * Construct.
    */
-  public: CoreSPI(Register reg);
+   public: Main(mcuf::lang::Memory& memory, mcuf::lang::Memory& stacker);
 
   /**
    * Destruct.
    */
-  public: virtual ~CoreSPI(void);
+  public: ~Main(void);
 
   /* **************************************************************************************
    * Operator Method
@@ -95,8 +83,31 @@ class core::arterytek::at32f415::CoreSPI  extends mcuf::lang::Object
    */
 
   /* **************************************************************************************
-   * Public Method <Override>
+   * Public Method <Override> - mcuf::function::Runnable
    */
+  
+  /**
+   *
+   */
+  public: virtual void run(void) override;
+
+  /* **************************************************************************************
+   * Public Method <Override> - mcuf::hal::Timer::Event
+   */
+  
+  /**
+   *
+   */
+  public: void onTimerEvent(TimerStatus status) override;   
+
+  /* **************************************************************************************
+   * Public Method <Override> - mcuf::hal::SerialPortEvent::Event
+   */
+  
+  /**
+   *
+   */
+  public: void onSerialPortEvent(SerialPortStatus status, mcuf::io::ByteBuffer* byteBuffer) override;
 
   /* **************************************************************************************
    * Public Method
@@ -117,53 +128,7 @@ class core::arterytek::at32f415::CoreSPI  extends mcuf::lang::Object
   /* **************************************************************************************
    * Private Method <Static>
    */
-  
-  /**
-   *
-   */
-  private: inline void xferClear(void);
 
-  /**
-   * 
-   */
-  private: inline void spiEnable(void);
-
-  /**
-   * 
-   */
-  private: inline void spiDisable(void);
-
-  /**
-   * 
-   */
-  private: inline void isrTransferEnable(void);
-
-  /**
-   * 
-   */
-  private: inline void isrTransferDisable(void);
-
-  /**
-   * 
-   */
-  private: inline void isrReceiverEnable(void);
-
-  /**
-   * 
-   */
-  private: inline void isrReceiverDisable(void);
-
-  /**
-   * 
-   */
-  private: inline void isrEnable(void);
-
-  /**
-   * 
-   */
-  private: inline void isrDisable(void);
-  
-  
   /* **************************************************************************************
    * Private Method <Override>
    */
@@ -171,14 +136,16 @@ class core::arterytek::at32f415::CoreSPI  extends mcuf::lang::Object
   /* **************************************************************************************
    * Private Method
    */  
+  
+  /**
+   *
+   */
+  private: void initGPIO(void);
 
 };
-
-
 
 /* *****************************************************************************************
  * End of file
  */ 
 
-
-#endif/* CORE_ARTERYTEK_AT32F415_ABB9BEEF_3AF5_49CB_AB49_A1A1B3886DA7 */
+#endif/* CORE_ARTERYTEK_AT32F415_C5145AF1_08A9_4082_93D8_9F4ACA2D712C */
