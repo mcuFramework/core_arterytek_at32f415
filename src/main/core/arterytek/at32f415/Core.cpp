@@ -10,21 +10,28 @@
  */  
 
 //-----------------------------------------------------------------------------------------
-#include "bsp_arterytek_at32f415/at32f415.h"
-#include "core/arterytek/at32f415/Core.h"
+#include "mcuf.h"
+#include "bsp_arterytek_at32f415.h"
 
+//-----------------------------------------------------------------------------------------
+#include "core/arterytek/at32f415/Core.h"
 
 /* ****************************************************************************************
  * Using
  */  
+using namespace core::arterytek::at32f415::general::port;
+
+//-----------------------------------------------------------------------------------------
 using core::arterytek::at32f415::Core;
 using core::arterytek::at32f415::CoreIomux;
-using core::arterytek::at32f415::CoreGpio;
 using core::arterytek::at32f415::CoreInterrupt;
+
+
 
 /* ****************************************************************************************
  * Extern
  */ 
+extern unsigned int SystemCoreClockHz;
 extern void SystemCoreClockUpdate(void);
 
 /* ****************************************************************************************
@@ -35,11 +42,11 @@ CoreInterrupt Core::interrupt = CoreInterrupt();
 
 CoreIomux Core::iomux = CoreIomux();
 
-CoreGpio Core::gpioa = CoreGpio(CoreGpio::REG_GPIOA);
-CoreGpio Core::gpiob = CoreGpio(CoreGpio::REG_GPIOB);
-CoreGpio Core::gpioc = CoreGpio(CoreGpio::REG_GPIOC);
-CoreGpio Core::gpiod = CoreGpio(CoreGpio::REG_GPIOD);
-CoreGpio Core::gpiof = CoreGpio(CoreGpio::REG_GPIOF);
+CoreGeneralPort Core::gpioa = CoreGeneralPort(CoreGeneralPortReg::REG_GPIOA);
+CoreGeneralPort Core::gpiob = CoreGeneralPort(CoreGeneralPortReg::REG_GPIOB);
+CoreGeneralPort Core::gpioc = CoreGeneralPort(CoreGeneralPortReg::REG_GPIOC);
+CoreGeneralPort Core::gpiod = CoreGeneralPort(CoreGeneralPortReg::REG_GPIOD);
+CoreGeneralPort Core::gpiof = CoreGeneralPort(CoreGeneralPortReg::REG_GPIOF);
 
 
 /* ****************************************************************************************
@@ -58,7 +65,7 @@ CoreGpio Core::gpiof = CoreGpio(CoreGpio::REG_GPIOF);
  *
  */
 uint32_t Core::getSystemCoreClock(void){
-  return SystemCoreClock;
+  return SystemCoreClockHz;
 }
 
 /**

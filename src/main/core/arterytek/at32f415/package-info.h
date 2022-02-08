@@ -4,30 +4,25 @@
  * 
  * SPDX-License-Identifier: MIT
  */
+#ifndef CORE_ARTERYTEK_AT32F415_335402F9_6577_4E59_A02B_BA97FED60F4D
+#define CORE_ARTERYTEK_AT32F415_335402F9_6577_4E59_A02B_BA97FED60F4D
 
-#ifndef CORE_ARTERYTEK_AT32F415_E4673DEC_0201_4FB7_A29C_C50D4C1C8056
-#define CORE_ARTERYTEK_AT32F415_E4673DEC_0201_4FB7_A29C_C50D4C1C8056
-
+/* ****************************************************************************************
+ * Include folder
+ */
+#include "general/package-info.h"
+#include "serial/package-info.h"
+#include "timer/package-info.h"
 
 /* ****************************************************************************************
  * Include
  */
 #include "Core.h"
-#include "CoreExint.h"
-#include "CoreGpio.h"
+#include "CoreInterrupt.h"
 #include "CoreIomux.h"
-#include "CorePin.h"
-#include "CoreTimer.h"  
-#include "CoreUsart.h"
-
 
 /* ****************************************************************************************
- * Include folder
+ * End of file
  */
 
-/* *****************************************************************************************
- * End of file
- */ 
-
-
-#endif/* CORE_ARTERYTEK_AT32F415_E4673DEC_0201_4FB7_A29C_C50D4C1C8056 */
+#endif /* CORE_ARTERYTEK_AT32F415_335402F9_6577_4E59_A02B_BA97FED60F4D */

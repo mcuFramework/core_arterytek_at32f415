@@ -30,10 +30,15 @@ using mcuf::function::ConsumerEvent;
 
 using namespace start;
 using namespace mcuf::io;
+using namespace mcuf::hw;
+using namespace mcuf::hal;
 using namespace mcuf::lang;
 using namespace mcuf::util;
 using namespace mcuf::function;
 using namespace core::arterytek::at32f415;
+using core::arterytek::at32f415::general::pin::CoreGeneralPin;
+using namespace core::arterytek::at32f415::timer;
+using namespace mcuf::hal::timer;
 
 
 /* ****************************************************************************************
@@ -53,8 +58,7 @@ using namespace core::arterytek::at32f415;
  */
 Main::Main(Memory& memory, Memory& stacker) construct Thread(memory), 
   mStacker(stacker){
-    
-  this->mStatus = 0;
+
 }
 
 /**
@@ -67,7 +71,14 @@ Main::~Main(void){
 /* ****************************************************************************************
  * Public Method <Static>
  */
- 
+
+/**
+ * 
+ */
+void Main::onTimerEvent(TimerStatus status){
+  this->mLED[1]->setToggle();
+}
+
 /* ****************************************************************************************
  * Public Method <Override> mcuf::function::Runnable
  */
@@ -78,23 +89,8 @@ Main::~Main(void){
 void Main::run(void){
   this->initGPIO();
   
-
-  this->usart = new(this->mStacker)CoreUsart(CoreUsart::REG_UART4, this->mStacker.allocMemory(128));
-  usart->init();
-  usart->baudrate(128000);
-  
-  this->txBuffer = new(this->mStacker)ByteBuffer(this->mStacker.allocMemory(64));
-  this->rxBuffer = new(this->mStacker)ByteBuffer(this->mStacker.allocMemory(8));
-  
-  String s = String(this->mStacker.allocMemory(64));
-  
-  CoreTimer t = CoreTimer(CoreTimer::REG_TMR2);
-  t.init();
-  t.startAtTime(100000, this);
-  
-  this->txBuffer->put("start\n");
-  this->txBuffer->flip();
-  this->usart->write(this->txBuffer, this);
+  CoreTimer timer = CoreTimer(CoreTimerReg::REG_TMR3);
+  timer.init();
   
   while(true){
     this->mLED[0]->setHigh();
@@ -103,65 +99,6 @@ void Main::run(void){
     this->delay(500);
   }
 }
-
-/* ****************************************************************************************
- * Public Method <Override> mcuf::hal::Timer::Event
- */
-
-/**
- *
- */
-void Main::onTimerEvent(TimerStatus status){
-  this->mLED[1]->setToggle();
-}
-/* ****************************************************************************************
- * Public Method <Override> mcuf::hal::SerialPortEvent::Event
- */
-  
-/**
- *
- */
-void Main::onSerialPortEvent(SerialPortStatus status, mcuf::io::ByteBuffer* byteBuffer){
-  switch(status){
-    case HAL_SERIALPORT_WRITE_SUCCESSFUL:
-      this->mLED[2]->setToggle();
-      this->rxBuffer->reset();
-      this->usart->read(this->rxBuffer, this);
-      break;
-    
-    case HAL_SERIALPORT_WRITE_FAIL:
-      this->mLED[3]->setToggle();
-      break;
-    
-    case HAL_SERIALPORT_WRITE_ABROT:
-      this->mLED[4]->setToggle();
-      break;
-    
-    case HAL_SERIALPORT_READ_SUCCESSFUL:
-      this->mLED[5]->setToggle();
-      byteBuffer->flip();
-      this->txBuffer->reset();
-      this->txBuffer->put("rx is:");
-      this->txBuffer->put(*byteBuffer);
-      this->txBuffer->put("\n");
-      this->txBuffer->flip();
-      this->usart->write(this->txBuffer, this);
-      break;
-    
-    case HAL_SERIALPORT_READ_FAIL:
-      this->mLED[6]->setToggle();
-      break;
-    
-    case HAL_SERIALPORT_READ_ABROT:
-      this->mLED[7]->setToggle();
-      break;
-    
-  }
-}
-
-/* ****************************************************************************************
- * Public Method <Override>
- */
 
 /* ****************************************************************************************
  * Public Method
@@ -193,14 +130,11 @@ void Main::initGPIO(void){
   Core::iomux.init();
   Core::iomux.remapDEBUG(Core::iomux.DEBUG_JTAGDISABLE);
   
-  for(int i=0; i<8; i++){
-    this->mLED[i] = new(this->mStacker.allocAlignment32(sizeof(CorePin))) CorePin(&Core::gpiob, i);
+  for(int i=0; i<8; ++i){
+    this->mLED[i] = new(this->mStacker.allocAlignment32(sizeof(CoreGeneralPin))) CoreGeneralPin(&Core::gpiob, i);
     this->mLED[i]->setOutput();
     this->mLED[i]->setLow();
   }
-  
-  
-  Core::gpioc.configOutput(10, CoreGpio::OutputMode_50M, false, true, true);
   
 }
 

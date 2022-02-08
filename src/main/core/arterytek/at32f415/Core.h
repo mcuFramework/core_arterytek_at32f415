@@ -14,7 +14,7 @@
 #include "mcuf.h"
 
 #include "core/arterytek/at32f415/CoreIomux.h"
-#include "core/arterytek/at32f415/CoreGpio.h"
+#include "core/arterytek/at32f415/general/port/CoreGeneralPort.h"
 #include "core/arterytek/at32f415/CoreInterrupt.h"
 
 /* ****************************************************************************************
@@ -41,11 +41,11 @@ class core::arterytek::at32f415::Core extends mcuf::lang::Object{
    */
   public: static core::arterytek::at32f415::CoreInterrupt interrupt;
   public: static core::arterytek::at32f415::CoreIomux iomux;
-  public: static core::arterytek::at32f415::CoreGpio gpioa;
-  public: static core::arterytek::at32f415::CoreGpio gpiob;
-  public: static core::arterytek::at32f415::CoreGpio gpioc;
-  public: static core::arterytek::at32f415::CoreGpio gpiod;
-  public: static core::arterytek::at32f415::CoreGpio gpiof;
+  public: static core::arterytek::at32f415::general::port::CoreGeneralPort gpioa;
+  public: static core::arterytek::at32f415::general::port::CoreGeneralPort gpiob;
+  public: static core::arterytek::at32f415::general::port::CoreGeneralPort gpioc;
+  public: static core::arterytek::at32f415::general::port::CoreGeneralPort gpiod;
+  public: static core::arterytek::at32f415::general::port::CoreGeneralPort gpiof;
     
   /* **************************************************************************************
    * Variable <Protected>

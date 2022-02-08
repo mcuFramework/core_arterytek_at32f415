@@ -29,7 +29,7 @@ namespace core{
  * Class Object
  */  
 class core::arterytek::at32f415::CoreInterrupt extends mcuf::lang::Object
-      implements mcuf::function::Runnable{
+      implements mcuf::hal::InterruptEvent{
 
   /* **************************************************************************************
    * Enum Irq
@@ -123,7 +123,7 @@ class core::arterytek::at32f415::CoreInterrupt extends mcuf::lang::Object
    */
   private: uint8_t mFlag[8];
   
-  public: mcuf::function::Runnable* mHandle[IRQ_MAX_QUANTITY];
+  public: mcuf::hal::InterruptEvent* mHandle[IRQ_MAX_QUANTITY];
 
   
   /* **************************************************************************************
@@ -165,9 +165,9 @@ class core::arterytek::at32f415::CoreInterrupt extends mcuf::lang::Object
    */
 
   /* **************************************************************************************
-   * Public Method <Override>
+   * Public Method <Override> - mcuf::hal::InterruptEvent
    */
-  public: void run(void) override;
+  public: void interruptEvent(void) override;
 
   /* **************************************************************************************
    * Public Method
@@ -176,7 +176,7 @@ class core::arterytek::at32f415::CoreInterrupt extends mcuf::lang::Object
   /**
    * set interrupt handler.
    */
-  public: void setHandler(Irq irq, mcuf::function::Runnable* runnable);
+  public: void setHandler(Irq irq, mcuf::hal::InterruptEvent* runnable);
  
   
   /**

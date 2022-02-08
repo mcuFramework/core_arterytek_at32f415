@@ -4,26 +4,20 @@
  * 
  * SPDX-License-Identifier: MIT
  */
+#ifndef CORE_ARTERYTEK_AT32F415_523E9CC3_E226_4F69_9742_E3E6AB22DC34
+#define CORE_ARTERYTEK_AT32F415_523E9CC3_E226_4F69_9742_E3E6AB22DC34
 
-#ifndef MCUF_BCBB779F_12B6_4CBA_A798_BEAB738FC485
-#define MCUF_BCBB779F_12B6_4CBA_A798_BEAB738FC485
+/* ****************************************************************************************
+ * Include folder
+ */
+#include "arterytek/package-info.h"
 
 /* ****************************************************************************************
  * Include
  */
 
-
-
 /* ****************************************************************************************
- * Include folder
- */
-#include "arterytek\package-info.h"
-
-
-
-/* *****************************************************************************************
  * End of file
- */ 
+ */
 
-
-#endif /* MCUF_BCBB779F_12B6_4CBA_A798_BEAB738FC485 */
+#endif /* CORE_ARTERYTEK_AT32F415_523E9CC3_E226_4F69_9742_E3E6AB22DC34 */

@@ -26,8 +26,8 @@ namespace start{
 /* ****************************************************************************************
  * Class Object
  */  
-class start::Main extends mcuf::lang::Thread implements mcuf::hal::TimerEvent, 
-  mcuf::hal::SerialPortEvent{
+class start::Main extends mcuf::lang::Thread
+  implements mcuf::hal::timer::TimerEvent{
 
   /* **************************************************************************************
    * Subclass
@@ -45,13 +45,9 @@ class start::Main extends mcuf::lang::Thread implements mcuf::hal::TimerEvent,
    * Variable <Private>
    */
   private: mcuf::util::Stacker mStacker;
-  private: core::arterytek::at32f415::CorePin* mLED[8];
-  private: core::arterytek::at32f415::CorePin* mBTN[8];
-  private: uint32_t mStatus;
-  private: mcuf::io::ByteBuffer* txBuffer;
-  private: mcuf::io::ByteBuffer* rxBuffer;
-  private: core::arterytek::at32f415::CoreUsart* usart;
-    
+  private: core::arterytek::at32f415::general::pin::CoreGeneralPin* mLED[8];
+  private: core::arterytek::at32f415::general::pin::CoreGeneralPin* mBTN[8];
+
   /* **************************************************************************************
    * Abstract method <Public>
    */
@@ -81,6 +77,15 @@ class start::Main extends mcuf::lang::Thread implements mcuf::hal::TimerEvent,
   /* **************************************************************************************
    * Public Method <Static>
    */
+   
+  /* **************************************************************************************
+   * Public Method <Override> - mcuf::hal::timer::TimerEvent
+   */
+  
+  /**
+   *
+   */
+   public: virtual void onTimerEvent(mcuf::hal::timer::TimerStatus status) override;
 
   /* **************************************************************************************
    * Public Method <Override> - mcuf::function::Runnable
@@ -90,24 +95,6 @@ class start::Main extends mcuf::lang::Thread implements mcuf::hal::TimerEvent,
    *
    */
   public: virtual void run(void) override;
-
-  /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::Timer::Event
-   */
-  
-  /**
-   *
-   */
-  public: void onTimerEvent(TimerStatus status) override;   
-
-  /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::SerialPortEvent::Event
-   */
-  
-  /**
-   *
-   */
-  public: void onSerialPortEvent(SerialPortStatus status, mcuf::io::ByteBuffer* byteBuffer) override;
 
   /* **************************************************************************************
    * Public Method

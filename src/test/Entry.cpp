@@ -29,7 +29,7 @@ using start::Main;
 /* ****************************************************************************************
  * Variable <Static>
  */
-static Main* userMain;
+volatile static Main* userMain;
 static uint32_t mainMemory[(sizeof(Main)+3)/4];
 static uint64_t mainStack[2048/8];
 static uint64_t stackerMemory[3072];
@@ -63,13 +63,12 @@ static uint64_t stackerMemory[3072];
 extern "C" int main(void){
   core::arterytek::at32f415::Core::setSystemCoreClock(144);
   
-  if(1){
-    Memory stack = Memory(mainStack, sizeof(mainStack));
-    Memory stacker = Memory(stackerMemory, sizeof(stackerMemory));
-    userMain = new(mainMemory)Main(stack, stacker);
-  }
+  Memory stack = Memory(mainStack, sizeof(mainStack));
+  Memory stacker = Memory(stackerMemory, sizeof(stackerMemory));
+  Main* m = new(mainMemory)Main(stack, stacker);
+  userMain = m;
   
-  System::start(userMain);
+  System::start(m);
 }
 
 

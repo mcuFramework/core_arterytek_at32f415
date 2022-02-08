@@ -98,7 +98,7 @@ namespace core{
 /* ****************************************************************************************
  * Using
  */  
-using mcuf::function::Runnable;
+using mcuf::hal::InterruptEvent;
 using core::arterytek::at32f415::CoreInterrupt;
 
 /* ****************************************************************************************
@@ -142,7 +142,7 @@ CoreInterrupt::CoreInterrupt(void){
 /**
  *
  */
-void CoreInterrupt::run(void){
+void CoreInterrupt::interruptEvent(void){
   return;
 }
 
@@ -153,7 +153,7 @@ void CoreInterrupt::run(void){
 /**
  *
  */
-void CoreInterrupt::setHandler(Irq irq, mcuf::function::Runnable* runnable){
+void CoreInterrupt::setHandler(Irq irq, InterruptEvent* runnable){
   if(!runnable)
     runnable = this;
   

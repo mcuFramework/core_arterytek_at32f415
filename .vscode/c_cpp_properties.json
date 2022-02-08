@@ -3,12 +3,11 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}\\src\\lowlevel",
                 "${workspaceFolder}\\src\\main",
                 "${workspaceFolder}\\src\\test",
                 "${workspaceFolder}\\src\\resources",
                 "${workspaceFolder}\\ref\\mcuf\\src\\main",
-                "${workspaceFolder}\\ref\\bsp_at32f415\\src\\lowlevel",
+                "${workspaceFolder}\\ref\\bsp_arterytek_at32f415\\src\\main",
                 "C:\\MinGW\\include"
             ],
             "defines": [
@@ -20,12 +19,11 @@
             "intelliSenseMode": "gcc-x86",
             "browse": {
                 "path": [
-                    "${workspaceFolder}\\src\\lowlevel",
                     "${workspaceFolder}\\src\\main",
                     "${workspaceFolder}\\src\\test",
                     "${workspaceFolder}\\src\\resources",
                     "${workspaceFolder}\\ref\\mcuf\\src\\main",
-                    "${workspaceFolder}\\ref\\bsp_at32f415\\src\\lowlevel",
+                    "${workspaceFolder}\\ref\\bsp_arterytek_at32f415\\src\\main",
                     "C:\\MinGW\\include"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
