@@ -185,7 +185,6 @@
             <uocXRam>0</uocXRam>
             <RvdsVP>0</RvdsVP>
             <RvdsMve>0</RvdsMve>
-            <RvdsCdeCp>0</RvdsCdeCp>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -352,7 +351,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <ClangAsOpt>4</ClangAsOpt>
+            <uClangAs>0</uClangAs>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -701,7 +700,7 @@
                 <NoWarn>2</NoWarn>
                 <uSurpInc>2</uSurpInc>
                 <useXO>2</useXO>
-                <ClangAsOpt>0</ClangAsOpt>
+                <uClangAs>2</uClangAs>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>
@@ -760,22 +759,42 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>test/periph</GroupName>
+          <GroupName>test/core</GroupName>
           <Files>
             <File>
               <FileName>package-info.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\test\periph\package-info.h</FilePath>
+              <FilePath>.\src\test\core\package-info.h</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>test/periph/usart</GroupName>
+          <GroupName>test/core/periph</GroupName>
           <Files>
             <File>
               <FileName>package-info.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\test\periph\usart\package-info.h</FilePath>
+              <FilePath>.\src\test\core\periph\package-info.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>test/core/periph/port</GroupName>
+          <Files>
+            <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\test\core\periph\port\package-info.h</FilePath>
+            </File>
+            <File>
+              <FileName>SerialPortTest.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\test\core\periph\port\SerialPortTest.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>SerialPortTest.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\test\core\periph\port\SerialPortTest.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -855,7 +874,7 @@
                 <NoWarn>2</NoWarn>
                 <uSurpInc>2</uSurpInc>
                 <useXO>2</useXO>
-                <ClangAsOpt>0</ClangAsOpt>
+                <uClangAs>2</uClangAs>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>
@@ -1058,7 +1077,6 @@
             <uocXRam>0</uocXRam>
             <RvdsVP>0</RvdsVP>
             <RvdsMve>0</RvdsMve>
-            <RvdsCdeCp>0</RvdsCdeCp>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -1225,7 +1243,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <ClangAsOpt>4</ClangAsOpt>
+            <uClangAs>0</uClangAs>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -1564,22 +1582,42 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>test/periph</GroupName>
+          <GroupName>test/core</GroupName>
           <Files>
             <File>
               <FileName>package-info.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\test\periph\package-info.h</FilePath>
+              <FilePath>.\src\test\core\package-info.h</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>test/periph/usart</GroupName>
+          <GroupName>test/core/periph</GroupName>
           <Files>
             <File>
               <FileName>package-info.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\test\periph\usart\package-info.h</FilePath>
+              <FilePath>.\src\test\core\periph\package-info.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>test/core/periph/port</GroupName>
+          <Files>
+            <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\test\core\periph\port\package-info.h</FilePath>
+            </File>
+            <File>
+              <FileName>SerialPortTest.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\test\core\periph\port\SerialPortTest.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>SerialPortTest.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\test\core\periph\port\SerialPortTest.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1635,14 +1673,5 @@
       </file>
     </files>
   </RTE>
-
-  <LayerInfo>
-    <Layers>
-      <Layer>
-        <LayName>core_arterytek_at32f415</LayName>
-        <LayPrjMark>1</LayPrjMark>
-      </Layer>
-    </Layers>
-  </LayerInfo>
 
 </Project>

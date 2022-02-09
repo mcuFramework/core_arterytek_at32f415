@@ -7,39 +7,53 @@
 
 /* ****************************************************************************************
  * Include
- */  
+ */
 
 //-----------------------------------------------------------------------------------------
-#include "mcuf.h"
-#include "core_arterytek_at32f415.h"
-#include "start/Main.h"
+
+//-----------------------------------------------------------------------------------------
+#include "core/periph/port/SerialPortTest.h"
+
+/* ****************************************************************************************
+ * Macro
+ */
 
 /* ****************************************************************************************
  * Using
- */  
-using mcuf::lang::System;
-using mcuf::lang::Memory;
-using mcuf::util::Stacker;
-using start::Main;
-
-/* ****************************************************************************************
- * Extern
  */
+
+//-----------------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------------------
+using core::periph::port::SerialPortTest;
+using core::arterytek::at32f415::Core;
+using core::arterytek::at32f415::general::pin::CoreGeneralPin;
+using core::arterytek::at32f415::general::port::CoreGeneralPort;
+using core::arterytek::at32f415::general::port::OutputMode;
+using mcuf::util::Stacker;
+using mcuf::lang::Memory;
 
 /* ****************************************************************************************
  * Variable <Static>
  */
-volatile static Main* userMain;
-static uint32_t mainMemory[(sizeof(Main)+3)/4];
-static uint64_t mainStack[2048/8];
-static uint64_t stackerMemory[3072];
-
 
 /* ****************************************************************************************
  * Construct Method
  */
 
+/**
+ *
+ */
+SerialPortTest::SerialPortTest(Stacker& stacker) construct mStacker(stacker){
+  return;
+}
 
+/**
+ *
+ */
+SerialPortTest::~SerialPortTest(void){
+  return;
+}
 
 /* ****************************************************************************************
  * Operator Method
@@ -48,37 +62,37 @@ static uint64_t stackerMemory[3072];
 /* ****************************************************************************************
  * Public Method <Static>
  */
- 
+
 /* ****************************************************************************************
- * Public Method <Override>
+ * Public Method <Override> - mcuf::function::run
  */
+
+/**
+ * @brief
+ * 
+ */
+void SerialPortTest::run(void){
+  this->init();
+  
+  while(true){
+    for(int i=0; i<8; ++i){
+      this->mLed[i]->setToggle();
+      this->delay(500);
+    }
+  }
+}
 
 /* ****************************************************************************************
  * Public Method
  */
 
-/**
- *
- */
-  extern "C" int main(void){
-  core::arterytek::at32f415::Core::setSystemCoreClock(144);
-  
-  Memory stack = Memory(mainStack, sizeof(mainStack));
-  Memory stacker = Memory(stackerMemory, sizeof(stackerMemory));
-  Main* m = new(mainMemory)Main(stack, stacker);
-  userMain = m;
-  
-  System::start(m);
-}
-
-
 /* ****************************************************************************************
  * Protected Method <Static>
  */
- 
+
 /* ****************************************************************************************
  * Protected Method <Override>
- */ 
+ */
 
 /* ****************************************************************************************
  * Protected Method
@@ -87,7 +101,23 @@ static uint64_t stackerMemory[3072];
 /* ****************************************************************************************
  * Private Method
  */
- 
+
+void SerialPortTest::init(void){
+  Core::gpioa.init();
+  Core::gpiob.init();
+  Core::gpioc.init();
+  Core::iomux.init();
+  Core::iomux.remapDEBUG(Core::iomux.DEBUG_JTAGDISABLE);
+  
+  for(int i=0; i<8; i++){
+    this->mLed[i] = new(this->mStacker) CoreGeneralPin(&Core::gpiob, i);
+    this->mLed[i]->setOutput();
+    this->mLed[i]->setLow();
+  }
+  
+  Core::gpioc.configOutput(10, OutputMode::SPEED_50M, false, true, true);
+}
+
 /* ****************************************************************************************
  * End of file
- */ 
+ */
