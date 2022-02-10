@@ -4,30 +4,36 @@
  * 
  * SPDX-License-Identifier: MIT
  */
-
-#ifndef CORE_ARTERYTEK_AT32F415_C5145AF1_08A9_4082_93D8_9F4ACA2D712C
-#define CORE_ARTERYTEK_AT32F415_C5145AF1_08A9_4082_93D8_9F4ACA2D712C
+#ifndef CORE_ARTERYTEK_AT32F415_519BB51C_09CB_40B0_83D4_C068D10A5FE1
+#define CORE_ARTERYTEK_AT32F415_519BB51C_09CB_40B0_83D4_C068D10A5FE1
 
 /* ****************************************************************************************
  * Include
  */  
- 
+
 //-----------------------------------------------------------------------------------------
 #include "mcuf.h"
 #include "core_arterytek_at32f415.h"
 
+//-----------------------------------------------------------------------------------------
+
 /* ****************************************************************************************
  * Namespace
  */  
-namespace start{
-  class Main;
+namespace core{
+  namespace periph{
+    namespace port{
+      class SerialPortTest;
+    }
+  }
 }
 
 /* ****************************************************************************************
- * Class Object
+ * Class/Interface/Struct/Enum
  */  
-class start::Main extends mcuf::lang::Thread{
-  
+class core::periph::port::SerialPortTest extends mcuf::lang::Object implements
+  public mcuf::function::Runnable{
+
   /* **************************************************************************************
    * Variable <Public>
    */
@@ -40,7 +46,9 @@ class start::Main extends mcuf::lang::Thread{
    * Variable <Private>
    */
   private:
-    mcuf::util::Stacker mStacker;
+    mcuf::util::Stacker& mStacker;
+    core::arterytek::at32f415::general::pin::CoreGeneralPin* mLed[8];
+  
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -54,15 +62,16 @@ class start::Main extends mcuf::lang::Thread{
    * Construct Method
    */
   public:
+    
     /**
-     * Construct.
+     * 
      */
-    Main(mcuf::lang::Memory& memory, mcuf::lang::Memory& stacker);
+    SerialPortTest(mcuf::util::Stacker& stacker);
 
     /**
-     * Destruct.
+     * 
      */
-    virtual ~Main(void);
+    virtual ~SerialPortTest(void);
 
   /* **************************************************************************************
    * Operator Method
@@ -78,7 +87,8 @@ class start::Main extends mcuf::lang::Thread{
   public:
     
     /**
-     *
+     * @brief 
+     * 
      */
     virtual void run(void) override;
 
@@ -105,15 +115,22 @@ class start::Main extends mcuf::lang::Thread{
   /* **************************************************************************************
    * Private Method <Override>
    */
-   
+
   /* **************************************************************************************
    * Private Method
-   */  
+   */
+  private:
+
+    /**
+     * @brief 
+     * 
+     */
+    void init(void);
 
 };
 
-/* *****************************************************************************************
+/* ****************************************************************************************
  * End of file
  */ 
 
-#endif/* CORE_ARTERYTEK_AT32F415_C5145AF1_08A9_4082_93D8_9F4ACA2D712C */
+#endif /* CORE_ARTERYTEK_AT32F415_519BB51C_09CB_40B0_83D4_C068D10A5FE1 */

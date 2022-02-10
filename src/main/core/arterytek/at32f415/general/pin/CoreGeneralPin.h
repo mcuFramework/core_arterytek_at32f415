@@ -38,8 +38,8 @@ namespace core{
 /* ****************************************************************************************
  * Class Object
  */  
-class core::arterytek::at32f415::general::pin::CoreGeneralPin  extends mcuf::lang::Object
-      implements mcuf::hal::general::pin::GeneralPin{
+class core::arterytek::at32f415::general::pin::CoreGeneralPin  extends mcuf::lang::Object implements 
+  public mcuf::hal::general::pin::GeneralPin{
 
   /* **************************************************************************************
    * Subclass
@@ -56,8 +56,9 @@ class core::arterytek::at32f415::general::pin::CoreGeneralPin  extends mcuf::lan
   /* **************************************************************************************
    * Variable <Private>
    */
-  private: void* mBase;
-  private: uint32_t mPin;
+  private: 
+    void* mBase;
+    uint32_t mPin;
 
 
   /* **************************************************************************************
@@ -71,17 +72,18 @@ class core::arterytek::at32f415::general::pin::CoreGeneralPin  extends mcuf::lan
   /* **************************************************************************************
    * Construct Method
    */
+  public:
+    
+    /**
+     * Construct.
+     */
+    CoreGeneralPin(core::arterytek::at32f415::general::port::CoreGeneralPort* base, 
+                   uint32_t pin);
 
-  /**
-   * Construct.
-   */
-  public: CoreGeneralPin(core::arterytek::at32f415::general::port::CoreGeneralPort* base, 
-                         uint32_t pin);
-
-  /**
-   * Disconstruct.
-   */
-  public: virtual ~CoreGeneralPin(void) = default;
+    /**
+     * Disconstruct.
+     */
+    virtual ~CoreGeneralPin(void) = default;
 
   /* **************************************************************************************
    * Operator Method
