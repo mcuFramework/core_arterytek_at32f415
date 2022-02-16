@@ -54,6 +54,8 @@ class core::arterytek::at32f415::serial::periph::CoreSerialPeriph extends mcuf::
    * Variable <Private>
    */
   private:
+    mcuf::hal::general::pin::GeneralPin* mSelectChipSelect;
+    mcuf::hal::general::pin::GeneralPin* mChipSelect[8];
     core::arterytek::at32f415::serial::periph::CoreSerialPeriphReg mRegister;
     mcuf::hal::serial::periph::SerialPeriphEvent* mEvent;
     mcuf::hal::serial::periph::SerialPeriphStatus mStatus;
@@ -187,6 +189,12 @@ class core::arterytek::at32f415::serial::periph::CoreSerialPeriph extends mcuf::
   /* **************************************************************************************
    * Public Method
    */
+  public:
+    
+    /**
+     *
+     */
+    bool setChipSelectPin(uint32_t chipSelect, mcuf::hal::general::pin::GeneralPin* pin);
 
   /* **************************************************************************************
    * Protected Method <Static>
@@ -211,6 +219,12 @@ class core::arterytek::at32f415::serial::periph::CoreSerialPeriph extends mcuf::
   /* **************************************************************************************
    * Private Method
    */
+  private:
+  
+    /**
+     *
+     */
+    void execute(void);
 
 };
 

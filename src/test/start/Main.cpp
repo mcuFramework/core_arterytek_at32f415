@@ -26,6 +26,7 @@
  */  
 using namespace start;
 using namespace core::serial::port;
+using namespace core::serial::periph;
 using namespace tool;
 
 //-----------------------------------------------------------------------------------------
@@ -65,17 +66,8 @@ Main::~Main(void){
  * 
  */
 void Main::run(void){
-  Console* console = new(this->mStacker) Console();
-  BoardPeriph* boardPerilh = new(this->mStacker) BoardPeriph();
-  
-  int i=0;
-  while(true){
-    console->out().print("value: ");
-    console->out().println(i++);
-    this->delay(100);
-    boardPerilh->led[i%8].setToggle();
-  }
-  
+  SerialPeriphTest* serialPeriphTest = new(this->mStacker) SerialPeriphTest(this->mStacker);
+  serialPeriphTest->run();
 }
 
 /* ****************************************************************************************

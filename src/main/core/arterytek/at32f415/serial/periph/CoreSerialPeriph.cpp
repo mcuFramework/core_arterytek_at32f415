@@ -33,6 +33,7 @@ using namespace mcuf::hal::serial::periph;
 using namespace core::arterytek::at32f415::serial::periph;
 
 //-----------------------------------------------------------------------------------------
+using mcuf::hal::general::pin::GeneralPin;
 using mcuf::io::ByteBuffer;
 using mcuf::lang::System;
 
@@ -163,14 +164,9 @@ void CoreSerialPeriph::interruptEvent(void){
       if(base->ctrl2_bit.rdbfie)
         base->dt = 0xFFFF;
 
-      else{
-        base->ctrl2_bit.tdbeie = false;
-        base->ctrl1_bit.spien = false;
-        if(!System::execute(*this))
-          this->run();
+      else
+        this->execute();
         
-      }
-
     }else{
       if(this->mTransfer.ptr)
         base->dt = this->mTransfer.ptr[this->mTransfer.count];
@@ -193,12 +189,8 @@ void CoreSerialPeriph::interruptEvent(void){
     if(this->mReceiver.count >= this->mReceiver.length){
       base->ctrl2_bit.rdbfie = false;
       
-      if(this->mTransfer.count >= this->mTransfer.length){
-        base->ctrl2_bit.tdbeie = false;
-        base->ctrl1_bit.spien = false;
-        if(!System::execute(*this))
-          this->run();
-      }
+      if(this->mTransfer.count >= this->mTransfer.length)
+        this->execute();
       
     }
   }
@@ -320,14 +312,13 @@ bool CoreSerialPeriph::isBusy(void){
 bool CoreSerialPeriph::transfer(uint32_t chipSelect, 
                                 SerialPeriphPacket* packet,
                                 SerialPeriphEvent* event){
-
-  if(packet==nullptr){
-    if(event != nullptr)
-      event->onSerialPeriphEvent(SerialPeriphStatus::FAIL, nullptr, nullptr);
-    
+                         
+  if(packet==nullptr)
     return false;
-  }
   
+  if(chipSelect >= 8)
+    return false;
+    
   if(this->isBusy()){
     if(event != nullptr)
       event->onSerialPeriphEvent(SerialPeriphStatus::FAIL, packet->tx, packet->rx);
@@ -343,10 +334,12 @@ bool CoreSerialPeriph::transfer(uint32_t chipSelect,
   }
   
   if(packet->rx != nullptr){
-    if(packet->rx->isReadOnly())
-      event->onSerialPeriphEvent(SerialPeriphStatus::FAIL, packet->tx, packet->rx);
-    
-    return false;
+    if(packet->rx->isReadOnly()){
+      if(event != nullptr)
+        event->onSerialPeriphEvent(SerialPeriphStatus::FAIL, packet->tx, packet->rx);
+      
+      return false;
+    }
   }
   
   this->mEvent = event;
@@ -371,6 +364,8 @@ bool CoreSerialPeriph::transfer(uint32_t chipSelect,
   }else{
     BASE->ctrl1_bit.clkpha = false;
   }
+  
+  this->mSelectChipSelect = this->mChipSelect[chipSelect];
 
 	uint32_t clock = (Core::getSystemCoreClock() >> 2);
 	clock = clock>>2;
@@ -388,6 +383,9 @@ bool CoreSerialPeriph::transfer(uint32_t chipSelect,
 
   BASE->ctrl2_bit.mdiv_h = div;
 
+  if(this->mSelectChipSelect)
+    this->mSelectChipSelect->setLow();
+  
   BASE->ctrl1_bit.spien = true;
   
   if(this->mReceiver.ptr)
@@ -401,6 +399,22 @@ bool CoreSerialPeriph::transfer(uint32_t chipSelect,
 /* ****************************************************************************************
  * Public Method
  */
+
+/**
+ *
+ */
+bool CoreSerialPeriph::setChipSelectPin(uint32_t chipSelect, GeneralPin* pin){
+  if(chipSelect >= 8)
+    return false;
+  
+  if(pin != nullptr){
+    pin->setOutput();
+    pin->setHigh();
+  }
+  
+  this->mChipSelect[chipSelect] = pin;
+  return true;
+}
 
 /* ****************************************************************************************
  * Protected Method <Static>
@@ -417,6 +431,23 @@ bool CoreSerialPeriph::transfer(uint32_t chipSelect,
 /* ****************************************************************************************
  * Private Method
  */
+
+/**
+ *
+ */
+void CoreSerialPeriph::execute(void){
+  BASE->ctrl2_bit.tdbeie = false;
+  BASE->ctrl1_bit.spien = false;
+  
+  if(this->mSelectChipSelect)
+    this->mSelectChipSelect->setHigh();
+  
+  this->mSelectChipSelect = nullptr;
+  
+  if(!System::execute(*this))
+    this->run();
+}
+
 
 /* ****************************************************************************************
  * End of file

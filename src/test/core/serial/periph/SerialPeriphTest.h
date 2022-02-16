@@ -34,7 +34,8 @@ namespace core{
  * Class/Interface/Struct/Enum
  */  
 class core::serial::periph::SerialPeriphTest extends mcuf::lang::Object implements
-  public mcuf::function::Runnable{
+  public mcuf::function::Runnable,
+  public mcuf::hal::serial::periph::SerialPeriphEvent{
 
   /* **************************************************************************************
    * Variable <Public>
@@ -49,8 +50,14 @@ class core::serial::periph::SerialPeriphTest extends mcuf::lang::Object implemen
    */
   private:
     mcuf::util::Stacker& mStacker;
-    tool::Console* console;
-    tool::BoardPeriph* boardPeriph;
+    
+    tool::Console* mConsole;
+    tool::BoardPeriph* mBoardPeriph;
+    core::arterytek::at32f415::general::pin::CoreGeneralPin* mChipSelectPin[4];
+    core::arterytek::at32f415::serial::periph::CoreSerialPeriph* mCoreSerialPeriph;
+  
+    mcuf::io::ByteBuffer* mTransferByteBuffer;
+    mcuf::io::ByteBuffer* mReceiverByteBuffer;
   
   /* **************************************************************************************
    * Abstract method <Public>
@@ -95,6 +102,22 @@ class core::serial::periph::SerialPeriphTest extends mcuf::lang::Object implemen
     virtual void run(void) override;
 
   /* **************************************************************************************
+   * Public Method <Override> - mcuf::hal::serial::periph::SerialPeriphEvent
+   */  
+  public:
+  
+    /**
+     * @brief 
+     * 
+     * @param status 
+     * @param transfer 
+     * @param receiver 
+     */
+    virtual void onSerialPeriphEvent(mcuf::hal::serial::periph::SerialPeriphStatus status, 
+                                     mcuf::io::ByteBuffer* transfer,
+                                     mcuf::io::ByteBuffer* receiver) override;  
+  
+  /* **************************************************************************************
    * Public Method
    */
 
@@ -121,6 +144,22 @@ class core::serial::periph::SerialPeriphTest extends mcuf::lang::Object implemen
   /* **************************************************************************************
    * Private Method
    */
+  private:
+    
+    /**
+     *
+     */
+    void init(void);
+  
+    /**
+     *
+     */
+    void formatBuffer(void);
+  
+    /**
+     *
+     */
+    void showBuffer(void);
 
 };
 
