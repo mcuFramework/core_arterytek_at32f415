@@ -33,7 +33,7 @@ namespace core{
 /* ****************************************************************************************
  * Class Object
  */  
-class core::arterytek::at32f415::serial::port::CoreSerialPort extends mcuf::util::RingBuffer implements 
+class core::arterytek::at32f415::serial::port::CoreSerialPort extends mcuf::io::RingBuffer implements 
   public mcuf::hal::serial::port::SerialPort,
   public mcuf::hal::InterruptEvent{
        

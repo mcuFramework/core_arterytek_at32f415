@@ -4,8 +4,8 @@
  * 
  * SPDX-License-Identifier: MIT
  */
-#ifndef CORE_ARTERYTEK_AT32F415_519BB51C_09CB_40B0_83D4_C068D10A5FE1
-#define CORE_ARTERYTEK_AT32F415_519BB51C_09CB_40B0_83D4_C068D10A5FE1
+#ifndef CORE_ARTERYTEK_AT32F415_4207A82C_790E_486E_A2E7_0D66F63DC3DA
+#define CORE_ARTERYTEK_AT32F415_4207A82C_790E_486E_A2E7_0D66F63DC3DA
 
 /* ****************************************************************************************
  * Include
@@ -16,23 +16,25 @@
 #include "core_arterytek_at32f415.h"
 
 //-----------------------------------------------------------------------------------------
-
+#define TOOL_CONSOLE_DYNAMIC_SIZE ( \
+  sizeof(core::arterytek::at32f415::serial::port::CoreSerialPort) + 4 + \
+  sizeof(mcuf::io::SerialPortOutputStream) + 4 +\
+  sizeof(mcuf::io::OutputStreamBuffer) + 4 +\
+  sizeof(mcuf::io::PrintStream) + 4\
+  )
+  
 /* ****************************************************************************************
  * Namespace
  */  
-namespace core{
-  namespace periph{
-    namespace port{
-      class SerialPortTest;
-    }
-  }
+namespace tool{
+  class Console;
 }
+
 
 /* ****************************************************************************************
  * Class/Interface/Struct/Enum
  */  
-class core::periph::port::SerialPortTest extends mcuf::lang::Object implements
-  public mcuf::function::Runnable{
+class tool::Console extends mcuf::lang::Object{
 
   /* **************************************************************************************
    * Variable <Public>
@@ -45,10 +47,17 @@ class core::periph::port::SerialPortTest extends mcuf::lang::Object implements
   /* **************************************************************************************
    * Variable <Private>
    */
-  private:
-    mcuf::util::Stacker& mStacker;
-    core::arterytek::at32f415::general::pin::CoreGeneralPin* mLed[8];
+  public:
+    core::arterytek::at32f415::serial::port::CoreSerialPort* mCoreSerialPort;
+    mcuf::io::SerialPortOutputStream* mSerialPortOutputStream;
+    mcuf::io::OutputStreamBuffer* mOutputStreamBuffer;
+    mcuf::io::PrintStream* mPrintStream;
   
+    uint32_t mDynamicMemory[TOOL_CONSOLE_DYNAMIC_SIZE / 4];
+
+    uint8_t mCoreSerialPortMemory[64];
+    uint8_t mPrintStreamMemory[64];
+    uint8_t mOutputStreamBufferMemory[1024];
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -62,16 +71,18 @@ class core::periph::port::SerialPortTest extends mcuf::lang::Object implements
    * Construct Method
    */
   public:
-    
-    /**
-     * 
-     */
-    SerialPortTest(mcuf::util::Stacker& stacker);
 
     /**
+     * @brief Construct a new Console object
      * 
      */
-    virtual ~SerialPortTest(void);
+    Console(void);
+
+    /**
+     * @brief Destroy the Console object
+     * 
+     */
+    virtual ~Console(void);
 
   /* **************************************************************************************
    * Operator Method
@@ -82,15 +93,22 @@ class core::periph::port::SerialPortTest extends mcuf::lang::Object implements
    */
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::function::Runnable
+   * Public Method <Override>
+   */
+
+  /* **************************************************************************************
+   * Public Method <Inline>
    */
   public:
-    
+
     /**
      * @brief 
      * 
+     * @return mcuf::io::PrintStream& 
      */
-    virtual void run(void) override;
+    inline mcuf::io::PrintStream& out(void){
+      return *this->mPrintStream;
+    }
 
   /* **************************************************************************************
    * Public Method
@@ -119,13 +137,6 @@ class core::periph::port::SerialPortTest extends mcuf::lang::Object implements
   /* **************************************************************************************
    * Private Method
    */
-  private:
-
-    /**
-     * @brief 
-     * 
-     */
-    void init(void);
 
 };
 
@@ -133,4 +144,4 @@ class core::periph::port::SerialPortTest extends mcuf::lang::Object implements
  * End of file
  */ 
 
-#endif /* CORE_ARTERYTEK_AT32F415_519BB51C_09CB_40B0_83D4_C068D10A5FE1 */
+#endif /* CORE_ARTERYTEK_AT32F415_4207A82C_790E_486E_A2E7_0D66F63DC3DA */

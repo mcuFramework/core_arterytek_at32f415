@@ -5,77 +5,74 @@
  * SPDX-License-Identifier: MIT
  */
 
-//__asm(".global __use_no_semihosting_swi");
-//__asm(".global __use_no_semihosting");
-
 /* ****************************************************************************************
  * Include
- */  
+ */
 
 //-----------------------------------------------------------------------------------------
-#include "mcuf.h"
-#include "core_arterytek_at32f415.h"
 
 //-----------------------------------------------------------------------------------------
-#include "start/Main.h"
-#include "core/serial/package-info.h"
-#include "tool/package-info.h"
+#include "core/serial/periph/SerialPeriphTest.h"
+
+/* ****************************************************************************************
+ * Macro
+ */
 
 /* ****************************************************************************************
  * Using
- */  
-using namespace start;
-using namespace core::serial::port;
+ */
+
+//-----------------------------------------------------------------------------------------
 using namespace tool;
 
 //-----------------------------------------------------------------------------------------
-using mcuf::function::Runnable;
-using mcuf::lang::Memory;
+using core::serial::periph::SerialPeriphTest;
+
+using mcuf::util::Stacker;
+
+
 
 /* ****************************************************************************************
- * Namespace
- */  
-
-/* ****************************************************************************************
- * Extern
+ * Variable <Static>
  */
+
+/* ****************************************************************************************
+ * Construct Method
+ */
+
+/**
+ *
+ */
+SerialPeriphTest::SerialPeriphTest(Stacker& stacker) construct
+  mStacker(stacker){
+  
+  this->boardPeriph = new(this->mStacker) BoardPeriph();
+  this->console = new(this->mStacker) Console();
+}
+  
+/**
+ *
+ */
+SerialPeriphTest::~SerialPeriphTest(void){
+}
 
 /* ****************************************************************************************
  * Operator Method
  */
 
-/**
- * Construct.
+/* ****************************************************************************************
+ * Public Method <Static>
  */
-Main::Main(Memory& memory, Memory& stacker) construct Thread(memory), mStacker(stacker){
-}
-
-/**
- * Destruct.
- */
-Main::~Main(void){
-}
-
 
 /* ****************************************************************************************
  * Public Method <Override> mcuf::function::Runnable
  */
 
 /**
- * 
+ *
  */
-void Main::run(void){
-  Console* console = new(this->mStacker) Console();
-  BoardPeriph* boardPerilh = new(this->mStacker) BoardPeriph();
-  
-  int i=0;
-  while(true){
-    console->out().print("value: ");
-    console->out().println(i++);
-    this->delay(100);
-    boardPerilh->led[i%8].setToggle();
-  }
-  
+void SerialPeriphTest::run(void){
+
 }
 
 /* ****************************************************************************************
@@ -85,10 +82,10 @@ void Main::run(void){
 /* ****************************************************************************************
  * Protected Method <Static>
  */
- 
+
 /* ****************************************************************************************
  * Protected Method <Override>
- */ 
+ */
 
 /* ****************************************************************************************
  * Protected Method
@@ -100,4 +97,4 @@ void Main::run(void){
 
 /* ****************************************************************************************
  * End of file
- */ 
+ */

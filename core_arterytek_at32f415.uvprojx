@@ -769,32 +769,42 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>test/core/periph</GroupName>
+          <GroupName>test/core/serial</GroupName>
           <Files>
             <File>
               <FileName>package-info.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\test\core\periph\package-info.h</FilePath>
+              <FilePath>.\src\test\core\serial\package-info.h</FilePath>
+            </File>
+            <File>
+              <FileName>SerialPeriphTest.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\test\core\serial\periph\SerialPeriphTest.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>SerialPeriphTest.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\test\core\serial\periph\SerialPeriphTest.h</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>test/core/periph/port</GroupName>
+          <GroupName>test/core/serial/port</GroupName>
           <Files>
             <File>
               <FileName>package-info.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\test\core\periph\port\package-info.h</FilePath>
+              <FilePath>.\src\test\core\serial\port\package-info.h</FilePath>
             </File>
             <File>
               <FileName>SerialPortTest.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\test\core\periph\port\SerialPortTest.cpp</FilePath>
+              <FilePath>.\src\test\core\serial\port\SerialPortTest.cpp</FilePath>
             </File>
             <File>
               <FileName>SerialPortTest.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\test\core\periph\port\SerialPortTest.h</FilePath>
+              <FilePath>.\src\test\core\serial\port\SerialPortTest.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -810,6 +820,36 @@
               <FileName>Main.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\test\start\Main.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>test/tool</GroupName>
+          <Files>
+            <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\test\tool\package-info.h</FilePath>
+            </File>
+            <File>
+              <FileName>BoardPeriph.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\test\tool\BoardPeriph.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>BoardPeriph.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\test\tool\BoardPeriph.h</FilePath>
+            </File>
+            <File>
+              <FileName>Console.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\test\tool\Console.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Console.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\test\tool\Console.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1592,32 +1632,42 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>test/core/periph</GroupName>
+          <GroupName>test/core/serial</GroupName>
           <Files>
             <File>
               <FileName>package-info.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\test\core\periph\package-info.h</FilePath>
+              <FilePath>.\src\test\core\serial\package-info.h</FilePath>
+            </File>
+            <File>
+              <FileName>SerialPeriphTest.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\test\core\serial\periph\SerialPeriphTest.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>SerialPeriphTest.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\test\core\serial\periph\SerialPeriphTest.h</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>test/core/periph/port</GroupName>
+          <GroupName>test/core/serial/port</GroupName>
           <Files>
             <File>
               <FileName>package-info.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\test\core\periph\port\package-info.h</FilePath>
+              <FilePath>.\src\test\core\serial\port\package-info.h</FilePath>
             </File>
             <File>
               <FileName>SerialPortTest.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\test\core\periph\port\SerialPortTest.cpp</FilePath>
+              <FilePath>.\src\test\core\serial\port\SerialPortTest.cpp</FilePath>
             </File>
             <File>
               <FileName>SerialPortTest.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\test\core\periph\port\SerialPortTest.h</FilePath>
+              <FilePath>.\src\test\core\serial\port\SerialPortTest.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1633,6 +1683,36 @@
               <FileName>Main.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\test\start\Main.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>test/tool</GroupName>
+          <Files>
+            <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\test\tool\package-info.h</FilePath>
+            </File>
+            <File>
+              <FileName>BoardPeriph.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\test\tool\BoardPeriph.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>BoardPeriph.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\test\tool\BoardPeriph.h</FilePath>
+            </File>
+            <File>
+              <FileName>Console.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\test\tool\Console.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Console.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\test\tool\Console.h</FilePath>
             </File>
           </Files>
         </Group>

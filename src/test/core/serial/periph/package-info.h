@@ -4,8 +4,8 @@
  * 
  * SPDX-License-Identifier: MIT
  */
-#ifndef CORE_ARTERYTEK_AT32F415_145A4FD6_399B_4A26_95F1_0A6B8C085326
-#define CORE_ARTERYTEK_AT32F415_145A4FD6_399B_4A26_95F1_0A6B8C085326
+#ifndef CORE_ARTERYTEK_AT32F415_EF9AF44C_44F3_4543_942F_F58533DE546D
+#define CORE_ARTERYTEK_AT32F415_EF9AF44C_44F3_4543_942F_F58533DE546D
 
 /* ****************************************************************************************
  * Include folder
@@ -14,11 +14,10 @@
 /* ****************************************************************************************
  * Include
  */
-#include "CoreEdgeTrigger.h"
-#include "CoreEdgeTriggerReg.h"
+#include "SerialPeriphTest.h"
 
 /* ****************************************************************************************
  * End of file
  */
 
-#endif /* CORE_ARTERYTEK_AT32F415_145A4FD6_399B_4A26_95F1_0A6B8C085326 */
+#endif /* CORE_ARTERYTEK_AT32F415_EF9AF44C_44F3_4543_942F_F58533DE546D */

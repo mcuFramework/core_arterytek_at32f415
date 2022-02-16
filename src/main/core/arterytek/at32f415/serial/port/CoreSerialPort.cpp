@@ -58,7 +58,7 @@ using mcuf::lang::Pointer;
 using mcuf::lang::System;
 
 using mcuf::io::ByteBuffer;
-using mcuf::util::RingBuffer;
+using mcuf::io::RingBuffer;
 
 /* ****************************************************************************************
  * Macro

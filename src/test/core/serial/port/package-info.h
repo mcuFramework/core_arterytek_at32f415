@@ -4,9 +4,8 @@
  * 
  * SPDX-License-Identifier: MIT
  */
-
-#ifndef CORE_ARTERYTEK_AT32F415_C9FB9CEC_80E7_4718_91CB_74B32DDD2B59
-#define CORE_ARTERYTEK_AT32F415_C9FB9CEC_80E7_4718_91CB_74B32DDD2B59
+#ifndef CORE_ARTERYTEK_AT32F415_130A0202_3F5E_4AFF_8540_12C7580DC9A8
+#define CORE_ARTERYTEK_AT32F415_130A0202_3F5E_4AFF_8540_12C7580DC9A8
 
 /* ****************************************************************************************
  * Include folder
@@ -15,10 +14,10 @@
 /* ****************************************************************************************
  * Include
  */
+#include "SerialPortTest.h"
 
-/* *****************************************************************************************
+/* ****************************************************************************************
  * End of file
- */ 
+ */
 
-
-#endif/* CORE_ARTERYTEK_AT32F415_C9FB9CEC_80E7_4718_91CB_74B32DDD2B59 */
+#endif /* CORE_ARTERYTEK_AT32F415_130A0202_3F5E_4AFF_8540_12C7580DC9A8 */

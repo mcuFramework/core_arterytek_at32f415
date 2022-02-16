@@ -32,3 +32,21 @@ UART5:
   UART5_TX    - PC12
   UART5_RX    - PD2
 ```
+
+***
+## SPI
+
+```
+SPI1:
+  SPI1_MOSI   - PA7  / PB5
+  SPI1_MISO   - PA6  / PB4
+  SPI1_SCK    - PA5  / PB3
+  SPI1_NSS	  - PA4  / PA15
+
+SPI2:
+  SPI2_MOSI   - PB12 / PB5
+  SPI2_MISO   - PB14 / PB4
+  SPI2_SCK    - PB13 / PB3
+  SPI2_NSS	  - PB12 / PA15
+
+```

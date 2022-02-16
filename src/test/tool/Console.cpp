@@ -12,7 +12,7 @@
 //-----------------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------------
-#include "core/periph/port/SerialPortTest.h"
+#include "tool/Console.h"
 
 /* ****************************************************************************************
  * Macro
@@ -25,13 +25,21 @@
 //-----------------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------------
-using core::periph::port::SerialPortTest;
+using tool::Console;
+
 using core::arterytek::at32f415::Core;
 using core::arterytek::at32f415::general::pin::CoreGeneralPin;
 using core::arterytek::at32f415::general::port::CoreGeneralPort;
 using core::arterytek::at32f415::general::port::OutputMode;
+using core::arterytek::at32f415::serial::port::CoreSerialPort;
+using core::arterytek::at32f415::serial::port::CoreSerialPortReg;
 using mcuf::util::Stacker;
 using mcuf::lang::Memory;
+
+using mcuf::io::SerialPortOutputStream;
+using mcuf::io::OutputStreamBuffer;
+using mcuf::io::PrintStream;
+using mcuf::io::ByteBuffer;
 
 /* ****************************************************************************************
  * Variable <Static>
@@ -44,14 +52,40 @@ using mcuf::lang::Memory;
 /**
  *
  */
-SerialPortTest::SerialPortTest(Stacker& stacker) construct mStacker(stacker){
+Console::Console(void){
+  Stacker stacker = Stacker(Memory(this->mDynamicMemory, sizeof(this->mDynamicMemory)));
+  
+  this->mCoreSerialPort = new(stacker) 
+    CoreSerialPort(CoreSerialPortReg::REG_USART2, Memory(this->mCoreSerialPortMemory, sizeof(this->mCoreSerialPortMemory)));
+  
+  this->mCoreSerialPort->init();
+  
+  this->mSerialPortOutputStream = new(stacker)
+    SerialPortOutputStream(this->mCoreSerialPort);
+  
+  this->mOutputStreamBuffer = new(stacker)
+    OutputStreamBuffer(this->mSerialPortOutputStream, Memory(this->mOutputStreamBufferMemory, sizeof(this->mOutputStreamBufferMemory)));
+  
+  this->mPrintStream = new(stacker)
+    PrintStream(this->mOutputStreamBuffer, Memory(this->mPrintStreamMemory, sizeof(this->mPrintStreamMemory)));
+  
+  Core::gpioa.init();
+  Core::iomux.remapDEBUG(Core::iomux.DEBUG_JTAGDISABLE);  
+  Core::gpioa.configOutput(2, OutputMode::SPEED_50M, false, true, true);
   return;
 }
 
 /**
  *
  */
-SerialPortTest::~SerialPortTest(void){
+Console::~Console(void){
+  this->mCoreSerialPort->deinit();
+  
+  this->mPrintStream->~PrintStream();
+  this->mOutputStreamBuffer->~OutputStreamBuffer();
+  this->mSerialPortOutputStream->~SerialPortOutputStream();
+  this->mCoreSerialPort->~CoreSerialPort();
+  
   return;
 }
 
@@ -64,23 +98,8 @@ SerialPortTest::~SerialPortTest(void){
  */
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::function::run
+ * Public Method <Override>
  */
-
-/**
- * @brief
- * 
- */
-void SerialPortTest::run(void){
-  this->init();
-  
-  while(true){
-    for(int i=0; i<8; ++i){
-      this->mLed[i]->setToggle();
-      this->delay(500);
-    }
-  }
-}
 
 /* ****************************************************************************************
  * Public Method
@@ -101,22 +120,6 @@ void SerialPortTest::run(void){
 /* ****************************************************************************************
  * Private Method
  */
-
-void SerialPortTest::init(void){
-  Core::gpioa.init();
-  Core::gpiob.init();
-  Core::gpioc.init();
-  Core::iomux.init();
-  Core::iomux.remapDEBUG(Core::iomux.DEBUG_JTAGDISABLE);
-  
-  for(int i=0; i<8; i++){
-    this->mLed[i] = new(this->mStacker) CoreGeneralPin(&Core::gpiob, i);
-    this->mLed[i]->setOutput();
-    this->mLed[i]->setLow();
-  }
-  
-  Core::gpioc.configOutput(10, OutputMode::SPEED_50M, false, true, true);
-}
 
 /* ****************************************************************************************
  * End of file

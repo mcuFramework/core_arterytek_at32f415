@@ -4,36 +4,35 @@
  * 
  * SPDX-License-Identifier: MIT
  */
-
-#ifndef CORE_ARTERYTEK_AT32F415_E6AD62D9_5988_4BB4_A785_88CCFE891A4E
-#define CORE_ARTERYTEK_AT32F415_E6AD62D9_5988_4BB4_A785_88CCFE891A4E
+#ifndef CORE_ARTERYTEK_AT32F415_519BB51C_09CB_40B0_83D4_C068D10A5FE1
+#define CORE_ARTERYTEK_AT32F415_519BB51C_09CB_40B0_83D4_C068D10A5FE1
 
 /* ****************************************************************************************
  * Include
  */  
+
+//-----------------------------------------------------------------------------------------
 #include "mcuf.h"
 #include "core_arterytek_at32f415.h"
+
+//-----------------------------------------------------------------------------------------
 
 /* ****************************************************************************************
  * Namespace
  */  
-namespace periph{
-  namespace usart{
-    namespace normal{
-      class UsartNormalTest;
+namespace core{
+  namespace serial{
+    namespace port{
+      class SerialPortTest;
     }
   }
 }
 
 /* ****************************************************************************************
- * Class Object
+ * Class/Interface/Struct/Enum
  */  
-class periph::usart::normal::UsartNormalTest extends mcuf::lang::Thread
-  implements mcuf::hal::SerialPortEvent{
-
-  /* **************************************************************************************
-   * Subclass
-   */
+class core::serial::port::SerialPortTest extends mcuf::lang::Object implements
+  public mcuf::function::Runnable{
 
   /* **************************************************************************************
    * Variable <Public>
@@ -46,12 +45,15 @@ class periph::usart::normal::UsartNormalTest extends mcuf::lang::Thread
   /* **************************************************************************************
    * Variable <Private>
    */
-  private: mcuf::util::Stacker* mStacker;
-  private: core::arterytek::at32f415::CorePin* mLED[8];
-  private: mcuf::io::ByteBuffer* txBuffer;
-  private: mcuf::io::ByteBuffer* rxBuffer;
-  private: core::arterytek::at32f415::CoreUsart* usart;
-  
+  private:
+    mcuf::util::Stacker& mStacker;
+    core::arterytek::at32f415::general::pin::CoreGeneralPin* mLed[8];
+    core::arterytek::at32f415::serial::port::CoreSerialPort* mSerialPort;
+    mcuf::io::PrintStream *mPrintStream;
+    mcuf::io::SerialPortOutputStream *mOutputStream;
+    mcuf::io::OutputStreamBuffer* mOutputStreamBuffer;
+
+
   /* **************************************************************************************
    * Abstract method <Public>
    */
@@ -63,16 +65,17 @@ class periph::usart::normal::UsartNormalTest extends mcuf::lang::Thread
   /* **************************************************************************************
    * Construct Method
    */
+  public:
+    
+    /**
+     * 
+     */
+    SerialPortTest(mcuf::util::Stacker& stacker);
 
-  /**
-   * Construct.
-   */
-   public: UsartNormalTest(mcuf::lang::Memory& memory, mcuf::util::Stacker* stacker);
-
-  /**
-   * Destruct.
-   */
-  public: ~UsartNormalTest(void);
+    /**
+     * 
+     */
+    virtual ~SerialPortTest(void);
 
   /* **************************************************************************************
    * Operator Method
@@ -85,20 +88,13 @@ class periph::usart::normal::UsartNormalTest extends mcuf::lang::Thread
   /* **************************************************************************************
    * Public Method <Override> - mcuf::function::Runnable
    */
-  
-  /**
-   *
-   */
-  public: virtual void run(void) override;
-  
-  /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::SerialPortEvent::Event
-   */
-  
-  /**
-   *
-   */
-  public: void onSerialPortEvent(SerialPortStatus status, mcuf::io::ByteBuffer* byteBuffer) override;  
+  public:
+    
+    /**
+     * @brief 
+     * 
+     */
+    virtual void run(void) override;
 
   /* **************************************************************************************
    * Public Method
@@ -123,20 +119,22 @@ class periph::usart::normal::UsartNormalTest extends mcuf::lang::Thread
   /* **************************************************************************************
    * Private Method <Override>
    */
-   
+
   /* **************************************************************************************
    * Private Method
-   */  
-   
-  /**
-   *
    */
-  private: void init(void);
-  
+  private:
+
+    /**
+     * @brief 
+     * 
+     */
+    void init(void);
+
 };
 
-/* *****************************************************************************************
+/* ****************************************************************************************
  * End of file
  */ 
 
-#endif/* CORE_ARTERYTEK_AT32F415_E6AD62D9_5988_4BB4_A785_88CCFE891A4E */
+#endif /* CORE_ARTERYTEK_AT32F415_519BB51C_09CB_40B0_83D4_C068D10A5FE1 */

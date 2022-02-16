@@ -5,78 +5,76 @@
  * SPDX-License-Identifier: MIT
  */
 
-//__asm(".global __use_no_semihosting_swi");
-//__asm(".global __use_no_semihosting");
-
 /* ****************************************************************************************
  * Include
- */  
+ */
 
 //-----------------------------------------------------------------------------------------
 #include "mcuf.h"
 #include "core_arterytek_at32f415.h"
 
 //-----------------------------------------------------------------------------------------
-#include "start/Main.h"
-#include "core/serial/package-info.h"
-#include "tool/package-info.h"
+#include "tool/BoardPeriph.h"
+
+/* ****************************************************************************************
+ * Macro
+ */
 
 /* ****************************************************************************************
  * Using
- */  
-using namespace start;
-using namespace core::serial::port;
-using namespace tool;
+ */
 
 //-----------------------------------------------------------------------------------------
-using mcuf::function::Runnable;
-using mcuf::lang::Memory;
+
+//-----------------------------------------------------------------------------------------
+using tool::BoardPeriph;
+using core::arterytek::at32f415::Core;
+using core::arterytek::at32f415::general::pin::CoreGeneralPin;
 
 /* ****************************************************************************************
- * Namespace
- */  
-
-/* ****************************************************************************************
- * Extern
+ * Variable <Static>
  */
+
+/* ****************************************************************************************
+ * Construct Method
+ */
+
+/**
+ *
+ */
+BoardPeriph::BoardPeriph(void) construct 
+  led{CoreGeneralPin(&Core::gpiob, 0), 
+      CoreGeneralPin(&Core::gpiob, 1),
+      CoreGeneralPin(&Core::gpiob, 2),
+      CoreGeneralPin(&Core::gpiob, 3),
+      CoreGeneralPin(&Core::gpiob, 4),
+      CoreGeneralPin(&Core::gpiob, 5),
+      CoreGeneralPin(&Core::gpiob, 6),
+      CoreGeneralPin(&Core::gpiob, 7)}{
+    
+  Core::gpioa.init();
+  Core::gpiob.init();
+  Core::gpioc.init();
+  Core::iomux.init();
+  Core::iomux.remapDEBUG(Core::iomux.DEBUG_JTAGDISABLE);
+  
+  for(int i=0; i<8; i++){
+    this->led[i].setOutput();
+    this->led[i].setLow();
+  }
+}
 
 /* ****************************************************************************************
  * Operator Method
  */
 
-/**
- * Construct.
+/* ****************************************************************************************
+ * Public Method <Static>
  */
-Main::Main(Memory& memory, Memory& stacker) construct Thread(memory), mStacker(stacker){
-}
-
-/**
- * Destruct.
- */
-Main::~Main(void){
-}
-
 
 /* ****************************************************************************************
- * Public Method <Override> mcuf::function::Runnable
+ * Public Method <Override>
  */
-
-/**
- * 
- */
-void Main::run(void){
-  Console* console = new(this->mStacker) Console();
-  BoardPeriph* boardPerilh = new(this->mStacker) BoardPeriph();
-  
-  int i=0;
-  while(true){
-    console->out().print("value: ");
-    console->out().println(i++);
-    this->delay(100);
-    boardPerilh->led[i%8].setToggle();
-  }
-  
-}
 
 /* ****************************************************************************************
  * Public Method
@@ -85,10 +83,10 @@ void Main::run(void){
 /* ****************************************************************************************
  * Protected Method <Static>
  */
- 
+
 /* ****************************************************************************************
  * Protected Method <Override>
- */ 
+ */
 
 /* ****************************************************************************************
  * Protected Method
@@ -100,4 +98,4 @@ void Main::run(void){
 
 /* ****************************************************************************************
  * End of file
- */ 
+ */
