@@ -17,12 +17,22 @@
 /* ****************************************************************************************
  * Macro
  */
+#define LED_ERROR() this->mBlinker.mPin = &this->mBoardPeriph->led[7];
+#define LED_SUCCESSFUL() this->mBlinker.mPin = &this->mBoardPeriph->led[6];
+
+#define PACKAGE_SIZE 8
+const char cmd_ack[] = "ACK\n";
+const char cmd_ackf[] = "ACKF\n";
+const char cmd_error[] = "ERROR\n";
+const char cmd_exception[] = "EXCEPTION\n";
 
 /* ****************************************************************************************
  * Using
  */
 
 //-----------------------------------------------------------------------------------------
+using namespace tool;
+using namespace mcuf::hal::serial::port;
 
 //-----------------------------------------------------------------------------------------
 using core::serial::port::SerialPortTest;
@@ -34,6 +44,7 @@ using core::arterytek::at32f415::serial::port::CoreSerialPort;
 using core::arterytek::at32f415::serial::port::CoreSerialPortReg;
 using mcuf::util::Stacker;
 using mcuf::lang::Memory;
+using mcuf::lang::System;
 
 using mcuf::io::SerialPortOutputStream;
 using mcuf::io::OutputStreamBuffer;
@@ -80,24 +91,55 @@ SerialPortTest::~SerialPortTest(void){
  */
 void SerialPortTest::run(void){
   this->init();
-  
-  this->mSerialPort = new(this->mStacker) CoreSerialPort(CoreSerialPortReg::REG_USART2, 
-                                                         this->mStacker.allocMemoryAlignment32(64));
-  
-  this->mSerialPort->init();
-  this->mOutputStream = new(this->mStacker) SerialPortOutputStream(this->mSerialPort);
-  this->mOutputStreamBuffer = new(this->mStacker) OutputStreamBuffer(this->mOutputStream, this->mStacker.allocMemoryAlignment32(512));
-  this->mPrintStream = new(this->mStacker) PrintStream(this->mOutputStreamBuffer, this->mStacker.allocMemoryAlignment32(128));
+  this->mStage = 0;
+  this->mPackageNumber = 0;
+  this->mBlinker.mPin = &this->mBoardPeriph->led[0];
+  System::scheduleAtFixedRate(this->mBlinker, 100, 100);
   
   while(true){
-    for(int i=0; i<8; ++i){
-      this->mLed[i]->setToggle();
-      this->delay(500);
-      this->mPrintStream->println(123);
-      this->mPrintStream->println(456);
-      this->mPrintStream->println(789);
-      this->mPrintStream->format("hello");
+    if(!this->mBoardPeriph->wakeup.value()){
+      this->mBlinker.mPin = &this->mBoardPeriph->led[1];
+      mSelectMode = 0;
+      break;
     }
+    
+    if(!this->mBoardPeriph->function.value()){
+      this->mBlinker.mPin = &this->mBoardPeriph->led[2];
+      mSelectMode = 1;
+      break;
+    }
+  }
+  
+  this->mBoardPeriph->led[0].setLow();
+  this->beginRead(9);
+  
+  while(true){
+    this->delay(1000);
+  }
+}
+
+/* ****************************************************************************************
+ * Public Method <Override> - mcuf::hal::serial::port::SerialPortEvent
+ */
+  
+/**
+ * @brief 
+ * 
+ * @param status 
+ * @param byteBuffer 
+*/
+
+void SerialPortTest::onSerialPortEvent(SerialPortStatus status, ByteBuffer* byteBuffer){
+  if(status == SerialPortStatus::READ_SUCCESSFUL){
+    if(this->mStage == 0){
+      this->readCommand(byteBuffer);
+    
+    }else if(this->mStage == 1){
+      this->readPackage(byteBuffer);
+    }
+    
+  }else{
+    LED_ERROR();
   }
 }
 
@@ -121,20 +163,86 @@ void SerialPortTest::run(void){
  * Private Method
  */
 
+/**
+ *
+ */
 void SerialPortTest::init(void){
-  Core::gpioa.init();
-  Core::gpiob.init();
-  Core::gpioc.init();
-  Core::iomux.init();
-  Core::iomux.remapDEBUG(Core::iomux.DEBUG_JTAGDISABLE);
+  this->mBoardPeriph = new(this->mStacker) BoardPeriph();
+  this->mConsole = new(this->mStacker) Console();
   
-  for(int i=0; i<8; i++){
-    this->mLed[i] = new(this->mStacker) CoreGeneralPin(&Core::gpiob, i);
-    this->mLed[i]->setOutput();
-    this->mLed[i]->setLow();
+  this->mReceiver = new(this->mStacker) ByteBuffer(this->mStacker.allocMemoryAlignment32(2112));
+}
+
+/**
+ *
+ */
+void SerialPortTest::beginRead(int len){
+  this->mReceiver->clear();
+  this->mReceiver->limit(len);
+  this->mConsole->mCoreSerialPort->read(this->mReceiver, this);
+}
+
+/**
+ *
+ */
+void SerialPortTest::readCommand(ByteBuffer* byteBuffer){
+  char command;
+  int address;
+  int len;
+    
+  byteBuffer->position(0);
+  byteBuffer->getByte(command);
+  byteBuffer->getIntMsb(address);
+  byteBuffer->getIntMsb(len);
+      
+      
+     
+  if(command != 0x72){
+    LED_ERROR();
+    this->mConsole->out().print(cmd_error);
+  }else{
+    this->mConsole->out().print(cmd_ack);
+    this->mStage = 1;
+    this->mLength = len;
+    this->mPackageNumber = 0;
+    this->beginRead(PACKAGE_SIZE+1);
+  }
+}
+
+/**
+ *
+ */
+void SerialPortTest::readPackage(ByteBuffer* byteBuffer){
+  int readSize = 1;
+  int alreadyRead = PACKAGE_SIZE * (this->mPackageNumber + 1);
+  
+  if((alreadyRead + PACKAGE_SIZE) > this->mLength)
+    readSize += this->mLength%PACKAGE_SIZE;
+  
+  else
+    readSize += PACKAGE_SIZE;
+  
+  
+  if(this->mPackageNumber == 1){
+    if(this->mSelectMode == 1){
+      this->mSelectMode = 0;
+      this->beginRead(readSize);
+      this->mConsole->out().print(cmd_exception);
+      return;
+    }
   }
   
-  Core::gpioa.configOutput(2, OutputMode::SPEED_50M, false, true, true);
+  ++this->mPackageNumber;
+  
+  if(alreadyRead >= this->mLength){
+    LED_SUCCESSFUL();
+  }else{
+    this->beginRead(readSize);
+  }
+  
+  this->mConsole->out().print(cmd_ackf);
+  
+  return;
 }
 
 /* ****************************************************************************************

@@ -30,6 +30,7 @@
 using tool::BoardPeriph;
 using core::arterytek::at32f415::Core;
 using core::arterytek::at32f415::general::pin::CoreGeneralPin;
+using mcuf::hal::general::pin::GeneralPinMode;
 
 /* ****************************************************************************************
  * Variable <Static>
@@ -50,11 +51,15 @@ BoardPeriph::BoardPeriph(void) construct
       CoreGeneralPin(&Core::gpiob, 4),
       CoreGeneralPin(&Core::gpiob, 5),
       CoreGeneralPin(&Core::gpiob, 6),
-      CoreGeneralPin(&Core::gpiob, 7)}{
+      CoreGeneralPin(&Core::gpiob, 7)},
+  wakeup(&Core::gpioa, 0),
+  function(&Core::gpioa, 1){
     
   Core::gpioa.init();
   Core::gpiob.init();
   Core::gpioc.init();
+  Core::gpiod.init();
+  Core::gpiof.init();
   Core::iomux.init();
   Core::iomux.remapDEBUG(Core::iomux.DEBUG_JTAGDISABLE);
   
@@ -62,6 +67,11 @@ BoardPeriph::BoardPeriph(void) construct
     this->led[i].setOutput();
     this->led[i].setLow();
   }
+  
+  this->wakeup.setInput();
+  this->wakeup.pinMode(GeneralPinMode::PULL_UP);
+  this->function.setInput();
+  this->function.pinMode(GeneralPinMode::PULL_UP);
 }
 
 /* ****************************************************************************************

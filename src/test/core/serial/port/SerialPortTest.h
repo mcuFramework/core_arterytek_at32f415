@@ -16,6 +16,7 @@
 #include "core_arterytek_at32f415.h"
 
 //-----------------------------------------------------------------------------------------
+#include "tool/package-info.h"
 
 /* ****************************************************************************************
  * Namespace
@@ -32,7 +33,8 @@ namespace core{
  * Class/Interface/Struct/Enum
  */  
 class core::serial::port::SerialPortTest extends mcuf::lang::Object implements
-  public mcuf::function::Runnable{
+  public mcuf::function::Runnable, 
+  public mcuf::hal::serial::port::SerialPortEvent{
 
   /* **************************************************************************************
    * Variable <Public>
@@ -47,11 +49,15 @@ class core::serial::port::SerialPortTest extends mcuf::lang::Object implements
    */
   private:
     mcuf::util::Stacker& mStacker;
-    core::arterytek::at32f415::general::pin::CoreGeneralPin* mLed[8];
-    core::arterytek::at32f415::serial::port::CoreSerialPort* mSerialPort;
-    mcuf::io::PrintStream *mPrintStream;
-    mcuf::io::SerialPortOutputStream *mOutputStream;
-    mcuf::io::OutputStreamBuffer* mOutputStreamBuffer;
+    tool::Console* mConsole;
+    tool::BoardPeriph* mBoardPeriph;
+    tool::Blinker mBlinker;
+    int mSelectMode;
+    int mStage;
+    int mPackageNumber;
+    int mLength;
+  
+    mcuf::io::ByteBuffer* mReceiver;
 
 
   /* **************************************************************************************
@@ -95,6 +101,20 @@ class core::serial::port::SerialPortTest extends mcuf::lang::Object implements
      * 
      */
     virtual void run(void) override;
+  
+  /* **************************************************************************************
+   * Public Method <Override> - mcuf::hal::serial::port::SerialPortEvent
+   */
+  public:
+    
+    /**
+     * @brief 
+     * 
+     * @param status 
+     * @param byteBuffer 
+     */
+    virtual void onSerialPortEvent(mcuf::hal::serial::port::SerialPortStatus status, 
+                                   mcuf::io::ByteBuffer* byteBuffer) override;  
 
   /* **************************************************************************************
    * Public Method
@@ -130,6 +150,13 @@ class core::serial::port::SerialPortTest extends mcuf::lang::Object implements
      * 
      */
     void init(void);
+  
+    void beginRead(int len);
+  
+    void readCommand(mcuf::io::ByteBuffer* byteBuffer);
+  
+    void readPackage(mcuf::io::ByteBuffer* byteBuffer);
+  
 
 };
 

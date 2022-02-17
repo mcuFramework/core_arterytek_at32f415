@@ -55,8 +55,8 @@ class tool::Console extends mcuf::lang::Object{
   
     uint32_t mDynamicMemory[TOOL_CONSOLE_DYNAMIC_SIZE / 4];
 
-    uint8_t mCoreSerialPortMemory[64];
-    uint8_t mPrintStreamMemory[64];
+    uint8_t mCoreSerialPortMemory[256];
+    uint8_t mPrintStreamMemory[256];
     uint8_t mOutputStreamBufferMemory[1024];
 
   /* **************************************************************************************

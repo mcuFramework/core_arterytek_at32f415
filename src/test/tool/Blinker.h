@@ -4,8 +4,8 @@
  * 
  * SPDX-License-Identifier: MIT
  */
-#ifndef CORE_ARTERYTEK_AT32F415_DC90D869_7C04_4A21_B09F_F39C011F4D74
-#define CORE_ARTERYTEK_AT32F415_DC90D869_7C04_4A21_B09F_F39C011F4D74
+#ifndef CORE_ARTERYTEK_AT32F415_D5C5849D_F283_49AD_AEA2_EB74C8C60F6D
+#define CORE_ARTERYTEK_AT32F415_D5C5849D_F283_49AD_AEA2_EB74C8C60F6D
 
 /* ****************************************************************************************
  * Include
@@ -16,30 +16,25 @@
 #include "core_arterytek_at32f415.h"
 
 //-----------------------------------------------------------------------------------------
-#include "tool/package-info.h"
 
 /* ****************************************************************************************
  * Namespace
  */  
-namespace core{
-  namespace serial{
-    namespace periph{
-      class SerialPeriphTest;
-    }
-  }
+namespace tool{
+  class Blinker;
 }
 
 
 /* ****************************************************************************************
  * Class/Interface/Struct/Enum
  */  
-class core::serial::periph::SerialPeriphTest extends mcuf::lang::Object implements
-  public mcuf::function::Runnable,
-  public mcuf::hal::serial::periph::SerialPeriphEvent{
+class tool::Blinker extends mcuf::util::TimerTask{
 
   /* **************************************************************************************
    * Variable <Public>
    */
+  public:
+    mcuf::hal::general::pin::GeneralPin* mPin;
 
   /* **************************************************************************************
    * Variable <Protected>
@@ -48,17 +43,7 @@ class core::serial::periph::SerialPeriphTest extends mcuf::lang::Object implemen
   /* **************************************************************************************
    * Variable <Private>
    */
-  private:
-    mcuf::util::Stacker& mStacker;
-    tool::Console* mConsole;
-    tool::BoardPeriph* mBoardPeriph;
-  
-    core::arterytek::at32f415::general::pin::CoreGeneralPin* mChipSelectPin[4];
-    core::arterytek::at32f415::serial::periph::CoreSerialPeriph* mCoreSerialPeriph;
-  
-    mcuf::io::ByteBuffer* mTransferByteBuffer;
-    mcuf::io::ByteBuffer* mReceiverByteBuffer;
-  
+
   /* **************************************************************************************
    * Abstract method <Public>
    */
@@ -72,15 +57,9 @@ class core::serial::periph::SerialPeriphTest extends mcuf::lang::Object implemen
    */
   public: 
     
-    /**
-     *
-     */
-    SerialPeriphTest(mcuf::util::Stacker& stacker);
+    Blinker(void) = default;
 
-    /**
-     *
-     */
-    virtual ~SerialPeriphTest(void);
+    virtual ~Blinker(void) = default;
 
   /* **************************************************************************************
    * Operator Method
@@ -101,22 +80,6 @@ class core::serial::periph::SerialPeriphTest extends mcuf::lang::Object implemen
      */
     virtual void run(void) override;
 
-  /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::serial::periph::SerialPeriphEvent
-   */  
-  public:
-  
-    /**
-     * @brief 
-     * 
-     * @param status 
-     * @param transfer 
-     * @param receiver 
-     */
-    virtual void onSerialPeriphEvent(mcuf::hal::serial::periph::SerialPeriphStatus status, 
-                                     mcuf::io::ByteBuffer* transfer,
-                                     mcuf::io::ByteBuffer* receiver) override;  
-  
   /* **************************************************************************************
    * Public Method
    */
@@ -144,22 +107,6 @@ class core::serial::periph::SerialPeriphTest extends mcuf::lang::Object implemen
   /* **************************************************************************************
    * Private Method
    */
-  private:
-    
-    /**
-     *
-     */
-    void init(void);
-  
-    /**
-     *
-     */
-    void formatBuffer(void);
-  
-    /**
-     *
-     */
-    void showBuffer(void);
 
 };
 
@@ -167,4 +114,4 @@ class core::serial::periph::SerialPeriphTest extends mcuf::lang::Object implemen
  * End of file
  */ 
 
-#endif /* CORE_ARTERYTEK_AT32F415_DC90D869_7C04_4A21_B09F_F39C011F4D74 */
+#endif /* CORE_ARTERYTEK_AT32F415_D5C5849D_F283_49AD_AEA2_EB74C8C60F6D */

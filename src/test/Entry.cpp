@@ -32,7 +32,7 @@ using start::Main;
 volatile static Main* userMain;
 static uint32_t mainMemory[(sizeof(Main)+3)/4];
 static uint64_t mainStack[2048/8];
-static uint64_t stackerMemory[3072];
+static uint64_t stackerMemory[24576/8];
 
 
 /* ****************************************************************************************

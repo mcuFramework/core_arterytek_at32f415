@@ -14,6 +14,7 @@
 /* ****************************************************************************************
  * Include
  */
+#include "Blinker.h"
 #include "BoardPeriph.h"
 #include "Console.h"
 

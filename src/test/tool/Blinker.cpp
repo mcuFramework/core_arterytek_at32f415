@@ -5,73 +5,55 @@
  * SPDX-License-Identifier: MIT
  */
 
-//__asm(".global __use_no_semihosting_swi");
-//__asm(".global __use_no_semihosting");
-
 /* ****************************************************************************************
  * Include
- */  
+ */
 
 //-----------------------------------------------------------------------------------------
-#include "mcuf.h"
-#include "core_arterytek_at32f415.h"
 
 //-----------------------------------------------------------------------------------------
-#include "start/Main.h"
-#include "core/serial/package-info.h"
-#include "tool/package-info.h"
+#include "tool/Blinker.h"
+
+/* ****************************************************************************************
+ * Macro
+ */
 
 /* ****************************************************************************************
  * Using
- */  
-using namespace start;
-using namespace core::serial::port;
-using namespace core::serial::periph;
-using namespace tool;
+ */
 
 //-----------------------------------------------------------------------------------------
-using mcuf::function::Runnable;
-using mcuf::lang::Memory;
+
+//-----------------------------------------------------------------------------------------
+using tool::Blinker;
 
 /* ****************************************************************************************
- * Namespace
- */  
+ * Variable <Static>
+ */
 
 /* ****************************************************************************************
- * Extern
+ * Construct Method
  */
 
 /* ****************************************************************************************
  * Operator Method
  */
 
-/**
- * Construct.
+/* ****************************************************************************************
+ * Public Method <Static>
  */
-Main::Main(Memory& memory, Memory& stacker) construct Thread(memory), mStacker(stacker){
-}
-
-/**
- * Destruct.
- */
-Main::~Main(void){
-}
-
 
 /* ****************************************************************************************
- * Public Method <Override> mcuf::function::Runnable
+ * Public Method <Override> - mcuf::function::Runnable
  */
 
 /**
- * 
+ *
  */
-void Main::run(void){
+void Blinker::run(void){
+  if(this->mPin != nullptr)
+    this->mPin->setToggle();
   
-  SerialPortTest* serialPortTest = new(this->mStacker) SerialPortTest(this->mStacker);
-  serialPortTest->run();
-  
-  //SerialPeriphTest* serialPeriphTest = new(this->mStacker) SerialPeriphTest(this->mStacker);
-  //serialPeriphTest->run();
 }
 
 /* ****************************************************************************************
@@ -81,10 +63,10 @@ void Main::run(void){
 /* ****************************************************************************************
  * Protected Method <Static>
  */
- 
+
 /* ****************************************************************************************
  * Protected Method <Override>
- */ 
+ */
 
 /* ****************************************************************************************
  * Protected Method
@@ -96,4 +78,4 @@ void Main::run(void){
 
 /* ****************************************************************************************
  * End of file
- */ 
+ */
