@@ -136,6 +136,12 @@ void CoreSerialPeriph::run(void){
   SerialPeriphEvent* event = this->mEvent;
   SerialPeriphStatus status = this->mStatus;
   
+  if(this->mTransfer.count > this->mTransfer.length)
+    this->mTransfer.count = this->mTransfer.length;
+  
+  if(this->mReceiver.count > this->mReceiver.length)
+    this->mReceiver.count = this->mReceiver.length;
+  
   if(transfer)
     transfer->pointer(transfer->position() + this->mTransfer.count);
   
@@ -159,39 +165,42 @@ void CoreSerialPeriph::run(void){
  */
 void CoreSerialPeriph::interruptEvent(void){
   spi_type* base = BASE;
-  if(base->sts_bit.tdbe){
-    if(this->mTransfer.count >= this->mTransfer.length){ //transfe successful
-      if(base->ctrl2_bit.rdbfie)
-        base->dt = 0xFFFF;
-
-      else
-        this->execute();
-        
-    }else{
-      if(this->mTransfer.ptr)
-        base->dt = this->mTransfer.ptr[this->mTransfer.count];
-
-      else
-        base->dt = 0xFFFF;
-
-      ++this->mTransfer.count;
-    }
-  }
 
   if(base->sts_bit.rdbf){
-    uint16_t receiver = base->dt;
+    if(base->ctrl2_bit.rdbfie){
+      uint16_t receiver = base->dt;
 
-    if(this->mReceiver.ptr) // rxData is exist
-      this->mReceiver.ptr[this->mReceiver.count] = receiver;
+      if(this->mReceiver.ptr) // rxData is exist
+        this->mReceiver.ptr[this->mReceiver.count] = receiver;
 
-    ++this->mReceiver.count;
+      ++this->mReceiver.count;
 
-    if(this->mReceiver.count >= this->mReceiver.length){
-      base->ctrl2_bit.rdbfie = false;
-      
-      if(this->mTransfer.count >= this->mTransfer.length)
-        this->execute();
-      
+      if(this->mReceiver.count >= this->mReceiver.length){
+        this->mReceiver.ptr = nullptr;
+        
+        if(this->mReceiver.count >= this->mTransfer.length)
+          this->execute();
+        
+      }
+    }
+  }  
+  
+  if(base->sts_bit.tdbe){
+    if(base->ctrl2_bit.tdbeie){
+      if(this->mTransfer.count >= this->mTransfer.length){ //transfe successful
+        
+        if(this->mReceiver.count < (this->mReceiver.length - 1))
+          base->dt = 0xFFFF;
+          
+      }else{
+        if(this->mTransfer.ptr)
+          base->dt = this->mTransfer.ptr[this->mTransfer.count];
+
+        else
+          base->dt = 0xFFFF;
+
+        ++this->mTransfer.count;
+      }
     }
   }
 }
@@ -246,6 +255,7 @@ bool CoreSerialPeriph::init(void){
   spi_init(SPI1, &spi_init_struct);
 
   Core::interrupt.setHandler(CONFIG.irq, this);
+  Core::interrupt.irqEnable(CONFIG.irq, true);
   
   return true;              
 }
@@ -344,7 +354,7 @@ bool CoreSerialPeriph::transfer(uint32_t chipSelect,
   
   this->mEvent = event;
   this->mTransfer = handlePacket(packet->tx);
-  this->mTransfer = handlePacket(packet->rx);
+  this->mReceiver = handlePacket(packet->rx);
   this->mStatus = SerialPeriphStatus::SUCCESSFUL;
   
   if(packet->significantBit == SerialPeriphSignificantBit::LSB){
@@ -437,6 +447,7 @@ bool CoreSerialPeriph::setChipSelectPin(uint32_t chipSelect, GeneralPin* pin){
  */
 void CoreSerialPeriph::execute(void){
   BASE->ctrl2_bit.tdbeie = false;
+  BASE->ctrl2_bit.rdbfie = false;
   BASE->ctrl1_bit.spien = false;
   
   if(this->mSelectChipSelect)

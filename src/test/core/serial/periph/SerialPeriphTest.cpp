@@ -31,6 +31,7 @@ using core::serial::periph::SerialPeriphTest;
 
 using core::arterytek::at32f415::Core;
 using core::arterytek::at32f415::general::pin::CoreGeneralPin;
+using core::arterytek::at32f415::general::port::OutputMode;
 
 using mcuf::io::ByteBuffer;
 
@@ -81,9 +82,6 @@ void SerialPeriphTest::run(void){
   this->mConsole->out().format("memory using :");
   this->mConsole->out().println(mStacker.size());
   
-  this->formatBuffer();
-  this->showBuffer();
-  
   SerialPeriphPacket packet;
   packet.tx = this->mTransferByteBuffer;
   packet.rx = this->mReceiverByteBuffer;
@@ -92,11 +90,10 @@ void SerialPeriphTest::run(void){
   packet.phase = SerialPeriphPhase::SECOND_EDGE;
   packet.significantBit = SerialPeriphSignificantBit::MSB;
   
-  this->mConsole->out().print("is read only : ");
-  this->mConsole->out().println(this->mReceiverByteBuffer->isReadOnly());
   
   while(true){
     this->delay(1000);
+    this->formatBuffer();
     this->mBoardPeriph->led[0].setToggle();
     this->mConsole->out().println("SPI2 Write");
     this->mCoreSerialPeriph->transfer(0, &packet, this);
@@ -159,7 +156,7 @@ void SerialPeriphTest::init(void){
   this->mTransferByteBuffer = new(this->mStacker) ByteBuffer(this->mStacker.allocMemoryAlignment32(16));
   this->mReceiverByteBuffer = new(this->mStacker) ByteBuffer(this->mStacker.allocMemoryAlignment32(16));
   
-  this->mCoreSerialPeriph = new(this->mStacker) CoreSerialPeriph(CoreSerialPeriphReg::REG_SPI2);
+  this->mCoreSerialPeriph = new(this->mStacker) CoreSerialPeriph(CoreSerialPeriphReg::REG_SPI1);
   this->mCoreSerialPeriph->init();
   
   for(int i=0; i<4; ++i){
@@ -168,6 +165,9 @@ void SerialPeriphTest::init(void){
     this->mChipSelectPin[i]->setHigh();
     this->mCoreSerialPeriph->setChipSelectPin(i, this->mChipSelectPin[i]);
   }
+  Core::iomux.remapSPI2(Core::iomux.SPI2_PB12_PB13_PB14_PB15_PC6);
+  Core::gpioa.configOutput(5, OutputMode::SPEED_50M, false, true, true);
+  Core::gpioa.configOutput(7, OutputMode::SPEED_50M, false, true, true);
 }
 
 /**
@@ -180,7 +180,7 @@ void SerialPeriphTest::formatBuffer(void){
   this->mTransferByteBuffer->mark();
   
   this->mReceiverByteBuffer->clear();
-  this->mReceiverByteBuffer->limit(this->mTransferByteBuffer->limit());
+  this->mReceiverByteBuffer->limit(this->mTransferByteBuffer->limit() - 4);
   this->mReceiverByteBuffer->mark();
 }
 
