@@ -20,11 +20,10 @@
 #define LED_ERROR() this->mBlinker.mPin = &this->mBoardPeriph->led[7];
 #define LED_SUCCESSFUL() this->mBlinker.mPin = &this->mBoardPeriph->led[6];
 
-#define PACKAGE_SIZE 8
-const char cmd_ack[] = "ACK\n";
-const char cmd_ackf[] = "ACKF\n";
-const char cmd_error[] = "ERROR\n";
-const char cmd_exception[] = "EXCEPTION\n";
+#define PACKAGE_SIZE 64
+const char cmd_ack[] = {0x5E, 0x01, 0x5F, 0x00};
+const char cmd_error[] = {0x62, 0x01, 0x63, 0x00};
+const char cmd_exception[] = {0x62, 0x02, 0x60, 0x00};
 
 /* ****************************************************************************************
  * Using
@@ -205,7 +204,17 @@ void SerialPortTest::readCommand(ByteBuffer* byteBuffer){
     this->mStage = 1;
     this->mLength = len;
     this->mPackageNumber = 0;
-    this->beginRead(PACKAGE_SIZE+1);
+    
+    int readSize = 1;
+    int alreadyRead = PACKAGE_SIZE * (this->mPackageNumber + 1);
+    
+    if((alreadyRead + PACKAGE_SIZE) > this->mLength)
+      readSize += this->mLength%PACKAGE_SIZE;
+    
+    else
+      readSize += PACKAGE_SIZE;
+    
+    this->beginRead(readSize);
   }
 }
 
@@ -240,7 +249,7 @@ void SerialPortTest::readPackage(ByteBuffer* byteBuffer){
     this->beginRead(readSize);
   }
   
-  this->mConsole->out().print(cmd_ackf);
+  this->mConsole->out().print(cmd_ack);
   
   return;
 }

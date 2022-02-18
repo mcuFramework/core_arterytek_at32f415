@@ -60,6 +60,8 @@ Console::Console(void){
   
   this->mCoreSerialPort->init();
   
+  this->mCoreSerialPort->baudrate(128000);
+  
   this->mSerialPortOutputStream = new(stacker)
     SerialPortOutputStream(this->mCoreSerialPort);
   
