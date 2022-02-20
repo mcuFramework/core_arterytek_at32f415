@@ -4,20 +4,23 @@
  * 
  * SPDX-License-Identifier: MIT
  */
-#ifndef CORE_ARTERYTEK_AT32F415_9BC4BFC5_B09E_4555_9E9C_F380B7146832
-#define CORE_ARTERYTEK_AT32F415_9BC4BFC5_B09E_4555_9E9C_F380B7146832
+#ifndef CORE_ARTERYTEK_AT32F415_3BA7B355_6D97_4634_8DB0_7D8C5F8DCE22
+#define CORE_ARTERYTEK_AT32F415_3BA7B355_6D97_4634_8DB0_7D8C5F8DCE22
 
 /* ****************************************************************************************
  * Include folder
  */
-#include "arterytek/package-info.h"
 
 /* ****************************************************************************************
  * Include
  */
+#include "CorePulseWidthPin.h"
+#include "CorePulseWidthPort.h"
+#include "CorePulseWidthPortSoft.h"
+#include "CorePulseWidthReg.h"
 
 /* ****************************************************************************************
  * End of file
  */
 
-#endif /* CORE_ARTERYTEK_AT32F415_9BC4BFC5_B09E_4555_9E9C_F380B7146832 */
+#endif /* CORE_ARTERYTEK_AT32F415_3BA7B355_6D97_4634_8DB0_7D8C5F8DCE22 */

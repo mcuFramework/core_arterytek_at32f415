@@ -50,3 +50,50 @@ SPI2:
   SPI2_NSS	  - PB12 / PA15
 
 ```
+
+## TMR
+
+```
+TMR1:
+  TMR1_CH1	  - PA8  / PC6
+  TMR1_CH1N   - PB13 / PA7
+  TMR1_CH2    - PA9  / PC7
+  TMR1_CH2N   - PB14 / PB0
+  TMR1_CH3    - PA10 / PC8
+  TMR1_CH3N   - PB15 / PB1
+  TMR1_CH4    - PA11 / PC9
+  
+TMR2:
+  TMR1_CH1    - PA0  / PA15
+  TMR1_CH2    - PA1  / PB3
+  TMR1_CH3    - PA2  / PB10
+  TMR1_CH4    - PA3  / PB11
+  
+TMR3:
+  TMR3_CH1    - PA6  / PC6
+  TMR3_CH2    - PA7  / PC7
+  TMR3_CH3    - PB0  / PC8
+  TMR3_CH4    - PB1  / PC9
+  
+TMR4:
+  TMR4_CH1    - PB6
+  TMR4_CH2    - PB7
+  TMR4_CH3    - PB8
+  TMR4_CH4    - PB9
+  
+TMR5:
+  TMR5_CH1    - PA0  / PF4
+  TMR5_CH2    - PA1  / PF5
+  TMR5_CH3    - PA2
+  TMR5_CH4    - PA3
+  
+TMR9:
+  TMR5_CH1    - PA2  / PB14
+  TMR5_CH2    - PA3  / PB15
+  
+TMR10:
+  TMR10_CH1   - PB8  / PA6
+  
+TMR11:
+  TMR11_CH1   - PB9  / PA7
+```

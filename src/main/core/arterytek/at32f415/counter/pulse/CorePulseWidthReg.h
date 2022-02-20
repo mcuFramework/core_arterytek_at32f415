@@ -4,8 +4,8 @@
  * 
  * SPDX-License-Identifier: MIT
  */
-#ifndef CORE_ARTERYTEK_AT32F415_FE1A89DD_E895_41F7_9214_D2E3F75EC999
-#define CORE_ARTERYTEK_AT32F415_FE1A89DD_E895_41F7_9214_D2E3F75EC999
+#ifndef CORE_ARTERYTEK_AT32F415_4070C469_83AD_4D71_B727_BD0D2D2AAF6B
+#define CORE_ARTERYTEK_AT32F415_4070C469_83AD_4D71_B727_BD0D2D2AAF6B
 
 /* ****************************************************************************************
  * Include
@@ -22,8 +22,10 @@
 namespace core{
   namespace arterytek{
     namespace at32f415{
-      namespace timer{
-        enum struct CoreTimerReg : char;
+      namespace counter{
+        namespace pulse{
+          enum struct CorePulseWidthReg : char;
+        }
       }
     }
   }
@@ -32,7 +34,7 @@ namespace core{
 /* ****************************************************************************************
  * Class/Interface/Struct
  */  
-enum struct core::arterytek::at32f415::timer::CoreTimerReg : char{
+enum struct core::arterytek::at32f415::counter::pulse::CorePulseWidthReg : char{
   REG_TMR1  = 0,
   REG_TMR2  = 1,
   REG_TMR3  = 2,
@@ -47,4 +49,4 @@ enum struct core::arterytek::at32f415::timer::CoreTimerReg : char{
  * End of file
  */ 
 
-#endif/* CORE_ARTERYTEK_AT32F415_FE1A89DD_E895_41F7_9214_D2E3F75EC999 */
+#endif/* CORE_ARTERYTEK_AT32F415_4070C469_83AD_4D71_B727_BD0D2D2AAF6B */
