@@ -16,7 +16,7 @@
 #include "mcuf.h"
 
 //----------------------------------------------------------------------------------------- 
-#include "core/arterytek/at32f415/timer/CoreTimerReg.h"
+#include "core/arterytek/at32f415/counter/timer/CoreTimerReg.h"
 
 /* ****************************************************************************************
  * Namespace
@@ -24,8 +24,10 @@
 namespace core{
   namespace arterytek{
     namespace at32f415{
-      namespace timer{
-        class CoreTimer;
+      namespace counter{
+        namespace timer{
+          class CoreTimer;
+        }
       }
     }
   }
@@ -34,8 +36,9 @@ namespace core{
 /* ****************************************************************************************
  * Class Object
  */  
-class core::arterytek::at32f415::timer::CoreTimer extends mcuf::lang::Object
-      implements mcuf::hal::timer::Timer ,mcuf::hal::InterruptEvent{
+class core::arterytek::at32f415::counter::timer::CoreTimer extends mcuf::lang::Object implements 
+  public mcuf::hal::counter::timer::Timer ,
+  public mcuf::hal::InterruptEvent{
         
   /* **************************************************************************************
    * Variable <Public>
@@ -44,13 +47,13 @@ class core::arterytek::at32f415::timer::CoreTimer extends mcuf::lang::Object
   /* **************************************************************************************
    * Variable <Protected>
    */
-
+  
   /* **************************************************************************************
    * Variable <Private>
    */
   private: 
-    core::arterytek::at32f415::timer::CoreTimerReg mRegister;
-    mcuf::hal::timer::TimerEvent* mEvent;
+    core::arterytek::at32f415::counter::timer::CoreTimerReg mRegister;
+    mcuf::hal::counter::timer::TimerEvent* mEvent;
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -70,7 +73,7 @@ class core::arterytek::at32f415::timer::CoreTimer extends mcuf::lang::Object
      * 
      * @param reg 
      */
-    CoreTimer(core::arterytek::at32f415::timer::CoreTimerReg reg);
+    CoreTimer(core::arterytek::at32f415::counter::timer::CoreTimerReg reg);
 
     /**
      * @brief Destroy the Core Timer object
@@ -116,7 +119,7 @@ class core::arterytek::at32f415::timer::CoreTimer extends mcuf::lang::Object
     virtual bool isInit(void) override;
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::timer::TimerControl
+   * Public Method <Override> - mcuf::hal::counter::timer::TimerControl
    */  
   public:
   
@@ -166,7 +169,7 @@ class core::arterytek::at32f415::timer::CoreTimer extends mcuf::lang::Object
      * @return true 
      * @return false 
      */
-    virtual bool startAtTick(uint32_t tick, mcuf::hal::timer::TimerEvent* event) override;
+    virtual bool startAtTick(uint32_t tick, mcuf::hal::counter::timer::TimerEvent* event) override;
     
     /**
      * @brief 
@@ -185,7 +188,7 @@ class core::arterytek::at32f415::timer::CoreTimer extends mcuf::lang::Object
      * @return true 
      * @return false 
      */
-    virtual bool startAtTime(uint32_t microSecond, mcuf::hal::timer::TimerEvent* event) override;
+    virtual bool startAtTime(uint32_t microSecond, mcuf::hal::counter::timer::TimerEvent* event) override;
     
     /**
      * @brief 
@@ -227,19 +230,7 @@ class core::arterytek::at32f415::timer::CoreTimer extends mcuf::lang::Object
   /* **************************************************************************************
    * Protected Method
    */
-
-  /* **************************************************************************************
-   * Private Method <Static>
-   */
-  
-  /* **************************************************************************************
-   * Private Method <Override>
-   */
-   
-  /* **************************************************************************************
-   * Private Method
-   */  
-  private: 
+  protected: 
   
     /**
      * @brief 
@@ -269,6 +260,18 @@ class core::arterytek::at32f415::timer::CoreTimer extends mcuf::lang::Object
      * @param enable 
      */
     void interruptEnable(bool enable);
+  
+  /* **************************************************************************************
+   * Private Method <Static>
+   */
+  
+  /* **************************************************************************************
+   * Private Method <Override>
+   */
+   
+  /* **************************************************************************************
+   * Private Method
+   */  
 
 };
 

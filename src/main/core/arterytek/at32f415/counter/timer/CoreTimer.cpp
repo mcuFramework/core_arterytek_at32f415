@@ -13,7 +13,7 @@
 #include "bsp_arterytek_at32f415.h"
 
 //-----------------------------------------------------------------------------------------
-#include "core/arterytek/at32f415/timer/CoreTimer.h"
+#include "core/arterytek/at32f415/counter/timer/CoreTimer.h"
 #include "core/arterytek/at32f415/Core.h"
 #include "core/arterytek/at32f415/CoreInterrupt.h"
 
@@ -23,24 +23,26 @@
 namespace core{
   namespace arterytek{
     namespace at32f415{
-      namespace timer{
-      
-        struct CoreTimerConfig{
-          void* Register;
-          crm_periph_clock_type crmClock;
-          CoreInterrupt::Irq irq;
-          
-        }const coreTimerConfig[8] = {
-          {TMR1 , CRM_TMR1_PERIPH_CLOCK , CoreInterrupt::IRQ_TMR1 },
-          {TMR2 , CRM_TMR2_PERIPH_CLOCK , CoreInterrupt::IRQ_TMR2 },
-          {TMR3 , CRM_TMR3_PERIPH_CLOCK , CoreInterrupt::IRQ_TMR3 },
-          {TMR4 , CRM_TMR4_PERIPH_CLOCK , CoreInterrupt::IRQ_TMR4 },
-          {TMR5 , CRM_TMR5_PERIPH_CLOCK , CoreInterrupt::IRQ_TMR5 },
-          {TMR9 , CRM_TMR9_PERIPH_CLOCK , CoreInterrupt::IRQ_TMR9 },
-          {TMR10, CRM_TMR10_PERIPH_CLOCK, CoreInterrupt::IRQ_TMR10},
-          {TMR11, CRM_TMR11_PERIPH_CLOCK, CoreInterrupt::IRQ_TMR11},
-        };
+      namespace counter{
+        namespace timer{
         
+          struct CoreTimerConfig{
+            void* Register;
+            crm_periph_clock_type crmClock;
+            CoreInterrupt::Irq irq;
+            
+          }const coreTimerConfig[8] = {
+            {TMR1 , CRM_TMR1_PERIPH_CLOCK , CoreInterrupt::IRQ_TMR1 },
+            {TMR2 , CRM_TMR2_PERIPH_CLOCK , CoreInterrupt::IRQ_TMR2 },
+            {TMR3 , CRM_TMR3_PERIPH_CLOCK , CoreInterrupt::IRQ_TMR3 },
+            {TMR4 , CRM_TMR4_PERIPH_CLOCK , CoreInterrupt::IRQ_TMR4 },
+            {TMR5 , CRM_TMR5_PERIPH_CLOCK , CoreInterrupt::IRQ_TMR5 },
+            {TMR9 , CRM_TMR9_PERIPH_CLOCK , CoreInterrupt::IRQ_TMR9 },
+            {TMR10, CRM_TMR10_PERIPH_CLOCK, CoreInterrupt::IRQ_TMR10},
+            {TMR11, CRM_TMR11_PERIPH_CLOCK, CoreInterrupt::IRQ_TMR11},
+          };
+          
+        }
       }
     }
   }
@@ -49,14 +51,14 @@ namespace core{
 /* ****************************************************************************************
  * Using
  */  
-using namespace core::arterytek::at32f415::timer;
+using namespace core::arterytek::at32f415::counter::timer;
 
 //-----------------------------------------------------------------------------------------
 using core::arterytek::at32f415::Core;
 using core::arterytek::at32f415::CoreInterrupt;
 using mcuf::function::Consumer;
-using mcuf::hal::timer::TimerEvent;
-using mcuf::hal::timer::TimerStatus;
+using mcuf::hal::counter::timer::TimerEvent;
+using mcuf::hal::counter::timer::TimerStatus;
 
 /* ****************************************************************************************
  * Macro
@@ -135,7 +137,7 @@ bool CoreTimer::isInit(void){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> mcuf::hal::timer::TimerControl
+ * Public Method <Override> mcuf::hal::counter::timer::TimerControl
  */
 
 /**
@@ -208,7 +210,6 @@ bool CoreTimer::startAtTick(uint32_t tick, TimerEvent* event){
   return true;
 }
 
-
 /**
  * 
  */
@@ -277,10 +278,6 @@ void CoreTimer::execute(void){
  * Protected Method
  */
 
-/* ****************************************************************************************
- * Private Method
- */
-
 /**
  *
  */
@@ -311,6 +308,10 @@ void CoreTimer::interruptEnable(bool enable){
   Core::interrupt.irqEnable(CONFIG.irq, enable);
   return;
 }
+
+/* ****************************************************************************************
+ * Private Method
+ */
 
 /* ****************************************************************************************
  * End of file
