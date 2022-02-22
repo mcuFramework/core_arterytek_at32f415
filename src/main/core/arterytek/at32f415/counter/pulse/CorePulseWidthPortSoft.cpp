@@ -236,24 +236,29 @@ void CorePulseWidthPortSoft::interruptEvent(void){
       this->mGeneralPin[0]->setLow();
     
   }
-  else if(tmr_flag_get(base, TMR_C2_FLAG) != RESET){
+  
+  if(tmr_flag_get(base, TMR_C2_FLAG) != RESET){
     tmr_flag_clear(base, TMR_C2_FLAG);
     if(this->mGeneralPin[1])
       this->mGeneralPin[1]->setLow();
     
   }
-  else if(tmr_flag_get(base, TMR_C3_FLAG) != RESET){
+  
+  if(tmr_flag_get(base, TMR_C3_FLAG) != RESET){
     tmr_flag_clear(base, TMR_C3_FLAG);
     if(this->mGeneralPin[2])
       this->mGeneralPin[2]->setLow();
 
   }
-  else if(tmr_flag_get(base, TMR_C4_FLAG) != RESET){
+  
+  if(tmr_flag_get(base, TMR_C4_FLAG) != RESET){
     tmr_flag_clear(base, TMR_C4_FLAG);
     if(this->mGeneralPin[3])
       this->mGeneralPin[3]->setLow();
 
-  }else if(tmr_flag_get(base, TMR_OVF_FLAG)){
+  }
+  
+  if(tmr_flag_get(base, TMR_OVF_FLAG)){
     tmr_flag_clear(base, TMR_OVF_FLAG);
     
     if(base->iden_bit.c1ien){
@@ -275,9 +280,6 @@ void CorePulseWidthPortSoft::interruptEvent(void){
       if(this->mGeneralPin[3])
         this->mGeneralPin[3]->setHigh();
     }
-  }else{
-    //clear all interrupt bit
-    base->ists = 0x00000000;
   }
 }
 

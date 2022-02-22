@@ -86,17 +86,18 @@ void PulseWidthTest::run(void){
   this->mCorePulseWidthPortSoft->setPin(0, this->mPulseFanOut);
   this->mCorePulseWidthPortSoft->setPin(1, this->mPulseMT3608);
   
-  uint32_t hz = 150000;
+  uint32_t hz = 50000;
   
   this->mCorePulseWidthPortSoft->setFrequence(hz);
   this->mCorePulseWidthPortSoft->enable(0);
   this->mCorePulseWidthPortSoft->setDuty(0, 0.5);
   this->mCorePulseWidthPortSoft->enable(1);
-  this->mCorePulseWidthPortSoft->setDuty(1, 0.5);
+  this->mCorePulseWidthPortSoft->setDuty(1, 0.1);
 
  
   
   while(true){
+    /**
     this->mLedPowerG->setHigh();
     this->delay(500);
     this->mLedPowerG->setLow();
@@ -115,6 +116,19 @@ void PulseWidthTest::run(void){
     this->mLedStatusB->setHigh();
     this->delay(500);
     this->mLedStatusB->setLow();
+    */
+    
+    for(int i=0; i<8; ++i){
+      this->mCorePulseWidthPortSoft->setDuty(1, 0.05 * (1 + i));
+      this->mLedPowerG->setToggle();
+      this->delay(500);
+    }
+    
+    for(int i=0; i<8; ++i){
+      this->mCorePulseWidthPortSoft->setDuty(1, 0.05 * (9 - i));
+      this->mLedPowerR->setToggle();
+      this->delay(500);
+    }
   }
 }
 
