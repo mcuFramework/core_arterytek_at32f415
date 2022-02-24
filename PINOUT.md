@@ -1,5 +1,39 @@
 # at32f415 function pin out
 ***
+## ADC
+```
+ADC1
+  ADC1_IN0    - PA0
+  ADC1_IN1    - PA1
+  ADC1_IN2    - PA2
+  ADC1_IN3    - PA3
+  ADC1_IN4    - PA4
+  ADC1_IN5    - PA5
+  ADC1_IN6    - PA6
+  ADC1_IN7    - PA7
+  ADC1_IN8    - PB0
+  ADC1_IN9    - PB1
+  ADC1_IN10   - PC0
+  ADC1_IN11   - PC1
+  ADC1_IN12   - PC2
+  ADC1_IN13   - PC3
+  ADC1_IN14   - PC4
+  ADC1_IN15   - PC5
+```
+
+## I2C
+```
+I2C1
+  I2C1_SCL    - PB6  / PB8  / PF6
+  I2C1_SDA    - PB7  / PB9  / PF7
+  I2C1_SMBA   - PB5  / PB5  / PB5
+  
+I2C2
+  I2C2_SCL    - PB10 / PA8  / PA8  / PF6
+  I2C2_SDA    - PB11 / PC9  / PB4  / PF7
+  I2C2_SMBA   - PB12 / PA9  / PA9  / PA9
+```
+
 ## USART
 
 ```
