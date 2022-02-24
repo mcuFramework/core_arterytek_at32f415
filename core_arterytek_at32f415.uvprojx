@@ -451,6 +451,36 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>main/core/arterytek/at32f415/analog</GroupName>
+          <Files>
+            <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\analog\package-info.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>main/core/arterytek/at32f415/analog/input</GroupName>
+          <Files>
+            <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\analog\input\package-info.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreAnalogInputPort.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\analog\input\CoreAnalogInputPort.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreAnalogInputPort.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\analog\input\CoreAnalogInputPort.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>main/core/arterytek/at32f415/general</GroupName>
           <Files>
             <File>
@@ -2105,6 +2135,36 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>main/core/arterytek/at32f415/analog</GroupName>
+          <Files>
+            <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\analog\package-info.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>main/core/arterytek/at32f415/analog/input</GroupName>
+          <Files>
+            <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\analog\input\package-info.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreAnalogInputPort.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\analog\input\CoreAnalogInputPort.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreAnalogInputPort.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\analog\input\CoreAnalogInputPort.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>main/core/arterytek/at32f415/general</GroupName>
           <Files>
             <File>
@@ -2576,5 +2636,14 @@
       </file>
     </files>
   </RTE>
+
+  <LayerInfo>
+    <Layers>
+      <Layer>
+        <LayName>core_arterytek_at32f415</LayName>
+        <LayPrjMark>1</LayPrjMark>
+      </Layer>
+    </Layers>
+  </LayerInfo>
 
 </Project>
