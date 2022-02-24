@@ -31,7 +31,7 @@ class core::arterytek::at32f415::CoreIomux extends mcuf::lang::Object
       implements mcuf::hal::Base{
   
   /* **************************************************************************************
-   * Enum MapCAN  <MAP6 - [0-3]>
+   * Enum MapCAN  <MAP6[10] - [0-3]> 
    */        
   public: 
     enum struct MapCAN : uint32_t{
@@ -41,7 +41,7 @@ class core::arterytek::at32f415::CoreIomux extends mcuf::lang::Object
     };
   
   /* **************************************************************************************
-   * Enum MapCOMP <MAP2 - [26-27]>
+   * Enum MapCOMP <MAP2[6] - [26-27]>
    */     
   public: 
     enum struct MapCOMP : uint32_t{
@@ -52,7 +52,7 @@ class core::arterytek::at32f415::CoreIomux extends mcuf::lang::Object
     };
   
   /* **************************************************************************************
-   * Enum MapSWDIO  <MAP7 - [16-18]>
+   * Enum MapSWDIO  <MAP7[11] - [16-18]>
    */
   public: 
     enum struct MapSWDIO : uint32_t{
@@ -77,7 +77,7 @@ class core::arterytek::at32f415::CoreIomux extends mcuf::lang::Object
     };
   
   /* **************************************************************************************
-   * Enum MapI2C1 <MAP5 - [4-7]>
+   * Enum MapI2C1 <MAP5[9] - [4-7]>
    */
   public: 
     enum struct MapI2C1 : uint32_t{
@@ -88,7 +88,7 @@ class core::arterytek::at32f415::CoreIomux extends mcuf::lang::Object
     };
   
   /* **************************************************************************************
-   * Enum MapI2C2 <MAP5 - [8-11]>
+   * Enum MapI2C2 <MAP5[9] - [8-11]>
    */  
   public: 
     enum struct MapI2C2 : uint32_t{
@@ -100,7 +100,7 @@ class core::arterytek::at32f415::CoreIomux extends mcuf::lang::Object
     };
   
   /* **************************************************************************************
-   * Enum MapSDIO <MAP6 - [8-11]>
+   * Enum MapSDIO <MAP6[10] - [8-11]>
    */  
   public: 
     enum struct MapSDIO : uint32_t{
@@ -113,7 +113,7 @@ class core::arterytek::at32f415::CoreIomux extends mcuf::lang::Object
     };
   
   /* **************************************************************************************
-   * Enum MapSPI1 <MAP5 - [16-19]>
+   * Enum MapSPI1 <MAP5[9] - [16-19]>
    */
   public:
     enum struct MapSPI1 : uint32_t{         
@@ -123,7 +123,7 @@ class core::arterytek::at32f415::CoreIomux extends mcuf::lang::Object
     };
   
   /* **************************************************************************************
-   * Enum MapSPI2 <MAP5 - [20-23]>
+   * Enum MapSPI2 <MAP5[9] - [20-23]>
    */
   public: 
     enum struct MapSPI2 : uint32_t{
@@ -133,7 +133,7 @@ class core::arterytek::at32f415::CoreIomux extends mcuf::lang::Object
     };
   
   /* **************************************************************************************
-   * Enum MapUSART1 <MAP6 - [16-19]>
+   * Enum MapUSART1 <MAP6[10] - [16-19]>
    */
   public: 
     enum struct MapUSART1 : uint32_t{
@@ -143,7 +143,7 @@ class core::arterytek::at32f415::CoreIomux extends mcuf::lang::Object
     };  
   
   /* **************************************************************************************
-   * Enum MapUSART3 <MAP6 - [24-27]>
+   * Enum MapUSART3 <MAP6[10] - [24-27]>
    */
   public: 
     enum struct MapUSART3 : uint32_t{
@@ -154,7 +154,7 @@ class core::arterytek::at32f415::CoreIomux extends mcuf::lang::Object
     };
   
   /* **************************************************************************************
-   * Enum MapUART4  <MAP6 - [28-31]>
+   * Enum MapUART4  <MAP6[10] - [28-31]>
    */
   public: 
     enum struct MapUART4 : uint32_t{
@@ -164,10 +164,10 @@ class core::arterytek::at32f415::CoreIomux extends mcuf::lang::Object
     };
     
   /* **************************************************************************************
-   * Enum MapTmr1  <MAP4 - [0-3]>
+   * Enum MapTmr1  <MAP4[8] - [0-3]>
    */
   public:
-    enum struct MapTmr1 : uint32_t{
+    enum struct MapTMR1 : uint32_t{
       PA12_PA08_PA09_PA10_PA11_PB12_PB13_PB14_PB15 = 0x00000000,
       PA12_PA08_PA09_PA10_PA11_PA06_PA07_PB00_PB01 = 0x00000001,
       PA00_PC06_PC07_PC08_PC09_PA06_PA07_PB00_PB01 = 0x00000002,
@@ -175,10 +175,10 @@ class core::arterytek::at32f415::CoreIomux extends mcuf::lang::Object
     };
     
   /* **************************************************************************************
-   * Enum MapTmr2  <MAP4 - [4-6]>
+   * Enum MapTmr2  <MAP4[8] - [4-6]>
    */
   public:
-    enum struct MapTmr2 : uint32_t{
+    enum struct MapTMR2 : uint32_t{
       PA00_PA01_PA02_PA03 = 0x00000000,
       PA15_PB03_PA02_PA03 = 0x00000010,
       PA00_PA01_PB10_PB11 = 0x00000020,
@@ -187,10 +187,10 @@ class core::arterytek::at32f415::CoreIomux extends mcuf::lang::Object
     };    
     
   /* **************************************************************************************
-   * Enum MapTmr3  <MAP4 - [8-11]>
+   * Enum MapTmr3  <MAP4[8] - [8-11]>
    */
   public:
-    enum struct MapTmr3 : uint32_t{
+    enum struct MapTMR3 : uint32_t{
       PA06_PA07_PB00_PB01 = 0x00000000,
       PB04_PB05_PB00_PB01 = 0x00000100,
       PC06_PC07_PC08_PC09 = 0x00000200,
@@ -198,40 +198,40 @@ class core::arterytek::at32f415::CoreIomux extends mcuf::lang::Object
     };
    
   /* **************************************************************************************
-   * Enum MapTmr5  <MAP4 - [16-18]>
+   * Enum MapTmr5  <MAP4[8] - [16-18]>
    */
   public:
-    enum struct MapTmr5 : uint32_t{
+    enum struct MapTMR5 : uint32_t{
       PA00_PA01_PA02_PA03 = 0x00000000,
       PF04_PF05_PA02_PA03 = 0x00010000,
       MASK                = 0x00070000
     }; 
     
   /* **************************************************************************************
-   * Enum MapTmr9  <MAP3 - [0-3]>
+   * Enum MapTmr9  <MAP3[7] - [0-3]>
    */
   public:
-    enum struct MapTmr9 : uint32_t{
+    enum struct MapTMR9 : uint32_t{
       PA02_PA03 = 0x00000000,
       PB14_PB15 = 0x00000001,
       MASK      = 0x0000000F
     }; 
     
   /* **************************************************************************************
-   * Enum MapTmr10  <MAP3 - [4-7]>
+   * Enum MapTmr10  <MAP3[7] - [4-7]>
    */
   public:
-    enum struct MapTmr10 : uint32_t{
+    enum struct MapTMR10 : uint32_t{
       PB8   = 0x00000000,
       PA6   = 0x00000010,
       MASK  = 0x000000F0
     }; 
     
   /* **************************************************************************************
-   * Enum MapTmr11  <MAP3 - [4-7]>
+   * Enum MapTmr11  <MAP3[7] - [4-7]>
    */
   public:
-    enum struct MapTmr11 : uint32_t{
+    enum struct MapTMR11 : uint32_t{
       PB9   = 0x00000000,
       PA7   = 0x00000100,
       MASK  = 0x00000F00
@@ -244,7 +244,9 @@ class core::arterytek::at32f415::CoreIomux extends mcuf::lang::Object
   /* **************************************************************************************
    * Variable <Public>
    */
-
+  public:
+    static volatile void* const regAddress;
+  
   /* **************************************************************************************
    * Variable <Protected>
    */
@@ -316,16 +318,228 @@ class core::arterytek::at32f415::CoreIomux extends mcuf::lang::Object
     virtual bool isInit(void) override;
 
   /* **************************************************************************************
-   * Public Method
+   * Public Method <Inline>
    */
-  public: 
-
+  public:
+    
     /**
      * @brief 
      * 
      * @param enable 
      */
-    void enableSWDIO(bool enable);
+    inline void enableSWDIO(bool enable){
+      if(enable)
+        this->remapSWDIO(MapSWDIO::FULL);
+      else
+        this->remapSWDIO(MapSWDIO::ALLDISABLE);
+    }  
+  
+    /**
+     * @brief 
+     * 
+     * @param map 
+     */
+    inline void remapCAN(MapCAN map){
+      this->remap(&static_cast<volatile uint32_t*>(CoreIomux::regAddress)[10],
+                   static_cast<uint32_t>(MapCAN::MASK), 
+                   static_cast<uint32_t>(map));
+    }
+  
+    /**
+     * @brief 
+     * 
+     * @param map 
+     */
+    inline void remapCOMP(MapCOMP map){
+      this->remap(&static_cast<volatile uint32_t*>(CoreIomux::regAddress)[6],
+                   static_cast<uint32_t>(MapCOMP::MASK), 
+                   static_cast<uint32_t>(map));
+    }
+
+    /**
+     * @brief 
+     * 
+     * @param map 
+     */
+    inline void remapSWDIO(MapSWDIO map){
+      this->remap(&static_cast<volatile uint32_t*>(CoreIomux::regAddress)[11],
+                   static_cast<uint32_t>(MapSWDIO::MASK), 
+                   static_cast<uint32_t>(map));
+    }
+  
+
+  
+    /**
+     * @brief 
+     * 
+     * @param map 
+     */
+    inline void remapI2C1(MapI2C1 map){
+      this->remap(&static_cast<volatile uint32_t*>(CoreIomux::regAddress)[9],
+                   static_cast<uint32_t>(MapI2C1::MASK), 
+                   static_cast<uint32_t>(map));
+    }
+    
+    /**
+     * @brief 
+     * 
+     * @param map 
+     */
+    inline void remapI2C2(MapI2C2 map){
+      this->remap(&static_cast<volatile uint32_t*>(CoreIomux::regAddress)[9],
+                   static_cast<uint32_t>(MapI2C2::MASK), 
+                   static_cast<uint32_t>(map));
+    }
+
+    /**
+     * @brief 
+     * 
+     * @param map 
+     */
+    inline void remapSDIO(MapSDIO map){
+      this->remap(&static_cast<volatile uint32_t*>(CoreIomux::regAddress)[10], 
+                   static_cast<uint32_t>(MapSDIO::MASK), 
+                   static_cast<uint32_t>(map));
+    }
+
+    /**
+     * @brief 
+     * 
+     * @param map 
+     */
+    inline void remapSPI1(MapSPI1 map){
+      this->remap(&static_cast<volatile uint32_t*>(CoreIomux::regAddress)[9], 
+                   static_cast<uint32_t>(MapSPI1::MASK), 
+                   static_cast<uint32_t>(map));
+    }
+
+    /**
+     * @brief 
+     * 
+     * @param map 
+     */
+    inline void remapSPI2(MapSPI2 map){
+      this->remap(&static_cast<volatile uint32_t*>(CoreIomux::regAddress)[9], 
+                   static_cast<uint32_t>(MapSPI2::MASK), 
+                   static_cast<uint32_t>(map));
+    }
+    
+    /**
+     * @brief 
+     * 
+     * @param map 
+     */
+    inline void remapTMR1(MapTMR1 map){
+      this->remap(&static_cast<volatile uint32_t*>(CoreIomux::regAddress)[8], 
+                   static_cast<uint32_t>(MapTMR1::MASK), 
+                   static_cast<uint32_t>(map));
+    }
+    
+    /**
+     * @brief 
+     * 
+     * @param map 
+     */
+    inline void remapTMR2(MapTMR2 map){
+      this->remap(&static_cast<volatile uint32_t*>(CoreIomux::regAddress)[8], 
+                   static_cast<uint32_t>(MapTMR2::MASK), 
+                   static_cast<uint32_t>(map));
+    }
+    
+    /**
+     * @brief 
+     * 
+     * @param map 
+     */
+    inline void remapTMR3(MapTMR3 map){
+      this->remap(&static_cast<volatile uint32_t*>(CoreIomux::regAddress)[8], 
+                   static_cast<uint32_t>(MapTMR3::MASK), 
+                   static_cast<uint32_t>(map));
+    }
+    
+    /**
+     * @brief 
+     * 
+     * @param map 
+     */
+    inline void remapTMR5(MapTMR5 map){
+      this->remap(&static_cast<volatile uint32_t*>(CoreIomux::regAddress)[8], 
+                   static_cast<uint32_t>(MapTMR5::MASK), 
+                   static_cast<uint32_t>(map));
+    }
+    
+    /**
+     * @brief 
+     * 
+     * @param map 
+     */
+    inline void remapTMR9(MapTMR9 map){
+      this->remap(&static_cast<volatile uint32_t*>(CoreIomux::regAddress)[7], 
+                   static_cast<uint32_t>(MapTMR9::MASK), 
+                   static_cast<uint32_t>(map));
+    }
+    
+    /**
+     * @brief 
+     * 
+     * @param map 
+     */
+    inline void remapTMR10(MapTMR10 map){
+      this->remap(&static_cast<volatile uint32_t*>(CoreIomux::regAddress)[7], 
+                   static_cast<uint32_t>(MapTMR10::MASK), 
+                   static_cast<uint32_t>(map));
+    }
+    
+    /**
+     * @brief 
+     * 
+     * @param map 
+     */
+    inline void remapTMR11(MapTMR11 map){
+      this->remap(&static_cast<volatile uint32_t*>(CoreIomux::regAddress)[7], 
+                   static_cast<uint32_t>(MapTMR11::MASK), 
+                   static_cast<uint32_t>(map));
+    }
+
+    /**
+     * @brief 
+     * 
+     * @param map 
+     */
+    inline void remapUSART1(MapUSART1 map){
+      this->remap(&static_cast<volatile uint32_t*>(CoreIomux::regAddress)[10], 
+                   static_cast<uint32_t>(MapUSART1::MASK), 
+                   static_cast<uint32_t>(map));
+    }
+
+    /**
+     * @brief 
+     * 
+     * @param map 
+     */
+    void remapUSART3(MapUSART3 map){
+      this->remap(&static_cast<volatile uint32_t*>(CoreIomux::regAddress)[10],
+                   static_cast<uint32_t>(MapUSART3::MASK), 
+                   static_cast<uint32_t>(map));
+    }
+
+    /**
+     * @brief 
+     * 
+     * @param map 
+     */
+    void remapUART4(MapUART4 map){
+      this->remap(&static_cast<volatile uint32_t*>(CoreIomux::regAddress)[10],
+                   static_cast<uint32_t>(MapUART4::MASK), 
+                   static_cast<uint32_t>(map));
+    }
+    
+  /* **************************************************************************************
+   * Public Method
+   */
+  public: 
+
+    
 
     /**
      * @brief 
@@ -338,86 +552,9 @@ class core::arterytek::at32f415::CoreIomux extends mcuf::lang::Object
      * @brief 
      * 
      * @param map 
-     */
-    void remapCAN(MapCAN map);
-  
-    /**
-     * @brief 
-     * 
-     * @param map 
-     */
-    void remapCOMP(MapCOMP map);
-
-    /**
-     * @brief 
-     * 
-     * @param map 
-     */
-    void remapSWDIO(MapSWDIO map);
-
-    /**
-     * @brief 
-     * 
-     * @param map 
      * @param pin 
      */
-    void remapEXTI(MapEXTI map, uint8_t pin);
-
-    /**
-     * @brief 
-     * 
-     * @param map 
-     */
-    void remapI2C1(MapI2C1 map);
-    
-    /**
-     * @brief 
-     * 
-     * @param map 
-     */
-    void remapI2C2(MapI2C2 map);
-
-    /**
-     * @brief 
-     * 
-     * @param map 
-     */
-    void remapSDIO(MapSDIO map);
-
-    /**
-     * @brief 
-     * 
-     * @param map 
-     */
-    void remapSPI1(MapSPI1 map);
-
-    /**
-     * @brief 
-     * 
-     * @param map 
-     */
-    void remapSPI2(MapSPI2 map);
-
-    /**
-     * @brief 
-     * 
-     * @param map 
-     */
-    void remapUSART1(MapUSART1 map);
-
-    /**
-     * @brief 
-     * 
-     * @param map 
-     */
-    void remapUSART3(MapUSART3 map);
-
-    /**
-     * @brief 
-     * 
-     * @param map 
-     */
-    void remapUART4(MapUART4 map);
+    void remapEXTI(MapEXTI map, uint8_t pin);    
   
   /* **************************************************************************************
    * Protected Method <Static>

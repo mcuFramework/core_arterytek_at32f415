@@ -20,6 +20,7 @@ using core::arterytek::at32f415::CoreIomux;
 /* ****************************************************************************************
  * Variable <Static>
  */
+volatile void* const CoreIomux::regAddress = IOMUX;
 
 /* ****************************************************************************************
  * Construct Method
@@ -79,39 +80,6 @@ void CoreIomux::enableHEXT(bool enable){
 }
 
 /**
- * @brief 
- * 
- * @param enable 
- */
-void CoreIomux::enableSWDIO(bool enable){
-  if(enable)
-    this->remapSWDIO(MapSWDIO::FULL);
-  else
-    this->remapSWDIO(MapSWDIO::ALLDISABLE);
-}
-
-/**
- *
- */
-void CoreIomux::remapCAN(MapCAN map){
-  this->remap(&IOMUX->remap6, (uint32_t)MapCAN::MASK, (uint32_t)map);
-}
-
-/**
- *
- */
-void CoreIomux::remapCOMP(MapCOMP map){
-  this->remap(&IOMUX->remap6, (uint32_t)MapCOMP::MASK, (uint32_t)map);
-}
-
-/**
- *
- */
-void CoreIomux::remapSWDIO(MapSWDIO map){
-  this->remap(&IOMUX->remap7, (uint32_t)MapSWDIO::MASK, (uint32_t)map);
-}
-
-/**
  *
  */
 void CoreIomux::remapEXTI(MapEXTI map, uint8_t pin){
@@ -124,69 +92,6 @@ void CoreIomux::remapEXTI(MapEXTI map, uint8_t pin){
   this->remap(&reg[array], (0x0000000F << shift), ((uint32_t)map << shift));
   return;
 }
-
-/**
- *
- */
-void CoreIomux::remapI2C1(MapI2C1 map){
-  this->remap(&IOMUX->remap5, (uint32_t)MapI2C1::MASK, (uint32_t)map);
-}
-
-/**
- *
- */
-void CoreIomux::remapI2C2(MapI2C2 map){
-  this->remap(&IOMUX->remap5, (uint32_t)MapI2C2::MASK, (uint32_t)map);
-}
-
-
-/**
- *
- */
-void CoreIomux::remapSDIO(MapSDIO map){
-  this->remap(&IOMUX->remap6, (uint32_t)MapSDIO::MASK, (uint32_t)map);
-}
-
-
-/**
- *
- */
-void CoreIomux::remapSPI1(MapSPI1 map){
-  this->remap(&IOMUX->remap5, (uint32_t)MapSPI1::MASK, (uint32_t)map);
-}
-
-
-/**
- *
- */
-void CoreIomux::remapSPI2(MapSPI2 map){
-  this->remap(&IOMUX->remap5, (uint32_t)MapSPI2::MASK, (uint32_t)map);
-}
-
-
-/**
- *
- */
-void CoreIomux::remapUSART1(MapUSART1 map){
-  this->remap(&IOMUX->remap6, (uint32_t)MapUSART1::MASK, (uint32_t)map);
-}
-
-
-/**
- *
- */
-void CoreIomux::remapUSART3(MapUSART3 map){
-  this->remap(&IOMUX->remap6, (uint32_t)MapUSART3::MASK, (uint32_t)map);
-}
-
-
-/**
- *
- */
-void CoreIomux::remapUART4(MapUART4 map){
-  this->remap(&IOMUX->remap6, (uint32_t)MapUART4::MASK, (uint32_t)map);
-}
-
 
 /* ****************************************************************************************
  * Protected Method <Static>
