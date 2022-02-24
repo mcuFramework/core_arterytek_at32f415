@@ -29,6 +29,7 @@
 //-----------------------------------------------------------------------------------------
 using tool::BoardPeriph;
 using core::arterytek::at32f415::Core;
+using core::arterytek::at32f415::CoreIomux;
 using core::arterytek::at32f415::general::pin::CoreGeneralPin;
 using mcuf::hal::general::pin::GeneralPinMode;
 
@@ -61,7 +62,7 @@ BoardPeriph::BoardPeriph(void) construct
   Core::gpiod.init();
   Core::gpiof.init();
   Core::iomux.init();
-  Core::iomux.remapDEBUG(Core::iomux.DEBUG_JTAGDISABLE);
+  Core::iomux.remapSWDIO(CoreIomux::MapSWDIO::JTAGDISABLE);
   
   for(int i=0; i<8; i++){
     this->led[i].setOutput();

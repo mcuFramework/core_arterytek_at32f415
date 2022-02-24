@@ -96,69 +96,70 @@ class core::arterytek::at32f415::general::pin::CoreGeneralPin  extends mcuf::lan
   /* **************************************************************************************
    * Public Method <Override>
    */
+  public:
+    
+    /**
+     * Get io direction.
+     * 
+     * @return false = input, true = output.
+     */
+    virtual bool dir(void) override;
 
-  /**
-   * Get io direction.
-   * 
-   * @return false = input, true = output.
-   */
-  public: virtual bool dir(void) override;
+    /**
+     * Set io direction.
+     * 
+     * @param dir false = input, true = output.
+     */
+    virtual void dir(bool dir) override;
+    
+    /**
+     * 
+     */
+    virtual mcuf::hal::general::pin::GeneralPinMode pinMode(void) override;
 
-  /**
-   * Set io direction.
-   * 
-   * @param dir false = input, true = output.
-   */
-  public: virtual void dir(bool dir) override;
-  
-   /**
-   * 
-   */
-   public: virtual mcuf::hal::general::pin::GeneralPinMode pinMode(void) override;
+    /**
+     * 
+     */
+    virtual bool pinMode(mcuf::hal::general::pin::GeneralPinMode mode) override; 
 
-  /**
-   * 
-   */
-  public: virtual bool pinMode(mcuf::hal::general::pin::GeneralPinMode mode) override; 
+    /**
+     * Set io pin to high.
+     */
+    virtual void setHigh(void) override;
+    
+    /**
+     * Set io direction to input.
+     */
+    virtual void setInput(void) override;
 
-  /**
-   * Set io pin to high.
-   */
-  public: virtual void setHigh(void) override;
-  
-  /**
-   * Set io direction to input.
-   */
-  public: virtual void setInput(void) override;
+    /**
+     * Set io pin to low.
+     */
+    virtual void setLow(void) override;
+    
+    /**
+     * Set io direction to output.
+     */
+    virtual void setOutput(void) override;
 
-  /**
-   * Set io pin to low.
-   */
-  public: virtual void setLow(void) override;
-  
-  /**
-   * Set io direction to output.
-   */
-  public: virtual void setOutput(void) override;
+    /**
+     * Set io not logic.
+     */
+    virtual void setToggle(void) override;
 
-  /**
-   * Set io not logic.
-   */
-  public: virtual void setToggle(void) override;
+    /**
+     * Get io pin.
+     *
+     * @return false = low, true = high.
+     */
+    virtual bool value(void) override;
 
-  /**
-   * Get io pin.
-   *
-   * @return false = low, true = high.
-   */
-  public: virtual bool value(void) override;
-
-  /**
-   * Set io pin to high or low.
-   *
-   * @param value false = low, true = high.
-   */
-  public: virtual void value(bool level) override;
+    /**
+     * Set io pin to high or low.
+     *
+     * @param value false = low, true = high.
+     */
+    virtual void value(bool level) override;
 
 
   /* **************************************************************************************

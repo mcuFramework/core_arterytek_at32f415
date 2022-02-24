@@ -13,6 +13,7 @@
 
 //-----------------------------------------------------------------------------------------
 #include "core/counter/pulse/PulseWidthTest.h"
+#include "bsp_arterytek_at32f415/at32f415.h"
 
 /* ****************************************************************************************
  * Macro
@@ -28,6 +29,7 @@ using namespace tool;
 //-----------------------------------------------------------------------------------------
 using core::counter::pulse::PulseWidthTest;
 using core::arterytek::at32f415::Core;
+using core::arterytek::at32f415::CoreIomux;
 using core::arterytek::at32f415::general::pin::CoreGeneralPin;
 using core::arterytek::at32f415::general::port::CoreGeneralPort;
 using core::arterytek::at32f415::general::port::OutputMode;
@@ -86,6 +88,11 @@ void PulseWidthTest::run(void){
   this->mCorePulseWidthPortSoft->setPin(0, this->mPulseFanOut);
   this->mCorePulseWidthPortSoft->setPin(1, this->mPulseMT3608);
   
+  this->mCorePulseWidthPort->init();
+  this->mCorePulseWidthPort->setFrequence(1000000);
+  this->mCorePulseWidthPort->enable(3);
+  this->mCorePulseWidthPort->setDuty(3, 0.5);
+  
   uint32_t hz = 50000;
   
   this->mCorePulseWidthPortSoft->setFrequence(hz);
@@ -119,13 +126,15 @@ void PulseWidthTest::run(void){
     */
     
     for(int i=0; i<8; ++i){
+      this->mCorePulseWidthPort->setDuty(3, 0.05 * (1 + i));
       this->mCorePulseWidthPortSoft->setDuty(1, 0.05 * (1 + i));
       this->mLedPowerG->setToggle();
       this->delay(500);
     }
     
     for(int i=0; i<8; ++i){
-      this->mCorePulseWidthPortSoft->setDuty(1, 0.05 * (9 - i));
+      this->mCorePulseWidthPort->setDuty(3, 0.05 * (9 - i));
+      this->mCorePulseWidthPortSoft->setDuty(1, 0.05 * (1 + i));
       this->mLedPowerR->setToggle();
       this->delay(500);
     }
@@ -165,9 +174,14 @@ void PulseWidthTest::init(void){
   Core::gpiod.init();
   Core::gpiof.init();
   Core::iomux.init();
-  Core::iomux.remapDEBUG(Core::iomux.DEBUG_JTAGDISABLE);
+  Core::iomux.remapSWDIO(CoreIomux::MapSWDIO::JTAGDISABLE);
+  IOMUX->remap_bit.tmr2_mux = 0x2;
+  
+  Core::gpiob.configOutput(11, OutputMode::SPEED_50M, false, true, true);
+  
   
   this->mCorePulseWidthPortSoft = new(this->mStacker) CorePulseWidthPortSoft(CorePulseWidthReg::REG_TMR3);
+  this->mCorePulseWidthPort = new(this->mStacker) CorePulseWidthPort(CorePulseWidthReg::REG_TMR2);
   
   this->mPulseFanOut = new(this->mStacker) CoreGeneralPin(&Core::gpiob, 0);
   this->mPulseFanOut->setOutput();

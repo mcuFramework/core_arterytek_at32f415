@@ -70,25 +70,45 @@ bool CoreIomux::isInit(void){
  * Public Method
  */
 
+void CoreIomux::enableHEXT(bool enable){
+  if(enable)
+    IOMUX->remap7_bit.pd01_gmux = false;
+  
+  else
+    IOMUX->remap7_bit.pd01_gmux = true;
+}
+
+/**
+ * @brief 
+ * 
+ * @param enable 
+ */
+void CoreIomux::enableSWDIO(bool enable){
+  if(enable)
+    this->remapSWDIO(MapSWDIO::FULL);
+  else
+    this->remapSWDIO(MapSWDIO::ALLDISABLE);
+}
+
 /**
  *
  */
 void CoreIomux::remapCAN(MapCAN map){
-  this->remap(&IOMUX->remap6, MapCAN::CAN_MASK, map);
+  this->remap(&IOMUX->remap6, (uint32_t)MapCAN::MASK, (uint32_t)map);
 }
 
 /**
  *
  */
 void CoreIomux::remapCOMP(MapCOMP map){
-  this->remap(&IOMUX->remap6, MapCOMP::COMP_MASK, map);
+  this->remap(&IOMUX->remap6, (uint32_t)MapCOMP::MASK, (uint32_t)map);
 }
 
 /**
  *
  */
-void CoreIomux::remapDEBUG(MapDEBUG map){
-  this->remap(&IOMUX->remap7, MapDEBUG::DEBUG_MASK, map);
+void CoreIomux::remapSWDIO(MapSWDIO map){
+  this->remap(&IOMUX->remap7, (uint32_t)MapSWDIO::MASK, (uint32_t)map);
 }
 
 /**
@@ -101,7 +121,7 @@ void CoreIomux::remapEXTI(MapEXTI map, uint8_t pin){
   uint8_t array = (pin >> 2);  //pin/4
   uint8_t shift = ((pin & 0x00000003) << 2);  //(pin%4)*4
   volatile uint32_t* reg = &IOMUX->exintc1;
-  this->remap(&reg[array], (0x0000000F << shift), (map << shift));
+  this->remap(&reg[array], (0x0000000F << shift), ((uint32_t)map << shift));
   return;
 }
 
@@ -109,14 +129,14 @@ void CoreIomux::remapEXTI(MapEXTI map, uint8_t pin){
  *
  */
 void CoreIomux::remapI2C1(MapI2C1 map){
-  this->remap(&IOMUX->remap5, MapI2C1::I2C1_MASK, map);
+  this->remap(&IOMUX->remap5, (uint32_t)MapI2C1::MASK, (uint32_t)map);
 }
 
 /**
  *
  */
 void CoreIomux::remapI2C2(MapI2C2 map){
-  this->remap(&IOMUX->remap5, MapI2C2::I2C2_MASK, map);
+  this->remap(&IOMUX->remap5, (uint32_t)MapI2C2::MASK, (uint32_t)map);
 }
 
 
@@ -124,7 +144,7 @@ void CoreIomux::remapI2C2(MapI2C2 map){
  *
  */
 void CoreIomux::remapSDIO(MapSDIO map){
-  this->remap(&IOMUX->remap6, MapSDIO::SDIO_MASK, map);
+  this->remap(&IOMUX->remap6, (uint32_t)MapSDIO::MASK, (uint32_t)map);
 }
 
 
@@ -132,7 +152,7 @@ void CoreIomux::remapSDIO(MapSDIO map){
  *
  */
 void CoreIomux::remapSPI1(MapSPI1 map){
-  this->remap(&IOMUX->remap5, MapSPI1::SPI1_MASK, map);
+  this->remap(&IOMUX->remap5, (uint32_t)MapSPI1::MASK, (uint32_t)map);
 }
 
 
@@ -140,7 +160,7 @@ void CoreIomux::remapSPI1(MapSPI1 map){
  *
  */
 void CoreIomux::remapSPI2(MapSPI2 map){
-  this->remap(&IOMUX->remap5, MapSPI2::SPI2_MASK, map);
+  this->remap(&IOMUX->remap5, (uint32_t)MapSPI2::MASK, (uint32_t)map);
 }
 
 
@@ -148,7 +168,7 @@ void CoreIomux::remapSPI2(MapSPI2 map){
  *
  */
 void CoreIomux::remapUSART1(MapUSART1 map){
-  this->remap(&IOMUX->remap6, MapUSART1::USART1_MASK, map);
+  this->remap(&IOMUX->remap6, (uint32_t)MapUSART1::MASK, (uint32_t)map);
 }
 
 
@@ -156,7 +176,7 @@ void CoreIomux::remapUSART1(MapUSART1 map){
  *
  */
 void CoreIomux::remapUSART3(MapUSART3 map){
-  this->remap(&IOMUX->remap6, MapUSART3::USART3_MASK, map);
+  this->remap(&IOMUX->remap6, (uint32_t)MapUSART3::MASK, (uint32_t)map);
 }
 
 
@@ -164,7 +184,7 @@ void CoreIomux::remapUSART3(MapUSART3 map){
  *
  */
 void CoreIomux::remapUART4(MapUART4 map){
-  this->remap(&IOMUX->remap6, MapUART4::UART4_MASK, map);
+  this->remap(&IOMUX->remap6, (uint32_t)MapUART4::MASK, (uint32_t)map);
 }
 
 

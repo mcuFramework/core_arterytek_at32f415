@@ -28,6 +28,7 @@
 using tool::Console;
 
 using core::arterytek::at32f415::Core;
+using core::arterytek::at32f415::CoreIomux;
 using core::arterytek::at32f415::general::pin::CoreGeneralPin;
 using core::arterytek::at32f415::general::port::CoreGeneralPort;
 using core::arterytek::at32f415::general::port::OutputMode;
@@ -72,7 +73,7 @@ Console::Console(void){
     PrintStream(this->mOutputStreamBuffer, Memory(this->mPrintStreamMemory, sizeof(this->mPrintStreamMemory)));
   
   Core::gpioa.init();
-  Core::iomux.remapDEBUG(Core::iomux.DEBUG_JTAGDISABLE);  
+  Core::iomux.remapSWDIO(CoreIomux::MapSWDIO::JTAGDISABLE);  
   Core::gpioa.configOutput(2, OutputMode::SPEED_50M, false, true, true);
   return;
 }

@@ -498,11 +498,6 @@
               <FilePath>.\src\main\core\arterytek\at32f415\general\port\CoreGeneralPort.h</FilePath>
             </File>
             <File>
-              <FileName>CoreGeneralPortReg.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\port\CoreGeneralPortReg.h</FilePath>
-            </File>
-            <File>
               <FileName>InputMode.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\main\core\arterytek\at32f415\general\port\InputMode.h</FilePath>
@@ -1796,7 +1791,7 @@
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -2154,11 +2149,6 @@
               <FileName>CoreGeneralPort.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\main\core\arterytek\at32f415\general\port\CoreGeneralPort.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreGeneralPortReg.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\port\CoreGeneralPortReg.h</FilePath>
             </File>
             <File>
               <FileName>InputMode.h</FileName>

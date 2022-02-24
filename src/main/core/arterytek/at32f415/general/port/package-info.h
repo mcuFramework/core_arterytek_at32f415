@@ -15,7 +15,6 @@
  * Include
  */
 #include "CoreGeneralPort.h"
-#include "CoreGeneralPortReg.h"
 #include "InputMode.h"
 #include "OutputMode.h"
 

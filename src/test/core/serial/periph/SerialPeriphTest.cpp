@@ -30,6 +30,7 @@ using namespace mcuf::hal::serial::periph;
 using core::serial::periph::SerialPeriphTest;
 
 using core::arterytek::at32f415::Core;
+using core::arterytek::at32f415::CoreIomux;
 using core::arterytek::at32f415::general::pin::CoreGeneralPin;
 using core::arterytek::at32f415::general::port::OutputMode;
 
@@ -165,9 +166,9 @@ void SerialPeriphTest::init(void){
     this->mChipSelectPin[i]->setHigh();
     this->mCoreSerialPeriph->setChipSelectPin(i, this->mChipSelectPin[i]);
   }
-  Core::iomux.remapSPI2(Core::iomux.SPI2_PB12_PB13_PB14_PB15_PC6);
-  Core::gpioa.configOutput(5, OutputMode::SPEED_50M, false, true, true);
-  Core::gpioa.configOutput(7, OutputMode::SPEED_50M, false, true, true);
+  Core::iomux.remapSPI2(CoreIomux::MapSPI2::PB12_PB13_PB14_PB15_PC06);
+  Core::gpioa.setFunction(5, false);
+  Core::gpioa.setFunction(7, false);
 }
 
 /**
