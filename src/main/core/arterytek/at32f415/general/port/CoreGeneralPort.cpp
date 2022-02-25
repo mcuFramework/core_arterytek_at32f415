@@ -385,8 +385,27 @@ bool CoreGeneralPort::configOutput(uint32_t pin, OutputMode mode, bool opendrain
   return false;
 }
 
+/**
+ * @brief 
+ * 
+ * @param pin 
+ * @param opendrain 
+ * @return true 
+ * @return false 
+ */
 bool CoreGeneralPort::setFunction(uint32_t pin, bool opendrain){
   return this->configOutput(pin, OutputMode::SPEED_50M, opendrain, true, true);
+}
+
+/**
+ * @brief 
+ * 
+ * @param pin 
+ * @return true 
+ * @return false 
+ */
+bool CoreGeneralPort::setAnalog(uint32_t pin){
+  return this->configInput(pin, InputMode::ANALOG);
 }
 
 /**

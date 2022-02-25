@@ -190,6 +190,10 @@ class core::arterytek::at32f415::general::port::CoreGeneralPort extends mcuf::la
     virtual void pinToggle(uint32_t port, uint32_t mask) override;
 
   /* **************************************************************************************
+   * Public Method <Inline>
+   */
+
+  /* **************************************************************************************
    * Public Method
    */
   public:
@@ -229,6 +233,15 @@ class core::arterytek::at32f415::general::port::CoreGeneralPort extends mcuf::la
      * @return false 
      */
     bool setFunction(uint32_t pin, bool opendrain);
+
+    /**
+     * @brief Set the Analog object
+     * 
+     * @param pin 
+     * @return true 
+     * @return false 
+     */
+    bool setAnalog(uint32_t pin);
 
     /**
      * @brief Get the Base object
