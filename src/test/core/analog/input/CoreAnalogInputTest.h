@@ -4,8 +4,8 @@
  * 
  * SPDX-License-Identifier: MIT
  */
-#ifndef CORE_ARTERYTEK_AT32F415_9E4AFCAB_9259_45A5_ACFF_A3B1BB7CB8E1
-#define CORE_ARTERYTEK_AT32F415_9E4AFCAB_9259_45A5_ACFF_A3B1BB7CB8E1
+#ifndef CORE_ARTERYTEK_AT32F415_83A23821_E744_4D84_B7BA_21282E88B274
+#define CORE_ARTERYTEK_AT32F415_83A23821_E744_4D84_B7BA_21282E88B274
 
 /* ****************************************************************************************
  * Include
@@ -13,20 +13,18 @@
 
 //-----------------------------------------------------------------------------------------
 #include "mcuf.h"
+#include "core_arterytek_at32f415.h"
 
 //-----------------------------------------------------------------------------------------
+#include "tool/package-info.h"
 
 /* ****************************************************************************************
  * Namespace
  */  
 namespace core{
-  namespace arterytek{
-    namespace at32f415{
-      namespace analog{
-        namespace input{
-          class CoreAnalogInputPort;
-        }
-      }
+  namespace analog{
+    namespace input{
+      class CoreAnalogInputTest;
     }
   }
 }
@@ -35,8 +33,8 @@ namespace core{
 /* ****************************************************************************************
  * Class/Interface/Struct/Enum
  */  
-class core::arterytek::at32f415::analog::input::CoreAnalogInputPort extends mcuf::lang::Object implements
-  public mcuf::hal::analog::input::AnalogInputPort{
+class core::analog::input::CoreAnalogInputTest extends mcuf::lang::Object implements
+  public mcuf::function::Runnable{
 
   /* **************************************************************************************
    * Variable <Public>
@@ -49,8 +47,11 @@ class core::arterytek::at32f415::analog::input::CoreAnalogInputPort extends mcuf
   /* **************************************************************************************
    * Variable <Private>
    */
-  public:
-    uint16_t mResult[16];
+  private:
+    mcuf::util::Stacker& mStacker;
+    tool::Console* mConsole;
+    
+    core::arterytek::at32f415::analog::input::CoreAnalogInputPort* mCoreAnalogInputPort;
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -63,19 +64,17 @@ class core::arterytek::at32f415::analog::input::CoreAnalogInputPort extends mcuf
   /* **************************************************************************************
    * Construct Method
    */
-  public:
+  public: 
     
     /**
-     * @brief Construct a new Core Analog Input Port object
-     * 
+     *
      */
-    CoreAnalogInputPort(void);
+    CoreAnalogInputTest(mcuf::util::Stacker& stacker);
 
     /**
-     * @brief Destroy the Core Analog Input Port object
-     * 
+     *
      */
-    virtual ~CoreAnalogInputPort(void);
+    virtual ~CoreAnalogInputTest(void);
 
   /* **************************************************************************************
    * Operator Method
@@ -86,57 +85,15 @@ class core::arterytek::at32f415::analog::input::CoreAnalogInputPort extends mcuf
    */
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::Base
+   * Public Method <Override> - mcuf::function::Runnable
    */
   public:
-
-    /**
-     * @brief uninitialze hardware.
-     * 
-     * @return true 
-     * @return false 
-     */
-    virtual bool deinit(void) override;
-
-    /**
-     * @brief initialze hardware;
-     * 
-     * @return true 
-     * @return false 
-     */
-    virtual bool init(void) override;
-
-    /**
-     * @brief get hardware initialzed status.
-     * 
-     * @return true not init
-     * @return false initd
-     */
-    virtual bool isInit(void) override;
-
-  /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::analog::input::AnalogInputPortControl
-   */
-  public:
-
+    
     /**
      * @brief 
      * 
-     * @param pin 
-     * @return uint32_t 
      */
-    virtual uint32_t read(int pin) override;
-
-    /**
-     * @brief Get the adc convert bit.
-     * 
-     * @return uint32_t 
-     */
-    virtual uint32_t getConvertBit(void) override;
-
-  /* **************************************************************************************
-   * Public Method <inline>
-   */
+    virtual void run(void) override;
 
   /* **************************************************************************************
    * Public Method
@@ -165,6 +122,12 @@ class core::arterytek::at32f415::analog::input::CoreAnalogInputPort extends mcuf
   /* **************************************************************************************
    * Private Method
    */
+  private:
+    
+    /**
+     *
+     */
+    void init(void);
 
 };
 
@@ -172,4 +135,4 @@ class core::arterytek::at32f415::analog::input::CoreAnalogInputPort extends mcuf
  * End of file
  */ 
 
-#endif /* CORE_ARTERYTEK_AT32F415_9E4AFCAB_9259_45A5_ACFF_A3B1BB7CB8E1 */
+#endif /* CORE_ARTERYTEK_AT32F415_83A23821_E744_4D84_B7BA_21282E88B274 */

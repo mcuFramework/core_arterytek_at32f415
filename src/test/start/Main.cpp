@@ -18,6 +18,7 @@
 
 //-----------------------------------------------------------------------------------------
 #include "start/Main.h"
+#include "core/analog/package-info.h"
 #include "core/serial/package-info.h"
 #include "core/counter/package-info.h"
 #include "tool/package-info.h"
@@ -26,6 +27,8 @@
  * Using
  */  
 using namespace start;
+
+using namespace core::analog::input;
 using namespace core::counter::pulse;
 using namespace core::serial::port;
 using namespace core::serial::periph;
@@ -68,7 +71,8 @@ Main::~Main(void){
  * 
  */
 void Main::run(void){
-  Runnable* runnable = new(this->mStacker) PulseWidthTest(this->mStacker);
+  //Runnable* runnable = new(this->mStacker) PulseWidthTest(this->mStacker);
+  Runnable* runnable = new(this->mStacker) CoreAnalogInputTest(this->mStacker);
   //Runnable* runnable = new(this->mStacker) SerialPortTest(this->mStacker);
   //Runnable* runnable = new(this->mStacker) SerialPeriphTest(this->mStacker);
   

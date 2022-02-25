@@ -66,12 +66,14 @@ CoreAnalogInputPort::~CoreAnalogInputPort(void){
  * Public Method <Override> - mcuf::hal::Base
  */
 
+/**
+ *
+ */
 bool CoreAnalogInputPort::init(void){
   if(true){
     dma_init_type dma_init_struct;
     
     crm_periph_clock_enable(CRM_DMA1_PERIPH_CLOCK, TRUE);
-    nvic_irq_enable(DMA1_Channel1_IRQn, 0, 0);
     dma_reset(DMA1_CHANNEL1);
     dma_default_para_init(&dma_init_struct);
     dma_init_struct.buffer_size = 16;
@@ -120,13 +122,44 @@ bool CoreAnalogInputPort::init(void){
   return true;
 }
 
+/**
+ *
+ */
 bool CoreAnalogInputPort::deinit(void){
+  if(this->isInit())
+    return false;  
+  
+  crm_periph_clock_enable(CRM_DMA1_PERIPH_CLOCK, FALSE);
+  crm_periph_clock_enable(CRM_ADC1_PERIPH_CLOCK, FALSE);
   return true;
 }
 
+/**
+ *
+ */
 bool CoreAnalogInputPort::isInit(void){
-  return true;
+  return CRM_REG(CRM_ADC1_PERIPH_CLOCK) & CRM_REG_BIT(CRM_ADC1_PERIPH_CLOCK);
+}
 
+/* ****************************************************************************************
+ * Public Method <Override> - mcuf::hal::analog::input::AnalogInputPortControl
+ */
+
+/**
+ *
+ */
+uint32_t CoreAnalogInputPort::read(int channel){
+  if((channel >= 0) && (channel < 16))
+    return this->mResult[channel];
+  
+  return 0;
+}
+
+/**
+ *
+ */
+uint32_t CoreAnalogInputPort::getConvertBit(void){
+  return 16;
 }
 
 /* ****************************************************************************************

@@ -12,7 +12,7 @@
 //-----------------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------------
-#include "tool/Console.h"
+#include "core/analog/input/CoreAnalogInputTest.h"
 
 /* ****************************************************************************************
  * Macro
@@ -23,24 +23,25 @@
  */
 
 //-----------------------------------------------------------------------------------------
+using namespace tool;
 
 //-----------------------------------------------------------------------------------------
-using tool::Console;
+using core::analog::input::CoreAnalogInputTest;
 
 using core::arterytek::at32f415::Core;
 using core::arterytek::at32f415::CoreIomux;
+using core::arterytek::at32f415::analog::input::CoreAnalogInputPort;
 using core::arterytek::at32f415::general::pin::CoreGeneralPin;
 using core::arterytek::at32f415::general::port::CoreGeneralPort;
 using core::arterytek::at32f415::general::port::OutputMode;
-using core::arterytek::at32f415::serial::port::CoreSerialPort;
-using core::arterytek::at32f415::serial::port::CoreSerialPortReg;
+
 using mcuf::util::Stacker;
 using mcuf::lang::Memory;
+using mcuf::lang::System;
 
-using mcuf::io::SerialPortOutputStream;
-using mcuf::io::OutputStreamBuffer;
 using mcuf::io::PrintStream;
 using mcuf::io::ByteBuffer;
+
 
 /* ****************************************************************************************
  * Variable <Static>
@@ -53,42 +54,14 @@ using mcuf::io::ByteBuffer;
 /**
  *
  */
-Console::Console(void){
-  Stacker stacker = Stacker(Memory(this->mDynamicMemory, sizeof(this->mDynamicMemory)));
-  
-  this->mCoreSerialPort = new(stacker) 
-    CoreSerialPort(CoreSerialPortReg::REG_UART4, Memory(this->mCoreSerialPortMemory, sizeof(this->mCoreSerialPortMemory)));
-  
-  this->mCoreSerialPort->init();
-  
-  this->mCoreSerialPort->baudrate(128000);
-  
-  this->mSerialPortOutputStream = new(stacker)
-    SerialPortOutputStream(this->mCoreSerialPort);
-  
-  this->mOutputStreamBuffer = new(stacker)
-    OutputStreamBuffer(this->mSerialPortOutputStream, Memory(this->mOutputStreamBufferMemory, sizeof(this->mOutputStreamBufferMemory)));
-  
-  this->mPrintStream = new(stacker)
-    PrintStream(this->mOutputStreamBuffer, Memory(this->mPrintStreamMemory, sizeof(this->mPrintStreamMemory)));
-  
-  Core::gpioc.init();
-  Core::iomux.remapSWDIO(CoreIomux::MapSWDIO::JTAGDISABLE);
-  Core::gpioc.setFunction(10, false);
+CoreAnalogInputTest::CoreAnalogInputTest(Stacker& stacker) construct mStacker(stacker){
   return;
 }
 
 /**
  *
  */
-Console::~Console(void){
-  this->mCoreSerialPort->deinit();
-  
-  this->mPrintStream->~PrintStream();
-  this->mOutputStreamBuffer->~OutputStreamBuffer();
-  this->mSerialPortOutputStream->~SerialPortOutputStream();
-  this->mCoreSerialPort->~CoreSerialPort();
-  
+CoreAnalogInputTest::~CoreAnalogInputTest(void){
   return;
 }
 
@@ -101,8 +74,32 @@ Console::~Console(void){
  */
 
 /* ****************************************************************************************
- * Public Method <Override>
+ * Public Method <Override> - mcuf::function::Runnable
  */
+
+/**
+ *
+ */
+void CoreAnalogInputTest::run(void){
+  this->init();
+  
+  this->mCoreAnalogInputPort->init();
+  
+  for(int i=0; i<16; ++i)
+    this->mConsole->out().format("%04d\t", i);
+  
+  this->mConsole->out().println();
+  
+  while(true){
+    for(int i=0; i<16; ++i){
+      this->mConsole->out().format("%04d\t", this->mCoreAnalogInputPort->read(i));
+    }
+    
+    this->mConsole->out().println();
+    
+    this->delay(500);
+  }
+}
 
 /* ****************************************************************************************
  * Public Method
@@ -123,6 +120,35 @@ Console::~Console(void){
 /* ****************************************************************************************
  * Private Method
  */
+/**
+ *
+ */
+void CoreAnalogInputTest::init(void){
+  this->mConsole = new(this->mStacker) Console();
+  this->mCoreAnalogInputPort = new(this->mStacker) CoreAnalogInputPort();
+  
+  Core::gpioa.init();
+  Core::gpioa.setAnalog(0);
+  Core::gpioa.setAnalog(1);
+  Core::gpioa.setAnalog(2);
+  Core::gpioa.setAnalog(3);
+  Core::gpioa.setAnalog(4);
+  Core::gpioa.setAnalog(5);
+  Core::gpioa.setAnalog(6);
+  Core::gpioa.setAnalog(7);
+  
+  Core::gpiob.init();
+  Core::gpiob.setAnalog(0);
+  Core::gpiob.setAnalog(1);
+  
+  Core::gpioc.init();
+  Core::gpioc.setAnalog(0);
+  Core::gpioc.setAnalog(1);
+  Core::gpioc.setAnalog(2);
+  Core::gpioc.setAnalog(3);
+  Core::gpioc.setAnalog(4);
+  Core::gpioc.setAnalog(5);
+}
 
 /* ****************************************************************************************
  * End of file

@@ -4,22 +4,20 @@
  * 
  * SPDX-License-Identifier: MIT
  */
-#ifndef CORE_ARTERYTEK_AT32F415_A19413CE_C477_4E4A_8CF5_298AD2AAD6E5
-#define CORE_ARTERYTEK_AT32F415_A19413CE_C477_4E4A_8CF5_298AD2AAD6E5
+#ifndef CORE_ARTERYTEK_AT32F415_831321DA_E670_4319_8EA2_F5A47C33D739
+#define CORE_ARTERYTEK_AT32F415_831321DA_E670_4319_8EA2_F5A47C33D739
 
 /* ****************************************************************************************
  * Include folder
  */
-#include "analog/package-info.h"
-#include "counter/package-info.h"
-#include "serial/package-info.h"
 
 /* ****************************************************************************************
  * Include
  */
+#include "CoreAnalogInputTest.h"
 
 /* ****************************************************************************************
  * End of file
  */
 
-#endif /* CORE_ARTERYTEK_AT32F415_A19413CE_C477_4E4A_8CF5_298AD2AAD6E5 */
+#endif /* CORE_ARTERYTEK_AT32F415_831321DA_E670_4319_8EA2_F5A47C33D739 */
