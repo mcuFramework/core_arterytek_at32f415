@@ -4,9 +4,8 @@
  * 
  * SPDX-License-Identifier: MIT
  */
-
-#ifndef CORE_ARTERYTEK_AT32F415_EF4F5B70_C257_44EE_8874_9BBD7AFAD856
-#define CORE_ARTERYTEK_AT32F415_EF4F5B70_C257_44EE_8874_9BBD7AFAD856
+#ifndef CORE_ARTERYTEK_AT32F415_9E4AFCAB_9259_45A5_ACFF_A3B1BB7CB8E1
+#define CORE_ARTERYTEK_AT32F415_9E4AFCAB_9259_45A5_ACFF_A3B1BB7CB8E1
 
 /* ****************************************************************************************
  * Include
@@ -16,7 +15,6 @@
 #include "mcuf.h"
 
 //-----------------------------------------------------------------------------------------
-#include "core/arterytek/at32f415/general/port/CoreGeneralPort.h" 
 
 /* ****************************************************************************************
  * Namespace
@@ -24,9 +22,9 @@
 namespace core{
   namespace arterytek{
     namespace at32f415{
-      namespace general{
-        namespace pin{
-          class CoreGeneralPin;
+      namespace analog{
+        namespace input{
+          class CoreAnalogInputPort;
         }
       }
     }
@@ -34,16 +32,11 @@ namespace core{
 }
 
 
-
 /* ****************************************************************************************
- * Class Object
+ * Class/Interface/Struct/Enum
  */  
-class core::arterytek::at32f415::general::pin::CoreGeneralPin  extends mcuf::lang::Object implements 
-  public mcuf::hal::general::pin::GeneralPin{
-
-  /* **************************************************************************************
-   * Subclass
-   */
+class core::arterytek::at32f415::analog::input::CoreAnalogInputPort extends mcuf::lang::Object implements
+  public mcuf::hal::analog::input::AnalogInputPort{
 
   /* **************************************************************************************
    * Variable <Public>
@@ -56,10 +49,8 @@ class core::arterytek::at32f415::general::pin::CoreGeneralPin  extends mcuf::lan
   /* **************************************************************************************
    * Variable <Private>
    */
-  private: 
-    void* mBase;
-    uint32_t mPin;
-
+  public:
+    uint16_t mResult[16];
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -75,15 +66,16 @@ class core::arterytek::at32f415::general::pin::CoreGeneralPin  extends mcuf::lan
   public:
     
     /**
-     * Construct.
+     * @brief Construct a new Core Analog Input Port object
+     * 
      */
-    CoreGeneralPin(core::arterytek::at32f415::general::port::CoreGeneralPort* base, 
-                   uint32_t pin);
+    CoreAnalogInputPort(void);
 
     /**
-     * Disconstruct.
+     * @brief Destroy the Core Analog Input Port object
+     * 
      */
-    virtual ~CoreGeneralPin(void) = default;
+    virtual ~CoreAnalogInputPort(void);
 
   /* **************************************************************************************
    * Operator Method
@@ -94,73 +86,57 @@ class core::arterytek::at32f415::general::pin::CoreGeneralPin  extends mcuf::lan
    */
 
   /* **************************************************************************************
-   * Public Method <Override>
+   * Public Method <Override> - mcuf::hal::Base
    */
   public:
-    
+
     /**
-     * Get io direction.
+     * @brief uninitialze hardware.
      * 
-     * @return false = input, true = output.
+     * @return true 
+     * @return false 
      */
-    virtual bool dir(void) override;
+    virtual bool deinit(void) override;
 
     /**
-     * Set io direction.
+     * @brief initialze hardware;
      * 
-     * @param dir false = input, true = output.
+     * @return true 
+     * @return false 
      */
-    virtual void dir(bool dir) override;
-    
+    virtual bool init(void) override;
+
     /**
+     * @brief get hardware initialzed status.
      * 
+     * @return true not init
+     * @return false initd
      */
-    virtual mcuf::hal::general::pin::GeneralPinMode pinMode(void) override;
+    virtual bool isInit(void) override;
+
+  /* **************************************************************************************
+   * Public Method <Override> - mcuf::hal::analog::input::AnalogInputPortControl
+   */
+  public:
 
     /**
+     * @brief 
      * 
+     * @param pin 
+     * @return uint32_t 
      */
-    virtual bool pinMode(mcuf::hal::general::pin::GeneralPinMode mode) override; 
+    virtual uint32_t read(int pin) override;
 
     /**
-     * Set io pin to high.
+     * @brief Get the adc convert bit.
+     * 
+     * @return uint32_t 
      */
-    virtual void setHigh(void) override;
-    
-    /**
-     * Set io direction to input.
-     */
-    virtual void setInput(void) override;
+    virtual uint32_t getConvertBit(void) override;
 
-    /**
-     * Set io pin to low.
-     */
-    virtual void setLow(void) override;
-    
-    /**
-     * Set io direction to output.
-     */
-    virtual void setOutput(void) override;
-
-    /**
-     * Set io not logic.
-     */
-    virtual void setToggle(void) override;
-
-    /**
-     * Get io pin.
-     *
-     * @return false = low, true = high.
-     */
-    virtual bool value(void) override;
-
-    /**
-     * Set io pin to high or low.
-     *
-     * @param value false = low, true = high.
-     */
-    virtual void value(bool level) override;
-
+  /* **************************************************************************************
+   * Public Method <inline>
+   */
 
   /* **************************************************************************************
    * Public Method
@@ -185,17 +161,15 @@ class core::arterytek::at32f415::general::pin::CoreGeneralPin  extends mcuf::lan
   /* **************************************************************************************
    * Private Method <Override>
    */
-   
+
   /* **************************************************************************************
    * Private Method
-   */  
+   */
 
 };
 
-
-
-/* *****************************************************************************************
+/* ****************************************************************************************
  * End of file
  */ 
 
-#endif/* CORE_ARTERYTEK_AT32F415_EF4F5B70_C257_44EE_8874_9BBD7AFAD856 */
+#endif /* CORE_ARTERYTEK_AT32F415_9E4AFCAB_9259_45A5_ACFF_A3B1BB7CB8E1 */

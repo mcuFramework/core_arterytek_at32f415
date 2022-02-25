@@ -4,8 +4,8 @@
  * 
  * SPDX-License-Identifier: MIT
  */
-#ifndef CORE_ARTERYTEK_AT32F415_F05FAB70_F46D_4596_BFCE_460ADACDF30B
-#define CORE_ARTERYTEK_AT32F415_F05FAB70_F46D_4596_BFCE_460ADACDF30B
+#ifndef CORE_ARTERYTEK_AT32F415_A478214A_52D1_4D28_947E_D93DD63C712E
+#define CORE_ARTERYTEK_AT32F415_A478214A_52D1_4D28_947E_D93DD63C712E
 
 /* ****************************************************************************************
  * Include folder
@@ -14,12 +14,10 @@
 /* ****************************************************************************************
  * Include
  */
-#include "CoreGeneralPort.h"
-#include "InputMode.h"
-#include "OutputMode.h"
+#include "CoreAnalogInputPort.h"
 
 /* ****************************************************************************************
  * End of file
  */
 
-#endif /* CORE_ARTERYTEK_AT32F415_F05FAB70_F46D_4596_BFCE_460ADACDF30B */
+#endif /* CORE_ARTERYTEK_AT32F415_A478214A_52D1_4D28_947E_D93DD63C712E */

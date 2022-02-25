@@ -86,76 +86,112 @@ class core::arterytek::at32f415::general::port::CoreGeneralPort extends mcuf::la
   /* **************************************************************************************
    * Public Method <Override> mcuf::hal::Base
    */
+  public:
+    
+    /**
+     * @brief uninitialze hardware.
+     * 
+     * @return true 
+     * @return false 
+     */
+    virtual bool deinit(void) override;
 
-  /**
-   * uninitialze hardware.
-   */
-  public: virtual bool deinit(void) override;
+    /**
+     * @brief initialze hardware.
+     * 
+     * @return true 
+     * @return false 
+     */
+    virtual bool init(void) override;
 
-  /**
-   * initialze hardware;
-   */
-  public: virtual bool init(void) override;
-
-  /**
-   * get hardware initialzed status.
-   * 
-   * @return false = not init, true = initd
-   */
-  public: virtual bool isInit(void) override;
+    /**
+     * @brief get hardware initialzed status.
+     * 
+     * @return true initd
+     * @return false not init
+     */
+    virtual bool isInit(void) override;
 
   /* **************************************************************************************
    * Public Method <Override>
    */
-
-  /**
-   * 
-   */
-  public: virtual uint32_t dir(uint32_t port) override;
-
-  /**
-   * 
-   */
-  public: virtual void dir(uint32_t port, uint32_t value) override;
+  public:
   
-  /**
-   * 
-   */
-  public: virtual void dirClear(uint32_t port, uint32_t mask) override;
-  
-  /**
-   * 
-   */
-  public: virtual void dirSet(uint32_t port, uint32_t mask) override;
+    /**
+     * @brief 
+     * 
+     * @param port 
+     * @return uint32_t 
+     */
+    virtual uint32_t dir(uint32_t port) override;
 
-  /**
-   * 
-   * @param port GPIO port.
-   */
-  public: virtual uint32_t pin(uint32_t port) override;
+    /**
+     * @brief 
+     * 
+     * @param port 
+     * @param value 
+     */
+    virtual void dir(uint32_t port, uint32_t value) override;
+    
+    /**
+     * @brief 
+     * 
+     * @param port 
+     * @param mask 
+     */
+    virtual void dirClear(uint32_t port, uint32_t mask) override;
+    
+    /**
+     * @brief 
+     * 
+     * @param port 
+     * @param mask 
+     */
+    virtual void dirSet(uint32_t port, uint32_t mask) override;
 
-  /**
-   * 
-   * @param port GPIO port.
-   */
-  public: virtual void pin(uint32_t port, uint32_t value) override;
-  
-  /**
-   * 
-   */
-  public: virtual void pinClear(uint32_t port, uint32_t mask) override;
+    /**
+     * @brief 
+     * 
+     * @param port 
+     * @return uint32_t 
+     */
+    virtual uint32_t pin(uint32_t port) override;
 
-  /**
-   *
-   * @param port GPIO port.
-   * @param value GPIO write value.
+    /**
+     * @brief 
+     * 
+     * @param port 
+     * @param value 
+     */
+    virtual void pin(uint32_t port, uint32_t value) override;
+    
+    /**
+     * @brief 
+     * 
+     * @param port 
+     * @param mask 
+     */
+    virtual void pinClear(uint32_t port, uint32_t mask) override;
+
+    /**
+     * @brief 
+     * 
+     * @param port 
+     * @param mask 
+     */
+    virtual void pinSet(uint32_t port, uint32_t mask) override;
+    
+    /**
+     * @brief 
+     * 
+     * @param port 
+     * @param mask 
+     */
+    virtual void pinToggle(uint32_t port, uint32_t mask) override;
+
+  /* **************************************************************************************
+   * Public Method <Inline>
    */
-  public: virtual void pinSet(uint32_t port, uint32_t mask) override;
-  
-  /**
-   * 
-   */
-  public: virtual void pinToggle(uint32_t port, uint32_t mask) override;
 
   /* **************************************************************************************
    * Public Method
@@ -163,12 +199,25 @@ class core::arterytek::at32f415::general::port::CoreGeneralPort extends mcuf::la
   public:
     
     /**
-     *
+     * @brief 
+     * 
+     * @param pin 
+     * @param mode 
+     * @return true 
+     * @return false 
      */
     bool configInput(uint32_t pin, core::arterytek::at32f415::general::port::InputMode mode);
     
     /**
-     *
+     * @brief 
+     * 
+     * @param pin 
+     * @param mode 
+     * @param opendrain 
+     * @param function 
+     * @param value 
+     * @return true 
+     * @return false 
      */
     bool configOutput(uint32_t pin, core::arterytek::at32f415::general::port::OutputMode mode, 
                       bool opendrain, 
@@ -176,7 +225,28 @@ class core::arterytek::at32f415::general::port::CoreGeneralPort extends mcuf::la
                       bool value);
 
     /**
-     *
+     * @brief Set the Function object
+     * 
+     * @param pin 
+     * @param enable 
+     * @return true 
+     * @return false 
+     */
+    bool setFunction(uint32_t pin, bool opendrain);
+
+    /**
+     * @brief Set the Analog object
+     * 
+     * @param pin 
+     * @return true 
+     * @return false 
+     */
+    bool setAnalog(uint32_t pin);
+
+    /**
+     * @brief Get the Base object
+     * 
+     * @return void* 
      */
     void* getBase(void);
 
