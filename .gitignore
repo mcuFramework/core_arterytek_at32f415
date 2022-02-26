@@ -1,0 +1,8 @@
+/.keil
+/ref
+*.uvoptx
+*.uvguix.*
+*.uvmpw.*
+*.uvmpw.*.*
+*.exe
+EventRecorderStub.scvd
