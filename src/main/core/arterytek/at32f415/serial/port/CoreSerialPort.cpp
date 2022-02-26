@@ -207,7 +207,7 @@ bool CoreSerialPort::read(ByteBuffer* byteBuffer, SerialPortEvent* event){
     return false;
   
   if(this->getCount() >= byteBuffer->remaining()){
-    uint32_t count = this->getCount();
+    uint32_t count = byteBuffer->remaining();
     uint8_t* pointer = static_cast<uint8_t*>(byteBuffer->pointer(byteBuffer->position()));
     this->popMult(pointer, count);
     byteBuffer->position(byteBuffer->position() + count);

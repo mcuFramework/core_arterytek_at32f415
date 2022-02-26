@@ -46,9 +46,11 @@ using mcuf::lang::Memory;
 using mcuf::lang::System;
 
 using mcuf::io::SerialPortOutputStream;
+using mcuf::io::SerialPortInputStream;
 using mcuf::io::OutputStreamBuffer;
 using mcuf::io::PrintStream;
 using mcuf::io::ByteBuffer;
+using mcuf::io::Feture;
 
 /* ****************************************************************************************
  * Variable <Static>
@@ -90,57 +92,43 @@ SerialPortTest::~SerialPortTest(void){
  */
 void SerialPortTest::run(void){
   this->init();
-  this->mStage = 0;
-  this->mPackageNumber = 0;
-  this->mBlinker.mPin = &this->mBoardPeriph->led[0];
-  System::scheduleAtFixedRate(this->mBlinker, 100, 100);
+  ByteBuffer buffer = ByteBuffer(this->mStacker.allocMemoryAlignment32(128));
+  
+  Feture feture;
   
   while(true){
-    if(!this->mBoardPeriph->wakeup.value()){
-      this->mBlinker.mPin = &this->mBoardPeriph->led[1];
-      mSelectMode = 0;
-      break;
-    }
     
-    if(!this->mBoardPeriph->function.value()){
-      this->mBlinker.mPin = &this->mBoardPeriph->led[2];
-      mSelectMode = 1;
-      break;
-    }
-  }
-  
-  this->mBoardPeriph->led[0].setLow();
-  this->beginRead(9);
-  
-  while(true){
-    this->delay(1000);
+    buffer.clear();
+    buffer.put("Enter 8 char: ");
+    buffer.flip();
+    this->mSerialPortOutputStream->write(&buffer, feture);
+    feture.get();
+    feture.reset();
+    
+    buffer.clear();
+    buffer.put("Result: ");
+    buffer.flip();
+    buffer.position(buffer.limit());
+    buffer.limit(buffer.limit()+8);
+    this->mSerialPortInputStream->read(&buffer, feture);
+    feture.get();
+    feture.reset();
+    
+    
+    
+    buffer.limit(buffer.limit()+1);
+    buffer.putByte('\n');
+    buffer.flip();
+    this->mSerialPortOutputStream->write(&buffer, feture);
+    feture.get();
+    feture.reset();
+    
   }
 }
 
 /* ****************************************************************************************
  * Public Method <Override> - mcuf::hal::serial::port::SerialPortEvent
  */
-  
-/**
- * @brief 
- * 
- * @param status 
- * @param byteBuffer 
-*/
-
-void SerialPortTest::onSerialPortEvent(SerialPortStatus status, ByteBuffer* byteBuffer){
-  if(status == SerialPortStatus::READ_SUCCESSFUL){
-    if(this->mStage == 0){
-      this->readCommand(byteBuffer);
-    
-    }else if(this->mStage == 1){
-      this->readPackage(byteBuffer);
-    }
-    
-  }else{
-    LED_ERROR();
-  }
-}
 
 /* ****************************************************************************************
  * Public Method
@@ -166,92 +154,14 @@ void SerialPortTest::onSerialPortEvent(SerialPortStatus status, ByteBuffer* byte
  *
  */
 void SerialPortTest::init(void){
-  this->mBoardPeriph = new(this->mStacker) BoardPeriph();
-  this->mConsole = new(this->mStacker) Console();
+  Core::gpioc.init();
+  Core::gpioc.setFunction(10, false);
+  this->mCoreSerialPort = new(this->mStacker) CoreSerialPort(CoreSerialPortReg::REG_UART4, this->mStacker.allocMemoryAlignment32(256));
+  this->mCoreSerialPort->init();
+  this->mCoreSerialPort->baudrate(9600);
+  this->mSerialPortInputStream = new(this->mStacker) SerialPortInputStream(this->mCoreSerialPort);
+  this->mSerialPortOutputStream = new(this->mStacker) SerialPortOutputStream(this->mCoreSerialPort);
   
-  this->mReceiver = new(this->mStacker) ByteBuffer(this->mStacker.allocMemoryAlignment32(2112));
-}
-
-/**
- *
- */
-void SerialPortTest::beginRead(int len){
-  this->mReceiver->clear();
-  this->mReceiver->limit(len);
-  this->mConsole->mCoreSerialPort->read(this->mReceiver, this);
-}
-
-/**
- *
- */
-void SerialPortTest::readCommand(ByteBuffer* byteBuffer){
-  char command;
-  int address;
-  int len;
-    
-  byteBuffer->position(0);
-  byteBuffer->getByte(command);
-  byteBuffer->getIntMsb(address);
-  byteBuffer->getIntMsb(len);
-      
-      
-     
-  if(command != 0x72){
-    LED_ERROR();
-    this->mConsole->out().print(cmd_error);
-  }else{
-    this->mConsole->out().print(cmd_ack);
-    this->mStage = 1;
-    this->mLength = len;
-    this->mPackageNumber = 0;
-    
-    int readSize = 1;
-    int alreadyRead = PACKAGE_SIZE * (this->mPackageNumber + 1);
-    
-    if((alreadyRead + PACKAGE_SIZE) > this->mLength)
-      readSize += this->mLength%PACKAGE_SIZE;
-    
-    else
-      readSize += PACKAGE_SIZE;
-    
-    this->beginRead(readSize);
-  }
-}
-
-/**
- *
- */
-void SerialPortTest::readPackage(ByteBuffer* byteBuffer){
-  int readSize = 1;
-  int alreadyRead = PACKAGE_SIZE * (this->mPackageNumber + 1);
-  
-  if((alreadyRead + PACKAGE_SIZE) > this->mLength)
-    readSize += this->mLength%PACKAGE_SIZE;
-  
-  else
-    readSize += PACKAGE_SIZE;
-  
-  
-  if(this->mPackageNumber == 1){
-    if(this->mSelectMode == 1){
-      this->mSelectMode = 0;
-      this->beginRead(readSize);
-      this->mConsole->out().print(cmd_exception);
-      return;
-    }
-  }
-  
-  ++this->mPackageNumber;
-  
-  if(alreadyRead >= this->mLength){
-    LED_SUCCESSFUL();
-  }else{
-    this->beginRead(readSize);
-  }
-  
-  this->mConsole->out().print(cmd_ack);
-  
-  return;
 }
 
 /* ****************************************************************************************

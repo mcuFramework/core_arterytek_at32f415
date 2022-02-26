@@ -33,8 +33,7 @@ namespace core{
  * Class/Interface/Struct/Enum
  */  
 class core::serial::port::SerialPortTest extends mcuf::lang::Object implements
-  public mcuf::function::Runnable, 
-  public mcuf::hal::serial::port::SerialPortEvent{
+  public mcuf::function::Runnable{
 
   /* **************************************************************************************
    * Variable <Public>
@@ -49,16 +48,9 @@ class core::serial::port::SerialPortTest extends mcuf::lang::Object implements
    */
   private:
     mcuf::util::Stacker& mStacker;
-    tool::Console* mConsole;
-    tool::BoardPeriph* mBoardPeriph;
-    tool::Blinker mBlinker;
-    int mSelectMode;
-    int mStage;
-    int mPackageNumber;
-    int mLength;
-  
-    mcuf::io::ByteBuffer* mReceiver;
-
+    core::arterytek::at32f415::serial::port::CoreSerialPort* mCoreSerialPort;
+    mcuf::io::SerialPortInputStream* mSerialPortInputStream;
+    mcuf::io::SerialPortOutputStream* mSerialPortOutputStream;
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -101,20 +93,6 @@ class core::serial::port::SerialPortTest extends mcuf::lang::Object implements
      * 
      */
     virtual void run(void) override;
-  
-  /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::serial::port::SerialPortEvent
-   */
-  public:
-    
-    /**
-     * @brief 
-     * 
-     * @param status 
-     * @param byteBuffer 
-     */
-    virtual void onSerialPortEvent(mcuf::hal::serial::port::SerialPortStatus status, 
-                                   mcuf::io::ByteBuffer* byteBuffer) override;  
 
   /* **************************************************************************************
    * Public Method
@@ -150,12 +128,6 @@ class core::serial::port::SerialPortTest extends mcuf::lang::Object implements
      * 
      */
     void init(void);
-  
-    void beginRead(int len);
-  
-    void readCommand(mcuf::io::ByteBuffer* byteBuffer);
-  
-    void readPackage(mcuf::io::ByteBuffer* byteBuffer);
   
 
 };
