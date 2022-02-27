@@ -305,7 +305,7 @@ bool CoreGeneralPort::configInput(uint32_t pin, InputMode mode){
   else         // 8~15pin
     reg = &base->cfghr;
   
-  ctrl = ((*reg) & (0x0000000F << shift));
+  ctrl = ((*reg) & ~(0x0000000F << shift));
   
   switch(mode){
     case InputMode::OPEN:
