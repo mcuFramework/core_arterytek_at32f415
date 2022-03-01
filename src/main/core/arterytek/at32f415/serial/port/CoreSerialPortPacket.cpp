@@ -53,10 +53,11 @@ void CoreSerialPortPacket::run(void){
   ByteBuffer* byteBuffer = this->mByteBuffer;
   SerialPortEvent* event = this->mEvent;
   byteBuffer->position(byteBuffer->position() + this->mCount);
+  void* attachment = this->attachment;
   this->clear();
   
   if(event)
-    event->onSerialPortEvent(this->mStatus, 0 ,this->attachment);
+    event->onSerialPortEvent(this->mStatus, 0 ,attachment);
   
 }
 
