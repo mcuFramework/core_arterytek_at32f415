@@ -181,23 +181,40 @@ class core::arterytek::at32f415::serial::port::CoreSerialPort extends mcuf::io::
      * @brief 
      * 
      * @param byteBuffer 
+     * @param attachment 
      * @param event 
      * @return true 
      * @return false 
      */
-    virtual bool read(mcuf::io::ByteBuffer* byteBuffer, 
+    virtual bool read(mcuf::io::ByteBuffer& byteBuffer, 
+                      void* attachment,
+                      mcuf::hal::serial::port::SerialPortEvent* event) override;
+
+    /**
+     * @brief 
+     * 
+     * @param value 
+     * @param attachment 
+     * @param event 
+     * @return true 
+     * @return false 
+     */
+    virtual bool skip(int value,
+                      void* attachment, 
                       mcuf::hal::serial::port::SerialPortEvent* event) override;
 
     /**
      * @brief 
      * 
      * @param byteBuffer 
+     * @param attachment 
      * @param event 
      * @return true 
      * @return false 
      */
-    virtual bool write(mcuf::io::ByteBuffer* byteBuffer,
-                      mcuf::hal::serial::port::SerialPortEvent* event) override;
+    virtual bool write(mcuf::io::ByteBuffer& byteBuffer,
+                       void* attachment,
+                       mcuf::hal::serial::port::SerialPortEvent* event) override;
 
   /* **************************************************************************************
    * Public Method <Override> - mcuf::hal::InterruptEvent

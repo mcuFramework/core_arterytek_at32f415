@@ -202,33 +202,33 @@ bool CoreSerialPort::writeBusy(void){
 /**
  * 
  */
-bool CoreSerialPort::read(ByteBuffer* byteBuffer, SerialPortEvent* event){
+bool CoreSerialPort::read(ByteBuffer& byteBuffer, void* attachment, SerialPortEvent* event){
   if(this->readBusy())
     return false;
   
-  if(this->getCount() >= byteBuffer->remaining()){
-    uint32_t count = byteBuffer->remaining();
-    uint8_t* pointer = static_cast<uint8_t*>(byteBuffer->pointer(byteBuffer->position()));
+  if(this->getCount() >= byteBuffer.remaining()){
+    uint32_t count = byteBuffer.remaining();
+    uint8_t* pointer = static_cast<uint8_t*>(byteBuffer.pointer(byteBuffer.position()));
     this->popMult(pointer, count);
-    byteBuffer->position(byteBuffer->position() + count);
+    byteBuffer.position(byteBuffer.position() + count);
     
     if(event)
-      event->onSerialPortEvent(SerialPortStatus::READ_SUCCESSFUL, byteBuffer);
+      event->onSerialPortEvent(SerialPortStatus::READ_SUCCESSFUL, 0, attachment);
     
     return true;
   }else if(this->isEmpty()){
     usart_interrupt_enable(BASE, USART_RDBF_INT, FALSE);  //memory protected
-    this->mPacketRead.init(*byteBuffer, event);
+    this->mPacketRead.init(byteBuffer, attachment, event);
     usart_interrupt_enable(BASE, USART_RDBF_INT, TRUE);  //memory protected
     
   }else{
-    uint8_t* pointer = static_cast<uint8_t*>(byteBuffer->pointer(byteBuffer->position()));
+    uint8_t* pointer = static_cast<uint8_t*>(byteBuffer.pointer(byteBuffer.position()));
     
     usart_interrupt_enable(BASE, USART_RDBF_INT, FALSE);  //memory protected
     uint32_t count = this->getCount();
     
-    byteBuffer->position(byteBuffer->position() + count);
-    this->mPacketRead.init(*byteBuffer, event);
+    byteBuffer.position(byteBuffer.position() + count);
+    this->mPacketRead.init(byteBuffer, attachment, event);
     usart_interrupt_enable(BASE, USART_RDBF_INT, TRUE);  //memory protected
     
     if(count)
@@ -239,14 +239,27 @@ bool CoreSerialPort::read(ByteBuffer* byteBuffer, SerialPortEvent* event){
 }
 
 /**
+ * @brief 
+ * 
+ * @param value 
+ * @param attachment 
+ * @param event 
+ * @return true 
+ * @return false 
+ */
+bool CoreSerialPort::skip(int value, void* attachment, mcuf::hal::serial::port::SerialPortEvent* event){
+  return false;
+}
+
+/**
  * 
  */
-bool CoreSerialPort::write(ByteBuffer* byteBuffer, SerialPortEvent* event){
+bool CoreSerialPort::write(ByteBuffer& byteBuffer, void* attachment, SerialPortEvent* event){
   
   if(this->writeBusy())
     return false;
   
-  if(!this->mPacketWrite.init(*byteBuffer, event))
+  if(!this->mPacketWrite.init(byteBuffer, attachment, event))
     return false;
   
   usart_interrupt_enable(BASE, USART_TDBE_INT, TRUE);

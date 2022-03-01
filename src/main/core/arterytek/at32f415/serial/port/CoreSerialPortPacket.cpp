@@ -56,7 +56,7 @@ void CoreSerialPortPacket::run(void){
   this->clear();
   
   if(event)
-    event->onSerialPortEvent(this->mStatus, byteBuffer);
+    event->onSerialPortEvent(this->mStatus, 0 ,this->attachment);
   
 }
 
@@ -77,7 +77,7 @@ void CoreSerialPortPacket::clear(void){
 /**
  *
  */
-bool CoreSerialPortPacket::init(ByteBuffer& byteBuffer, SerialPortEvent* event){
+bool CoreSerialPortPacket::init(ByteBuffer& byteBuffer, void* attachment, SerialPortEvent* event){
   if(this->isExist())
     return false;
   
@@ -89,6 +89,7 @@ bool CoreSerialPortPacket::init(ByteBuffer& byteBuffer, SerialPortEvent* event){
   this->mLength = byteBuffer.remaining();
   this->mCount = 0;
   this->mPointer = static_cast<uint8_t*>(byteBuffer.pointer(byteBuffer.position()));
+  this->attachment = attachment;
   
   return true;
 }

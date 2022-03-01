@@ -41,12 +41,14 @@ class core::arterytek::at32f415::serial::port::CoreSerialPortPacket extends mcuf
   /* **************************************************************************************
    * Variable <Public>
    */
-  public: uint16_t mLength;
-  public: uint16_t mCount;    
-  public: uint8_t* mPointer;
-  public: mcuf::hal::serial::port::SerialPortEvent* mEvent;
-  public: mcuf::hal::serial::port::SerialPortStatus mStatus;
-  public: mcuf::io::ByteBuffer* mByteBuffer;
+  public: 
+    uint16_t mLength;
+    uint16_t mCount;    
+    uint8_t* mPointer;
+    mcuf::hal::serial::port::SerialPortEvent* mEvent;
+    mcuf::hal::serial::port::SerialPortStatus mStatus;
+    mcuf::io::ByteBuffer* mByteBuffer;
+    void* attachment;
   
   /* **************************************************************************************
    * Variable <Protected>
@@ -112,7 +114,9 @@ class core::arterytek::at32f415::serial::port::CoreSerialPortPacket extends mcuf
   /**
    *
    */
-  public: bool init(mcuf::io::ByteBuffer& byteBuffer, mcuf::hal::serial::port::SerialPortEvent* event);
+  public: bool init(mcuf::io::ByteBuffer& byteBuffer, 
+                    void* attachment,
+                    mcuf::hal::serial::port::SerialPortEvent* event);
   
   /* **************************************************************************************
    * Protected Method <Static>
