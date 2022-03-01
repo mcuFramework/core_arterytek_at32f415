@@ -175,14 +175,23 @@ uint32_t CoreSerialPort::baudrate(uint32_t rate){
  * 
  */
 bool CoreSerialPort::abortRead(void){
-  return false;
+  if(!this->readBusy())
+    return false;
+  
+  this->mPacketRead.run();
+  return true;
 }
 
 /**
  * 
  */
 bool CoreSerialPort::abortWrite(void){
-  return false;
+  if(!this->writeBusy())
+    return false;
+  
+  usart_interrupt_enable(BASE, USART_TDBE_INT, FALSE);
+  this->mPacketWrite.run();
+  return true;
 }
 
 /**
@@ -216,6 +225,7 @@ bool CoreSerialPort::read(ByteBuffer& byteBuffer, void* attachment, SerialPortEv
       event->onSerialPortEvent(SerialPortStatus::READ_SUCCESSFUL, 0, attachment);
     
     return true;
+    
   }else if(this->isEmpty()){
     usart_interrupt_enable(BASE, USART_RDBF_INT, FALSE);  //memory protected
     this->mPacketRead.init(byteBuffer, attachment, event);
@@ -248,7 +258,37 @@ bool CoreSerialPort::read(ByteBuffer& byteBuffer, void* attachment, SerialPortEv
  * @return false 
  */
 bool CoreSerialPort::skip(int value, void* attachment, mcuf::hal::serial::port::SerialPortEvent* event){
-  return false;
+  if(this->readBusy())
+    return false;
+  
+  if(value <= 0)
+    return false;
+  
+  if(this->getCount() >= value){
+    this->popMult(nullptr, value);
+    
+    if(event)
+      event->onSerialPortEvent(SerialPortStatus::READ_SUCCESSFUL, 0, attachment);
+    
+    return true;
+    
+  }else if(this->isEmpty()){
+    usart_interrupt_enable(BASE, USART_RDBF_INT, FALSE);  //memory protected
+    this->mPacketRead.init(nullptr, value, attachment, event);
+    usart_interrupt_enable(BASE, USART_RDBF_INT, TRUE);  //memory protected
+    
+  }else{
+
+    usart_interrupt_enable(BASE, USART_RDBF_INT, FALSE);  //memory protected
+    uint32_t count = this->getCount();
+    this->mPacketRead.init(nullptr, (value - count), attachment, event);
+    usart_interrupt_enable(BASE, USART_RDBF_INT, TRUE);  //memory protected
+    
+    if(count)
+      this->popMult(nullptr, count);
+  }
+ 
+  return true;
 }
 
 /**
@@ -276,9 +316,12 @@ void CoreSerialPort::interruptEvent(void){
   if(usart_flag_get(base, USART_RDBF_FLAG) != RESET){
     uint8_t readCache = usart_data_receive(base);
     
-    if(this->mPacketRead.mPointer && (this->mPacketRead.mLength > this->mPacketRead.mCount)){  //receiver pointer is not null
+    if(this->mPacketRead.mLength > this->mPacketRead.mCount){  //receiver pointer is not null
       /* Read one byte from the receive data register */
-      this->mPacketRead.mPointer[this->mPacketRead.mCount] = readCache;  
+      
+      if(this->mPacketRead.mPointer)
+        this->mPacketRead.mPointer[this->mPacketRead.mCount] = readCache;  
+        
       ++this->mPacketRead.mCount;
 
       if(this->mPacketRead.mCount >= this->mPacketRead.mLength){  //receiver is successful
@@ -304,7 +347,7 @@ void CoreSerialPort::interruptEvent(void){
     ++this->mPacketWrite.mCount;
     
     if(this->mPacketWrite.mCount >= this->mPacketWrite.mLength){
-      /* Disable the USART1 Transmit interrupt */
+      /* Disable the USART Transmit interrupt */
       usart_interrupt_enable(base, USART_TDBE_INT, FALSE);
       this->mPacketWrite.mStatus = SerialPortStatus::WRITE_SUCCESSFUL;
       if(!System::execute(this->mPacketWrite))

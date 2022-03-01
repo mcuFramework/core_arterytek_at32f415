@@ -27,6 +27,7 @@ using namespace core::arterytek::at32f415::serial::port;
 //-----------------------------------------------------------------------------------------
 using mcuf::io::ByteBuffer;
 using mcuf::hal::serial::port::SerialPortEvent;
+using mcuf::hal::serial::port::SerialPortStatus;
 
 /* ****************************************************************************************
  * Variable <Static>
@@ -52,12 +53,14 @@ void CoreSerialPortPacket::run(void){
   
   ByteBuffer* byteBuffer = this->mByteBuffer;
   SerialPortEvent* event = this->mEvent;
+  SerialPortStatus status = this->mStatus;
   byteBuffer->position(byteBuffer->position() + this->mCount);
-  void* attachment = this->attachment;
+  void* attachment = this->mAttachment;
+  int result = this->mLength - this->mCount;
   this->clear();
   
   if(event)
-    event->onSerialPortEvent(this->mStatus, 0 ,attachment);
+    event->onSerialPortEvent(status, result ,attachment);
   
 }
 
@@ -90,7 +93,24 @@ bool CoreSerialPortPacket::init(ByteBuffer& byteBuffer, void* attachment, Serial
   this->mLength = byteBuffer.remaining();
   this->mCount = 0;
   this->mPointer = static_cast<uint8_t*>(byteBuffer.pointer(byteBuffer.position()));
-  this->attachment = attachment;
+  this->mAttachment = attachment;
+  
+  return true;
+}
+
+/**
+ *
+ */
+bool CoreSerialPortPacket::init(void* pointer, int length, void* attachment, SerialPortEvent* event){
+  if(this->isExist())
+    return false;
+  
+  this->mByteBuffer = nullptr;
+  this->mEvent = event;
+  this->mLength = length;
+  this->mCount = 0;
+  this->mPointer = static_cast<uint8_t*>(pointer);
+  this->mAttachment = attachment;
   
   return true;
 }
