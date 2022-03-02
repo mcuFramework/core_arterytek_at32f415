@@ -160,6 +160,12 @@ class core::arterytek::at32f415::serial::port::CoreSerialPort extends mcuf::io::
      * @return false 
      */
     virtual bool abortWrite(void) override;
+  
+    /**
+     * @brief 
+     * 
+     */
+    virtual bool clear(void) override;
 
     /**
      * @brief 

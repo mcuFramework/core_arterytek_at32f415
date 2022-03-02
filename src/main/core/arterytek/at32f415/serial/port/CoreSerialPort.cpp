@@ -164,7 +164,7 @@ uint32_t CoreSerialPort::baudrate(uint32_t rate){
   usart_enable(BASE, FALSE);
   usart_init(BASE, rate, USART_DATA_8BITS, USART_STOP_1_BIT);
   usart_enable(BASE, TRUE);
-  return 0;
+  return this->baudrate();
 }
 
 /* ****************************************************************************************
@@ -191,6 +191,17 @@ bool CoreSerialPort::abortWrite(void){
   
   usart_interrupt_enable(BASE, USART_TDBE_INT, FALSE);
   this->mPacketWrite.run();
+  return true;
+}
+
+/**
+ *
+ */
+bool CoreSerialPort::clear(void){
+  if(this->readBusy())
+    return false;
+  
+  this->flush();
   return true;
 }
 
