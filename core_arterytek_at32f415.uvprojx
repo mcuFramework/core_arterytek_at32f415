@@ -478,6 +478,16 @@
               <FileType>5</FileType>
               <FilePath>.\src\main\core\arterytek\at32f415\analog\input\CoreAnalogInputPort.h</FilePath>
             </File>
+            <File>
+              <FileName>CoreAnalogInputPin.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\analog\input\CoreAnalogInputPin.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreAnalogInputPin.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\analog\input\CoreAnalogInputPin.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1869,7 +1879,7 @@
         <TargetCommonOption>
           <Device>-AT32F415RBT7</Device>
           <Vendor>ArteryTek</Vendor>
-          <PackID>ArteryTek.AT32F415_DFP.2.0.2</PackID>
+          <PackID>ArteryTek.AT32F415_DFP.2.0.3</PackID>
           <Cpu>IRAM(0x20000000,0x8000) IROM(0x08000000,0x20000) CPUTYPE("Cortex-M4") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
@@ -2329,6 +2339,16 @@
               <FileName>CoreAnalogInputPort.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\main\core\arterytek\at32f415\analog\input\CoreAnalogInputPort.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreAnalogInputPin.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\analog\input\CoreAnalogInputPin.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreAnalogInputPin.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\analog\input\CoreAnalogInputPin.h</FilePath>
             </File>
           </Files>
         </Group>
