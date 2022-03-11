@@ -128,6 +128,11 @@ class core::analog::input::CoreAnalogInputTest extends mcuf::lang::Object implem
      *
      */
     void init(void);
+  
+    /**
+     *
+     */
+    float getVoltage(uint16_t level);
 
 };
 

@@ -36,6 +36,7 @@ using namespace mcuf::hal::serial::port;
 //-----------------------------------------------------------------------------------------
 using core::serial::port::SerialPortTest;
 using core::arterytek::at32f415::Core;
+using core::arterytek::at32f415::CoreIomux;
 using core::arterytek::at32f415::general::pin::CoreGeneralPin;
 using core::arterytek::at32f415::general::port::CoreGeneralPort;
 using core::arterytek::at32f415::general::port::OutputMode;
@@ -50,7 +51,7 @@ using mcuf::io::SerialPortInputStream;
 using mcuf::io::OutputStreamBuffer;
 using mcuf::io::PrintStream;
 using mcuf::io::ByteBuffer;
-using mcuf::io::Feture;
+using mcuf::io::Future;
 
 /* ****************************************************************************************
  * Variable <Static>
@@ -94,34 +95,34 @@ void SerialPortTest::run(void){
   this->init();
   ByteBuffer buffer = ByteBuffer(this->mStacker.allocMemoryAlignment32(128));
   
-  Feture feture;
+  Future future;
   
   while(true){
     
     buffer.clear();
     buffer.put("Enter 8 char: ");
     buffer.flip();
-    this->mSerialPortOutputStream->write(&buffer, feture);
-    feture.get();
-    feture.reset();
+    this->mSerialPortOutputStream->write(buffer, future);
+    future.get();
+    future.clear();
     
     buffer.clear();
     buffer.put("Result: ");
     buffer.flip();
     buffer.position(buffer.limit());
     buffer.limit(buffer.limit()+8);
-    this->mSerialPortInputStream->read(&buffer, feture);
-    feture.get();
-    feture.reset();
+    this->mSerialPortInputStream->read(buffer, future);
+    future.get();
+    future.clear();
     
     
     
     buffer.limit(buffer.limit()+1);
     buffer.putByte('\n');
     buffer.flip();
-    this->mSerialPortOutputStream->write(&buffer, feture);
-    feture.get();
-    feture.reset();
+    this->mSerialPortOutputStream->write(buffer, future);
+    future.get();
+    future.clear();
     
   }
 }
@@ -154,13 +155,19 @@ void SerialPortTest::run(void){
  *
  */
 void SerialPortTest::init(void){
+  Core::gpioa.init();
+  Core::gpiob.init();
   Core::gpioc.init();
+  Core::gpiod.init();
+  Core::gpiof.init();
+  Core::iomux.init();
+  Core::iomux.remapSWDIO(CoreIomux::MapSWDIO::JTAGDISABLE);
   Core::gpioc.setFunction(10, false);
   this->mCoreSerialPort = new(this->mStacker) CoreSerialPort(CoreSerialPortReg::REG_UART4, this->mStacker.allocMemoryAlignment32(256));
   this->mCoreSerialPort->init();
   this->mCoreSerialPort->baudrate(9600);
-  this->mSerialPortInputStream = new(this->mStacker) SerialPortInputStream(this->mCoreSerialPort);
-  this->mSerialPortOutputStream = new(this->mStacker) SerialPortOutputStream(this->mCoreSerialPort);
+  this->mSerialPortInputStream = new(this->mStacker) SerialPortInputStream(*this->mCoreSerialPort);
+  this->mSerialPortOutputStream = new(this->mStacker) SerialPortOutputStream(*this->mCoreSerialPort);
   
 }
 

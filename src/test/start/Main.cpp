@@ -72,8 +72,8 @@ Main::~Main(void){
  */
 void Main::run(void){
   //Runnable* runnable = new(this->mStacker) PulseWidthTest(this->mStacker);
-  //Runnable* runnable = new(this->mStacker) CoreAnalogInputTest(this->mStacker);
-  Runnable* runnable = new(this->mStacker) SerialPortTest(this->mStacker);
+  Runnable* runnable = new(this->mStacker) CoreAnalogInputTest(this->mStacker);
+  //Runnable* runnable = new(this->mStacker) SerialPortTest(this->mStacker);
   //Runnable* runnable = new(this->mStacker) SerialPeriphTest(this->mStacker);
   
   runnable->run();

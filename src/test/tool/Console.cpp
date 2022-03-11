@@ -64,13 +64,13 @@ Console::Console(void){
   this->mCoreSerialPort->baudrate(128000);
   
   this->mSerialPortOutputStream = new(stacker)
-    SerialPortOutputStream(this->mCoreSerialPort);
+    SerialPortOutputStream(*this->mCoreSerialPort);
   
   this->mOutputStreamBuffer = new(stacker)
-    OutputStreamBuffer(this->mSerialPortOutputStream, Memory(this->mOutputStreamBufferMemory, sizeof(this->mOutputStreamBufferMemory)));
+    OutputStreamBuffer(*this->mSerialPortOutputStream, Memory(this->mOutputStreamBufferMemory, sizeof(this->mOutputStreamBufferMemory)));
   
   this->mPrintStream = new(stacker)
-    PrintStream(this->mOutputStreamBuffer, Memory(this->mPrintStreamMemory, sizeof(this->mPrintStreamMemory)));
+    PrintStream(*this->mOutputStreamBuffer, Memory(this->mPrintStreamMemory, sizeof(this->mPrintStreamMemory)));
   
   Core::gpioc.init();
   Core::iomux.remapSWDIO(CoreIomux::MapSWDIO::JTAGDISABLE);

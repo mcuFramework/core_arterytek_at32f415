@@ -86,13 +86,13 @@ void CoreAnalogInputTest::run(void){
   this->mCoreAnalogInputPort->init();
   
   for(int i=0; i<16; ++i)
-    this->mConsole->out().format("%04d\t", i);
+    this->mConsole->out().format("%04d\t\t", i);
   
   this->mConsole->out().println();
   
   while(true){
     for(int i=0; i<16; ++i){
-      this->mConsole->out().format("%04d\t", this->mCoreAnalogInputPort->read(i));
+      this->mConsole->out().format("%2.6f\t", this->getVoltage(this->mCoreAnalogInputPort->read(i)));
     }
     
     this->mConsole->out().println();
@@ -120,6 +120,15 @@ void CoreAnalogInputTest::run(void){
 /* ****************************************************************************************
  * Private Method
  */
+
+/**
+ *
+ */
+float CoreAnalogInputTest::getVoltage(uint16_t level){
+  float magnification = (3.33/4096);
+  return magnification*level;
+}
+
 /**
  *
  */
