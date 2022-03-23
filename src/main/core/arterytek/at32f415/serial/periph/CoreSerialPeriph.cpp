@@ -9,12 +9,13 @@
  * Include
  */
 
+#include "core/arterytek/at32f415/serial/periph/CoreSerialPeriph.h"
+
 //-----------------------------------------------------------------------------------------
 #include "bsp_arterytek_at32f415.h"
 #include "mcuf.h"
 
 //-----------------------------------------------------------------------------------------
-#include "core/arterytek/at32f415/serial/periph/CoreSerialPeriph.h"
 #include "core/arterytek/at32f415/serial/periph/CoreSerialPeriphPacket.h"
 #include "core/arterytek/at32f415/Core.h"
 #include "core/arterytek/at32f415/CoreInterrupt.h"

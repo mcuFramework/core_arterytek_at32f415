@@ -586,6 +586,31 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>main/core/arterytek/at32f415/serial/bus</GroupName>
+          <Files>
+            <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\serial\bus\package-info.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBus.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\serial\bus\CoreSerialBus.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBusErrorEvent.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\serial\bus\CoreSerialBusErrorEvent.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBusSlot.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\serial\bus\CoreSerialBusSlot.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>main/core/arterytek/at32f415/serial/periph</GroupName>
           <Files>
             <File>
@@ -2448,6 +2473,31 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>main/core/arterytek/at32f415/serial/bus</GroupName>
+          <Files>
+            <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\serial\bus\package-info.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBus.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\serial\bus\CoreSerialBus.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBusErrorEvent.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\serial\bus\CoreSerialBusErrorEvent.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBusSlot.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\core\arterytek\at32f415\serial\bus\CoreSerialBusSlot.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>main/core/arterytek/at32f415/serial/periph</GroupName>
           <Files>
             <File>
@@ -2854,5 +2904,14 @@
       </file>
     </files>
   </RTE>
+
+  <LayerInfo>
+    <Layers>
+      <Layer>
+        <LayName>core_arterytek_at32f415</LayName>
+        <LayPrjMark>1</LayPrjMark>
+      </Layer>
+    </Layers>
+  </LayerInfo>
 
 </Project>

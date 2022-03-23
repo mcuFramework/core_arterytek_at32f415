@@ -28,6 +28,9 @@
  */  
 using namespace start;
 
+using namespace core::arterytek::at32f415;
+using namespace core::arterytek::at32f415::general::pin;
+
 using namespace core::analog::input;
 using namespace core::counter::pulse;
 using namespace core::serial::port;
@@ -37,6 +40,8 @@ using namespace tool;
 //-----------------------------------------------------------------------------------------
 using mcuf::function::Runnable;
 using mcuf::lang::Memory;
+
+using mcuf::hal::general::pin::GeneralPinMode;
 
 /* ****************************************************************************************
  * Namespace
@@ -72,11 +77,52 @@ Main::~Main(void){
  */
 void Main::run(void){
   //Runnable* runnable = new(this->mStacker) PulseWidthTest(this->mStacker);
-  Runnable* runnable = new(this->mStacker) CoreAnalogInputTest(this->mStacker);
+  //Runnable* runnable = new(this->mStacker) CoreAnalogInputTest(this->mStacker);
   //Runnable* runnable = new(this->mStacker) SerialPortTest(this->mStacker);
   //Runnable* runnable = new(this->mStacker) SerialPeriphTest(this->mStacker);
   
-  runnable->run();
+  //runnable->run();
+  Core::iomux.init();
+  Core::gpioa.init();
+  Core::gpiob.init();
+  Core::gpioc.init();
+  Core::gpiod.init();
+  Core::gpiof.init();
+  Core::iomux.remapSWDIO(CoreIomux::MapSWDIO::JTAGDISABLE);
+  
+  CoreGeneralPin input = CoreGeneralPin(&Core::gpioa, 0);
+  CoreGeneralPin output = CoreGeneralPin(&Core::gpiob, 7);
+  
+  input.setInput();
+  input.pinMode(GeneralPinMode::PULL_UP);
+  
+  output.setOutput();
+  output.setHigh();
+
+  while(true){
+    if(input.value() == false){
+      output.setLow();
+      
+      while(true){
+        bool bk = true;
+        
+        for(int i=0; i<262144; ++i){
+          if(input.value() == false){
+            bk = false;
+            break;
+          }
+        }
+        
+        if(bk)
+          break;
+      }
+      output.setHigh();
+      this->delay(300);
+    }
+
+  }
+  
+  
 }
 
 /* ****************************************************************************************

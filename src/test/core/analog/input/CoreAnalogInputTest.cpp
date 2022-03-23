@@ -125,7 +125,7 @@ void CoreAnalogInputTest::run(void){
  *
  */
 float CoreAnalogInputTest::getVoltage(uint16_t level){
-  float magnification = (3.33/4096);
+  float magnification = (3300.0f/4096.0f);
   return magnification*level;
 }
 
