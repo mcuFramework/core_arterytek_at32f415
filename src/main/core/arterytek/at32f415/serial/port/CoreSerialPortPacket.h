@@ -69,16 +69,16 @@ class core::arterytek::at32f415::serial::port::CoreSerialPortPacket extends mcuf
   /* **************************************************************************************
    * Construct Method
    */
+  public:
+    /**
+     * Construct.
+     */
+    CoreSerialPortPacket(void) = default;
 
-  /**
-   * Construct.
-   */
-  public: CoreSerialPortPacket(void) = default;
-
-  /**
-   * Destruct.
-   */
-  public: virtual ~CoreSerialPortPacket(void) = default;
+    /**
+     * Destruct.
+     */
+    virtual ~CoreSerialPortPacket(void) = default;
 
   /* **************************************************************************************
    * Operator Method
@@ -91,40 +91,40 @@ class core::arterytek::at32f415::serial::port::CoreSerialPortPacket extends mcuf
   /* **************************************************************************************
    * Public Method <Override> mcuf::function::Runnable
    */
-   
-  /**
-   *
-   */
-  public: virtual void run(void) override;
+  public: 
+    /**
+     *
+     */
+    virtual void run(void) override;
 
   /* **************************************************************************************
    * Public Method
    */
-   
-  /**
-   *
-   */
-  public: void clear(void);
-  
-  /**
-   *
-   */
-  public: bool isExist(void);
-  
-  /**
-   *
-   */
-  public: bool init(mcuf::io::ByteBuffer& byteBuffer, 
-                    void* attachment,
-                    mcuf::hal::serial::port::SerialPortEvent* event);
-                    
-  /**
-   *
-   */
-  public: bool init(void* pointer, 
-                    int length,
-                    void* attachment,
-                    mcuf::hal::serial::port::SerialPortEvent* event);                    
+  public: 
+    /**
+     *
+     */
+    void clear(void);
+    
+    /**
+     *
+     */
+    bool isExist(void);
+    
+    /**
+     *
+     */
+    bool init(mcuf::io::ByteBuffer& byteBuffer, 
+              void* attachment,
+              mcuf::hal::serial::port::SerialPortEvent* event);
+                      
+    /**
+     *
+     */
+    bool init(void* pointer, 
+              int length,
+              void* attachment,
+              mcuf::hal::serial::port::SerialPortEvent* event);                    
   
   /* **************************************************************************************
    * Protected Method <Static>

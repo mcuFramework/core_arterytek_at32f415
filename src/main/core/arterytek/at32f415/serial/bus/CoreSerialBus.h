@@ -40,7 +40,8 @@ namespace core{
  */  
 class core::arterytek::at32f415::serial::bus::CoreSerialBus extends mcuf::lang::Object implements
   public mcuf::hal::InterruptEvent,
-  public mcuf::hal::serial::bus::SerialBus{
+  public mcuf::hal::serial::bus::SerialBus, 
+  public mcuf::function::Runnable{
     
   friend CoreSerialBusErrorEvent;
 
@@ -57,9 +58,11 @@ class core::arterytek::at32f415::serial::bus::CoreSerialBus extends mcuf::lang::
    */
   private:
     static const core::arterytek::at32f415::serial::bus::CoreSerialBusConfig mConfig[2];
-    core::arterytek::at32f415::serial::bus::CoreSerialBusReg mRegister;
-    CoreSerialBusErrorEvent mCoreSerialBusErrorEvent;
   
+    core::arterytek::at32f415::serial::bus::CoreSerialBusReg mRegister;
+    uint8_t  mDirect;
+    CoreSerialBusErrorEvent mCoreSerialBusErrorEvent;
+    
     uint16_t mLength;
     uint16_t mCount;    
     uint8_t* mPointer;
@@ -103,6 +106,15 @@ class core::arterytek::at32f415::serial::bus::CoreSerialBus extends mcuf::lang::
    * Public Method <Static>
    */
    
+  /* **************************************************************************************
+   * Public Method <Override> - mcuf::function::Runnable
+   */
+  public: 
+    /**
+     *
+     */
+    virtual void run(void) override;   
+  
   /* **************************************************************************************
    * Public Method <Override> - mcuf::hal::InterruptEvent
    */
@@ -188,8 +200,9 @@ class core::arterytek::at32f415::serial::bus::CoreSerialBus extends mcuf::lang::
      * @param receiver 
      * @param event 
      */
-    virtual bool read(uint8_t address, 
+    virtual bool read(uint16_t address, 
                       mcuf::io::ByteBuffer& receiver, 
+                      void* attachment,
                       mcuf::hal::serial::bus::SerialBusEvent* event) override;
 
     /**
@@ -200,8 +213,9 @@ class core::arterytek::at32f415::serial::bus::CoreSerialBus extends mcuf::lang::
      * @param event 
      */
     virtual bool write(uint16_t address, 
-                      mcuf::io::ByteBuffer& receiver, 
-                      mcuf::hal::serial::bus::SerialBusEvent* event) override;
+                       mcuf::io::ByteBuffer& transfer,
+                       void* attachment,
+                       mcuf::hal::serial::bus::SerialBusEvent* event) override;
     
     /**
      * @brief 
@@ -216,6 +230,7 @@ class core::arterytek::at32f415::serial::bus::CoreSerialBus extends mcuf::lang::
     virtual bool writeAfterRead(uint16_t address, 
                                 mcuf::io::ByteBuffer& transfer, 
                                 mcuf::io::ByteBuffer& receiver,
+                                void* attachment,
                                 mcuf::hal::serial::bus::SerialBusEvent* event) override;
 
   /* **************************************************************************************
@@ -245,6 +260,27 @@ class core::arterytek::at32f415::serial::bus::CoreSerialBus extends mcuf::lang::
   /* **************************************************************************************
    * Private Method
    */
+  private:
+    
+    /**
+     *
+     */
+    bool handlerFormat(mcuf::io::ByteBuffer& byteBuffer);
+  
+    /**
+     *
+     */
+    void handlerClear(void);
+  
+    /**
+     *
+     */
+    bool beginRead(void);
+  
+    /**
+     *
+     */
+    bool beginWrite(void);
 
 };
 

@@ -15,6 +15,7 @@
  * Include
  */
 #include "CoreSerialBus.h"
+#include "CoreSerialBusErrorEvent.h"
 #include "CoreSerialBusSlot.h"
 
 /* ****************************************************************************************

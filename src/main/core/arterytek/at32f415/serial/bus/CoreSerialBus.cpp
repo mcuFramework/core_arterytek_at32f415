@@ -33,12 +33,13 @@
 using core::arterytek::at32f415::serial::bus::CoreSerialBus;
 
 //-----------------------------------------------------------------------------------------
+using namespace mcuf::hal::serial::bus;
 
 //-----------------------------------------------------------------------------------------
 using core::arterytek::at32f415::serial::bus::CoreSerialBusReg;
 using core::arterytek::at32f415::serial::bus::CoreSerialBusConfig;
 using mcuf::io::ByteBuffer;
-using mcuf::hal::serial::bus::SerialBusEvent;
+
 
 /* ****************************************************************************************
  * Variable <Static>
@@ -61,6 +62,8 @@ CoreSerialBus::CoreSerialBus(CoreSerialBusReg reg) construct
   mCoreSerialBusErrorEvent(*this){
   this->mRegister = reg;
   this->mByteBuffer = nullptr;
+  this->mByteBufferNext = nullptr;
+  this->mDirect = 0;
 }
 
 /**
@@ -80,6 +83,37 @@ CoreSerialBus::~CoreSerialBus(void){
  */
 
 /* ****************************************************************************************
+ * Public Method <Override> - mcuf::function::Runnable
+ */
+ 
+/**
+ *
+ */
+void CoreSerialBus::run(void){
+  ByteBuffer* byteBuffer = this->mByteBuffer;
+  SerialBusEvent* event = this->mEvent;
+  SerialBusStatus status = this->mStatus;
+  byteBuffer->position(byteBuffer->position() + this->mCount);
+  void* attachment = this->mAttachment;
+  int result = this->mLength - this->mCount;
+  
+  if(this->mByteBufferNext != nullptr){
+    this->mByteBuffer = this->mByteBufferNext;
+    this->mByteBufferNext = nullptr;
+    this->mDirect = 0;
+    this->handlerFormat(*this->mByteBuffer);
+    this->beginRead();
+    
+  }else{
+    this->handlerClear();
+    
+  }
+  
+  if(event)
+    event->onSerialBusEvent(status, result ,attachment);
+}  
+
+/* ****************************************************************************************
  * Public Method <Override> - mcuf::hal::InterruptEvent
  */
 
@@ -88,7 +122,17 @@ CoreSerialBus::~CoreSerialBus(void){
  * 
  */
 void CoreSerialBus::interruptEvent(void){
-
+  i2c_type* base = BASE;
+  
+  if(this->mDirect){ //read
+    if(i2c_flag_get(base, I2C_RDBF_FLAG) != RESET){
+  
+    }
+  }else{ //write
+    if(i2c_flag_get(base, I2C_TDBE_FLAG) != RESET){
+      
+    }
+  }
 }   
 
 /* ****************************************************************************************
@@ -221,14 +265,24 @@ bool CoreSerialBus::isBusy(void){
  * @param receiver 
  * @param event 
  */
-bool CoreSerialBus::read(uint8_t address, ByteBuffer& receiver, SerialBusEvent* event){
+bool CoreSerialBus::read(uint16_t address, 
+                         ByteBuffer& receiver, 
+                         void* attachment, 
+                         SerialBusEvent* event){
+  
   if(this->isBusy())
     return false;
   
   this->mByteBuffer = &receiver;
+  this->mByteBufferNext = nullptr;
   this->mEvent = event;
+  this->mDirect = 0;
+  i2c_own_address1_set(BASE, I2C_ADDRESS_MODE_7BIT, address);
   
+  if(this->beginRead())
+    return true;
   
+  this->handlerClear();
   return false;
 }
 /**
@@ -238,10 +292,24 @@ bool CoreSerialBus::read(uint8_t address, ByteBuffer& receiver, SerialBusEvent* 
  * @param receiver 
  * @param event 
  */
-bool CoreSerialBus::write(uint16_t address, ByteBuffer& receiver, SerialBusEvent* event){
+bool CoreSerialBus::write(uint16_t address, 
+                          ByteBuffer& transfer, 
+                          void* attachment, 
+                          SerialBusEvent* event){
+
   if(this->isBusy())
     return false;
   
+  this->mByteBuffer = &transfer;
+  this->mByteBufferNext = nullptr;
+  this->mEvent = event;
+  this->mDirect = 1;
+  i2c_own_address1_set(BASE, I2C_ADDRESS_MODE_7BIT, address);
+  
+  if(this->beginWrite())
+    return true;
+  
+  this->handlerClear();
   return false;
 }
 
@@ -255,10 +323,25 @@ bool CoreSerialBus::write(uint16_t address, ByteBuffer& receiver, SerialBusEvent
  * @return true 
  * @return false 
  */
-bool CoreSerialBus::writeAfterRead(uint16_t address, ByteBuffer& transfer, ByteBuffer& receiver, SerialBusEvent* event){
+bool CoreSerialBus::writeAfterRead(uint16_t address, 
+                                   ByteBuffer& transfer, 
+                                   ByteBuffer& receiver, 
+                                   void* attachment, 
+                                   SerialBusEvent* event){
+
   if(this->isBusy())
     return false;
+
+  this->mByteBuffer = &receiver;
+  this->mByteBufferNext = &transfer;
+  this->mEvent = event;
+  this->mDirect = 1;  
+  i2c_own_address1_set(BASE, I2C_ADDRESS_MODE_7BIT, address);
   
+  if(this->beginWrite())
+    return true;
+  
+  this->handlerClear();
   return false;
 }
 
@@ -281,6 +364,46 @@ bool CoreSerialBus::writeAfterRead(uint16_t address, ByteBuffer& transfer, ByteB
 /* ****************************************************************************************
  * Private Method
  */
+
+/**
+ *
+ */
+bool CoreSerialBus::handlerFormat(ByteBuffer& byteBuffer){
+  if(byteBuffer.hasRemaining())
+    return false;
+  
+  this->mLength = byteBuffer.remaining();
+  this->mCount = 0;
+  this->mPointer = static_cast<uint8_t*>(byteBuffer.pointer(byteBuffer.position()));
+  
+  return true;
+}
+
+/**
+ *
+ */
+void CoreSerialBus::handlerClear(void){
+  this->mByteBuffer = nullptr;
+  this->mByteBufferNext = nullptr;
+  this->mPointer = nullptr;
+  this->mLength = 0;
+  this->mCount = 0;
+  this->mDirect = 0;
+}
+
+/**
+ *
+ */
+bool CoreSerialBus::beginRead(void){
+  return false;
+}
+
+/**
+ *
+ */
+bool CoreSerialBus::beginWrite(void){
+  return false;
+}
 
 /* ****************************************************************************************
  * End of file
