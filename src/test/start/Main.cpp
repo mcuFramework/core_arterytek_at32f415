@@ -30,12 +30,17 @@ using namespace start;
 
 using namespace core::arterytek::at32f415;
 using namespace core::arterytek::at32f415::general::pin;
+using namespace core::arterytek::at32f415::serial::bus;
 
 using namespace core::analog::input;
 using namespace core::counter::pulse;
 using namespace core::serial::port;
 using namespace core::serial::periph;
 using namespace tool;
+
+using namespace mcuf::io;
+using namespace mcuf::lang;
+using namespace mcuf::util;
 
 //-----------------------------------------------------------------------------------------
 using mcuf::function::Runnable;
@@ -90,39 +95,21 @@ void Main::run(void){
   Core::gpiof.init();
   Core::iomux.remapSWDIO(CoreIomux::MapSWDIO::JTAGDISABLE);
   
-  CoreGeneralPin input = CoreGeneralPin(&Core::gpioa, 0);
-  CoreGeneralPin output = CoreGeneralPin(&Core::gpiob, 7);
+  Core::gpiob.setFunction(6, true);
+  Core::gpiob.setFunction(7, true);
   
-  input.setInput();
-  input.pinMode(GeneralPinMode::PULL_UP);
+  CoreSerialBus coreSerialBus = CoreSerialBus(CoreSerialBusReg::REG_IIC1);
+  coreSerialBus.init();
   
-  output.setOutput();
-  output.setHigh();
-
+  uint8_t buffer[4];
+  ByteBuffer byteBuffer = ByteBuffer(Memory(buffer, 4));
+  byteBuffer << "1234";
+  byteBuffer.remaining();
+  
   while(true){
-    if(input.value() == false){
-      output.setLow();
-      
-      while(true){
-        bool bk = true;
-        
-        for(int i=0; i<262144; ++i){
-          if(input.value() == false){
-            bk = false;
-            break;
-          }
-        }
-        
-        if(bk)
-          break;
-      }
-      output.setHigh();
-      this->delay(300);
-    }
-
-  }
-  
-  
+    coreSerialBus.write(0xAA, byteBuffer, nullptr, nullptr);
+    this->delay(1000);
+  } 
 }
 
 /* ****************************************************************************************

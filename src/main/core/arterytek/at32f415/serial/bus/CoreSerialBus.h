@@ -63,6 +63,7 @@ class core::arterytek::at32f415::serial::bus::CoreSerialBus extends mcuf::lang::
     uint8_t  mDirect;
     CoreSerialBusErrorEvent mCoreSerialBusErrorEvent;
     
+    uint16_t mAddress;
     uint16_t mLength;
     uint16_t mCount;    
     uint8_t* mPointer;
@@ -262,6 +263,12 @@ class core::arterytek::at32f415::serial::bus::CoreSerialBus extends mcuf::lang::
    */
   private:
     
+    bool handlerConfig(uint16_t address, 
+                       mcuf::io::ByteBuffer* transfer, 
+                       mcuf::io::ByteBuffer* receiver,
+                       void* attachment,
+                       mcuf::hal::serial::bus::SerialBusEvent* event);
+  
     /**
      *
      */
@@ -275,13 +282,8 @@ class core::arterytek::at32f415::serial::bus::CoreSerialBus extends mcuf::lang::
     /**
      *
      */
-    bool beginRead(void);
-  
-    /**
-     *
-     */
-    bool beginWrite(void);
-
+    bool begin(void);
+                       
 };
 
 /* ****************************************************************************************

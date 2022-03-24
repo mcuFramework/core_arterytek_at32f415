@@ -102,7 +102,7 @@ void CoreSerialBus::run(void){
     this->mByteBufferNext = nullptr;
     this->mDirect = 0;
     this->handlerFormat(*this->mByteBuffer);
-    this->beginRead();
+    this->begin();
     
   }else{
     this->handlerClear();
@@ -124,12 +124,43 @@ void CoreSerialBus::run(void){
 void CoreSerialBus::interruptEvent(void){
   i2c_type* base = BASE;
   
-  if(this->mDirect){ //read
-    if(i2c_flag_get(base, I2C_RDBF_FLAG) != RESET){
+  if(base->sts1_bit.startf){  //address
+    if(this->mDirect)  //write
+      base->dt = (this->mAddress & 0xFE);
+    
+    else  //read
+      base->dt = (this->mAddress | 0x01);
+    
+  }else{  //data
   
-    }
-  }else{ //write
-    if(i2c_flag_get(base, I2C_TDBE_FLAG) != RESET){
+    if(this->mCount >= this->mLength){ //transfer successful
+      if(this->mDirect){ //read
+        this->mStatus = SerialBusStatus::WRITE_SUCCESSFUL;
+        
+      }else{ //write
+        this->mStatus = SerialBusStatus::READ_SUCCESSFUL;
+        
+      }
+      
+      /* disable interrupt */
+      i2c_interrupt_enable(base, I2C_EVT_INT | I2C_DATA_INT | I2C_ERR_INT, FALSE);
+      
+      /* generate stop condtion */
+      i2c_stop_generate(base);
+      
+    }else{ //transfer
+      
+      if(this->mDirect){ //read
+        if(base->sts1_bit.rdbf){
+          this->mPointer[this->mCount] = base->dt;
+        }
+      }else{ //write
+        if(base->sts1_bit.tdbe){
+          base->dt = this->mPointer[this->mCount];
+        }
+      }
+      
+      ++this->mCount;
       
     }
   }
@@ -146,7 +177,7 @@ void CoreSerialBus::interruptEvent(void){
  * @return false 
  */
 bool CoreSerialBus::deinit(void){
-  if(!this->init())
+  if(!this->isInit())
     return false;
   
   Core::interrupt.irqEnable(CONFIG.mIrqEvent, false);
@@ -166,7 +197,7 @@ bool CoreSerialBus::deinit(void){
  * @return false 
  */
 bool CoreSerialBus::init(void){
-  if(this->init())
+  if(this->isInit())
     return false;
   
   crm_periph_clock_enable(static_cast<crm_periph_clock_type>(CONFIG.mCmr), TRUE);
@@ -178,6 +209,9 @@ bool CoreSerialBus::init(void){
   
   i2c_init(BASE, I2C_FSMODE_DUTY_2_1, 100000);
   i2c_own_address1_set(BASE, I2C_ADDRESS_MODE_7BIT, 0x00);
+  BASE->ctrl1_bit.i2cen = true;
+  
+  this->handlerClear();
   
   return true;
 }
@@ -265,25 +299,13 @@ bool CoreSerialBus::isBusy(void){
  * @param receiver 
  * @param event 
  */
-bool CoreSerialBus::read(uint16_t address, 
-                         ByteBuffer& receiver, 
-                         void* attachment, 
-                         SerialBusEvent* event){
+bool CoreSerialBus::read(uint16_t address, ByteBuffer& receiver, void* attachment, SerialBusEvent* event){
   
   if(this->isBusy())
     return false;
   
-  this->mByteBuffer = &receiver;
-  this->mByteBufferNext = nullptr;
-  this->mEvent = event;
   this->mDirect = 0;
-  i2c_own_address1_set(BASE, I2C_ADDRESS_MODE_7BIT, address);
-  
-  if(this->beginRead())
-    return true;
-  
-  this->handlerClear();
-  return false;
+  return this->handlerConfig(address, nullptr, &receiver, attachment, event);
 }
 /**
  * @brief 
@@ -292,25 +314,13 @@ bool CoreSerialBus::read(uint16_t address,
  * @param receiver 
  * @param event 
  */
-bool CoreSerialBus::write(uint16_t address, 
-                          ByteBuffer& transfer, 
-                          void* attachment, 
-                          SerialBusEvent* event){
+bool CoreSerialBus::write(uint16_t address, ByteBuffer& transfer, void* attachment, SerialBusEvent* event){
 
   if(this->isBusy())
     return false;
   
-  this->mByteBuffer = &transfer;
-  this->mByteBufferNext = nullptr;
-  this->mEvent = event;
   this->mDirect = 1;
-  i2c_own_address1_set(BASE, I2C_ADDRESS_MODE_7BIT, address);
-  
-  if(this->beginWrite())
-    return true;
-  
-  this->handlerClear();
-  return false;
+  return this->handlerConfig(address, &transfer, nullptr, attachment, event);
 }
 
 /**
@@ -323,26 +333,13 @@ bool CoreSerialBus::write(uint16_t address,
  * @return true 
  * @return false 
  */
-bool CoreSerialBus::writeAfterRead(uint16_t address, 
-                                   ByteBuffer& transfer, 
-                                   ByteBuffer& receiver, 
-                                   void* attachment, 
-                                   SerialBusEvent* event){
+bool CoreSerialBus::writeAfterRead(uint16_t address, ByteBuffer& transfer, ByteBuffer& receiver, void* attachment, SerialBusEvent* event){
 
   if(this->isBusy())
     return false;
-
-  this->mByteBuffer = &receiver;
-  this->mByteBufferNext = &transfer;
-  this->mEvent = event;
-  this->mDirect = 1;  
-  i2c_own_address1_set(BASE, I2C_ADDRESS_MODE_7BIT, address);
   
-  if(this->beginWrite())
-    return true;
-  
-  this->handlerClear();
-  return false;
+  this->mDirect = 1;
+  return this->handlerConfig(address, &transfer, &receiver, attachment, event);
 }
 
 /* ****************************************************************************************
@@ -364,6 +361,31 @@ bool CoreSerialBus::writeAfterRead(uint16_t address,
 /* ****************************************************************************************
  * Private Method
  */
+
+bool CoreSerialBus::handlerConfig(uint16_t address, ByteBuffer* transfer, ByteBuffer* receiver, void* attachment, SerialBusEvent* event){
+  
+  if(transfer != nullptr){
+    this->mByteBuffer = transfer;
+    this->mByteBufferNext = receiver;
+  }else{
+    this->mByteBuffer = receiver;
+    this->mByteBufferNext = nullptr;
+  }
+  
+  this->mEvent = event;
+  this->mAddress = address; 
+  
+  if(this->begin())
+    return true;
+  
+  if(this->mDirect)
+    this->mStatus = SerialBusStatus::WRITE_FAIL;
+  else
+    this->mStatus = SerialBusStatus::READ_FAIL;
+  
+  this->mCoreSerialBusErrorEvent.run();
+  return false;  
+}
 
 /**
  *
@@ -394,16 +416,15 @@ void CoreSerialBus::handlerClear(void){
 /**
  *
  */
-bool CoreSerialBus::beginRead(void){
+bool CoreSerialBus::begin(void){
+  if(BASE->sts2_bit.busyf)
+    return false;
+  
+  BASE->ctrl1_bit.genstart = true;
+  
   return false;
 }
 
-/**
- *
- */
-bool CoreSerialBus::beginWrite(void){
-  return false;
-}
 
 /* ****************************************************************************************
  * End of file
