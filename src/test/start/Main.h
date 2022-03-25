@@ -26,7 +26,7 @@ namespace start{
 /* ****************************************************************************************
  * Class Object
  */  
-class start::Main extends mcuf::lang::Thread{
+class start::Main extends mcuf::lang::Thread implements mcuf::hal::serial::bus::SerialBusEvent{
   
   /* **************************************************************************************
    * Variable <Public>
@@ -41,6 +41,8 @@ class start::Main extends mcuf::lang::Thread{
    */
   private:
     mcuf::util::Stacker mStacker;
+    core::arterytek::at32f415::serial::bus::CoreSerialBus* coreSerialBus;
+    mcuf::hal::general::pin::GeneralPin* mLed[6];
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -71,7 +73,19 @@ class start::Main extends mcuf::lang::Thread{
   /* **************************************************************************************
    * Public Method <Static>
    */
-
+  public:
+    /**
+     * @brief 
+     * 
+     * @param status handle status
+     * @param result 0 = successful, other = remaining byte count.
+     * @param attachment user data
+     */
+    virtual void onSerialBusEvent(mcuf::hal::serial::bus::SerialBusStatus status, 
+                                  int result,
+                                  void* attachment) override;
+    
+  
   /* **************************************************************************************
    * Public Method <Override> - mcuf::function::Runnable
    */

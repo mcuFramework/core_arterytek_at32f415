@@ -64,6 +64,35 @@ using core::arterytek::at32f415::CoreInterrupt;
 /* ****************************************************************************************
  * Function
  */
+/* ****************************************************************************************
+ * Function - I2C
+ */
+
+/**
+ *
+ */
+extern "C" void I2C1_EVT_IRQHandler(void){
+  Core::interrupt.mHandle[CoreInterrupt::IRQ_I2C1_EVT]->interruptEvent();
+}
+
+/**
+ *
+ */
+extern "C" void I2C1_ERR_IRQHandler(void){
+  Core::interrupt.mHandle[CoreInterrupt::IRQ_I2C1_ERR]->interruptEvent();
+}
+/**
+ *
+ */
+extern "C" void I2C2_EVT_IRQHandler(void){
+  Core::interrupt.mHandle[CoreInterrupt::IRQ_I2C2_EVT]->interruptEvent();
+}
+/**
+ *
+ */
+extern "C" void I2C2_ERR_IRQHandler(void){
+  Core::interrupt.mHandle[CoreInterrupt::IRQ_I2C2_ERR]->interruptEvent();
+}
  
 /* ****************************************************************************************
  * Function - SPI/I2S

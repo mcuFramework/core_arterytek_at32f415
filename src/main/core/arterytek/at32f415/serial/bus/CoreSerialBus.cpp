@@ -124,44 +124,62 @@ void CoreSerialBus::run(void){
 void CoreSerialBus::interruptEvent(void){
   i2c_type* base = BASE;
   
-  if(base->sts1_bit.startf){  //address
-    if(this->mDirect)  //write
-      base->dt = (this->mAddress & 0xFE);
-    
-    else  //read
-      base->dt = (this->mAddress | 0x01);
-    
-  }else{  //data
-  
-    if(this->mCount >= this->mLength){ //transfer successful
-      if(this->mDirect){ //read
-        this->mStatus = SerialBusStatus::WRITE_SUCCESSFUL;
+  if(base->ctrl2_bit.dataien){
+    if(base->sts1_bit.tdbe){ //write isr
+      if(this->mCount >= this->mLength){ //write successful
+        if(base->sts1_bit.tdc){
+          this->mStatus = SerialBusStatus::WRITE_SUCCESSFUL;
+          base->ctrl1_bit.genstop = true;
+          
+          base->ctrl2 &= ~(I2C_EVT_INT | I2C_DATA_INT | I2C_ERR_INT);
+          if(!mcuf::lang::System::execute(*this))
+            this->run();
+          
+        }
+
+      }else{
+        base->dt = this->mPointer[this->mCount++];
         
-      }else{ //write
+      }
+
+    }else if(base->sts1_bit.rdbf){ //read isr
+      
+      this->mPointer[this->mCount++] = (uint8_t)base->dt;
+        
+      if((this->mCount+1) == this->mLength){
+        
+        base->ctrl1_bit.acken = false;
+        base->ctrl1_bit.genstop = true;
+          
+      }else if(this->mCount >= this->mLength){ //read successful
+        
         this->mStatus = SerialBusStatus::READ_SUCCESSFUL;
+        base->ctrl1_bit.genstop = true;
+        base->ctrl2 &= ~(I2C_EVT_INT | I2C_DATA_INT | I2C_ERR_INT);
+        if(!mcuf::lang::System::execute(*this))
+          this->run();
         
       }
+    }
+    
+  }
+  
+  if(base->ctrl2_bit.evtien){
+    if(base->sts1_bit.startf){  //address
+      if(this->mDirect)  //write
+        base->dt = (this->mAddress & 0xFE);
+    
+      else  //read
+        base->dt = (this->mAddress | 0x01);
+    }else if(base->sts1_bit.addr7f){
+      if(this->mDirect) //enable receiver
+        base->ctrl1_bit.acken = false;
       
-      /* disable interrupt */
-      i2c_interrupt_enable(base, I2C_EVT_INT | I2C_DATA_INT | I2C_ERR_INT, FALSE);
+      else
+        base->ctrl1_bit.acken = true;
       
-      /* generate stop condtion */
-      i2c_stop_generate(base);
-      
-    }else{ //transfer
-      
-      if(this->mDirect){ //read
-        if(base->sts1_bit.rdbf){
-          this->mPointer[this->mCount] = base->dt;
-        }
-      }else{ //write
-        if(base->sts1_bit.tdbe){
-          base->dt = this->mPointer[this->mCount];
-        }
-      }
-      
-      ++this->mCount;
-      
+      this->statusClear();
+    
     }
   }
 }   
@@ -373,10 +391,16 @@ bool CoreSerialBus::handlerConfig(uint16_t address, ByteBuffer* transfer, ByteBu
   }
   
   this->mEvent = event;
-  this->mAddress = address; 
+  this->mAddress = address;
+
+  if(this->handlerFormat(*this->mByteBuffer)){
+    if(this->begin())
+      return true;
+  }
   
-  if(this->begin())
-    return true;
+
+  BASE->ctrl1_bit.acken = false;
+  BASE->ctrl1_bit.genstop = true;
   
   if(this->mDirect)
     this->mStatus = SerialBusStatus::WRITE_FAIL;
@@ -391,7 +415,7 @@ bool CoreSerialBus::handlerConfig(uint16_t address, ByteBuffer* transfer, ByteBu
  *
  */
 bool CoreSerialBus::handlerFormat(ByteBuffer& byteBuffer){
-  if(byteBuffer.hasRemaining())
+  if(!byteBuffer.hasRemaining())
     return false;
   
   this->mLength = byteBuffer.remaining();
@@ -420,9 +444,20 @@ bool CoreSerialBus::begin(void){
   if(BASE->sts2_bit.busyf)
     return false;
   
+  BASE->ctrl1_bit.acken = false;
   BASE->ctrl1_bit.genstart = true;
-  
-  return false;
+  i2c_interrupt_enable(BASE, I2C_EVT_INT | I2C_DATA_INT | I2C_ERR_INT, TRUE);
+  return true;
+}
+
+/**
+ *
+ */
+void CoreSerialBus::statusClear(void){
+  i2c_type* base = BASE;
+  __IO uint32_t tmpreg;  
+  tmpreg = base->sts1; 
+  tmpreg = base->sts2;
 }
 
 

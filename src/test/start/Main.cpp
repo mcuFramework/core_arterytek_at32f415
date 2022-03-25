@@ -41,6 +41,8 @@ using namespace tool;
 using namespace mcuf::io;
 using namespace mcuf::lang;
 using namespace mcuf::util;
+using namespace mcuf::hal::general::pin;
+using namespace mcuf::hal::serial::bus;
 
 //-----------------------------------------------------------------------------------------
 using mcuf::function::Runnable;
@@ -78,6 +80,26 @@ Main::~Main(void){
  */
 
 /**
+ *
+ */
+void Main::onSerialBusEvent(SerialBusStatus status, int result, void* attachment){
+  switch(status){
+    case SerialBusStatus::WRITE_SUCCESSFUL:
+      this->mLed[0]->setHigh();
+      break;
+    case SerialBusStatus::WRITE_FAIL:
+      this->mLed[1]->setHigh();
+      break;
+    case SerialBusStatus::READ_SUCCESSFUL:
+      this->mLed[2]->setHigh();
+      break;
+    case SerialBusStatus::READ_FAIL:
+      this->mLed[3]->setHigh();
+      break;
+  }
+}
+
+/**
  * 
  */
 void Main::run(void){
@@ -87,6 +109,7 @@ void Main::run(void){
   //Runnable* runnable = new(this->mStacker) SerialPeriphTest(this->mStacker);
   
   //runnable->run();
+  
   Core::iomux.init();
   Core::gpioa.init();
   Core::gpiob.init();
@@ -95,19 +118,49 @@ void Main::run(void){
   Core::gpiof.init();
   Core::iomux.remapSWDIO(CoreIomux::MapSWDIO::JTAGDISABLE);
   
+  for(int i=0; i<6; ++i){
+    this->mLed[i] = new(this->mStacker) CoreGeneralPin(&Core::gpiob, i);
+    this->mLed[i]->setOutput();
+    this->mLed[i]->setLow();
+  }
+
+  CoreGeneralPin wak = CoreGeneralPin(&Core::gpioa, 0);
+  wak.setInput();
+  wak.pinMode(GeneralPinMode::PULL_UP);
+  
   Core::gpiob.setFunction(6, true);
   Core::gpiob.setFunction(7, true);
   
-  CoreSerialBus coreSerialBus = CoreSerialBus(CoreSerialBusReg::REG_IIC1);
-  coreSerialBus.init();
+  coreSerialBus = new(this->mStacker)CoreSerialBus(CoreSerialBusReg::REG_IIC1);
+  coreSerialBus->init();
   
-  uint8_t buffer[4];
-  ByteBuffer byteBuffer = ByteBuffer(Memory(buffer, 4));
-  byteBuffer << "1234";
-  byteBuffer.remaining();
+  uint8_t buffer[16];
+  uint8_t buffer_read[16];
+  ByteBuffer byteBuffer = ByteBuffer(Memory(buffer, 16));
+  byteBuffer << "12345678";
+  byteBuffer.flip();
+  
+  ByteBuffer byteBufferRead = ByteBuffer(Memory(buffer_read, 16));
+  byteBufferRead.limit(8);
   
   while(true){
-    coreSerialBus.write(0xAA, byteBuffer, nullptr, nullptr);
+
+    this->mLed[5]->setHigh();
+    
+    while(true){
+      if(wak.value() == 0)
+        break;
+    }
+    
+    for(int i=0; i<6; ++i){
+      this->mLed[i]->setLow();
+    }
+    
+    byteBuffer = 0;
+    byteBufferRead = 0;
+    coreSerialBus->write(0xA0, byteBuffer, nullptr, this);
+    this->delay(50);
+    coreSerialBus->read(0xA0, byteBufferRead, nullptr, this);
     this->delay(1000);
   } 
 }

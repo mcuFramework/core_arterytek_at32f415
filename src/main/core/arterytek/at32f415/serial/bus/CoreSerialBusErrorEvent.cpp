@@ -105,8 +105,10 @@ void CoreSerialBusErrorEvent::run(void){
  */
 void CoreSerialBusErrorEvent::interruptEvent(void){
   i2c_type* base = BASE;
-  
+  base->ctrl1_bit.genstop = true;
   i2c_interrupt_enable(base, I2C_EVT_INT | I2C_DATA_INT | I2C_ERR_INT, FALSE); 
+  this->mBase.statusClear();
+  base->sts1 = 0;
   
   if(this->mBase.mDirect == 0)
     this->mBase.mStatus = SerialBusStatus::READ_FAIL;

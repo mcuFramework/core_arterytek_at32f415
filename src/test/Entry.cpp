@@ -29,7 +29,7 @@ using start::Main;
 /* ****************************************************************************************
  * Variable <Static>
  */
-volatile static Main* userMain;
+volatile static start::Main* userMain;
 static uint32_t mainMemory[(sizeof(Main)+3)/4];
 static uint64_t mainStack[2048/8];
 static uint64_t stackerMemory[24576/8];
@@ -65,10 +65,9 @@ extern "C" int main(void){
   
   Memory stack = Memory(mainStack, sizeof(mainStack));
   Memory stacker = Memory(stackerMemory, sizeof(stackerMemory));
-  Main* m = new(mainMemory)Main(stack, stacker);
-  userMain = m;
+  userMain = new(mainMemory)Main(stack, stacker);
   
-  System::start(m);
+  System::start((Main*)userMain);
 }
 
 

@@ -284,6 +284,12 @@ class core::arterytek::at32f415::serial::bus::CoreSerialBus extends mcuf::lang::
      */
     bool begin(void);
                        
+    /**
+     *
+     */
+    void statusClear(void);
+                       
+                       
 };
 
 /* ****************************************************************************************
