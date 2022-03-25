@@ -96,18 +96,7 @@ void CoreSerialBus::run(void){
   byteBuffer->position(byteBuffer->position() + this->mCount);
   void* attachment = this->mAttachment;
   int result = this->mLength - this->mCount;
-  
-  if(this->mByteBufferNext != nullptr){
-    this->mByteBuffer = this->mByteBufferNext;
-    this->mByteBufferNext = nullptr;
-    this->mDirect = 0;
-    this->handlerFormat(*this->mByteBuffer);
-    this->begin();
-    
-  }else{
-    this->handlerClear();
-    
-  }
+  this->handlerClear();
   
   if(event)
     event->onSerialBusEvent(status, result ,attachment);
@@ -129,12 +118,17 @@ void CoreSerialBus::interruptEvent(void){
       if(this->mCount >= this->mLength){ //write successful
         if(base->sts1_bit.tdc){
           this->mStatus = SerialBusStatus::WRITE_SUCCESSFUL;
-          base->ctrl1_bit.genstop = true;
           
-          base->ctrl2 &= ~(I2C_EVT_INT | I2C_DATA_INT | I2C_ERR_INT);
-          if(!mcuf::lang::System::execute(*this))
-            this->run();
-          
+          if(this->mByteBufferNext){
+            this->afterRead();
+            
+          }else{
+            base->ctrl1_bit.genstop = true;
+            base->ctrl2 &= ~(I2C_EVT_INT | I2C_DATA_INT | I2C_ERR_INT);
+            if(!mcuf::lang::System::execute(*this))
+              this->run();
+            
+          }
         }
 
       }else{
@@ -381,13 +375,20 @@ bool CoreSerialBus::writeAfterRead(uint16_t address, ByteBuffer& transfer, ByteB
  */
 
 bool CoreSerialBus::handlerConfig(uint16_t address, ByteBuffer* transfer, ByteBuffer* receiver, void* attachment, SerialBusEvent* event){
+  if(!receiver->hasRemaining()) // check receiver has data in byeBuffer
+    return false;
   
   if(transfer != nullptr){
+    if(!transfer->hasRemaining()) // check transfer has data in byteBuffer
+      return false;
+    
     this->mByteBuffer = transfer;
     this->mByteBufferNext = receiver;
+    
   }else{
     this->mByteBuffer = receiver;
     this->mByteBufferNext = nullptr;
+    
   }
   
   this->mEvent = event;
@@ -396,6 +397,7 @@ bool CoreSerialBus::handlerConfig(uint16_t address, ByteBuffer* transfer, ByteBu
   if(this->handlerFormat(*this->mByteBuffer)){
     if(this->begin())
       return true;
+    
   }
   
 
@@ -441,12 +443,9 @@ void CoreSerialBus::handlerClear(void){
  *
  */
 bool CoreSerialBus::begin(void){
-  if(BASE->sts2_bit.busyf)
-    return false;
-  
+  i2c_interrupt_enable(BASE, I2C_EVT_INT | I2C_DATA_INT | I2C_ERR_INT, TRUE);
   BASE->ctrl1_bit.acken = false;
   BASE->ctrl1_bit.genstart = true;
-  i2c_interrupt_enable(BASE, I2C_EVT_INT | I2C_DATA_INT | I2C_ERR_INT, TRUE);
   return true;
 }
 
@@ -460,6 +459,16 @@ void CoreSerialBus::statusClear(void){
   tmpreg = base->sts2;
 }
 
+/**
+ *
+ */
+void CoreSerialBus::afterRead(void){
+  this->mByteBuffer = this->mByteBufferNext;
+  this->mByteBufferNext = nullptr;
+  this->handlerFormat(*this->mByteBuffer);
+  this->mDirect = 0;
+  this->begin();
+}
 
 /* ****************************************************************************************
  * End of file

@@ -287,6 +287,11 @@ class core::arterytek::at32f415::serial::bus::CoreSerialBus extends mcuf::lang::
     /**
      *
      */
+    void afterRead(void);                       
+                       
+    /**
+     *
+     */
     void statusClear(void);
                        
                        

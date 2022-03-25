@@ -158,9 +158,8 @@ void Main::run(void){
     
     byteBuffer = 0;
     byteBufferRead = 0;
-    coreSerialBus->write(0xA0, byteBuffer, nullptr, this);
-    this->delay(50);
-    coreSerialBus->read(0xA0, byteBufferRead, nullptr, this);
+    coreSerialBus->writeAfterRead(0xA0, byteBuffer, byteBufferRead, nullptr, this);
+    //coreSerialBus->read(0xA0, byteBufferRead, nullptr, this);
     this->delay(1000);
   } 
 }
