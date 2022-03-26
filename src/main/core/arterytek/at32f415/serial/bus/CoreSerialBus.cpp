@@ -392,7 +392,7 @@ bool CoreSerialBus::handlerConfig(uint16_t address, ByteBuffer* transfer, ByteBu
   }
   
   this->mEvent = event;
-  this->mAddress = address;
+  this->mAddress = (address << 1);
 
   if(this->handlerFormat(*this->mByteBuffer)){
     if(this->begin())

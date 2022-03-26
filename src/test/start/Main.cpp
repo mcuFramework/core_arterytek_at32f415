@@ -135,13 +135,13 @@ void Main::run(void){
   coreSerialBus->init();
   
   uint8_t buffer[16];
-  uint8_t buffer_read[16];
+  uint8_t buffer_read[32];
   ByteBuffer byteBuffer = ByteBuffer(Memory(buffer, 16));
-  byteBuffer << "12345678";
+  byteBuffer.putByte(0x82);
   byteBuffer.flip();
   
-  ByteBuffer byteBufferRead = ByteBuffer(Memory(buffer_read, 16));
-  byteBufferRead.limit(8);
+  ByteBuffer byteBufferRead = ByteBuffer(Memory(buffer_read, 32));
+  byteBufferRead.limit(29);
   
   while(true){
 
@@ -158,8 +158,9 @@ void Main::run(void){
     
     byteBuffer = 0;
     byteBufferRead = 0;
-    coreSerialBus->writeAfterRead(0xA0, byteBuffer, byteBufferRead, nullptr, this);
-    //coreSerialBus->read(0xA0, byteBufferRead, nullptr, this);
+    coreSerialBus->writeAfterRead(0x29, byteBuffer, byteBufferRead, nullptr, this);
+    //this->delay(20);
+    //coreSerialBus->read(0x29, byteBufferRead, nullptr, this);
     this->delay(1000);
   } 
 }
