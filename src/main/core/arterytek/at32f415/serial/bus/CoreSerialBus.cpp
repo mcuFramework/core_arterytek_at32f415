@@ -137,15 +137,18 @@ void CoreSerialBus::interruptEvent(void){
       }
 
     }else if(base->sts1_bit.rdbf){ //read isr
+      uint8_t cache = (uint8_t)base->dt;
+      if(this->mCount != 0)
+        this->mPointer[this->mCount-1] = cache;
       
-      this->mPointer[this->mCount++] = (uint8_t)base->dt;
+      ++this->mCount;
         
-      if((this->mCount+1) == this->mLength){
+      if((this->mCount+1) == (this->mLength+1)){
         
         base->ctrl1_bit.acken = false;
         base->ctrl1_bit.genstop = true;
           
-      }else if(this->mCount >= this->mLength){ //read successful
+      }else if(this->mCount >= (this->mLength+1)){ //read successful
         
         this->mStatus = SerialBusStatus::READ_SUCCESSFUL;
         base->ctrl1_bit.genstop = true;
