@@ -50,8 +50,7 @@ class core::analog::input::CoreAnalogInputTest extends mcuf::lang::Object implem
   private:
     mcuf::util::Stacker& mStacker;
     tool::Console* mConsole;
-    
-    core::arterytek::at32f415::analog::input::CoreAnalogInputPort* mCoreAnalogInputPort;
+    arterytek::at32f415::analog::CoreAnalogInputPort* mCoreAnalogInputPort;
 
   /* **************************************************************************************
    * Abstract method <Public>

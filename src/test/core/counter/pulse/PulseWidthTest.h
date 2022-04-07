@@ -51,8 +51,8 @@ class core::counter::pulse::PulseWidthTest extends mcuf::lang::Object implements
     mcuf::util::Stacker& mStacker;
     tool::Console* mConsole;
     tool::BoardPeriph* mBoardPeriph;
-    core::arterytek::at32f415::counter::pulse::CorePulseWidthPortSoft* mCorePulseWidthPortSoft;
-    core::arterytek::at32f415::counter::pulse::CorePulseWidthPort* mCorePulseWidthPort;
+    arterytek::at32f415::counter::CorePulseWidthPortSoft* mCorePulseWidthPortSoft;
+    arterytek::at32f415::counter::CorePulseWidthPort* mCorePulseWidthPort;
   
     hal::general::GeneralPin* mPulseFanOut;
     hal::general::GeneralPin* mPulseMT3608;

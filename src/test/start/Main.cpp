@@ -28,9 +28,9 @@
  */  
 using namespace start;
 
-using namespace core::arterytek::at32f415;
-using namespace core::arterytek::at32f415::general::pin;
-using namespace core::arterytek::at32f415::serial::bus;
+using namespace arterytek::at32f415;
+using namespace arterytek::at32f415::general;
+using namespace arterytek::at32f415::serial;
 
 using namespace core::analog::input;
 using namespace core::counter::pulse;

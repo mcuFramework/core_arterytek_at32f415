@@ -41,7 +41,7 @@ class start::Main extends mcuf::lang::Thread implements hal::serial::SerialBusEv
    */
   private:
     mcuf::util::Stacker mStacker;
-    core::arterytek::at32f415::serial::bus::CoreSerialBus* coreSerialBus;
+    arterytek::at32f415::serial::CoreSerialBus* coreSerialBus;
     hal::general::GeneralPin* mLed[6];
 
   /* **************************************************************************************

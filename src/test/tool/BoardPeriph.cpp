@@ -28,9 +28,9 @@
 
 //-----------------------------------------------------------------------------------------
 using tool::BoardPeriph;
-using core::arterytek::at32f415::Core;
-using core::arterytek::at32f415::CoreIomux;
-using core::arterytek::at32f415::general::pin::CoreGeneralPin;
+using arterytek::at32f415::Core;
+using arterytek::at32f415::CoreIomux;
+using arterytek::at32f415::general::CoreGeneralPin;
 using hal::general::GeneralPinMode;
 
 /* ****************************************************************************************

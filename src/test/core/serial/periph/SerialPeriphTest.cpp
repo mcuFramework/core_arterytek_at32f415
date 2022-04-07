@@ -24,15 +24,15 @@
 
 //-----------------------------------------------------------------------------------------
 using namespace tool;
-using namespace core::arterytek::at32f415::serial::periph;
+using namespace arterytek::at32f415::serial;
 using namespace hal::serial;
 //-----------------------------------------------------------------------------------------
 using core::serial::periph::SerialPeriphTest;
 
-using core::arterytek::at32f415::Core;
-using core::arterytek::at32f415::CoreIomux;
-using core::arterytek::at32f415::general::pin::CoreGeneralPin;
-using core::arterytek::at32f415::general::port::OutputMode;
+using arterytek::at32f415::Core;
+using arterytek::at32f415::CoreIomux;
+using arterytek::at32f415::general::CoreGeneralPin;
+using arterytek::at32f415::general::OutputMode;
 
 using mcuf::io::ByteBuffer;
 

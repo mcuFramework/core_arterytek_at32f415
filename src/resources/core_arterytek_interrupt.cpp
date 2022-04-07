@@ -8,8 +8,8 @@
 /* ****************************************************************************************
  * Include
  */
-#include "core/arterytek/at32f415/Core.h" 
-#include "core/arterytek/at32f415/CoreInterrupt.h" 
+#include "arterytek/at32f415/Core.h" 
+#include "arterytek/at32f415/CoreInterrupt.h" 
 
 #include "bsp_arterytek_at32f415/at32f415.h"
 #include "bsp_arterytek_at32f415/core_cm4.h"
@@ -18,8 +18,8 @@
 /* ****************************************************************************************
  * Using
  */  
-using core::arterytek::at32f415::Core;
-using core::arterytek::at32f415::CoreInterrupt;
+using arterytek::at32f415::Core;
+using arterytek::at32f415::CoreInterrupt;
 
 /* ****************************************************************************************
  * Macro

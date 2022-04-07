@@ -61,7 +61,7 @@ static uint64_t stackerMemory[24576/8];
  *
  */
 extern "C" int main(void){
-  core::arterytek::at32f415::Core::setSystemCoreClock(144);
+  arterytek::at32f415::Core::setSystemCoreClock(144);
   
   Memory stack = Memory(mainStack, sizeof(mainStack));
   Memory stacker = Memory(stackerMemory, sizeof(stackerMemory));

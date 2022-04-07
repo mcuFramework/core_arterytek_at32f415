@@ -391,367 +391,297 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>main/core</GroupName>
+          <GroupName>main/arterytek</GroupName>
           <Files>
             <File>
               <FileName>package-info.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\package-info.h</FilePath>
+              <FilePath>.\src\main\arterytek\package-info.h</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>main/core/arterytek</GroupName>
+          <GroupName>main/arterytek/at32f415</GroupName>
           <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\package-info.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>main/core/arterytek/at32f415</GroupName>
-          <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\package-info.h</FilePath>
-            </File>
             <File>
               <FileName>Core.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\Core.cpp</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\Core.cpp</FilePath>
             </File>
             <File>
               <FileName>Core.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\Core.h</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\Core.h</FilePath>
             </File>
             <File>
               <FileName>CoreInterrupt.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreInterrupt.cpp</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\CoreInterrupt.cpp</FilePath>
             </File>
             <File>
               <FileName>CoreInterrupt.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreInterrupt.h</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\CoreInterrupt.h</FilePath>
             </File>
             <File>
               <FileName>CoreIomux.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreIomux.cpp</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\CoreIomux.cpp</FilePath>
             </File>
             <File>
               <FileName>CoreIomux.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreIomux.h</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\CoreIomux.h</FilePath>
+            </File>
+            <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\package-info.h</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>main/core/arterytek/at32f415/analog</GroupName>
+          <GroupName>main/arterytek/at32f415/analog</GroupName>
           <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\analog\package-info.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>main/core/arterytek/at32f415/analog/input</GroupName>
-          <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\analog\input\package-info.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreAnalogInputPort.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\analog\input\CoreAnalogInputPort.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreAnalogInputPort.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\analog\input\CoreAnalogInputPort.h</FilePath>
-            </File>
             <File>
               <FileName>CoreAnalogInputPin.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\analog\input\CoreAnalogInputPin.cpp</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\analog\CoreAnalogInputPin.cpp</FilePath>
             </File>
             <File>
               <FileName>CoreAnalogInputPin.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\analog\input\CoreAnalogInputPin.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>main/core/arterytek/at32f415/general</GroupName>
-          <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\package-info.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>main/core/arterytek/at32f415/general/pin</GroupName>
-          <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\pin\package-info.h</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\analog\CoreAnalogInputPin.h</FilePath>
             </File>
             <File>
-              <FileName>CoreGeneralPin.cpp</FileName>
+              <FileName>CoreAnalogInputPort.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\pin\CoreGeneralPin.cpp</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\analog\CoreAnalogInputPort.cpp</FilePath>
             </File>
             <File>
-              <FileName>CoreGeneralPin.h</FileName>
+              <FileName>CoreAnalogInputPort.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\pin\CoreGeneralPin.h</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\analog\CoreAnalogInputPort.h</FilePath>
+            </File>
+            <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\analog\package-info.h</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>main/core/arterytek/at32f415/general/port</GroupName>
+          <GroupName>main/arterytek/at32f415/counter</GroupName>
           <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\port\package-info.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreGeneralPort.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\port\CoreGeneralPort.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreGeneralPort.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\port\CoreGeneralPort.h</FilePath>
-            </File>
-            <File>
-              <FileName>InputMode.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\port\InputMode.h</FilePath>
-            </File>
-            <File>
-              <FileName>OutputMode.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\port\OutputMode.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>main/core/arterytek/at32f415/general/trigger</GroupName>
-          <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\trigger\package-info.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreEdgeTrigger.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\trigger\CoreEdgeTrigger.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreEdgeTrigger.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\trigger\CoreEdgeTrigger.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreEdgeTriggerReg.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\trigger\CoreEdgeTriggerReg.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>main/core/arterytek/at32f415/serial</GroupName>
-          <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\package-info.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>main/core/arterytek/at32f415/serial/bus</GroupName>
-          <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\bus\package-info.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialBus.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\bus\CoreSerialBus.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialBusErrorEvent.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\bus\CoreSerialBusErrorEvent.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialBusSlot.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\bus\CoreSerialBusSlot.cpp</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>main/core/arterytek/at32f415/serial/periph</GroupName>
-          <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\periph\package-info.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialPeriph.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\periph\CoreSerialPeriph.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialPeriph.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\periph\CoreSerialPeriph.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialPeriphReg.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\periph\CoreSerialPeriphReg.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialPeriphPacket.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\periph\CoreSerialPeriphPacket.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>main/core/arterytek/at32f415/serial/port</GroupName>
-          <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\port\package-info.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialPort.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\port\CoreSerialPort.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialPort.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\port\CoreSerialPort.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialPortPacket.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\port\CoreSerialPortPacket.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialPortPacket.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\port\CoreSerialPortPacket.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialPortReg.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\port\CoreSerialPortReg.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>main/core/arterytek/at32f415/counter</GroupName>
-          <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\package-info.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>main/core/arterytek/at32f415/counter/pulse</GroupName>
-          <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\pulse\package-info.h</FilePath>
-            </File>
             <File>
               <FileName>CorePulseWidthPin.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\pulse\CorePulseWidthPin.cpp</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\counter\CorePulseWidthPin.cpp</FilePath>
             </File>
             <File>
               <FileName>CorePulseWidthPin.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\pulse\CorePulseWidthPin.h</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\counter\CorePulseWidthPin.h</FilePath>
             </File>
             <File>
               <FileName>CorePulseWidthPort.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\pulse\CorePulseWidthPort.cpp</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\counter\CorePulseWidthPort.cpp</FilePath>
             </File>
             <File>
               <FileName>CorePulseWidthPort.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\pulse\CorePulseWidthPort.h</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\counter\CorePulseWidthPort.h</FilePath>
             </File>
             <File>
               <FileName>CorePulseWidthPortSoft.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\pulse\CorePulseWidthPortSoft.cpp</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\counter\CorePulseWidthPortSoft.cpp</FilePath>
             </File>
             <File>
               <FileName>CorePulseWidthPortSoft.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\pulse\CorePulseWidthPortSoft.h</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\counter\CorePulseWidthPortSoft.h</FilePath>
             </File>
             <File>
               <FileName>CorePulseWidthReg.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\pulse\CorePulseWidthReg.h</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\counter\CorePulseWidthReg.h</FilePath>
             </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>main/core/arterytek/at32f415/counter/timer</GroupName>
-          <Files>
             <File>
               <FileName>CoreTimer.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\timer\CoreTimer.cpp</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\counter\CoreTimer.cpp</FilePath>
             </File>
             <File>
               <FileName>CoreTimer.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\timer\CoreTimer.h</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\counter\CoreTimer.h</FilePath>
             </File>
             <File>
               <FileName>CoreTimerReg.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\timer\CoreTimerReg.h</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\counter\CoreTimerReg.h</FilePath>
             </File>
             <File>
               <FileName>package-info.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\timer\package-info.h</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\counter\package-info.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>main/arterytek/at32f415/general</GroupName>
+          <Files>
+            <File>
+              <FileName>CoreEdgeTrigger.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\general\CoreEdgeTrigger.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreEdgeTrigger.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\general\CoreEdgeTrigger.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreEdgeTriggerReg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\general\CoreEdgeTriggerReg.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreGeneralPin.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\general\CoreGeneralPin.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreGeneralPin.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\general\CoreGeneralPin.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreGeneralPort.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\general\CoreGeneralPort.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreGeneralPort.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\general\CoreGeneralPort.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreGeneralPortReg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\general\CoreGeneralPortReg.h</FilePath>
+            </File>
+            <File>
+              <FileName>InputMode.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\general\InputMode.h</FilePath>
+            </File>
+            <File>
+              <FileName>OutputMode.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\general\OutputMode.h</FilePath>
+            </File>
+            <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\general\package-info.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>main/arterytek/at32f415/serial</GroupName>
+          <Files>
+            <File>
+              <FileName>CoreSerialBus.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBus.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBus.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBus.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBusConfig.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusConfig.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBusErrorEvent.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusErrorEvent.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBusErrorEvent.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusErrorEvent.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBusReg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusReg.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBusSlot.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusSlot.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBusSlot.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusSlot.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialPeriph.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPeriph.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialPeriph.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPeriph.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialPeriphPacket.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPeriphPacket.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialPeriphReg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPeriphReg.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialPort.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPort.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialPort.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPort.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialPortPacket.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPortPacket.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialPortPacket.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPortPacket.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialPortReg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPortReg.h</FilePath>
+            </File>
+            <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\package-info.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -2278,367 +2208,297 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>main/core</GroupName>
+          <GroupName>main/arterytek</GroupName>
           <Files>
             <File>
               <FileName>package-info.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\package-info.h</FilePath>
+              <FilePath>.\src\main\arterytek\package-info.h</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>main/core/arterytek</GroupName>
+          <GroupName>main/arterytek/at32f415</GroupName>
           <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\package-info.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>main/core/arterytek/at32f415</GroupName>
-          <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\package-info.h</FilePath>
-            </File>
             <File>
               <FileName>Core.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\Core.cpp</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\Core.cpp</FilePath>
             </File>
             <File>
               <FileName>Core.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\Core.h</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\Core.h</FilePath>
             </File>
             <File>
               <FileName>CoreInterrupt.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreInterrupt.cpp</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\CoreInterrupt.cpp</FilePath>
             </File>
             <File>
               <FileName>CoreInterrupt.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreInterrupt.h</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\CoreInterrupt.h</FilePath>
             </File>
             <File>
               <FileName>CoreIomux.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreIomux.cpp</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\CoreIomux.cpp</FilePath>
             </File>
             <File>
               <FileName>CoreIomux.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\CoreIomux.h</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\CoreIomux.h</FilePath>
+            </File>
+            <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\package-info.h</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>main/core/arterytek/at32f415/analog</GroupName>
+          <GroupName>main/arterytek/at32f415/analog</GroupName>
           <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\analog\package-info.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>main/core/arterytek/at32f415/analog/input</GroupName>
-          <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\analog\input\package-info.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreAnalogInputPort.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\analog\input\CoreAnalogInputPort.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreAnalogInputPort.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\analog\input\CoreAnalogInputPort.h</FilePath>
-            </File>
             <File>
               <FileName>CoreAnalogInputPin.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\analog\input\CoreAnalogInputPin.cpp</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\analog\CoreAnalogInputPin.cpp</FilePath>
             </File>
             <File>
               <FileName>CoreAnalogInputPin.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\analog\input\CoreAnalogInputPin.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>main/core/arterytek/at32f415/general</GroupName>
-          <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\package-info.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>main/core/arterytek/at32f415/general/pin</GroupName>
-          <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\pin\package-info.h</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\analog\CoreAnalogInputPin.h</FilePath>
             </File>
             <File>
-              <FileName>CoreGeneralPin.cpp</FileName>
+              <FileName>CoreAnalogInputPort.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\pin\CoreGeneralPin.cpp</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\analog\CoreAnalogInputPort.cpp</FilePath>
             </File>
             <File>
-              <FileName>CoreGeneralPin.h</FileName>
+              <FileName>CoreAnalogInputPort.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\pin\CoreGeneralPin.h</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\analog\CoreAnalogInputPort.h</FilePath>
+            </File>
+            <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\analog\package-info.h</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>main/core/arterytek/at32f415/general/port</GroupName>
+          <GroupName>main/arterytek/at32f415/counter</GroupName>
           <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\port\package-info.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreGeneralPort.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\port\CoreGeneralPort.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreGeneralPort.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\port\CoreGeneralPort.h</FilePath>
-            </File>
-            <File>
-              <FileName>InputMode.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\port\InputMode.h</FilePath>
-            </File>
-            <File>
-              <FileName>OutputMode.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\port\OutputMode.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>main/core/arterytek/at32f415/general/trigger</GroupName>
-          <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\trigger\package-info.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreEdgeTrigger.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\trigger\CoreEdgeTrigger.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreEdgeTrigger.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\trigger\CoreEdgeTrigger.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreEdgeTriggerReg.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\general\trigger\CoreEdgeTriggerReg.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>main/core/arterytek/at32f415/serial</GroupName>
-          <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\package-info.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>main/core/arterytek/at32f415/serial/bus</GroupName>
-          <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\bus\package-info.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialBus.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\bus\CoreSerialBus.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialBusErrorEvent.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\bus\CoreSerialBusErrorEvent.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialBusSlot.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\bus\CoreSerialBusSlot.cpp</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>main/core/arterytek/at32f415/serial/periph</GroupName>
-          <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\periph\package-info.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialPeriph.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\periph\CoreSerialPeriph.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialPeriph.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\periph\CoreSerialPeriph.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialPeriphReg.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\periph\CoreSerialPeriphReg.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialPeriphPacket.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\periph\CoreSerialPeriphPacket.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>main/core/arterytek/at32f415/serial/port</GroupName>
-          <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\port\package-info.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialPort.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\port\CoreSerialPort.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialPort.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\port\CoreSerialPort.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialPortPacket.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\port\CoreSerialPortPacket.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialPortPacket.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\port\CoreSerialPortPacket.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialPortReg.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\serial\port\CoreSerialPortReg.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>main/core/arterytek/at32f415/counter</GroupName>
-          <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\package-info.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>main/core/arterytek/at32f415/counter/pulse</GroupName>
-          <Files>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\pulse\package-info.h</FilePath>
-            </File>
             <File>
               <FileName>CorePulseWidthPin.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\pulse\CorePulseWidthPin.cpp</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\counter\CorePulseWidthPin.cpp</FilePath>
             </File>
             <File>
               <FileName>CorePulseWidthPin.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\pulse\CorePulseWidthPin.h</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\counter\CorePulseWidthPin.h</FilePath>
             </File>
             <File>
               <FileName>CorePulseWidthPort.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\pulse\CorePulseWidthPort.cpp</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\counter\CorePulseWidthPort.cpp</FilePath>
             </File>
             <File>
               <FileName>CorePulseWidthPort.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\pulse\CorePulseWidthPort.h</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\counter\CorePulseWidthPort.h</FilePath>
             </File>
             <File>
               <FileName>CorePulseWidthPortSoft.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\pulse\CorePulseWidthPortSoft.cpp</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\counter\CorePulseWidthPortSoft.cpp</FilePath>
             </File>
             <File>
               <FileName>CorePulseWidthPortSoft.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\pulse\CorePulseWidthPortSoft.h</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\counter\CorePulseWidthPortSoft.h</FilePath>
             </File>
             <File>
               <FileName>CorePulseWidthReg.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\pulse\CorePulseWidthReg.h</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\counter\CorePulseWidthReg.h</FilePath>
             </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>main/core/arterytek/at32f415/counter/timer</GroupName>
-          <Files>
             <File>
               <FileName>CoreTimer.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\timer\CoreTimer.cpp</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\counter\CoreTimer.cpp</FilePath>
             </File>
             <File>
               <FileName>CoreTimer.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\timer\CoreTimer.h</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\counter\CoreTimer.h</FilePath>
             </File>
             <File>
               <FileName>CoreTimerReg.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\timer\CoreTimerReg.h</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\counter\CoreTimerReg.h</FilePath>
             </File>
             <File>
               <FileName>package-info.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\src\main\core\arterytek\at32f415\counter\timer\package-info.h</FilePath>
+              <FilePath>.\src\main\arterytek\at32f415\counter\package-info.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>main/arterytek/at32f415/general</GroupName>
+          <Files>
+            <File>
+              <FileName>CoreEdgeTrigger.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\general\CoreEdgeTrigger.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreEdgeTrigger.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\general\CoreEdgeTrigger.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreEdgeTriggerReg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\general\CoreEdgeTriggerReg.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreGeneralPin.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\general\CoreGeneralPin.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreGeneralPin.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\general\CoreGeneralPin.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreGeneralPort.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\general\CoreGeneralPort.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreGeneralPort.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\general\CoreGeneralPort.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreGeneralPortReg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\general\CoreGeneralPortReg.h</FilePath>
+            </File>
+            <File>
+              <FileName>InputMode.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\general\InputMode.h</FilePath>
+            </File>
+            <File>
+              <FileName>OutputMode.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\general\OutputMode.h</FilePath>
+            </File>
+            <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\general\package-info.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>main/arterytek/at32f415/serial</GroupName>
+          <Files>
+            <File>
+              <FileName>CoreSerialBus.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBus.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBus.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBus.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBusConfig.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusConfig.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBusErrorEvent.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusErrorEvent.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBusErrorEvent.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusErrorEvent.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBusReg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusReg.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBusSlot.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusSlot.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBusSlot.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusSlot.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialPeriph.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPeriph.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialPeriph.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPeriph.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialPeriphPacket.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPeriphPacket.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialPeriphReg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPeriphReg.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialPort.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPort.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialPort.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPort.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialPortPacket.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPortPacket.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialPortPacket.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPortPacket.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialPortReg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPortReg.h</FilePath>
+            </File>
+            <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\package-info.h</FilePath>
             </File>
           </Files>
         </Group>

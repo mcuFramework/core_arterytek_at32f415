@@ -48,7 +48,7 @@ class core::serial::port::SerialPortTest extends mcuf::lang::Object implements
    */
   private:
     mcuf::util::Stacker& mStacker;
-    core::arterytek::at32f415::serial::port::CoreSerialPort* mCoreSerialPort;
+    arterytek::at32f415::serial::CoreSerialPort* mCoreSerialPort;
     mcuf::io::SerialPortInputStream* mSerialPortInputStream;
     mcuf::io::SerialPortOutputStream* mSerialPortOutputStream;
 

@@ -53,8 +53,8 @@ class core::serial::periph::SerialPeriphTest extends mcuf::lang::Object implemen
     tool::Console* mConsole;
     tool::BoardPeriph* mBoardPeriph;
   
-    core::arterytek::at32f415::general::pin::CoreGeneralPin* mChipSelectPin[4];
-    core::arterytek::at32f415::serial::periph::CoreSerialPeriph* mCoreSerialPeriph;
+    arterytek::at32f415::general::CoreGeneralPin* mChipSelectPin[4];
+    arterytek::at32f415::serial::CoreSerialPeriph* mCoreSerialPeriph;
   
     mcuf::io::ByteBuffer* mTransferByteBuffer;
     mcuf::io::ByteBuffer* mReceiverByteBuffer;

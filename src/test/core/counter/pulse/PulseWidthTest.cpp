@@ -28,14 +28,14 @@ using namespace tool;
 
 //-----------------------------------------------------------------------------------------
 using core::counter::pulse::PulseWidthTest;
-using core::arterytek::at32f415::Core;
-using core::arterytek::at32f415::CoreIomux;
-using core::arterytek::at32f415::general::pin::CoreGeneralPin;
-using core::arterytek::at32f415::general::port::CoreGeneralPort;
-using core::arterytek::at32f415::general::port::OutputMode;
-using core::arterytek::at32f415::counter::pulse::CorePulseWidthPort;
-using core::arterytek::at32f415::counter::pulse::CorePulseWidthPortSoft;
-using core::arterytek::at32f415::counter::pulse::CorePulseWidthReg;
+using arterytek::at32f415::Core;
+using arterytek::at32f415::CoreIomux;
+using arterytek::at32f415::general::CoreGeneralPin;
+using arterytek::at32f415::general::CoreGeneralPort;
+using arterytek::at32f415::general::OutputMode;
+using arterytek::at32f415::counter::CorePulseWidthPort;
+using arterytek::at32f415::counter::CorePulseWidthPortSoft;
+using arterytek::at32f415::counter::CorePulseWidthReg;
 using mcuf::util::Stacker;
 using mcuf::lang::Memory;
 using mcuf::lang::System;

@@ -17,7 +17,7 @@
 
 //-----------------------------------------------------------------------------------------
 #define TOOL_CONSOLE_DYNAMIC_SIZE ( \
-  sizeof(core::arterytek::at32f415::serial::port::CoreSerialPort) + 4 + \
+  sizeof(arterytek::at32f415::serial::CoreSerialPort) + 4 + \
   sizeof(mcuf::io::SerialPortOutputStream) + 4 +\
   sizeof(mcuf::io::OutputStreamBuffer) + 4 +\
   sizeof(mcuf::io::PrintStream) + 4\
@@ -48,7 +48,7 @@ class tool::Console extends mcuf::lang::Object{
    * Variable <Private>
    */
   public:
-    core::arterytek::at32f415::serial::port::CoreSerialPort* mCoreSerialPort;
+    arterytek::at32f415::serial::CoreSerialPort* mCoreSerialPort;
     mcuf::io::SerialPortOutputStream* mSerialPortOutputStream;
     mcuf::io::OutputStreamBuffer* mOutputStreamBuffer;
     mcuf::io::PrintStream* mPrintStream;
