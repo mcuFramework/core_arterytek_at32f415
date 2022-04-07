@@ -32,7 +32,7 @@
 using core::arterytek::at32f415::serial::bus::CoreSerialBusErrorEvent;
 
 //-----------------------------------------------------------------------------------------
-using namespace mcuf::hal::serial::bus;
+using namespace hal::serial;
 
 //-----------------------------------------------------------------------------------------
 using core::arterytek::at32f415::serial::bus::CoreSerialBus;
@@ -96,7 +96,7 @@ void CoreSerialBusErrorEvent::run(void){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::InterruptEvent
+ * Public Method <Override> - hal::InterruptEvent
  */
 
 /**

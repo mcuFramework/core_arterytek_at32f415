@@ -39,7 +39,7 @@ namespace core{
  * Class/Interface/Struct/Enum
  */  
 class core::arterytek::at32f415::counter::pulse::CorePulseWidthPort extends mcuf::lang::Object implements
-  public mcuf::hal::counter::pulse::PulseWidthPort{
+  public hal::counter::PulseWidthPort{
 
   /* **************************************************************************************
    * Variable <Public>
@@ -90,7 +90,7 @@ class core::arterytek::at32f415::counter::pulse::CorePulseWidthPort extends mcuf
    */
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::Base
+   * Public Method <Override> - hal::Base
    */
   public:
 
@@ -119,7 +119,7 @@ class core::arterytek::at32f415::counter::pulse::CorePulseWidthPort extends mcuf
     virtual bool isInit(void) override;
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::counter::pulse::PulseWidthPort
+   * Public Method <Override> - hal::counter::PulseWidthPort
    */
   public:
     /**

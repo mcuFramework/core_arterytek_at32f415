@@ -33,7 +33,7 @@
 using core::arterytek::at32f415::serial::bus::CoreSerialBus;
 
 //-----------------------------------------------------------------------------------------
-using namespace mcuf::hal::serial::bus;
+using namespace hal::serial;
 
 //-----------------------------------------------------------------------------------------
 using core::arterytek::at32f415::serial::bus::CoreSerialBusReg;
@@ -103,7 +103,7 @@ void CoreSerialBus::run(void){
 }  
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::InterruptEvent
+ * Public Method <Override> - hal::InterruptEvent
  */
 
 /**
@@ -182,7 +182,7 @@ void CoreSerialBus::interruptEvent(void){
 }   
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::Base
+ * Public Method <Override> - hal::Base
  */
 
 /**
@@ -242,7 +242,7 @@ bool CoreSerialBus::isInit(void){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::serial::bus::SerialBusControl
+ * Public Method <Override> - hal::serial::SerialBusControl
  */
 
 /**
@@ -281,7 +281,7 @@ uint32_t CoreSerialBus::clockRate(uint32_t clock){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::serial::bus::SerialBusTransfer
+ * Public Method <Override> - hal::serial::SerialBusTransfer
  */
 
 /**

@@ -41,14 +41,14 @@ using namespace tool;
 using namespace mcuf::io;
 using namespace mcuf::lang;
 using namespace mcuf::util;
-using namespace mcuf::hal::general::pin;
-using namespace mcuf::hal::serial::bus;
+using namespace hal::general;
+using namespace hal::serial;
 
 //-----------------------------------------------------------------------------------------
 using mcuf::function::Runnable;
 using mcuf::lang::Memory;
 
-using mcuf::hal::general::pin::GeneralPinMode;
+using hal::general::GeneralPinMode;
 
 /* ****************************************************************************************
  * Namespace

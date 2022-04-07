@@ -54,16 +54,16 @@ class core::counter::pulse::PulseWidthTest extends mcuf::lang::Object implements
     core::arterytek::at32f415::counter::pulse::CorePulseWidthPortSoft* mCorePulseWidthPortSoft;
     core::arterytek::at32f415::counter::pulse::CorePulseWidthPort* mCorePulseWidthPort;
   
-    mcuf::hal::general::pin::GeneralPin* mPulseFanOut;
-    mcuf::hal::general::pin::GeneralPin* mPulseMT3608;
+    hal::general::GeneralPin* mPulseFanOut;
+    hal::general::GeneralPin* mPulseMT3608;
   
-    mcuf::hal::general::pin::GeneralPin* mLedPowerR;
-    mcuf::hal::general::pin::GeneralPin* mLedPowerG;
-    mcuf::hal::general::pin::GeneralPin* mLedPowerB;
+    hal::general::GeneralPin* mLedPowerR;
+    hal::general::GeneralPin* mLedPowerG;
+    hal::general::GeneralPin* mLedPowerB;
   
-    mcuf::hal::general::pin::GeneralPin* mLedStatusR;
-    mcuf::hal::general::pin::GeneralPin* mLedStatusG;
-    mcuf::hal::general::pin::GeneralPin* mLedStatusB;
+    hal::general::GeneralPin* mLedStatusR;
+    hal::general::GeneralPin* mLedStatusG;
+    hal::general::GeneralPin* mLedStatusB;
   
   /* **************************************************************************************
    * Abstract method <Public>

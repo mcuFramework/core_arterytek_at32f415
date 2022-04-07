@@ -98,7 +98,7 @@ namespace core{
 /* ****************************************************************************************
  * Using
  */  
-using mcuf::hal::InterruptEvent;
+using hal::InterruptEvent;
 using core::arterytek::at32f415::CoreInterrupt;
 
 /* ****************************************************************************************

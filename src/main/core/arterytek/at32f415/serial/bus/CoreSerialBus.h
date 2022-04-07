@@ -39,8 +39,8 @@ namespace core{
  * Class/Interface/Struct/Enum
  */  
 class core::arterytek::at32f415::serial::bus::CoreSerialBus extends mcuf::lang::Object implements
-  public mcuf::hal::InterruptEvent,
-  public mcuf::hal::serial::bus::SerialBus, 
+  public hal::InterruptEvent,
+  public hal::serial::SerialBus, 
   public mcuf::function::Runnable{
     
   friend CoreSerialBusErrorEvent;
@@ -67,8 +67,8 @@ class core::arterytek::at32f415::serial::bus::CoreSerialBus extends mcuf::lang::
     uint16_t mLength;
     uint16_t mCount;    
     uint8_t* mPointer;
-    mcuf::hal::serial::bus::SerialBusEvent* mEvent;
-    mcuf::hal::serial::bus::SerialBusStatus mStatus;
+    hal::serial::SerialBusEvent* mEvent;
+    hal::serial::SerialBusStatus mStatus;
     mcuf::io::ByteBuffer* mByteBuffer;
     mcuf::io::ByteBuffer* mByteBufferNext;
     void* mAttachment;
@@ -117,7 +117,7 @@ class core::arterytek::at32f415::serial::bus::CoreSerialBus extends mcuf::lang::
     virtual void run(void) override;   
   
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::InterruptEvent
+   * Public Method <Override> - hal::InterruptEvent
    */
   public:
 
@@ -128,7 +128,7 @@ class core::arterytek::at32f415::serial::bus::CoreSerialBus extends mcuf::lang::
     virtual void interruptEvent(void) override;   
    
   /* **************************************************************************************
-   * Public Method <Override> mcuf::hal::Base
+   * Public Method <Override> hal::Base
    */
   public:
     /**
@@ -156,7 +156,7 @@ class core::arterytek::at32f415::serial::bus::CoreSerialBus extends mcuf::lang::
     virtual bool isInit(void) override;
 
   /* **************************************************************************************
-   * Public Method <Override> mcuf::hal::serial::bus::SerialBusControl
+   * Public Method <Override> hal::serial::SerialBusControl
    */
   public:
     /**
@@ -175,7 +175,7 @@ class core::arterytek::at32f415::serial::bus::CoreSerialBus extends mcuf::lang::
     virtual uint32_t clockRate(uint32_t clock) override;
 
   /* **************************************************************************************
-   * Public Method <Override> mcuf::hal::serial::bus::SerialBusTransfer
+   * Public Method <Override> hal::serial::SerialBusTransfer
    */
   public:
     /**
@@ -204,7 +204,7 @@ class core::arterytek::at32f415::serial::bus::CoreSerialBus extends mcuf::lang::
     virtual bool read(uint16_t address, 
                       mcuf::io::ByteBuffer& receiver, 
                       void* attachment,
-                      mcuf::hal::serial::bus::SerialBusEvent* event) override;
+                      hal::serial::SerialBusEvent* event) override;
 
     /**
      * @brief 
@@ -216,7 +216,7 @@ class core::arterytek::at32f415::serial::bus::CoreSerialBus extends mcuf::lang::
     virtual bool write(uint16_t address, 
                        mcuf::io::ByteBuffer& transfer,
                        void* attachment,
-                       mcuf::hal::serial::bus::SerialBusEvent* event) override;
+                       hal::serial::SerialBusEvent* event) override;
     
     /**
      * @brief 
@@ -232,7 +232,7 @@ class core::arterytek::at32f415::serial::bus::CoreSerialBus extends mcuf::lang::
                                 mcuf::io::ByteBuffer& transfer, 
                                 mcuf::io::ByteBuffer& receiver,
                                 void* attachment,
-                                mcuf::hal::serial::bus::SerialBusEvent* event) override;
+                                hal::serial::SerialBusEvent* event) override;
 
   /* **************************************************************************************
    * Public Method
@@ -267,7 +267,7 @@ class core::arterytek::at32f415::serial::bus::CoreSerialBus extends mcuf::lang::
                        mcuf::io::ByteBuffer* transfer, 
                        mcuf::io::ByteBuffer* receiver,
                        void* attachment,
-                       mcuf::hal::serial::bus::SerialBusEvent* event);
+                       hal::serial::SerialBusEvent* event);
   
     /**
      *

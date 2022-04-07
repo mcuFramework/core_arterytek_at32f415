@@ -28,8 +28,8 @@
 using core::arterytek::at32f415::general::port::CoreGeneralPort;
 using core::arterytek::at32f415::general::pin::CoreGeneralPin;
 
-using mcuf::hal::general::pin::GeneralPin;
-using mcuf::hal::general::pin::GeneralPinMode;
+using hal::general::GeneralPin;
+using hal::general::GeneralPinMode;
 
 
 /* ****************************************************************************************

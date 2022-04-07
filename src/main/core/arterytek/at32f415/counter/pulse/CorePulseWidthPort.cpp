@@ -93,7 +93,7 @@ CorePulseWidthPort::~CorePulseWidthPort(void){
  */
 
 /* ****************************************************************************************
- * Public Method <Override> mcuf::hal::Base
+ * Public Method <Override> hal::Base
  */
 
 /**
@@ -134,7 +134,7 @@ bool CorePulseWidthPort::isInit(void){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::counter::pulse::PulseWidthPort
+ * Public Method <Override> - hal::counter::PulseWidthPort
  */
 
 /**

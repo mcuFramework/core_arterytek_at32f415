@@ -30,11 +30,11 @@
 /* ****************************************************************************************
  * Using
  */
-using namespace mcuf::hal::serial::periph;
+using namespace hal::serial;
 using namespace core::arterytek::at32f415::serial::periph;
 
 //-----------------------------------------------------------------------------------------
-using mcuf::hal::general::pin::GeneralPin;
+using hal::general::GeneralPin;
 using mcuf::io::ByteBuffer;
 using mcuf::lang::System;
 
@@ -157,7 +157,7 @@ void CoreSerialPeriph::run(void){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::InterruptEvent
+ * Public Method <Override> - hal::InterruptEvent
  */
 
 /**
@@ -207,11 +207,11 @@ void CoreSerialPeriph::interruptEvent(void){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::serial::periph::SerialPeriph
+ * Public Method <Override> - hal::serial::SerialPeriph
  */
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::Base
+ * Public Method <Override> - hal::Base
  */
 
 /**
@@ -272,7 +272,7 @@ bool CoreSerialPeriph::isInit(void){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::serial::periph::SerialPeriphTransfer
+ * Public Method <Override> - hal::serial::SerialPeriphTransfer
  */
 
 /**

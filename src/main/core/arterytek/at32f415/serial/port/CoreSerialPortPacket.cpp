@@ -26,8 +26,8 @@ using namespace core::arterytek::at32f415::serial::port;
 
 //-----------------------------------------------------------------------------------------
 using mcuf::io::ByteBuffer;
-using mcuf::hal::serial::port::SerialPortEvent;
-using mcuf::hal::serial::port::SerialPortStatus;
+using hal::serial::SerialPortEvent;
+using hal::serial::SerialPortStatus;
 
 /* ****************************************************************************************
  * Variable <Static>

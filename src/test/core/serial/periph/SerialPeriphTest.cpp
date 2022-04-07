@@ -25,7 +25,7 @@
 //-----------------------------------------------------------------------------------------
 using namespace tool;
 using namespace core::arterytek::at32f415::serial::periph;
-using namespace mcuf::hal::serial::periph;
+using namespace hal::serial;
 //-----------------------------------------------------------------------------------------
 using core::serial::periph::SerialPeriphTest;
 
@@ -103,7 +103,7 @@ void SerialPeriphTest::run(void){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> mcuf::hal::serial::periph::SerialPeriphEvent
+ * Public Method <Override> hal::serial::SerialPeriphEvent
  */
 
 /**

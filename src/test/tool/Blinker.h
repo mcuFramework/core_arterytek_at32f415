@@ -34,7 +34,7 @@ class tool::Blinker extends mcuf::util::TimerTask{
    * Variable <Public>
    */
   public:
-    mcuf::hal::general::pin::GeneralPin* mPin;
+    hal::general::GeneralPin* mPin;
 
   /* **************************************************************************************
    * Variable <Protected>

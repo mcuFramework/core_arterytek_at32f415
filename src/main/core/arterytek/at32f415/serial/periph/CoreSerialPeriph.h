@@ -38,8 +38,8 @@ namespace core{
  * Class/Interface/Struct/Enum
  */  
 class core::arterytek::at32f415::serial::periph::CoreSerialPeriph extends mcuf::lang::Object implements
-  public mcuf::hal::InterruptEvent,
-  public mcuf::hal::serial::periph::SerialPeriph,
+  public hal::InterruptEvent,
+  public hal::serial::SerialPeriph,
   public mcuf::function::Runnable{
 
   /* **************************************************************************************
@@ -54,11 +54,11 @@ class core::arterytek::at32f415::serial::periph::CoreSerialPeriph extends mcuf::
    * Variable <Private>
    */
   private:
-    mcuf::hal::general::pin::GeneralPin* mSelectChipSelect;
-    mcuf::hal::general::pin::GeneralPin* mChipSelect[8];
+    hal::general::GeneralPin* mSelectChipSelect;
+    hal::general::GeneralPin* mChipSelect[8];
     core::arterytek::at32f415::serial::periph::CoreSerialPeriphReg mRegister;
-    mcuf::hal::serial::periph::SerialPeriphEvent* mEvent;
-    mcuf::hal::serial::periph::SerialPeriphStatus mStatus;
+    hal::serial::SerialPeriphEvent* mEvent;
+    hal::serial::SerialPeriphStatus mStatus;
     core::arterytek::at32f415::serial::periph::CoreSerialPeriphPacket mTransfer;
     core::arterytek::at32f415::serial::periph::CoreSerialPeriphPacket mReceiver;
     
@@ -109,7 +109,7 @@ class core::arterytek::at32f415::serial::periph::CoreSerialPeriph extends mcuf::
     virtual void run(void) override;
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::InterruptEvent
+   * Public Method <Override> - hal::InterruptEvent
    */
   public:
 
@@ -120,11 +120,11 @@ class core::arterytek::at32f415::serial::periph::CoreSerialPeriph extends mcuf::
     virtual void interruptEvent(void) override;
   
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::serial::periph::SerialPeriph
+   * Public Method <Override> - hal::serial::SerialPeriph
    */
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::Base
+   * Public Method <Override> - hal::Base
    */
   public:
     
@@ -153,7 +153,7 @@ class core::arterytek::at32f415::serial::periph::CoreSerialPeriph extends mcuf::
     virtual bool isInit(void) override;
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::serial::periph::SerialPeriphTransfer
+   * Public Method <Override> - hal::serial::SerialPeriphTransfer
    */
   public:
 
@@ -183,8 +183,8 @@ class core::arterytek::at32f415::serial::periph::CoreSerialPeriph extends mcuf::
      * @return false 
      */
     virtual bool transfer(uint32_t chipSelect, 
-                          mcuf::hal::serial::periph::SerialPeriphPacket* packet,
-                          mcuf::hal::serial::periph::SerialPeriphEvent* event) override;
+                          hal::serial::SerialPeriphPacket* packet,
+                          hal::serial::SerialPeriphEvent* event) override;
   
   /* **************************************************************************************
    * Public Method
@@ -194,7 +194,7 @@ class core::arterytek::at32f415::serial::periph::CoreSerialPeriph extends mcuf::
     /**
      *
      */
-    bool setChipSelectPin(uint32_t chipSelect, mcuf::hal::general::pin::GeneralPin* pin);
+    bool setChipSelectPin(uint32_t chipSelect, hal::general::GeneralPin* pin);
 
   /* **************************************************************************************
    * Protected Method <Static>

@@ -67,7 +67,7 @@ extern "C" int main(void){
   Memory stacker = Memory(stackerMemory, sizeof(stackerMemory));
   userMain = new(mainMemory)Main(stack, stacker);
   
-  System::start((Main*)userMain);
+  System::start(*(Main*)userMain);
 }
 
 

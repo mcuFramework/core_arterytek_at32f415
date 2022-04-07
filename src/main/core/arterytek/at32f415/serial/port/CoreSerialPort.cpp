@@ -49,7 +49,7 @@ namespace core{
  * Using
  */  
 using namespace core::arterytek::at32f415::serial::port;
-using namespace mcuf::hal::serial::port;
+using namespace hal::serial;
 
 //-----------------------------------------------------------------------------------------
 using mcuf::function::Consumer;
@@ -98,7 +98,7 @@ CoreSerialPort::~CoreSerialPort(void){
  */
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::Base
+ * Public Method <Override> - hal::Base
  */
 
 /**
@@ -147,7 +147,7 @@ bool CoreSerialPort::isInit(void){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::serial::port::SerialPortConfig
+ * Public Method <Override> - hal::serial::SerialPortConfig
  */
 
 /**
@@ -168,7 +168,7 @@ uint32_t CoreSerialPort::baudrate(uint32_t rate){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::serial::port::SerialPortTransfer
+ * Public Method <Override> - hal::serial::SerialPortTransfer
  */
 
 /**
@@ -268,7 +268,7 @@ bool CoreSerialPort::read(ByteBuffer& byteBuffer, void* attachment, SerialPortEv
  * @return true 
  * @return false 
  */
-bool CoreSerialPort::skip(int value, void* attachment, mcuf::hal::serial::port::SerialPortEvent* event){
+bool CoreSerialPort::skip(int value, void* attachment, hal::serial::SerialPortEvent* event){
   if(this->readBusy())
     return false;
   
@@ -319,7 +319,7 @@ bool CoreSerialPort::write(ByteBuffer& byteBuffer, void* attachment, SerialPortE
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::InterruptEvent
+ * Public Method <Override> - hal::InterruptEvent
  */
 void CoreSerialPort::interruptEvent(void){
   usart_type* base = BASE;

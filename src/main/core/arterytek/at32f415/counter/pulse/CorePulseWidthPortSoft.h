@@ -38,7 +38,7 @@ namespace core{
  */  
 class core::arterytek::at32f415::counter::pulse::CorePulseWidthPortSoft extends
   core::arterytek::at32f415::counter::pulse::CorePulseWidthPort implements
-  public mcuf::hal::InterruptEvent{
+  public hal::InterruptEvent{
 
   /* **************************************************************************************
    * Variable <Public>
@@ -52,7 +52,7 @@ class core::arterytek::at32f415::counter::pulse::CorePulseWidthPortSoft extends
    * Variable <Private>
    */
   private:
-    mcuf::hal::general::pin::GeneralPin* mGeneralPin[4];
+    hal::general::GeneralPin* mGeneralPin[4];
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -124,7 +124,7 @@ class core::arterytek::at32f415::counter::pulse::CorePulseWidthPortSoft extends
     virtual bool disable(int pin) override;    
     
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::InterruptEvent
+   * Public Method <Override> - hal::InterruptEvent
    */
   public: 
 
@@ -142,7 +142,7 @@ class core::arterytek::at32f415::counter::pulse::CorePulseWidthPortSoft extends
     /**
      *
      */
-    virtual bool setPin(int pin, mcuf::hal::general::pin::GeneralPin* generalPin);
+    virtual bool setPin(int pin, hal::general::GeneralPin* generalPin);
 
   /* **************************************************************************************
    * Protected Method <Static>

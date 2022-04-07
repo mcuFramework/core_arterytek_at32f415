@@ -81,7 +81,7 @@ CoreGeneralPort::CoreGeneralPort(CoreGeneralPortReg reg){
  */
 
 /* ****************************************************************************************
- * Public Method <Override> mcuf::hal::Base
+ * Public Method <Override> hal::Base
  */
 
 /**
@@ -116,7 +116,7 @@ bool CoreGeneralPort::isInit(void){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> mcuf::hal::GeneralPort
+ * Public Method <Override> hal::GeneralPort
  */
 
 /**

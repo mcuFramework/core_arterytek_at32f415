@@ -63,7 +63,7 @@ CoreAnalogInputPort::~CoreAnalogInputPort(void){
  */
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::Base
+ * Public Method <Override> - hal::Base
  */
 
 /**
@@ -142,7 +142,7 @@ bool CoreAnalogInputPort::isInit(void){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::analog::input::AnalogInputPortControl
+ * Public Method <Override> - hal::analog::AnalogInputPortControl
  */
 
 /**

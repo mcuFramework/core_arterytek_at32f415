@@ -39,7 +39,7 @@ namespace core{
  * Class Object
  */  
 class core::arterytek::at32f415::general::pin::CoreGeneralPin  extends mcuf::lang::Object implements 
-  public mcuf::hal::general::pin::GeneralPin{
+  public hal::general::GeneralPin{
 
   /* **************************************************************************************
    * Subclass
@@ -115,12 +115,12 @@ class core::arterytek::at32f415::general::pin::CoreGeneralPin  extends mcuf::lan
     /**
      * 
      */
-    virtual mcuf::hal::general::pin::GeneralPinMode pinMode(void) override;
+    virtual hal::general::GeneralPinMode pinMode(void) override;
 
     /**
      * 
      */
-    virtual bool pinMode(mcuf::hal::general::pin::GeneralPinMode mode) override; 
+    virtual bool pinMode(hal::general::GeneralPinMode mode) override; 
 
     /**
      * Set io pin to high.

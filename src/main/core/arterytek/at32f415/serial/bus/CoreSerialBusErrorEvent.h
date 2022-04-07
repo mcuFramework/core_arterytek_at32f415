@@ -37,7 +37,7 @@ namespace core{
  * Class/Interface/Struct/Enum
  */  
 class core::arterytek::at32f415::serial::bus::CoreSerialBusErrorEvent extends mcuf::lang::Object implements
-  public mcuf::hal::InterruptEvent, 
+  public hal::InterruptEvent, 
   public mcuf::function::Runnable{
 
   /* **************************************************************************************
@@ -97,7 +97,7 @@ class core::arterytek::at32f415::serial::bus::CoreSerialBusErrorEvent extends mc
     virtual void run(void) override;
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::InterruptEvent
+   * Public Method <Override> - hal::InterruptEvent
    */
   public:
 

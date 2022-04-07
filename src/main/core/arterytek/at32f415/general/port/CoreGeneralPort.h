@@ -39,7 +39,7 @@ namespace core{
  * Class Object
  */  
 class core::arterytek::at32f415::general::port::CoreGeneralPort extends mcuf::lang::Object implements 
-  public mcuf::hal::general::port::GeneralPort{
+  public hal::general::GeneralPort{
 
   friend Core;
         
@@ -84,7 +84,7 @@ class core::arterytek::at32f415::general::port::CoreGeneralPort extends mcuf::la
    */
 
   /* **************************************************************************************
-   * Public Method <Override> mcuf::hal::Base
+   * Public Method <Override> hal::Base
    */
   public:
     

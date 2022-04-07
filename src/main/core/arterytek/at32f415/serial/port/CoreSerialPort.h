@@ -34,8 +34,8 @@ namespace core{
  * Class Object
  */  
 class core::arterytek::at32f415::serial::port::CoreSerialPort extends mcuf::io::RingBuffer implements 
-  public mcuf::hal::serial::port::SerialPort,
-  public mcuf::hal::InterruptEvent{
+  public hal::serial::SerialPort,
+  public hal::InterruptEvent{
        
   /* **************************************************************************************
    * Enum Register
@@ -93,7 +93,7 @@ class core::arterytek::at32f415::serial::port::CoreSerialPort extends mcuf::io::
    */
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::Base
+   * Public Method <Override> - hal::Base
    */
   public:
 
@@ -122,7 +122,7 @@ class core::arterytek::at32f415::serial::port::CoreSerialPort extends mcuf::io::
     virtual bool isInit(void) override;
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::serial::port::SerialPortConfig
+   * Public Method <Override> - hal::serial::SerialPortConfig
    */
   public:
     /**
@@ -141,7 +141,7 @@ class core::arterytek::at32f415::serial::port::CoreSerialPort extends mcuf::io::
     virtual uint32_t baudrate(uint32_t rate) override;
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::serial::port::SerialPortTransfer
+   * Public Method <Override> - hal::serial::SerialPortTransfer
    */
   public:
 
@@ -194,7 +194,7 @@ class core::arterytek::at32f415::serial::port::CoreSerialPort extends mcuf::io::
      */
     virtual bool read(mcuf::io::ByteBuffer& byteBuffer, 
                       void* attachment,
-                      mcuf::hal::serial::port::SerialPortEvent* event) override;
+                      hal::serial::SerialPortEvent* event) override;
 
     /**
      * @brief 
@@ -207,7 +207,7 @@ class core::arterytek::at32f415::serial::port::CoreSerialPort extends mcuf::io::
      */
     virtual bool skip(int value,
                       void* attachment, 
-                      mcuf::hal::serial::port::SerialPortEvent* event) override;
+                      hal::serial::SerialPortEvent* event) override;
 
     /**
      * @brief 
@@ -220,10 +220,10 @@ class core::arterytek::at32f415::serial::port::CoreSerialPort extends mcuf::io::
      */
     virtual bool write(mcuf::io::ByteBuffer& byteBuffer,
                        void* attachment,
-                       mcuf::hal::serial::port::SerialPortEvent* event) override;
+                       hal::serial::SerialPortEvent* event) override;
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::InterruptEvent
+   * Public Method <Override> - hal::InterruptEvent
    */
   public: 
 

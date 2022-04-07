@@ -37,7 +37,7 @@ namespace core{
  * Class/Interface/Struct/Enum
  */  
 class core::arterytek::at32f415::analog::input::CoreAnalogInputPin extends mcuf::lang::Object implements
-  public mcuf::hal::analog::input::AnalogInputPin{
+  public hal::analog::AnalogInputPin{
 
   /* **************************************************************************************
    * Variable <Public>
@@ -88,7 +88,7 @@ class core::arterytek::at32f415::analog::input::CoreAnalogInputPin extends mcuf:
    */
 
   /* **************************************************************************************
-   * Public Method <Override> mcuf::hal::analog::input::AnalogInputPin
+   * Public Method <Override> hal::analog::AnalogInputPin
    */
   public:
     /**

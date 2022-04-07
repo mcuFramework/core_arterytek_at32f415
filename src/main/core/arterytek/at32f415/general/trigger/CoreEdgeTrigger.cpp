@@ -54,7 +54,7 @@ namespace core{
  * Using
  */  
 using namespace core::arterytek::at32f415::general::trigger;
-using namespace mcuf::hal::general::trigger;
+using namespace hal::general;
 
 //-----------------------------------------------------------------------------------------
 using core::arterytek::at32f415::Core;
@@ -100,7 +100,7 @@ CoreEdgeTrigger::~CoreEdgeTrigger(void){
  */
  
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::Base
+ * Public Method <Override> - hal::Base
  */
 
 /**
@@ -145,7 +145,7 @@ bool CoreEdgeTrigger::isInit(void){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::PinEdgeTrigger
+ * Public Method <Override> - hal::PinEdgeTrigger
  */
    
 /**
@@ -236,7 +236,7 @@ bool CoreEdgeTrigger::enableRise(EdgeTriggerEvent* event){
 }
   
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::InterruptEvent
+ * Public Method <Override> - hal::InterruptEvent
  */
   
 /**

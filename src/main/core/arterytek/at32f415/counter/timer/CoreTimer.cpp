@@ -57,8 +57,8 @@ using namespace core::arterytek::at32f415::counter::timer;
 using core::arterytek::at32f415::Core;
 using core::arterytek::at32f415::CoreInterrupt;
 using mcuf::function::Consumer;
-using mcuf::hal::counter::timer::TimerEvent;
-using mcuf::hal::counter::timer::TimerStatus;
+using hal::counter::TimerEvent;
+using hal::counter::TimerStatus;
 
 /* ****************************************************************************************
  * Macro
@@ -100,7 +100,7 @@ CoreTimer::~CoreTimer(void){
  */
  
 /* ****************************************************************************************
- * Public Method <Override> mcuf::hal::Base
+ * Public Method <Override> hal::Base
  */
 
 /**
@@ -137,7 +137,7 @@ bool CoreTimer::isInit(void){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> mcuf::hal::counter::timer::TimerControl
+ * Public Method <Override> hal::counter::TimerControl
  */
 
 /**
@@ -232,7 +232,7 @@ void CoreTimer::resetTick(uint32_t tick){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> mcuf::hal::InterruptEvent
+ * Public Method <Override> hal::InterruptEvent
  */
 
 /**

@@ -65,7 +65,7 @@ using core::arterytek::at32f415::counter::pulse::CorePulseWidthPort;
 using core::arterytek::at32f415::counter::pulse::CorePulseWidthReg;
 using core::arterytek::at32f415::Core;
 using core::arterytek::at32f415::CoreInterrupt;
-using mcuf::hal::general::pin::GeneralPin;
+using hal::general::GeneralPin;
 
 /* ****************************************************************************************
  * Variable <Static>
@@ -221,7 +221,7 @@ bool CorePulseWidthPortSoft::disable(int pin){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::InterruptEvent
+ * Public Method <Override> - hal::InterruptEvent
  */
 
 /**
@@ -284,7 +284,7 @@ void CorePulseWidthPortSoft::interruptEvent(void){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::InterruptEvent
+ * Public Method <Override> - hal::InterruptEvent
  */
 
 /* ****************************************************************************************

@@ -28,7 +28,7 @@ namespace core{
  * Class Object
  */  
 class core::arterytek::at32f415::CoreIomux extends mcuf::lang::Object
-      implements mcuf::hal::Base{
+      implements hal::Base{
   
   /* **************************************************************************************
    * Enum MapCAN  <MAP6[10] - [0-3]> 

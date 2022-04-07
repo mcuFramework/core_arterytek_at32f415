@@ -36,7 +36,7 @@ namespace core{
  * Class/Interface/Struct/Enum
  */  
 class core::arterytek::at32f415::analog::input::CoreAnalogInputPort extends mcuf::lang::Object implements
-  public mcuf::hal::analog::input::AnalogInputPort{
+  public hal::analog::AnalogInputPort{
 
   /* **************************************************************************************
    * Variable <Public>
@@ -86,7 +86,7 @@ class core::arterytek::at32f415::analog::input::CoreAnalogInputPort extends mcuf
    */
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::Base
+   * Public Method <Override> - hal::Base
    */
   public:
 
@@ -115,7 +115,7 @@ class core::arterytek::at32f415::analog::input::CoreAnalogInputPort extends mcuf
     virtual bool isInit(void) override;
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::analog::input::AnalogInputPortControl
+   * Public Method <Override> - hal::analog::AnalogInputPortControl
    */
   public:
 

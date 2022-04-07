@@ -31,7 +31,7 @@ using tool::BoardPeriph;
 using core::arterytek::at32f415::Core;
 using core::arterytek::at32f415::CoreIomux;
 using core::arterytek::at32f415::general::pin::CoreGeneralPin;
-using mcuf::hal::general::pin::GeneralPinMode;
+using hal::general::GeneralPinMode;
 
 /* ****************************************************************************************
  * Variable <Static>

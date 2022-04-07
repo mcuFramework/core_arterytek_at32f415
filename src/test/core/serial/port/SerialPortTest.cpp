@@ -31,7 +31,7 @@ const char cmd_exception[] = {0x62, 0x02, 0x60, 0x00};
 
 //-----------------------------------------------------------------------------------------
 using namespace tool;
-using namespace mcuf::hal::serial::port;
+using namespace hal::serial;
 
 //-----------------------------------------------------------------------------------------
 using core::serial::port::SerialPortTest;
@@ -128,7 +128,7 @@ void SerialPortTest::run(void){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::serial::port::SerialPortEvent
+ * Public Method <Override> - hal::serial::SerialPortEvent
  */
 
 /* ****************************************************************************************

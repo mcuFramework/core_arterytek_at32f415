@@ -37,7 +37,7 @@ namespace core{
  * Class/Interface/Struct/Enum
  */  
 class core::arterytek::at32f415::counter::pulse::CorePulseWidthPin extends mcuf::lang::Object implements
-  public mcuf::hal::counter::pulse::PulseWidthPin{
+  public hal::counter::PulseWidthPin{
 
   /* **************************************************************************************
    * Variable <Public>

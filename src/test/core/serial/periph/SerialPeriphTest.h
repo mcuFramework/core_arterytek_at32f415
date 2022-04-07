@@ -35,7 +35,7 @@ namespace core{
  */  
 class core::serial::periph::SerialPeriphTest extends mcuf::lang::Object implements
   public mcuf::function::Runnable,
-  public mcuf::hal::serial::periph::SerialPeriphEvent{
+  public hal::serial::SerialPeriphEvent{
 
   /* **************************************************************************************
    * Variable <Public>
@@ -102,7 +102,7 @@ class core::serial::periph::SerialPeriphTest extends mcuf::lang::Object implemen
     virtual void run(void) override;
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::serial::periph::SerialPeriphEvent
+   * Public Method <Override> - hal::serial::SerialPeriphEvent
    */  
   public:
   
@@ -113,7 +113,7 @@ class core::serial::periph::SerialPeriphTest extends mcuf::lang::Object implemen
      * @param transfer 
      * @param receiver 
      */
-    virtual void onSerialPeriphEvent(mcuf::hal::serial::periph::SerialPeriphStatus status, 
+    virtual void onSerialPeriphEvent(hal::serial::SerialPeriphStatus status, 
                                      mcuf::io::ByteBuffer* transfer,
                                      mcuf::io::ByteBuffer* receiver) override;  
   

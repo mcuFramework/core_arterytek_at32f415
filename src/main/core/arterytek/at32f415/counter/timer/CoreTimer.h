@@ -37,8 +37,8 @@ namespace core{
  * Class Object
  */  
 class core::arterytek::at32f415::counter::timer::CoreTimer extends mcuf::lang::Object implements 
-  public mcuf::hal::counter::timer::Timer ,
-  public mcuf::hal::InterruptEvent{
+  public hal::counter::Timer ,
+  public hal::InterruptEvent{
         
   /* **************************************************************************************
    * Variable <Public>
@@ -53,7 +53,7 @@ class core::arterytek::at32f415::counter::timer::CoreTimer extends mcuf::lang::O
    */
   private: 
     core::arterytek::at32f415::counter::timer::CoreTimerReg mRegister;
-    mcuf::hal::counter::timer::TimerEvent* mEvent;
+    hal::counter::TimerEvent* mEvent;
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -90,7 +90,7 @@ class core::arterytek::at32f415::counter::timer::CoreTimer extends mcuf::lang::O
    */
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::Base
+   * Public Method <Override> - hal::Base
    */
   public:
 
@@ -119,7 +119,7 @@ class core::arterytek::at32f415::counter::timer::CoreTimer extends mcuf::lang::O
     virtual bool isInit(void) override;
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::counter::timer::TimerControl
+   * Public Method <Override> - hal::counter::TimerControl
    */  
   public:
   
@@ -169,7 +169,7 @@ class core::arterytek::at32f415::counter::timer::CoreTimer extends mcuf::lang::O
      * @return true 
      * @return false 
      */
-    virtual bool startAtTick(uint32_t tick, mcuf::hal::counter::timer::TimerEvent* event) override;
+    virtual bool startAtTick(uint32_t tick, hal::counter::TimerEvent* event) override;
     
     /**
      * @brief 
@@ -188,7 +188,7 @@ class core::arterytek::at32f415::counter::timer::CoreTimer extends mcuf::lang::O
      * @return true 
      * @return false 
      */
-    virtual bool startAtTime(uint32_t microSecond, mcuf::hal::counter::timer::TimerEvent* event) override;
+    virtual bool startAtTime(uint32_t microSecond, hal::counter::TimerEvent* event) override;
     
     /**
      * @brief 
@@ -198,7 +198,7 @@ class core::arterytek::at32f415::counter::timer::CoreTimer extends mcuf::lang::O
     virtual void resetTick(uint32_t tick) override;
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::InterruptEvent
+   * Public Method <Override> - hal::InterruptEvent
    */
   public: 
 

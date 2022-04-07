@@ -37,8 +37,8 @@ namespace core{
  * Class Object
  */  
 class core::arterytek::at32f415::general::trigger::CoreEdgeTrigger extends mcuf::lang::Object implements 
-  public mcuf::hal::general::trigger::EdgeTrigger, 
-  public mcuf::hal::InterruptEvent{
+  public hal::general::EdgeTrigger, 
+  public hal::InterruptEvent{
 
   /* **************************************************************************************
    * Variable <Public>
@@ -56,8 +56,8 @@ class core::arterytek::at32f415::general::trigger::CoreEdgeTrigger extends mcuf:
     static uint16_t channelMode;
     static uint16_t channelLevel;
   
-    mcuf::hal::general::trigger::EdgeTriggerEvent* mRunnableRise;
-    mcuf::hal::general::trigger::EdgeTriggerEvent* mRunnableFall;
+    hal::general::EdgeTriggerEvent* mRunnableRise;
+    hal::general::EdgeTriggerEvent* mRunnableFall;
     core::arterytek::at32f415::general::trigger::CoreEdgeTriggerReg mRegister;
 
   /* **************************************************************************************
@@ -91,7 +91,7 @@ class core::arterytek::at32f415::general::trigger::CoreEdgeTrigger extends mcuf:
    */
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::Base
+   * Public Method <Override> - hal::Base
    */
 
   /**
@@ -112,7 +112,7 @@ class core::arterytek::at32f415::general::trigger::CoreEdgeTrigger extends mcuf:
   public: virtual bool isInit(void) override;
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::PinEdgeTrigger
+   * Public Method <Override> - hal::PinEdgeTrigger
    */
    
   /**
@@ -133,15 +133,15 @@ class core::arterytek::at32f415::general::trigger::CoreEdgeTrigger extends mcuf:
   /**
    * 
    */
-  public: virtual bool enableFall(mcuf::hal::general::trigger::EdgeTriggerEvent* event) override;
+  public: virtual bool enableFall(hal::general::EdgeTriggerEvent* event) override;
 
   /**
    * 
    */
-  public: virtual bool enableRise(mcuf::hal::general::trigger::EdgeTriggerEvent* event) override;
+  public: virtual bool enableRise(hal::general::EdgeTriggerEvent* event) override;
   
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::InterruptEvent
+   * Public Method <Override> - hal::InterruptEvent
    */
   
   /**
