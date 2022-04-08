@@ -60,7 +60,7 @@ using mcuf::io::ByteBuffer;
 /**
  *
  */
-PulseWidthTest::PulseWidthTest(Stacker& stacker) construct mStacker(stacker){
+PulseWidthTest::PulseWidthTest(Stacker& stacker) : mStacker(stacker){
   return;
 }
 

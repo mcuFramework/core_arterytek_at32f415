@@ -24,8 +24,8 @@
  * Macro
  */
 #define REGNUMB                  (static_cast<char>(this->mRegister))
-#define CONFIG                   (coreSerialPeriphConfig[REGNUMB])
-#define BASE                     ((spi_type*)CONFIG.Register)
+#define CONFIG                   (CoreSerialPeriph::mCoreSerialPeriphConfig[REGNUMB])
+#define BASE                     ((spi_type*)CONFIG.baseAddress)
 
 /* ****************************************************************************************
  * Using
@@ -39,55 +39,12 @@ using mcuf::io::ByteBuffer;
 using mcuf::lang::System;
 
 /* ****************************************************************************************
- * Namesapce
- */
-
-namespace arterytek{
-  namespace at32f415{
-    namespace serial{
-
-          
-      struct CoreSerialPeriphConfig{
-        spi_type* Register;
-        crm_periph_clock_type crmClock;
-        CoreInterrupt::Irq irq;
-            
-      }const coreSerialPeriphConfig[2] = {
-        {SPI1 , CRM_SPI1_PERIPH_CLOCK , CoreInterrupt::IRQ_SPI1 },
-        {SPI2 , CRM_SPI2_PERIPH_CLOCK , CoreInterrupt::IRQ_SPI2 },
-      };
-          
-      /**
-       * @brief 
-       * 
-       * @param byteBuffer 
-       * @return CoreSerialPeriphPacket 
-       */
-      static CoreSerialPeriphPacket handlePacket(ByteBuffer* byteBuffer){
-        CoreSerialPeriphPacket result;
-        result.byteBuffer = byteBuffer;
-        result.count = 0;
-            
-        if(byteBuffer == nullptr){
-          result.ptr = nullptr;
-          result.length = 0;
-        }else{
-          result.ptr = static_cast<uint8_t*>(byteBuffer->pointer(byteBuffer->position()));
-          result.length = byteBuffer->remaining();
-          if(result.length == 0)
-            result.ptr = nullptr;
-        }
-            
-        return result;
-      }
-          
-    }
-  }
-}
-
-/* ****************************************************************************************
  * Variable <Static>
  */
+const CoreSerialPeriphConfig CoreSerialPeriph::mCoreSerialPeriphConfig[2] = {
+  {SPI1 , CRM_SPI1_PERIPH_CLOCK , CoreInterrupt::IRQ_SPI1 },
+  {SPI2 , CRM_SPI2_PERIPH_CLOCK , CoreInterrupt::IRQ_SPI2 },
+};
 
 /* ****************************************************************************************
  * Construct Method
@@ -224,7 +181,7 @@ bool CoreSerialPeriph::deinit(void){
   
   this->abort();
   Core::interrupt.irqEnable(CONFIG.irq, false);
-  crm_periph_clock_enable(CONFIG.crmClock, FALSE);
+  crm_periph_clock_enable(static_cast<crm_periph_clock_type>(CONFIG.crmClock), FALSE);
   Core::interrupt.setHandler(CONFIG.irq, nullptr);
   return true;              
 }
@@ -239,7 +196,7 @@ bool CoreSerialPeriph::init(void){
   if(this->isInit())
     return false;
   
-  crm_periph_clock_enable(CONFIG.crmClock, TRUE);
+  crm_periph_clock_enable(static_cast<crm_periph_clock_type>(CONFIG.crmClock), TRUE);
   spi_init_type spi_init_struct;
 
   spi_default_para_init(&spi_init_struct);
@@ -458,6 +415,29 @@ void CoreSerialPeriph::execute(void){
     this->run();
 }
 
+/**
+ * @brief 
+ * 
+ * @param byteBuffer 
+ * @return CoreSerialPeriphPacket 
+ */
+CoreSerialPeriphPacket CoreSerialPeriph::handlePacket(ByteBuffer* byteBuffer){
+  CoreSerialPeriphPacket result;
+  result.byteBuffer = byteBuffer;
+  result.count = 0;
+      
+  if(byteBuffer == nullptr){
+    result.ptr = nullptr;
+    result.length = 0;
+  }else{
+    result.ptr = static_cast<uint8_t*>(byteBuffer->pointer(byteBuffer->position()));
+    result.length = byteBuffer->remaining();
+    if(result.length == 0)
+      result.ptr = nullptr;
+  }
+      
+  return result;
+}
 
 /* ****************************************************************************************
  * End of file

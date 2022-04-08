@@ -73,7 +73,7 @@ class arterytek::at32f415::Core extends mcuf::lang::Object{
   private: Core(void) = default;
 
   /**
-   * Disconstruct.
+   * Dis:.
    */
   public: virtual ~Core(void) = default;
 

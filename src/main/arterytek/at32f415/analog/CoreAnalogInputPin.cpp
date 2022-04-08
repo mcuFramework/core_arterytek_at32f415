@@ -40,7 +40,7 @@ using arterytek::at32f415::analog::CoreAnalogInputPort;
  * @brief Construct a new Core Analog Input Pin object
  * 
  */
-CoreAnalogInputPin::CoreAnalogInputPin(CoreAnalogInputPort& coreAnalogInputPort, uint16_t channel) construct 
+CoreAnalogInputPin::CoreAnalogInputPin(CoreAnalogInputPort& coreAnalogInputPort, uint16_t channel) : 
   mCoreAnalogInputPort(coreAnalogInputPort){
     
   this->mChannel = channel;

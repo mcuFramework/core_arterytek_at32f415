@@ -644,6 +644,11 @@
               <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPeriph.h</FilePath>
             </File>
             <File>
+              <FileName>CoreSerialPeriphConfig.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPeriphConfig.h</FilePath>
+            </File>
+            <File>
               <FileName>CoreSerialPeriphPacket.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPeriphPacket.h</FilePath>
@@ -662,6 +667,11 @@
               <FileName>CoreSerialPort.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPort.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialPortConfig.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPortConfig.h</FilePath>
             </File>
             <File>
               <FileName>CoreSerialPortPacket.cpp</FileName>
@@ -2461,6 +2471,11 @@
               <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPeriph.h</FilePath>
             </File>
             <File>
+              <FileName>CoreSerialPeriphConfig.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPeriphConfig.h</FilePath>
+            </File>
+            <File>
               <FileName>CoreSerialPeriphPacket.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPeriphPacket.h</FilePath>
@@ -2479,6 +2494,11 @@
               <FileName>CoreSerialPort.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPort.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialPortConfig.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPortConfig.h</FilePath>
             </File>
             <File>
               <FileName>CoreSerialPortPacket.cpp</FileName>

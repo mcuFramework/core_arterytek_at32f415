@@ -65,7 +65,7 @@ using hal::general::GeneralPinMode;
 /**
  * Construct.
  */
-Main::Main(Memory& memory, Memory& stacker) construct Thread(memory), mStacker(stacker){
+Main::Main(Memory& memory, Memory& stacker) : Thread(memory), mStacker(stacker){
 }
 
 /**

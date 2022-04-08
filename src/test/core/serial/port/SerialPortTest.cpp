@@ -64,7 +64,7 @@ using mcuf::io::Future;
 /**
  *
  */
-SerialPortTest::SerialPortTest(Stacker& stacker) construct mStacker(stacker){
+SerialPortTest::SerialPortTest(Stacker& stacker) : mStacker(stacker){
   return;
 }
 
@@ -103,7 +103,7 @@ void SerialPortTest::run(void){
     buffer.put("Enter 8 char: ");
     buffer.flip();
     this->mSerialPortOutputStream->write(buffer, future);
-    future.get();
+    future.waitDone();
     future.clear();
     
     buffer.clear();
@@ -112,7 +112,7 @@ void SerialPortTest::run(void){
     buffer.position(buffer.limit());
     buffer.limit(buffer.limit()+8);
     this->mSerialPortInputStream->read(buffer, future);
-    future.get();
+    future.waitDone();
     future.clear();
     
     
@@ -121,7 +121,7 @@ void SerialPortTest::run(void){
     buffer.putByte('\n');
     buffer.flip();
     this->mSerialPortOutputStream->write(buffer, future);
-    future.get();
+    future.waitDone();
     future.clear();
     
   }

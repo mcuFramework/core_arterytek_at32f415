@@ -152,7 +152,7 @@ class arterytek::at32f415::CoreInterrupt extends mcuf::lang::Object
   public: CoreInterrupt(void);
 
   /**
-   * Disconstruct.
+   * Dis:.
    */
   public: virtual ~CoreInterrupt(void) = default;
 

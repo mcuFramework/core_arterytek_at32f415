@@ -15,6 +15,7 @@
 #include "mcuf.h"
 
 //-----------------------------------------------------------------------------------------
+#include "arterytek/at32f415/serial/CoreSerialPeriphConfig.h"
 #include "arterytek/at32f415/serial/CoreSerialPeriphPacket.h"
 #include "arterytek/at32f415/serial/CoreSerialPeriphReg.h"
 
@@ -51,6 +52,8 @@ class arterytek::at32f415::serial::CoreSerialPeriph extends mcuf::lang::Object i
    * Variable <Private>
    */
   private:
+    static const arterytek::at32f415::serial::CoreSerialPeriphConfig mCoreSerialPeriphConfig[2];
+  
     hal::general::GeneralPin* mSelectChipSelect;
     hal::general::GeneralPin* mChipSelect[8];
     arterytek::at32f415::serial::CoreSerialPeriphReg mRegister;
@@ -208,7 +211,13 @@ class arterytek::at32f415::serial::CoreSerialPeriph extends mcuf::lang::Object i
   /* **************************************************************************************
    * Private Method <Static>
    */
-
+  private:
+    
+    /**
+     *
+     */
+  static CoreSerialPeriphPacket handlePacket(mcuf::io::ByteBuffer* byteBuffer);
+  
   /* **************************************************************************************
    * Private Method <Override>
    */

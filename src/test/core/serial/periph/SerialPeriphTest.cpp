@@ -52,7 +52,7 @@ using mcuf::util::Stacker;
 /**
  *
  */
-SerialPeriphTest::SerialPeriphTest(Stacker& stacker) construct
+SerialPeriphTest::SerialPeriphTest(Stacker& stacker) :
   mStacker(stacker){
 }
   

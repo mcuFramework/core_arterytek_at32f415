@@ -78,7 +78,7 @@ class arterytek::at32f415::general::CoreGeneralPin  extends mcuf::lang::Object i
                    uint32_t pin);
 
     /**
-     * Disconstruct.
+     * Dis:.
      */
     virtual ~CoreGeneralPin(void) = default;
 

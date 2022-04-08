@@ -52,7 +52,7 @@ using mcuf::lang::System;
  * 
  * @param base 
  */
-CoreSerialBusErrorEvent::CoreSerialBusErrorEvent(CoreSerialBus& base) construct 
+CoreSerialBusErrorEvent::CoreSerialBusErrorEvent(CoreSerialBus& base) : 
   mBase(base){
 }
 

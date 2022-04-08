@@ -23,25 +23,6 @@
  * Namespace
  */ 
 
-namespace arterytek{
-  namespace at32f415{
-    namespace serial{
-      struct CoreSerialPortConfig{
-        void* Register;
-        crm_periph_clock_type crmClock;
-        CoreInterrupt::Irq irq;
-        
-      }const coreSerialPortConfig[5] = {
-        {USART1 , CRM_USART1_PERIPH_CLOCK , CoreInterrupt::IRQ_USART1 },
-        {USART2 , CRM_USART2_PERIPH_CLOCK , CoreInterrupt::IRQ_USART2 },
-        {USART3 , CRM_USART3_PERIPH_CLOCK , CoreInterrupt::IRQ_USART3 },
-        {UART4  , CRM_UART4_PERIPH_CLOCK  , CoreInterrupt::IRQ_UART4  },
-        {UART5  , CRM_UART5_PERIPH_CLOCK  , CoreInterrupt::IRQ_UART5  },
-      };
-    }
-  }
-}
-
 /* ****************************************************************************************
  * Using
  */  
@@ -61,8 +42,19 @@ using mcuf::io::RingBuffer;
  * Macro
  */
 #define REGNUMB                  (static_cast<char>(this->mRegister))
-#define CONFIG                   (coreSerialPortConfig[REGNUMB])
-#define BASE                     ((usart_type*)CONFIG.Register)
+#define CONFIG                   (CoreSerialPort::mCoreSerialPortConfig[REGNUMB])
+#define BASE                     ((usart_type*)CONFIG.baseAddress)
+
+/* ****************************************************************************************
+ * Variable <Static>
+ */
+const CoreSerialPortConfig CoreSerialPort::mCoreSerialPortConfig[5] = {
+  {USART1 , CRM_USART1_PERIPH_CLOCK , CoreInterrupt::IRQ_USART1 },
+  {USART2 , CRM_USART2_PERIPH_CLOCK , CoreInterrupt::IRQ_USART2 },
+  {USART3 , CRM_USART3_PERIPH_CLOCK , CoreInterrupt::IRQ_USART3 },
+  {UART4  , CRM_UART4_PERIPH_CLOCK  , CoreInterrupt::IRQ_UART4  },
+  {UART5  , CRM_UART5_PERIPH_CLOCK  , CoreInterrupt::IRQ_UART5  },
+};
 
 /* ****************************************************************************************
  * Construct Method
@@ -71,7 +63,7 @@ using mcuf::io::RingBuffer;
 /**
  * 
  */
-CoreSerialPort::CoreSerialPort(CoreSerialPortReg reg, const Memory& memory) construct RingBuffer(memory){
+CoreSerialPort::CoreSerialPort(CoreSerialPortReg reg, const Memory& memory) : RingBuffer(memory){
   this->mRegister = reg;
   this->mPacketRead.clear();
   this->mPacketWrite.clear();
@@ -99,7 +91,10 @@ CoreSerialPort::~CoreSerialPort(void){
  */
 
 /**
- * uninitialze hardware.
+ * @brief 
+ * 
+ * @return true 
+ * @return false 
  */
 bool CoreSerialPort::deinit(void){
   if(!this->isInit())
@@ -107,7 +102,7 @@ bool CoreSerialPort::deinit(void){
   
   Core::interrupt.irqEnable(CONFIG.irq, false);
   usart_reset(BASE);
-  crm_periph_clock_enable(CONFIG.crmClock, FALSE);
+  crm_periph_clock_enable(static_cast<crm_periph_clock_type>(CONFIG.crmClock), FALSE);
   this->abortRead();
   this->abortWrite();
   Core::interrupt.setHandler(CONFIG.irq, nullptr);
@@ -115,13 +110,16 @@ bool CoreSerialPort::deinit(void){
 }
 
 /**
- * initialze hardware;
+ * @brief 
+ * 
+ * @return true 
+ * @return false 
  */
 bool CoreSerialPort::init(void){
   if(this->isInit())
     return false;
   
-  crm_periph_clock_enable(CONFIG.crmClock, TRUE);
+  crm_periph_clock_enable(static_cast<crm_periph_clock_type>(CONFIG.crmClock), TRUE);
   Core::interrupt.setHandler(CONFIG.irq, this);
   
   usart_init(BASE, 9600, USART_DATA_8BITS, USART_STOP_1_BIT);
@@ -135,9 +133,10 @@ bool CoreSerialPort::init(void){
 }
   
 /**
- * get hardware initialzed status.
+ * @brief 
  * 
- * @return false = not init, true = initd
+ * @return true 
+ * @return false 
  */
 bool CoreSerialPort::isInit(void){
   return CRM_REG(CONFIG.crmClock) & CRM_REG_BIT(CONFIG.crmClock);
@@ -148,14 +147,19 @@ bool CoreSerialPort::isInit(void){
  */
 
 /**
+ * @brief 
  * 
+ * @return uint32_t 
  */
 uint32_t CoreSerialPort::baudrate(void){
   return 0;
 }
 
 /**
+ * @brief 
  * 
+ * @param rate 
+ * @return uint32_t 
  */
 uint32_t CoreSerialPort::baudrate(uint32_t rate){
   usart_enable(BASE, FALSE);
@@ -169,18 +173,10 @@ uint32_t CoreSerialPort::baudrate(uint32_t rate){
  */
 
 /**
+ * @brief 
  * 
- */
-bool CoreSerialPort::abortRead(void){
-  if(!this->readBusy())
-    return false;
-  
-  this->mPacketRead.run();
-  return true;
-}
-
-/**
- * 
+ * @return true 
+ * @return false 
  */
 bool CoreSerialPort::abortWrite(void){
   if(!this->writeBusy())
@@ -192,7 +188,70 @@ bool CoreSerialPort::abortWrite(void){
 }
 
 /**
- *
+ * @brief 
+ * 
+ * @return true 
+ * @return false 
+ */
+bool CoreSerialPort::writeBusy(void){
+  return this->mPacketWrite.isExist();
+}
+
+/**
+ * @brief 
+ * 
+ * @param byteBuffer 
+ * @param attachment 
+ * @param event 
+ * @return true 
+ * @return false 
+ */
+bool CoreSerialPort::write(ByteBuffer& byteBuffer, void* attachment, SerialPortEvent* event){
+  
+  if(this->writeBusy())
+    return false;
+  
+  if(!this->mPacketWrite.init(byteBuffer, attachment, event))
+    return false;
+  
+  usart_interrupt_enable(BASE, USART_TDBE_INT, TRUE);
+  
+  return true;
+}
+
+/* ****************************************************************************************
+ * Public Method <Override> - hal::serial::SerialPortReceiver
+ */
+
+
+/**
+ * @brief 
+ * 
+ * @return uint32_t 
+ */
+uint32_t CoreSerialPort::avariable(void){
+  return this->getCount();
+}
+
+/**
+ * @brief 
+ * 
+ * @return true 
+ * @return false 
+ */
+bool CoreSerialPort::abortRead(void){
+  if(!this->readBusy())
+    return false;
+  
+  this->mPacketRead.run();
+  return true;
+}
+
+/**
+ * @brief 
+ * 
+ * @return true 
+ * @return false 
  */
 bool CoreSerialPort::clear(void){
   if(this->readBusy())
@@ -203,21 +262,51 @@ bool CoreSerialPort::clear(void){
 }
 
 /**
- *
+ * @brief 
+ * 
+ * @param result 
+ * @return true 
+ * @return false 
+ */
+bool CoreSerialPort::readByte(char& result){
+  if(this->readBusy())
+    return false;
+
+  return this->pop(&result);
+}
+
+/**
+ * @brief 
+ * 
+ * @param buffer 
+ * @param maxLength 
+ * @return uint32_t 
+ */
+uint32_t CoreSerialPort::read(void* buffer, uint32_t maxLength){
+  if(this->readBusy())
+    return 0;
+
+  return this->popMult(buffer, maxLength);
+}
+
+/**
+ * @brief 
+ * 
+ * @return true 
+ * @return false 
  */
 bool CoreSerialPort::readBusy(void){
   return this->mPacketRead.isExist();
 }
 
 /**
- *
- */
-bool CoreSerialPort::writeBusy(void){
-  return this->mPacketWrite.isExist();
-}
-
-/**
+ * @brief 
  * 
+ * @param byteBuffer 
+ * @param attachment 
+ * @param event 
+ * @return true 
+ * @return false 
  */
 bool CoreSerialPort::read(ByteBuffer& byteBuffer, void* attachment, SerialPortEvent* event){
   if(this->readBusy())
@@ -299,24 +388,13 @@ bool CoreSerialPort::skip(int value, void* attachment, hal::serial::SerialPortEv
   return true;
 }
 
-/**
- * 
- */
-bool CoreSerialPort::write(ByteBuffer& byteBuffer, void* attachment, SerialPortEvent* event){
-  
-  if(this->writeBusy())
-    return false;
-  
-  if(!this->mPacketWrite.init(byteBuffer, attachment, event))
-    return false;
-  
-  usart_interrupt_enable(BASE, USART_TDBE_INT, TRUE);
-  
-  return true;
-}
-
 /* ****************************************************************************************
  * Public Method <Override> - hal::InterruptEvent
+ */
+
+/**
+ * @brief 
+ * 
  */
 void CoreSerialPort::interruptEvent(void){
   usart_type* base = BASE;

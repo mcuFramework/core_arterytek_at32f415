@@ -58,7 +58,7 @@ const CoreSerialBusConfig CoreSerialBus::mConfig[2] = {
  * 
  * @param reg 
  */
-CoreSerialBus::CoreSerialBus(CoreSerialBusReg reg) construct 
+CoreSerialBus::CoreSerialBus(CoreSerialBusReg reg) : 
   mCoreSerialBusErrorEvent(*this){
   this->mRegister = reg;
   this->mByteBuffer = nullptr;

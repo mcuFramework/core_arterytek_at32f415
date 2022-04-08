@@ -44,7 +44,7 @@ using hal::general::GeneralPinMode;
 /**
  *
  */
-BoardPeriph::BoardPeriph(void) construct 
+BoardPeriph::BoardPeriph(void) : 
   led{CoreGeneralPin(&Core::gpiob, 0), 
       CoreGeneralPin(&Core::gpiob, 1),
       CoreGeneralPin(&Core::gpiob, 2),

@@ -81,7 +81,7 @@ using hal::general::GeneralPin;
  * 
  * @param reg 
  */
-CorePulseWidthPortSoft::CorePulseWidthPortSoft(CorePulseWidthReg reg) construct CorePulseWidthPort(reg){
+CorePulseWidthPortSoft::CorePulseWidthPortSoft(CorePulseWidthReg reg) : CorePulseWidthPort(reg){
 }
 
 /**

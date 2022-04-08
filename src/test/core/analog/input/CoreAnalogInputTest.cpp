@@ -54,7 +54,7 @@ using mcuf::io::ByteBuffer;
 /**
  *
  */
-CoreAnalogInputTest::CoreAnalogInputTest(Stacker& stacker) construct mStacker(stacker){
+CoreAnalogInputTest::CoreAnalogInputTest(Stacker& stacker) : mStacker(stacker){
   return;
 }
 
