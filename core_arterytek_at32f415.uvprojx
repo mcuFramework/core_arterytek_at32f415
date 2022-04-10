@@ -696,6 +696,26 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>main/arterytek/at32f415/storage</GroupName>
+          <Files>
+            <File>
+              <FileName>CoreFlashStorage.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\storage\CoreFlashStorage.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreFlashStorage.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\storage\CoreFlashStorage.h</FilePath>
+            </File>
+            <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\storage\package-info.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>resources</GroupName>
           <GroupOption>
             <CommonProperty>
@@ -1844,7 +1864,7 @@
         <TargetCommonOption>
           <Device>-AT32F415RBT7</Device>
           <Vendor>ArteryTek</Vendor>
-          <PackID>ArteryTek.AT32F415_DFP.2.0.2</PackID>
+          <PackID>ArteryTek.AT32F415_DFP.2.0.3</PackID>
           <Cpu>IRAM(0x20000000,0x8000) IROM(0x08000000,0x20000) CPUTYPE("Cortex-M4") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
@@ -2519,6 +2539,26 @@
               <FileName>package-info.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\main\arterytek\at32f415\serial\package-info.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>main/arterytek/at32f415/storage</GroupName>
+          <Files>
+            <File>
+              <FileName>CoreFlashStorage.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\storage\CoreFlashStorage.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreFlashStorage.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\storage\CoreFlashStorage.h</FilePath>
+            </File>
+            <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\storage\package-info.h</FilePath>
             </File>
           </Files>
         </Group>

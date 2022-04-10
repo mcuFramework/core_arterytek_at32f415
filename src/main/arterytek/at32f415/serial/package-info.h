@@ -4,8 +4,8 @@
  * 
  * SPDX-License-Identifier: MIT
  */
-#ifndef CORE_ARTERYTEK_AT32F415_257B3AC2_2D5E_4AF9_A755_01957F550DD1
-#define CORE_ARTERYTEK_AT32F415_257B3AC2_2D5E_4AF9_A755_01957F550DD1
+#ifndef CORE_ARTERYTEK_AT32F415_2E0AE2D5_692D_44C8_98A8_EFCD76FC713E
+#define CORE_ARTERYTEK_AT32F415_2E0AE2D5_692D_44C8_98A8_EFCD76FC713E
 
 /* ****************************************************************************************
  * Include folder
@@ -20,9 +20,11 @@
 #include "CoreSerialBusReg.h"
 #include "CoreSerialBusSlot.h"
 #include "CoreSerialPeriph.h"
+#include "CoreSerialPeriphConfig.h"
 #include "CoreSerialPeriphPacket.h"
 #include "CoreSerialPeriphReg.h"
 #include "CoreSerialPort.h"
+#include "CoreSerialPortConfig.h"
 #include "CoreSerialPortPacket.h"
 #include "CoreSerialPortReg.h"
 
@@ -30,4 +32,4 @@
  * End of file
  */
 
-#endif /* CORE_ARTERYTEK_AT32F415_257B3AC2_2D5E_4AF9_A755_01957F550DD1 */
+#endif /* CORE_ARTERYTEK_AT32F415_2E0AE2D5_692D_44C8_98A8_EFCD76FC713E */

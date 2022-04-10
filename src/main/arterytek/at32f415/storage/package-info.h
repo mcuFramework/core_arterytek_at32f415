@@ -4,8 +4,8 @@
  * 
  * SPDX-License-Identifier: MIT
  */
-#ifndef CORE_ARTERYTEK_AT32F415_E15E1871_83CC_4EE7_BF4F_196760DEF58E
-#define CORE_ARTERYTEK_AT32F415_E15E1871_83CC_4EE7_BF4F_196760DEF58E
+#ifndef CORE_ARTERYTEK_AT32F415_85F097BE_40A7_4741_8DBD_AD25D1B3381F
+#define CORE_ARTERYTEK_AT32F415_85F097BE_40A7_4741_8DBD_AD25D1B3381F
 
 /* ****************************************************************************************
  * Include folder
@@ -14,16 +14,10 @@
 /* ****************************************************************************************
  * Include
  */
-#include "CoreEdgeTrigger.h"
-#include "CoreEdgeTriggerReg.h"
-#include "CoreGeneralPin.h"
-#include "CoreGeneralPort.h"
-#include "CoreGeneralPortReg.h"
-#include "InputMode.h"
-#include "OutputMode.h"
+#include "CoreFlashStorage.h"
 
 /* ****************************************************************************************
  * End of file
  */
 
-#endif /* CORE_ARTERYTEK_AT32F415_E15E1871_83CC_4EE7_BF4F_196760DEF58E */
+#endif /* CORE_ARTERYTEK_AT32F415_85F097BE_40A7_4741_8DBD_AD25D1B3381F */
