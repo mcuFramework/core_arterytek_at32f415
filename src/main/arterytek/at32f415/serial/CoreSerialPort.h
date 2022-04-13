@@ -81,6 +81,14 @@ class arterytek::at32f415::serial::CoreSerialPort extends mcuf::io::RingBuffer i
      * @param memory 
      */
     CoreSerialPort(arterytek::at32f415::serial::CoreSerialPortReg reg, const mcuf::lang::Memory& memory);
+  
+    /**
+     * @brief Construct a new Core Usart object
+     * 
+     * @param reg 
+     * @param ringBufferSize 
+     */
+    CoreSerialPort(arterytek::at32f415::serial::CoreSerialPortReg reg, uint32_t ringBufferSize);  
 
     /**
      * @brief Destroy the Core Usart object

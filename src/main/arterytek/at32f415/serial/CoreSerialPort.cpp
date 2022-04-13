@@ -73,6 +73,16 @@ CoreSerialPort::CoreSerialPort(CoreSerialPortReg reg, const Memory& memory) : Ri
 /**
  * 
  */
+CoreSerialPort::CoreSerialPort(CoreSerialPortReg reg, uint32_t ringBufferSize) : RingBuffer(ringBufferSize){
+  this->mRegister = reg;
+  this->mPacketRead.clear();
+  this->mPacketWrite.clear();
+  return;
+}
+
+/**
+ * 
+ */
 CoreSerialPort::~CoreSerialPort(void){
   this->deinit();
   return;
