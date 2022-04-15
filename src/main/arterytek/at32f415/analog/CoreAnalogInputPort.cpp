@@ -105,7 +105,7 @@ bool CoreAnalogInputPort::init(void){
     adc_base_config(ADC1, &adc_base_struct);
     
     for(i=0; i<16; ++i){
-      adc_ordinary_channel_set(ADC1, (adc_channel_select_type)i, i+1, ADC_SAMPLETIME_239_5);
+      adc_ordinary_channel_set(ADC1, (adc_channel_select_type)i, static_cast<uint8_t>(i+1), ADC_SAMPLETIME_239_5);
     }
 
     adc_ordinary_conversion_trigger_set(ADC1, ADC12_ORDINARY_TRIG_SOFTWARE, TRUE);

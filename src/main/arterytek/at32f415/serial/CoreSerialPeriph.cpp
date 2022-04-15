@@ -23,7 +23,7 @@
 /* ****************************************************************************************
  * Macro
  */
-#define REGNUMB                  (static_cast<char>(this->mRegister))
+#define REGNUMB                  (static_cast<unsigned char>(this->mRegister))
 #define CONFIG                   (CoreSerialPeriph::mCoreSerialPeriphConfig[REGNUMB])
 #define BASE                     ((spi_type*)CONFIG.baseAddress)
 
@@ -99,10 +99,10 @@ void CoreSerialPeriph::run(void){
     this->mReceiver.count = this->mReceiver.length;
   
   if(transfer)
-    transfer->pointer(transfer->position() + this->mTransfer.count);
+    transfer->pointer(transfer->position() + static_cast<int>(this->mTransfer.count));
   
   if(receiver)
-    receiver->pointer(receiver->position() + this->mReceiver.count);
+    receiver->pointer(receiver->position() + static_cast<int>(this->mReceiver.count));
   
   this->mTransfer.byteBuffer = nullptr;
   this->mReceiver.byteBuffer = nullptr;
@@ -124,10 +124,10 @@ void CoreSerialPeriph::interruptEvent(void){
 
   if(base->sts_bit.rdbf){
     if(base->ctrl2_bit.rdbfie){
-      uint16_t receiver = base->dt;
+      uint32_t receiver = base->dt;
 
       if(this->mReceiver.ptr) // rxData is exist
-        this->mReceiver.ptr[this->mReceiver.count] = receiver;
+        this->mReceiver.ptr[this->mReceiver.count] = static_cast<uint8_t>(receiver);
 
       ++this->mReceiver.count;
 
@@ -431,7 +431,7 @@ CoreSerialPeriphPacket CoreSerialPeriph::handlePacket(ByteBuffer* byteBuffer){
     result.length = 0;
   }else{
     result.ptr = static_cast<uint8_t*>(byteBuffer->pointer(byteBuffer->position()));
-    result.length = byteBuffer->remaining();
+    result.length = static_cast<uint16_t>(byteBuffer->remaining());
     if(result.length == 0)
       result.ptr = nullptr;
   }

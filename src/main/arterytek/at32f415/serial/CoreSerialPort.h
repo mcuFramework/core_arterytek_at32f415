@@ -86,7 +86,7 @@ class arterytek::at32f415::serial::CoreSerialPort extends mcuf::io::RingBuffer i
      * @brief Destroy the Core Usart object
      * 
      */
-    ~CoreSerialPort(void);
+    virtual ~CoreSerialPort(void) override;
 
   /* **************************************************************************************
    * Operator Method

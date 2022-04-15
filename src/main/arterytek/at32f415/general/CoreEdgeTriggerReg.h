@@ -49,7 +49,7 @@ enum struct arterytek::at32f415::general::CoreEdgeTriggerReg : char{
   REG_EXINT12 = 12,
   REG_EXINT13 = 13,
   REG_EXINT14 = 14,
-  REG_EXINT15 = 15,
+  REG_EXINT15 = 15
 };
 
 #endif/* CORE_ARTERYTEK_AT32F415_A4D5781B_552C_4BC9_A5F5_ADF9BB2CE9A8 */

@@ -10,7 +10,7 @@
  */ 
 #include "CoreIomux.h"
 
-#include "bsp_arterytek_at32f415/at32f415.h"
+#include "bsp_arterytek_at32f415.h"
 
 /* ****************************************************************************************
  * Using
@@ -24,6 +24,22 @@ using arterytek::at32f415::CoreIomux;
 /* ****************************************************************************************
  * Construct Method
  */
+
+/**
+ * @brief Construct a new Core Iomux object
+ * 
+ */
+CoreIomux::CoreIomux(void){
+  return;
+}
+
+/**
+ * @brief Destroy the Core Iomux object
+ * 
+ */
+CoreIomux::~CoreIomux(void){
+  return;
+}
 
 /* ****************************************************************************************
  * Operator Method
@@ -86,9 +102,9 @@ void CoreIomux::remapEXTI(MapEXTI map, uint8_t pin){
     return;
   
   uint8_t array = (pin >> 2);  //pin/4
-  uint8_t shift = ((pin & 0x00000003) << 2);  //(pin%4)*4
+  uint8_t shift = static_cast<uint8_t>((pin & 0x00000003) << 2);  //(pin%4)*4
   volatile uint32_t* reg = &IOMUX->exintc1;
-  this->remap(&reg[array], (0x0000000F << shift), ((uint32_t)map << shift));
+  this->remap(&reg[array], static_cast<uint32_t>(0x0000000F << shift), ((uint32_t)map << shift));
   return;
 }
 

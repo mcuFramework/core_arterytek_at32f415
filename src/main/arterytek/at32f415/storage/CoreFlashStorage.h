@@ -71,7 +71,7 @@ class arterytek::at32f415::storage::CoreFlashStorage extends mcuf::lang::Object 
      * @brief Destroy the Core Flash Storage object
      * 
      */
-    virtual ~CoreFlashStorage(void);
+    virtual ~CoreFlashStorage(void) override;
 
   /* **************************************************************************************
    * Operator Method

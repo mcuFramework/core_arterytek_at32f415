@@ -21,7 +21,7 @@
 /* ****************************************************************************************
  * Macro
  */
-#define REGNUMB                  (static_cast<char>(this->mBase.mRegister))
+#define REGNUMB                  (static_cast<unsigned char>(this->mBase.mRegister))
 #define CONFIG                   (CoreSerialBus::mConfig[REGNUMB])
 #define BASE                     ((i2c_type*)CONFIG.mBase)
 
@@ -54,6 +54,13 @@ using mcuf::lang::System;
  */
 CoreSerialBusErrorEvent::CoreSerialBusErrorEvent(CoreSerialBus& base) : 
   mBase(base){
+}
+  
+/**
+ *
+ */
+CoreSerialBusErrorEvent::~CoreSerialBusErrorEvent(void){
+  return;
 }
 
 /* ****************************************************************************************

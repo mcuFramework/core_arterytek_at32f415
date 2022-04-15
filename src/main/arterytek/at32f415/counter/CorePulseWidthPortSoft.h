@@ -71,7 +71,7 @@ class arterytek::at32f415::counter::CorePulseWidthPortSoft extends
     /**
      *
      */
-	  virtual ~CorePulseWidthPortSoft(void);
+	  virtual ~CorePulseWidthPortSoft(void) override;
 
   /* **************************************************************************************
    * Operator Method

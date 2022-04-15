@@ -22,7 +22,7 @@
 /* ****************************************************************************************
  * Macro
  */
-#define REGNUMB                  (static_cast<char>(this->mRegister))
+#define REGNUMB                  (static_cast<unsigned char>(this->mRegister))
 #define CONFIG                   (CoreSerialBus::mConfig[REGNUMB])
 #define BASE                     ((i2c_type*)CONFIG.mBase)
 
@@ -124,7 +124,7 @@ void CoreSerialBus::interruptEvent(void){
             
           }else{
             base->ctrl1_bit.genstop = true;
-            base->ctrl2 &= ~(I2C_EVT_INT | I2C_DATA_INT | I2C_ERR_INT);
+            base->ctrl2 &= ~static_cast<uint32_t>(I2C_EVT_INT | I2C_DATA_INT | I2C_ERR_INT);
             if(!mcuf::lang::System::execute(*this))
               this->run();
             
@@ -152,7 +152,7 @@ void CoreSerialBus::interruptEvent(void){
         
         this->mStatus = SerialBusStatus::READ_SUCCESSFUL;
         base->ctrl1_bit.genstop = true;
-        base->ctrl2 &= ~(I2C_EVT_INT | I2C_DATA_INT | I2C_ERR_INT);
+        base->ctrl2 &= ~static_cast<uint32_t>(I2C_EVT_INT | I2C_DATA_INT | I2C_ERR_INT);
         if(!mcuf::lang::System::execute(*this))
           this->run();
         
@@ -395,7 +395,7 @@ bool CoreSerialBus::handlerConfig(uint16_t address, ByteBuffer* transfer, ByteBu
   }
   
   this->mEvent = event;
-  this->mAddress = (address << 1);
+  this->mAddress = static_cast<uint16_t>(address << 1);
 
   if(this->handlerFormat(*this->mByteBuffer)){
     if(this->begin())
@@ -423,7 +423,7 @@ bool CoreSerialBus::handlerFormat(ByteBuffer& byteBuffer){
   if(!byteBuffer.hasRemaining())
     return false;
   
-  this->mLength = byteBuffer.remaining();
+  this->mLength = static_cast<uint16_t>(byteBuffer.remaining());
   this->mCount = 0;
   this->mPointer = static_cast<uint8_t*>(byteBuffer.pointer(byteBuffer.position()));
   

@@ -71,7 +71,7 @@ class arterytek::at32f415::analog::CoreAnalogInputPort extends mcuf::lang::Objec
      * @brief Destroy the Core Analog Input Port object
      * 
      */
-    virtual ~CoreAnalogInputPort(void);
+    virtual ~CoreAnalogInputPort(void) override;
 
   /* **************************************************************************************
    * Operator Method

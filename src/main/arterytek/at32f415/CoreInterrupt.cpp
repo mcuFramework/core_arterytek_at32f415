@@ -9,8 +9,8 @@
  * Include
  */  
 #include "mcuf.h" 
+#include "bsp_arterytek_at32f415.h"
 
-#include "bsp_arterytek_at32f415/at32f415.h"
 #include "arterytek/at32f415/CoreInterrupt.h"
 
 /* ****************************************************************************************
@@ -22,7 +22,7 @@ namespace arterytek{
       IRQn irq[CoreInterrupt::IRQ_MAX_QUANTITY];
       
     }const coreInterruptConfig = {
-      .irq = {
+      {
        /*  IRQ_ADC1          = 0,  */   ADC1_IRQn,
        /*  IRQ_CMP1          = 1,  */   CMP1_IRQn,
        /*  IRQ_CMP2          = 2,  */   CMP2_IRQn,
@@ -126,6 +126,15 @@ CoreInterrupt::CoreInterrupt(void){
   for(int i=0; i<IRQ_MAX_QUANTITY; ++i){
     this->mHandle[i] = this;
   }
+  
+  return;
+}
+
+/**
+ *
+ */
+CoreInterrupt::~CoreInterrupt(void){
+  return;
 }
 
 /* ****************************************************************************************
@@ -146,6 +155,9 @@ void CoreInterrupt::interruptEvent(void){
 /* ****************************************************************************************
  * Public Method
  */
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wswitch-enum"
 
 /**
  *
@@ -175,7 +187,7 @@ void CoreInterrupt::setHandler(Irq irq, InterruptEvent* runnable){
  */
 void CoreInterrupt::irqEnable(Irq irq, bool enable){
   uint8_t* flag;
-  uint8_t shift;
+  uint8_t shift = 0;
   
   switch(irq){
     //-------------------------------------------------------------------------------------
@@ -232,7 +244,7 @@ void CoreInterrupt::irqEnable(Irq irq, bool enable){
     
     //-------------------------------------------------------------------------------------
     default:
-      flag = 0x00000000;
+      flag = nullptr;
       break;
   }
   
@@ -245,6 +257,8 @@ void CoreInterrupt::irqEnable(Irq irq, bool enable){
   
   return;
 }
+
+#pragma clang diagnostic pop
 
 /* ****************************************************************************************
  * Protected Method <Static>
@@ -261,7 +275,7 @@ void CoreInterrupt::irqEnable(Irq irq, bool enable){
 /* ****************************************************************************************
  * Private Method
  */
- 
+
 /* ****************************************************************************************
  * End of file
  */ 

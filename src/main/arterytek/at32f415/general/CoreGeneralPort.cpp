@@ -46,7 +46,7 @@ using namespace arterytek::at32f415::general;
 /* ****************************************************************************************
  * Macro
  */
-#define REGNUMB                     (static_cast<char>(this->mRegister))
+#define REGNUMB                     (static_cast<unsigned char>(this->mRegister))
 #define CONFIG                      (configCoreGeneralPort[REGNUMB])
 #define BASE                        ((gpio_type*)CONFIG.reg)
 #define GET_CTRL_DIR(source, shift) ((source & (0x00000003 << (shift << 2)))?1:0)
@@ -66,6 +66,13 @@ using namespace arterytek::at32f415::general;
  */
 CoreGeneralPort::CoreGeneralPort(CoreGeneralPortReg reg){
   this->mRegister = reg;
+}
+
+/**
+ *
+ */
+CoreGeneralPort::~CoreGeneralPort(void){
+  return;
 }
 
 /* ****************************************************************************************
@@ -126,8 +133,8 @@ uint32_t CoreGeneralPort::dir(uint32_t port){
   
   uint32_t result = 0x00000000;
   
-  for(uint32_t i=0; i<8; ++i){
-    uint32_t mask = (0x00000003 << (i << 2));
+  for(int i=0; i<8; ++i){
+    uint32_t mask = static_cast<uint32_t>(0x00000003 << (i << 2));
     
     if(base->cfglr & ~mask)
       result |= (1 << i);     
@@ -154,7 +161,7 @@ void CoreGeneralPort::dir(uint32_t port, uint32_t value){
   
   
   for(uint32_t i=0; i<8; ++i){
-    regMaskCONF = (0x00000003 << (i<<2));
+    regMaskCONF = static_cast<uint32_t>(0x00000003 << (i<<2));
     
     if(base->cfglr & regMaskCONF){  //hardware is output
       if(!GET_BIT(value, i))                          //value flag is low?
@@ -291,7 +298,7 @@ bool CoreGeneralPort::configInput(uint32_t pin, InputMode mode){
   
   gpio_type* base = BASE;
   
-  uint8_t shift = ((pin & 0x00000007) << 2);
+  uint8_t shift = static_cast<uint8_t>((pin & 0x00000007) << 2);
   volatile uint32_t* reg;
   uint32_t ctrl;
   
@@ -301,11 +308,11 @@ bool CoreGeneralPort::configInput(uint32_t pin, InputMode mode){
   else         // 8~15pin
     reg = &base->cfghr;
   
-  ctrl = ((*reg) & ~(0x0000000F << shift));
+  ctrl = ((*reg) & ~static_cast<uint32_t>(0x0000000F << shift));
   
   switch(mode){
     case InputMode::OPEN:
-      *reg = (ctrl | (0x00000004 << shift));
+      *reg = (ctrl | static_cast<uint32_t>(0x00000004 << shift));
       base->clr |= (1 << pin);
       return true;
       
@@ -315,17 +322,15 @@ bool CoreGeneralPort::configInput(uint32_t pin, InputMode mode){
       return true;
     
     case InputMode::PULLDOWN:
-      *reg = (ctrl | (0x00000008 << shift));
+      *reg = (ctrl | static_cast<uint32_t>(0x00000008 << shift));
       base->clr |= (1 << pin);
       return true;
       
     case InputMode::PULLUP:
-      *reg = (ctrl | (0x00000008 << shift));
+      *reg = (ctrl | static_cast<uint32_t>(0x00000008 << shift));
       base->scr |= (1 << pin);
       return true;
     
-    default:
-      return false;
   }
   
   return false;
@@ -340,7 +345,7 @@ bool CoreGeneralPort::configOutput(uint32_t pin, OutputMode mode, bool opendrain
   
   gpio_type* base = BASE;
   
-  uint8_t shift = ((pin & 0x00000007) << 2);
+  uint8_t shift = static_cast<uint8_t>((pin & 0x00000007) << 2);
   volatile uint32_t* reg;
   uint32_t ctrl;
   
@@ -350,30 +355,28 @@ bool CoreGeneralPort::configOutput(uint32_t pin, OutputMode mode, bool opendrain
   else        // 8~15pin
     reg = &base->cfghr;
   
-  ctrl = ((*reg) & ~(0x0000000F << shift));
+  ctrl = ((*reg) & ~static_cast<uint32_t>(0x0000000F << shift));
   
   if(opendrain)
-    ctrl |= (0x00000004 << shift);
+    ctrl |= static_cast<uint32_t>(0x00000004 << shift);
   
   if(function)
-    ctrl |= (0x00000008 << shift);
+    ctrl |= static_cast<uint32_t>(0x00000008 << shift);
   
   
   switch(mode){
     case OutputMode::SPEED_2M:
-      *reg = (ctrl | (0x00000002 << shift));
+      *reg = (ctrl | static_cast<uint32_t>(0x00000002 << shift));
       break;
     
     case OutputMode::SPEED_10M:
-      *reg = (ctrl | (0x00000001 << shift));
+      *reg = (ctrl | static_cast<uint32_t>(0x00000001 << shift));
       break;
     
     case OutputMode::SPEED_50M:
-      *reg = (ctrl | (0x00000003 << shift));
+      *reg = (ctrl | static_cast<uint32_t>(0x00000003 << shift));
       break;
     
-    default:
-      return false;
   }
   
   base->scr |= (1<<pin);

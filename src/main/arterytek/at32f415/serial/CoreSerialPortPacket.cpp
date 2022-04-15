@@ -36,6 +36,19 @@ using hal::serial::SerialPortStatus;
 /* ****************************************************************************************
  * Construct Method
  */
+/**
+ * Construct.
+ */
+CoreSerialPortPacket::CoreSerialPortPacket(void){
+  return;
+}
+
+/**
+ * Destruct.
+ */
+CoreSerialPortPacket::~CoreSerialPortPacket(void){
+  return;
+}
 
 /* ****************************************************************************************
  * Operator Method
@@ -90,7 +103,7 @@ bool CoreSerialPortPacket::init(ByteBuffer& byteBuffer, void* attachment, Serial
   
   this->mByteBuffer = &byteBuffer;
   this->mEvent = event;
-  this->mLength = byteBuffer.remaining();
+  this->mLength = static_cast<uint16_t>(byteBuffer.remaining());
   this->mCount = 0;
   this->mPointer = static_cast<uint8_t*>(byteBuffer.pointer(byteBuffer.position()));
   this->mAttachment = attachment;
@@ -107,7 +120,7 @@ bool CoreSerialPortPacket::init(void* pointer, int length, void* attachment, Ser
   
   this->mByteBuffer = nullptr;
   this->mEvent = event;
-  this->mLength = length;
+  this->mLength = static_cast<uint16_t>(length);
   this->mCount = 0;
   this->mPointer = static_cast<uint8_t*>(pointer);
   this->mAttachment = attachment;

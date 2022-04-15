@@ -75,7 +75,7 @@ class arterytek::at32f415::analog::CoreAnalogInputPin extends mcuf::lang::Object
      * @brief Destroy the Core Analog Input Pin object
      * 
      */
-    virtual ~CoreAnalogInputPin(void);
+    virtual ~CoreAnalogInputPin(void) override;
 
   /* **************************************************************************************
    * Operator Method

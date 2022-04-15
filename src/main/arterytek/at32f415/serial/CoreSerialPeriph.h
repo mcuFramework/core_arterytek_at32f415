@@ -87,7 +87,7 @@ class arterytek::at32f415::serial::CoreSerialPeriph extends mcuf::lang::Object i
      * @brief Destroy the Core Serial Periph object
      * 
      */
-    virtual ~CoreSerialPeriph(void);
+    virtual ~CoreSerialPeriph(void) override;
 
   /* **************************************************************************************
    * Operator Method

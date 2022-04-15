@@ -18,7 +18,6 @@
 #include "CoreSerialBusConfig.h"
 #include "CoreSerialBusErrorEvent.h"
 #include "CoreSerialBusReg.h"
-#include "CoreSerialBusSlot.h"
 #include "CoreSerialPeriph.h"
 #include "CoreSerialPeriphConfig.h"
 #include "CoreSerialPeriphPacket.h"

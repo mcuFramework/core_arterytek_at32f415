@@ -39,7 +39,7 @@ enum struct arterytek::at32f415::counter::CorePulseWidthReg : char{
   REG_TMR5  = 4,
   REG_TMR9  = 5,
   REG_TMR10 = 6,
-  REG_TMR11 = 7,
+  REG_TMR11 = 7
 };
 
 /* *****************************************************************************************

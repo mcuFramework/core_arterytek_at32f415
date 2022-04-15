@@ -19,7 +19,7 @@
 /* ****************************************************************************************
  * Macro
  */
-#define REGNUMB                  (static_cast<char>(this->mRegister))
+#define REGNUMB                  (static_cast<unsigned char>(this->mRegister))
 #define CONFIG                   (corePulseWidthPortSoftConfig[REGNUMB])
 #define BASE                     ((tmr_type*)CONFIG.Register)
 

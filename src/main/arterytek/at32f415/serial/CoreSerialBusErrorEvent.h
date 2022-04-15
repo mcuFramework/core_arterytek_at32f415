@@ -74,7 +74,7 @@ class arterytek::at32f415::serial::CoreSerialBusErrorEvent extends mcuf::lang::O
      * @brief Destroy the Core Serial Bus Error Event object
      * 
      */
-    virtual ~CoreSerialBusErrorEvent(void) = default;
+    virtual ~CoreSerialBusErrorEvent(void) override;
 
   /* **************************************************************************************
    * Operator Method

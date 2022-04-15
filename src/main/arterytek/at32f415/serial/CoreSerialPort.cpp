@@ -41,7 +41,7 @@ using mcuf::io::RingBuffer;
 /* ****************************************************************************************
  * Macro
  */
-#define REGNUMB                  (static_cast<char>(this->mRegister))
+#define REGNUMB                  (static_cast<unsigned char>(this->mRegister))
 #define CONFIG                   (CoreSerialPort::mCoreSerialPortConfig[REGNUMB])
 #define BASE                     ((usart_type*)CONFIG.baseAddress)
 
@@ -230,7 +230,7 @@ bool CoreSerialPort::write(ByteBuffer& byteBuffer, void* attachment, SerialPortE
  * @return uint32_t 
  */
 uint32_t CoreSerialPort::avariable(void){
-  return this->getCount();
+  return static_cast<uint32_t>(this->getCount());
 }
 
 /**
@@ -286,7 +286,7 @@ uint32_t CoreSerialPort::read(void* buffer, uint32_t maxLength){
   if(this->readBusy())
     return 0;
 
-  return this->popMult(buffer, maxLength);
+  return static_cast<uint32_t>(this->popMult(buffer, static_cast<int>(maxLength)));
 }
 
 /**
@@ -313,7 +313,7 @@ bool CoreSerialPort::read(ByteBuffer& byteBuffer, void* attachment, SerialPortEv
     return false;
   
   if(this->getCount() >= byteBuffer.remaining()){
-    uint32_t count = byteBuffer.remaining();
+    int count = byteBuffer.remaining();
     uint8_t* pointer = static_cast<uint8_t*>(byteBuffer.pointer(byteBuffer.position()));
     this->popMult(pointer, count);
     byteBuffer.position(byteBuffer.position() + count);
@@ -332,7 +332,7 @@ bool CoreSerialPort::read(ByteBuffer& byteBuffer, void* attachment, SerialPortEv
     uint8_t* pointer = static_cast<uint8_t*>(byteBuffer.pointer(byteBuffer.position()));
     
     usart_interrupt_enable(BASE, USART_RDBF_INT, FALSE);  //memory protected
-    uint32_t count = this->getCount();
+    int count = this->getCount();
     
     byteBuffer.position(byteBuffer.position() + count);
     this->mPacketRead.init(byteBuffer, attachment, event);
@@ -377,7 +377,7 @@ bool CoreSerialPort::skip(int value, void* attachment, hal::serial::SerialPortEv
   }else{
 
     usart_interrupt_enable(BASE, USART_RDBF_INT, FALSE);  //memory protected
-    uint32_t count = this->getCount();
+    int count = this->getCount();
     this->mPacketRead.init(nullptr, (value - count), attachment, event);
     usart_interrupt_enable(BASE, USART_RDBF_INT, TRUE);  //memory protected
     
@@ -400,13 +400,13 @@ void CoreSerialPort::interruptEvent(void){
   usart_type* base = BASE;
   
   if(usart_flag_get(base, USART_RDBF_FLAG) != RESET){
-    uint8_t readCache = usart_data_receive(base);
+    uint16_t readCache = usart_data_receive(base);
     
     if(this->mPacketRead.mLength > this->mPacketRead.mCount){  //receiver pointer is not null
       /* Read one byte from the receive data register */
       
       if(this->mPacketRead.mPointer)
-        this->mPacketRead.mPointer[this->mPacketRead.mCount] = readCache;  
+        this->mPacketRead.mPointer[this->mPacketRead.mCount] = static_cast<uint8_t>(readCache);  
         
       ++this->mPacketRead.mCount;
 

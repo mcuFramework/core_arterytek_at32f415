@@ -322,7 +322,7 @@
             <PlainCh>0</PlainCh>
             <Ropi>0</Ropi>
             <Rwpi>0</Rwpi>
-            <wLevel>3</wLevel>
+            <wLevel>2</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
             <uC99>1</uC99>
@@ -336,7 +336,7 @@
             <v6WtE>0</v6WtE>
             <v6Rtti>0</v6Rtti>
             <VariousControls>
-              <MiscControls></MiscControls>
+              <MiscControls>-fexceptions</MiscControls>
               <Define>AT32F415RBT7</Define>
               <Undefine></Undefine>
               <IncludePath>.\src\main;.\src\test;.\src\resources;.\ref\mcuf\src\main;.\ref\bsp_arterytek_at32f415\src\main</IncludePath>
@@ -473,16 +473,6 @@
         <Group>
           <GroupName>main/arterytek/at32f415/counter</GroupName>
           <Files>
-            <File>
-              <FileName>CorePulseWidthPin.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\arterytek\at32f415\counter\CorePulseWidthPin.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CorePulseWidthPin.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\arterytek\at32f415\counter\CorePulseWidthPin.h</FilePath>
-            </File>
             <File>
               <FileName>CorePulseWidthPort.cpp</FileName>
               <FileType>8</FileType>
@@ -622,16 +612,6 @@
               <FileName>CoreSerialBusReg.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusReg.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialBusSlot.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusSlot.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialBusSlot.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusSlot.h</FilePath>
             </File>
             <File>
               <FileName>CoreSerialPeriph.cpp</FileName>
@@ -1864,7 +1844,7 @@
         <TargetCommonOption>
           <Device>-AT32F415RBT7</Device>
           <Vendor>ArteryTek</Vendor>
-          <PackID>ArteryTek.AT32F415_DFP.2.0.3</PackID>
+          <PackID>ArteryTek.AT32F415_DFP.2.0.2</PackID>
           <Cpu>IRAM(0x20000000,0x8000) IROM(0x08000000,0x20000) CPUTYPE("Cortex-M4") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
@@ -2321,16 +2301,6 @@
           <GroupName>main/arterytek/at32f415/counter</GroupName>
           <Files>
             <File>
-              <FileName>CorePulseWidthPin.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\arterytek\at32f415\counter\CorePulseWidthPin.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CorePulseWidthPin.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\arterytek\at32f415\counter\CorePulseWidthPin.h</FilePath>
-            </File>
-            <File>
               <FileName>CorePulseWidthPort.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\main\arterytek\at32f415\counter\CorePulseWidthPort.cpp</FilePath>
@@ -2469,16 +2439,6 @@
               <FileName>CoreSerialBusReg.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusReg.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialBusSlot.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusSlot.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialBusSlot.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusSlot.h</FilePath>
             </File>
             <File>
               <FileName>CoreSerialPeriph.cpp</FileName>

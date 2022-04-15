@@ -98,7 +98,7 @@ class arterytek::at32f415::CoreInterrupt extends mcuf::lang::Object
     IRQ_USART3        = 60, 
     IRQ_UART4         = 61, 
     IRQ_UART5         = 62, 
-    IRQ_MAX_QUANTITY,
+    IRQ_MAX_QUANTITY
   };
         
   /* **************************************************************************************
@@ -111,7 +111,7 @@ class arterytek::at32f415::CoreInterrupt extends mcuf::lang::Object
     FLAG_EXINT9_5,
     FLAG_EXINT15_10,
     FLAG_DMA2_Channel4_5,
-    FLAG_DMA2_Channel6_7,
+    FLAG_DMA2_Channel6_7
   };
   
   /* **************************************************************************************
@@ -145,16 +145,16 @@ class arterytek::at32f415::CoreInterrupt extends mcuf::lang::Object
   /* **************************************************************************************
    * Construct Method
    */
+  public: 
+    /**
+     * Construct.
+     */
+    CoreInterrupt(void);
 
-  /**
-   * Construct.
-   */
-  public: CoreInterrupt(void);
-
-  /**
-   * Dis:.
-   */
-  public: virtual ~CoreInterrupt(void) = default;
+    /**
+     *
+     */
+    virtual ~CoreInterrupt(void) override;
 
   /* **************************************************************************************
    * Operator Method

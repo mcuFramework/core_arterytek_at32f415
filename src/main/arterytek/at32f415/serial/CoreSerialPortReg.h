@@ -32,7 +32,7 @@ enum struct arterytek::at32f415::serial::CoreSerialPortReg : char{
   REG_USART2 = 1,
   REG_USART3 = 2,
   REG_UART4  = 3,
-  REG_UART5  = 4,
+  REG_UART5  = 4
 };
 
 /* *****************************************************************************************

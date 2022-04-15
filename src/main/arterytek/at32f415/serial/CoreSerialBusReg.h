@@ -34,7 +34,7 @@ namespace arterytek{
  */
 enum struct arterytek::at32f415::serial::CoreSerialBusReg : char{
   REG_IIC1 = 0,
-  REG_IIC2 = 1,
+  REG_IIC2 = 1
 };
 
 /* ****************************************************************************************

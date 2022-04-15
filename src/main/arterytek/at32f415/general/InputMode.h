@@ -26,7 +26,7 @@ enum struct arterytek::at32f415::general::InputMode : char{
   OPEN,
   ANALOG,
   PULLDOWN,
-  PULLUP,
+  PULLUP
 };
 
 /* *****************************************************************************************

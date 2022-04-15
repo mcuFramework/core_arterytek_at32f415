@@ -80,7 +80,7 @@ class arterytek::at32f415::general::CoreGeneralPin  extends mcuf::lang::Object i
     /**
      * Dis:.
      */
-    virtual ~CoreGeneralPin(void) = default;
+    virtual ~CoreGeneralPin(void) override;
 
   /* **************************************************************************************
    * Operator Method

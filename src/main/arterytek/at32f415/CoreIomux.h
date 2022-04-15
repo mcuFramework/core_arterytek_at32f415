@@ -60,7 +60,7 @@ class arterytek::at32f415::CoreIomux extends mcuf::lang::Object
       NOJNTRST    = 0x00010000,
       JTAGDISABLE = 0x00020000,
       ALLDISABLE  = 0x00040000,
-      MASK        = 0x00070000,
+      MASK        = 0x00070000
     };
   
   /* **************************************************************************************
@@ -84,7 +84,7 @@ class arterytek::at32f415::CoreIomux extends mcuf::lang::Object
       PB6_PB7_PB5 = 0x00000000,
       PB8_PB9_PB5 = 0x00000010,
       PF6_PF7_PB5 = 0x00000020,
-      MASK        = 0x000000F0, 
+      MASK        = 0x000000F0
     };
   
   /* **************************************************************************************
@@ -96,7 +96,7 @@ class arterytek::at32f415::CoreIomux extends mcuf::lang::Object
       PA08_PC09_PA09 = 0x00000100,
       PA08_PB04_PA09 = 0x00000200,
       PF06_PF07_PA09 = 0x00000300,
-      MASK           = 0x00000F00,
+      MASK           = 0x00000F00
     };
   
   /* **************************************************************************************
@@ -109,7 +109,7 @@ class arterytek::at32f415::CoreIomux extends mcuf::lang::Object
       PA04_PA05_PA06_PA07_NC___NC___NC___NC___PC04_PC05 = 0x00000500,
       PC00_PC01_PC02_PC03_PA04_PA05_PA06_PA07_PA02_PA03 = 0x00000600,
       PA04_PA05_PA06_PA07_NC___NC___NC___NC___PA02_PA03 = 0x00000700,
-      MASK                                              = 0x00000F00,
+      MASK                                              = 0x00000F00
     };
   
   /* **************************************************************************************
@@ -119,7 +119,7 @@ class arterytek::at32f415::CoreIomux extends mcuf::lang::Object
     enum struct MapSPI1 : uint32_t{         
       PA04_PA05_PA06_PA07_PB00 = 0x00000000,
       PA15_PB03_PB04_PB05_PB06 = 0x00010000,
-      MASK                     = 0x000F0000, 
+      MASK                     = 0x000F0000
     };
   
   /* **************************************************************************************
@@ -129,7 +129,7 @@ class arterytek::at32f415::CoreIomux extends mcuf::lang::Object
     enum struct MapSPI2 : uint32_t{
       PB12_PB13_PB14_PB15_PC06 = 0x00000000,
       PA15_PB03_PB04_PB05_PC07 = 0x00100000,
-      MASK                     = 0x00F00000, 
+      MASK                     = 0x00F00000
     };
   
   /* **************************************************************************************
@@ -139,7 +139,7 @@ class arterytek::at32f415::CoreIomux extends mcuf::lang::Object
     enum struct MapUSART1 : uint32_t{
       PA09_PA10 = 0x00000000,
       PB06_PB07 = 0x00010000,
-      MASK      = 0x000F0000,
+      MASK      = 0x000F0000
     };  
   
   /* **************************************************************************************
@@ -270,13 +270,13 @@ class arterytek::at32f415::CoreIomux extends mcuf::lang::Object
      * @brief Construct a new Core Iomux object
      * 
      */
-    CoreIomux(void) = default;
+    CoreIomux(void);
 
     /**
      * @brief Destroy the Core Iomux object
      * 
      */
-    virtual ~CoreIomux(void) = default;
+    virtual ~CoreIomux(void) override;
 
   /* **************************************************************************************
    * Operator Method

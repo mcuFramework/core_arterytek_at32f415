@@ -170,7 +170,7 @@ bool CoreFlashStorage::write(ByteBuffer& byteBuffer, void* attachment, FlashStor
   this->mBusy = true;  
   
   void* src = byteBuffer.pointer(byteBuffer.position());
-  uint32_t length = byteBuffer.remaining();
+  uint32_t length = static_cast<uint32_t>(byteBuffer.remaining());
   bool result = false;
   FlashStorageStatus status = FlashStorageStatus::WRITE_FAIL;
   
@@ -180,7 +180,7 @@ bool CoreFlashStorage::write(ByteBuffer& byteBuffer, void* attachment, FlashStor
   }else{
     result = this->flashWrite(this->mAddress, src, length);
     if(result){
-      byteBuffer += length;
+      byteBuffer += static_cast<int>(length);
       status = FlashStorageStatus::WRITE_SUCCESSFUL;
       this->mAddress += length;
     }
@@ -188,7 +188,7 @@ bool CoreFlashStorage::write(ByteBuffer& byteBuffer, void* attachment, FlashStor
   
   this->mBusy = false;
   if(event)
-    event->onFlashStorageEvent(status, length, attachment);
+    event->onFlashStorageEvent(status, static_cast<int>(length), attachment);
   
   return result;
 }
@@ -209,13 +209,13 @@ bool CoreFlashStorage::read(ByteBuffer& byteBuffer, void* attachment, FlashStora
   this->mBusy = true;  
   
   bool result = false;
-  uint32_t length = byteBuffer.remaining();
+  int length = byteBuffer.remaining();
   FlashStorageStatus status = FlashStorageStatus::READ_FAIL;
   
   if(!byteBuffer.isReadOnly()){
     uint32_t offset = this->getFlashBase() + this->mAddress;
     
-    if(mAddress + length <= this->flashSize()){
+    if(mAddress + static_cast<uint32_t>(length) <= this->flashSize()){
       byteBuffer.put(reinterpret_cast<void*>(offset), length);    
       byteBuffer += length;
       status = FlashStorageStatus::READ_SUCCESSFUL;
@@ -224,7 +224,7 @@ bool CoreFlashStorage::read(ByteBuffer& byteBuffer, void* attachment, FlashStora
   }
   
   if(result){
-    this->mAddress += length;
+    this->mAddress += static_cast<uint32_t>(length);
   }else{
     length = 0;
   }
@@ -269,12 +269,12 @@ bool CoreFlashStorage::flashWrite(uint32_t address, void* src, uint32_t length){
   }
   
   if(length & 0x00000001){
-    uint16_t cache = 0x00FF | (ptr[length-1] << 8);
+    uint16_t cache = static_cast<uint16_t>(0x00FF | (ptr[length-1] << 8));
     this->flashWriteNocheck(((address + length)  - 1), &cache, 1);
     --length;
   }
   
-  this->flashWriteNocheck(address, reinterpret_cast<uint16_t*>(ptr), (length>>1));
+  this->flashWriteNocheck(address, reinterpret_cast<uint16_t*>(ptr), static_cast<uint16_t>(length>>1));
   
   flash_lock();
   return true;

@@ -30,7 +30,7 @@ namespace arterytek{
 enum struct arterytek::at32f415::general::OutputMode : char{
   SPEED_2M,
   SPEED_10M,
-  SPEED_50M,
+  SPEED_50M
 };
 
 /* *****************************************************************************************

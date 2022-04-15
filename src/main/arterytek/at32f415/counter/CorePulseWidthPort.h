@@ -76,7 +76,7 @@ class arterytek::at32f415::counter::CorePulseWidthPort extends mcuf::lang::Objec
      * @brief Destroy the Core Pulse Width Port object
      * 
      */
-    virtual ~CorePulseWidthPort(void);
+    virtual ~CorePulseWidthPort(void) override;
 
   /* **************************************************************************************
    * Operator Method

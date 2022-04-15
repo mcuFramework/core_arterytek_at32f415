@@ -70,12 +70,12 @@ class arterytek::at32f415::serial::CoreSerialPortPacket extends mcuf::lang::Obje
     /**
      * Construct.
      */
-    CoreSerialPortPacket(void) = default;
+    CoreSerialPortPacket(void);
 
     /**
      * Destruct.
      */
-    virtual ~CoreSerialPortPacket(void) = default;
+    virtual ~CoreSerialPortPacket(void) override;
 
   /* **************************************************************************************
    * Operator Method

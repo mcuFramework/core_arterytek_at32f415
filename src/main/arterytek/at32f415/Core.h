@@ -66,16 +66,16 @@ class arterytek::at32f415::Core extends mcuf::lang::Object{
   /* **************************************************************************************
    * Construct Method
    */
+  private:
+    /**
+     * 
+     */
+    Core(void);
 
-  /**
-   * Construct.
-   */
-  private: Core(void) = default;
-
-  /**
-   * Dis:.
-   */
-  public: virtual ~Core(void) = default;
+    /**
+     * 
+     */
+    virtual ~Core(void) override;
 
   /* **************************************************************************************
    * Operator Method

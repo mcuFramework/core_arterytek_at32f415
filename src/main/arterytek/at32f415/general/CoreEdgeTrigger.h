@@ -80,7 +80,7 @@ class arterytek::at32f415::general::CoreEdgeTrigger extends mcuf::lang::Object i
      * @brief Destroy the Core Edge Trigger object
      * 
      */
-    ~CoreEdgeTrigger(void);
+    virtual ~CoreEdgeTrigger(void) override;
 
   /* **************************************************************************************
    * Operator Method

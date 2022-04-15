@@ -53,6 +53,20 @@ CoreGeneralPort Core::gpiof = CoreGeneralPort(CoreGeneralPortReg::REG_GPIOF);
  * Construct Method
  */
 
+/**
+ *
+ */
+Core::Core(void){
+  return;
+}
+
+/**
+ *
+ */
+Core::~Core(void){
+  return;
+}
+ 
 /* ****************************************************************************************
  * Operator Method
  */
@@ -95,7 +109,7 @@ bool Core::setSystemCoreClock(uint32_t mhz){
   while(crm_flag_get(CRM_HICK_STABLE_FLAG) != SET);
 
   /* config pll clock resource */
-  crm_pll_config2(CRM_PLL_SOURCE_HICK, mhz, 1, CRM_PLL_FR_2);
+  crm_pll_config2(CRM_PLL_SOURCE_HICK, static_cast<uint16_t>(mhz), 1, CRM_PLL_FR_2);
   //crm_pll_config(CRM_PLL_SOURCE_HICK, CRM_PLL_MULT_18);
 
   /* enable pll */

@@ -76,7 +76,7 @@ class arterytek::at32f415::counter::CoreTimer extends mcuf::lang::Object impleme
      * @brief Destroy the Core Timer object
      * 
      */
-    ~CoreTimer(void);
+    ~CoreTimer(void) override;
 
   /* **************************************************************************************
    * Operator Method

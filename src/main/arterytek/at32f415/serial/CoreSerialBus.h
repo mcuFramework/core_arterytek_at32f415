@@ -94,7 +94,7 @@ class arterytek::at32f415::serial::CoreSerialBus extends mcuf::lang::Object impl
      * @brief Destroy the Core Serial Bus object
      * 
      */
-    virtual ~CoreSerialBus(void);
+    virtual ~CoreSerialBus(void) override;
 
   /* **************************************************************************************
    * Operator Method

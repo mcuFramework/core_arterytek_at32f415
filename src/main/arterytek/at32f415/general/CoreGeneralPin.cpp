@@ -19,8 +19,9 @@
 /* ****************************************************************************************
  * Macro
  */  
-#define GET_CTRL_DIR(source, shift) ((source & (0x00000003 << (shift << 2)))?1:0)
-#define GET_BASE(x)                 ((gpio_type*)x)
+#define GET_CTRL_DIR(source, shift) ((static_cast<int>(source) & (0x00000003 << (shift << 2)))?true:false)
+#define BASE                        (GET_BASE(this->mBase))
+#define GET_BASE(x)                 (static_cast<gpio_type*>(x))
 
 /* ****************************************************************************************
  * Using
@@ -44,6 +45,13 @@ CoreGeneralPin::CoreGeneralPin(CoreGeneralPort* base, uint32_t pin){
   this->mPin = pin;
 }
 
+/**
+ *
+ */
+CoreGeneralPin::~CoreGeneralPin(void){
+  return;
+}
+
 
 /* ****************************************************************************************
  * Operator Method
@@ -64,9 +72,9 @@ CoreGeneralPin::CoreGeneralPin(CoreGeneralPort* base, uint32_t pin){
  */
 bool CoreGeneralPin::dir(void){
   if(this->mPin >= 8)
-    return GET_CTRL_DIR(GET_BASE(this->mBase)->cfglr, this->mPin);
+    return GET_CTRL_DIR(BASE->cfglr, this->mPin);
   else
-    return GET_CTRL_DIR(GET_BASE(this->mBase)->cfghr, (this->mPin-8));
+    return GET_CTRL_DIR(BASE->cfghr, (this->mPin-8));
 }
 
 /**   
@@ -93,7 +101,7 @@ GeneralPinMode CoreGeneralPin::pinMode(void){
  * 
  */
 bool CoreGeneralPin::pinMode(GeneralPinMode mode){
-  uint8_t shift = ((this->mPin & 0x00000007) << 2);
+  uint8_t shift = static_cast<uint8_t>((this->mPin & 0x00000007) << 2);
   volatile uint32_t *reg;
   
   if(this->mPin < 8)
@@ -102,7 +110,7 @@ bool CoreGeneralPin::pinMode(GeneralPinMode mode){
   else
     reg = &GET_BASE(this->mBase)->cfghr;
   
-  uint32_t ctrl = ((*reg) & ~(0x0000000F << shift)); 
+  uint32_t ctrl = ((*reg) & ~static_cast<uint32_t>(0x0000000F << shift)); 
 
   switch(mode){
     //-------------------------------------------------------------------------------------
@@ -114,7 +122,7 @@ bool CoreGeneralPin::pinMode(GeneralPinMode mode){
       if(!this->dir())
         return false;
       
-      *reg = (ctrl | (0x00000003 << shift));
+      *reg = (ctrl | static_cast<uint32_t>(0x00000003 << shift));
       return true;
     
     //-------------------------------------------------------------------------------------
@@ -122,7 +130,7 @@ bool CoreGeneralPin::pinMode(GeneralPinMode mode){
       if(this->dir())
         return false;
       
-      *reg = (ctrl | (0x00000008 << shift));
+      *reg = (ctrl | static_cast<uint32_t>(0x00000008 << shift));
       GET_BASE(this->mBase)->scr |= (1 << this->mPin);
       return true;
     
@@ -131,23 +139,19 @@ bool CoreGeneralPin::pinMode(GeneralPinMode mode){
       if(this->dir())
         return false;
       
-      *reg = (ctrl | (0x00000008 << shift));
+      *reg = (ctrl | static_cast<uint32_t>(0x00000008 << shift));
       GET_BASE(this->mBase)->clr |= (1 << this->mPin);
       return true;      
       
     //-------------------------------------------------------------------------------------
     case GeneralPinMode::OPEN_DRAIN:
       if(this->dir())
-        *reg = (ctrl | (0x00000007 << shift));
+        *reg = (ctrl | static_cast<uint32_t>(0x00000007 << shift));
       
       else
-        *reg = (ctrl | (0x00000004 << shift));
+        *reg = (ctrl | static_cast<uint32_t>(0x00000004 << shift));
  
       return true;
-      
-    //-------------------------------------------------------------------------------------
-    default:
-      return false;
   }
   
   return false;
@@ -165,7 +169,7 @@ void CoreGeneralPin::setHigh(void){
  * Set io direction to input.
  */
 void CoreGeneralPin::setInput(void){
-  uint8_t shift = ((this->mPin & 0x00000007) << 2);
+  uint8_t shift = static_cast<uint8_t>((this->mPin & 0x00000007) << 2);
   volatile uint32_t *reg;
   
   if(this->mPin < 8)
@@ -174,9 +178,9 @@ void CoreGeneralPin::setInput(void){
   else
     reg = &GET_BASE(this->mBase)->cfghr;
   
-  uint32_t ctrl = ((*reg) & ~(0x0000000F << shift));   
+  uint32_t ctrl = ((*reg) & ~static_cast<uint32_t>(0x0000000F << shift));   
   
-  *reg = (ctrl | (0x00000040) << shift);
+  *reg = (ctrl | static_cast<uint32_t>(0x00000040) << shift);
 }
 
 /**
@@ -190,7 +194,7 @@ void CoreGeneralPin::setLow(void){
  * Set io direction to output.
  */
 void CoreGeneralPin::setOutput(void){
-  uint8_t shift = ((this->mPin & 0x00000007) << 2);
+  uint8_t shift = static_cast<uint8_t>((this->mPin & 0x00000007) << 2);
   volatile uint32_t *reg;
   
   if(this->mPin < 8)
@@ -199,9 +203,9 @@ void CoreGeneralPin::setOutput(void){
   else
     reg = &GET_BASE(this->mBase)->cfghr;
   
-  uint32_t ctrl = ((*reg) & ~(0x0000000F << shift));   
+  uint32_t ctrl = ((*reg) & ~static_cast<uint32_t>(0x0000000F << shift));   
   
-  *reg = (ctrl | (0x00000003) << shift);
+  *reg = (ctrl | static_cast<uint32_t>(0x00000003) << shift);
 }
 
 /**

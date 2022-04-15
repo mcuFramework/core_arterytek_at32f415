@@ -65,11 +65,15 @@ class arterytek::at32f415::general::CoreGeneralPort extends mcuf::lang::Object i
    * Construct Method
    */
   private: 
+    /**
+     *
+     */
     CoreGeneralPort(arterytek::at32f415::general::CoreGeneralPortReg reg);
 
-  
-  public: 
-    virtual ~CoreGeneralPort(void) = default;
+    /**
+     *
+     */
+    virtual ~CoreGeneralPort(void) override;
 
   /* **************************************************************************************
    * Operator Method

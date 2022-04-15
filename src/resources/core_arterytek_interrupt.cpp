@@ -11,7 +11,7 @@
 #include "arterytek/at32f415/Core.h" 
 #include "arterytek/at32f415/CoreInterrupt.h" 
 
-#include "bsp_arterytek_at32f415/at32f415.h"
+#include "bsp_arterytek_at32f415.h"
 #include "bsp_arterytek_at32f415/core_cm4.h"
 #include "bsp_arterytek_at32f415/at32f415_exint.h"
 

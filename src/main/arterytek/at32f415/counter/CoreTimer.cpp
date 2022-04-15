@@ -59,9 +59,9 @@ using hal::counter::TimerStatus;
 /* ****************************************************************************************
  * Macro
  */
-#define REGNUMB                  (static_cast<char>(this->mRegister))
+#define REGNUMB                  (static_cast<unsigned char>(this->mRegister))
 #define CONFIG                   (coreTimerConfig[REGNUMB])
-#define BASE                     ((tmr_type*)CONFIG.Register)
+#define BASE                     (static_cast<tmr_type*>(CONFIG.Register))
 
 /* ****************************************************************************************
  * Extern

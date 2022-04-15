@@ -19,7 +19,7 @@
 /* ****************************************************************************************
  * Macro
  */
-#define REGNUMB                  (static_cast<char>(this->mRegister))
+#define REGNUMB                  (static_cast<unsigned char>(this->mRegister))
 #define CONFIG                   (corePulseWidthPortConfig[REGNUMB])
 #define BASE                     ((tmr_type*)CONFIG.Register)
 
@@ -142,11 +142,11 @@ bool CorePulseWidthPort::isInit(void){
  */
 bool CorePulseWidthPort::setFrequence(float hz){
   double tick = (Core::getSystemCoreClock() >> 1);
-  tick /= hz;
+  tick /= static_cast<double>(hz);
   if(tick > 0xFFFFFFFF)
     return false;
   
-  this->setDivider(tick);
+  this->setDivider(static_cast<uint32_t>(tick));
   
   return true;
 }
@@ -158,7 +158,7 @@ bool CorePulseWidthPort::setFrequence(float hz){
  */
 float CorePulseWidthPort::getFrequence(void){
   uint32_t tick = BASE->pr * BASE->div;
-  return ((float)Core::getSystemCoreClock() / tick);
+  return (static_cast<float>(Core::getSystemCoreClock()) / static_cast<float>(tick));
 }
 
 /**
@@ -167,7 +167,7 @@ float CorePulseWidthPort::getFrequence(void){
  * @return int 
  */
 int CorePulseWidthPort::getPeriod(void){
-  return (BASE->pr + 1);
+  return static_cast<int>(BASE->pr + 1);
 }
 
 /**
@@ -200,7 +200,7 @@ float CorePulseWidthPort::getDuty(int pin){
       return 0;
   }
   
-  return ((float)this->getPeriod() / value);
+  return (static_cast<float>(this->getPeriod()) / static_cast<float>(value));
 }
 
 /**
@@ -212,16 +212,16 @@ float CorePulseWidthPort::getDuty(int pin){
 int CorePulseWidthPort::getDutyTick(int pin){
   switch(pin){
     case 0:
-      return BASE->c1dt;
+      return static_cast<int>(BASE->c1dt);
     
     case 1:
-      return BASE->c2dt;
+      return static_cast<int>(BASE->c2dt);
     
     case 2:
-      return BASE->c3dt;
+      return static_cast<int>(BASE->c3dt);
     
     case 3:
-      return BASE->c4dt;
+      return static_cast<int>(BASE->c4dt);
     
     default:
       return 0;
@@ -238,7 +238,8 @@ int CorePulseWidthPort::getDutyTick(int pin){
  */
 bool CorePulseWidthPort::setDuty(int pin, float percent){
   if((pin >= 0) && (pin < 4)){
-    return this->setDutyTick(pin, this->getPeriod() * percent);
+    int duty = static_cast<int>(static_cast<float>(this->getPeriod()) * percent);
+    return this->setDutyTick(pin, duty);
   }
   
   return false;
@@ -280,7 +281,7 @@ bool CorePulseWidthPort::setDutyTick(int pin, int duty){
   
   }
   
-  tmr_channel_value_set(BASE, channel, duty);
+  tmr_channel_value_set(BASE, channel, static_cast<uint32_t>(duty));
   
   return false;
 }

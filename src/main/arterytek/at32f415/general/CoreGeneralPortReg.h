@@ -32,7 +32,7 @@ enum struct arterytek::at32f415::general::CoreGeneralPortReg : char{
   REG_GPIOB = 1,
   REG_GPIOC = 2,
   REG_GPIOD = 3,
-  REG_GPIOF = 4,
+  REG_GPIOF = 4
 };
 
 /* *****************************************************************************************
