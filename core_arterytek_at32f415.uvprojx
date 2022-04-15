@@ -2140,7 +2140,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>1</Optim>
+            <Optim>7</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -2149,7 +2149,7 @@
             <PlainCh>0</PlainCh>
             <Ropi>0</Ropi>
             <Rwpi>0</Rwpi>
-            <wLevel>3</wLevel>
+            <wLevel>1</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
             <uC99>1</uC99>
@@ -2163,7 +2163,7 @@
             <v6WtE>0</v6WtE>
             <v6Rtti>0</v6Rtti>
             <VariousControls>
-              <MiscControls></MiscControls>
+              <MiscControls>-fexceptions</MiscControls>
               <Define>AT32F415RBT7, DEBUG</Define>
               <Undefine></Undefine>
               <IncludePath>.\src\main;.\src\test;.\src\resources;.\ref\mcuf\src\main;.\ref\bsp_arterytek_at32f415\src\main</IncludePath>
