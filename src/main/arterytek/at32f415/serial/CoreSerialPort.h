@@ -223,13 +223,30 @@ class arterytek::at32f415::serial::CoreSerialPort extends mcuf::io::RingBuffer i
     virtual bool readBusy(void) override;
 
     /**
-     * @brief 
+     * @brief pop buffer byte non blocking.
      * 
      * @param result 
-     * @return true 
-     * @return false 
+     * @return true has data in buffer.
+     * @return false no data in buffer.
      */
-    virtual bool readByte(char& result) override;
+    virtual bool getByte(char& result) override;
+
+    /**
+     * @brief 
+     * 
+     * @param byteBuffer 
+     * @return int 
+     */
+    virtual int get(mcuf::io::ByteBuffer& byteBuffer) override;
+
+    /**
+     * @brief 
+     * 
+     * @param buffer 
+     * @param bufferSize 
+     * @return int 
+     */
+    virtual int get(void* buffer, int bufferSize) override;
 
     /**
      * @brief 
