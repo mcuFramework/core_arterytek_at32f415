@@ -125,8 +125,7 @@ void CoreSerialBus::interruptEvent(void){
           }else{
             base->ctrl1_bit.genstop = true;
             base->ctrl2 &= ~static_cast<uint32_t>(I2C_EVT_INT | I2C_DATA_INT | I2C_ERR_INT);
-            if(!mcuf::lang::System::execute(*this))
-              this->run();
+            mcuf::lang::System::execute(*this);
             
           }
         }
@@ -153,8 +152,7 @@ void CoreSerialBus::interruptEvent(void){
         this->mStatus = SerialBusStatus::READ_SUCCESSFUL;
         base->ctrl1_bit.genstop = true;
         base->ctrl2 &= ~static_cast<uint32_t>(I2C_EVT_INT | I2C_DATA_INT | I2C_ERR_INT);
-        if(!mcuf::lang::System::execute(*this))
-          this->run();
+        mcuf::lang::System::execute(*this);
         
       }
     }

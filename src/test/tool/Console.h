@@ -1,11 +1,12 @@
+
 /**
  * Copyright (c) 2020 ZxyKira
  * All rights reserved.
  * 
  * SPDX-License-Identifier: MIT
  */
-#ifndef CORE_ARTERYTEK_AT32F415_4207A82C_790E_486E_A2E7_0D66F63DC3DA
-#define CORE_ARTERYTEK_AT32F415_4207A82C_790E_486E_A2E7_0D66F63DC3DA
+#ifndef TOOL_4207A82C_790E_486E_A2E7_0D66F63DC3DA
+#define TOOL_4207A82C_790E_486E_A2E7_0D66F63DC3DA
 
 /* ****************************************************************************************
  * Include
@@ -16,13 +17,7 @@
 #include "core_arterytek_at32f415.h"
 
 //-----------------------------------------------------------------------------------------
-#define TOOL_CONSOLE_DYNAMIC_SIZE ( \
-  sizeof(arterytek::at32f415::serial::CoreSerialPort) + 4 + \
-  sizeof(mcuf::io::SerialPortOutputStream) + 4 +\
-  sizeof(mcuf::io::OutputStreamBuffer) + 4 +\
-  sizeof(mcuf::io::PrintStream) + 4\
-  )
-  
+
 /* ****************************************************************************************
  * Namespace
  */  
@@ -48,16 +43,13 @@ class tool::Console extends mcuf::lang::Object{
    * Variable <Private>
    */
   public:
-    arterytek::at32f415::serial::CoreSerialPort* mCoreSerialPort;
-    mcuf::io::SerialPortOutputStream* mSerialPortOutputStream;
-    mcuf::io::OutputStreamBuffer* mOutputStreamBuffer;
-    mcuf::io::PrintStream* mPrintStream;
-  
-    uint32_t mDynamicMemory[TOOL_CONSOLE_DYNAMIC_SIZE / 4];
-
+    arterytek::at32f415::serial::CoreSerialPort mCoreSerialPort;
+    mcuf::io::OutputStreamHandler mOutputStreamHandler;
+    mcuf::io::PrintStream mPrintStream;
     uint8_t mCoreSerialPortMemory[256];
     uint8_t mPrintStreamMemory[256];
-    uint8_t mOutputStreamBufferMemory[1024];
+    uint8_t mOutputStreamHandlerMemory[1024];
+
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -107,7 +99,16 @@ class tool::Console extends mcuf::lang::Object{
      * @return mcuf::io::PrintStream& 
      */
     inline mcuf::io::PrintStream& out(void){
-      return *this->mPrintStream;
+      return this->mPrintStream;
+    }
+    
+    /**
+     * @brief 
+     * 
+     * @return mcuf::io::InputStream& 
+     */
+    inline mcuf::io::InputStreamBuffer& in(void){
+      return this->mCoreSerialPort;
     }
 
   /* **************************************************************************************
@@ -144,4 +145,4 @@ class tool::Console extends mcuf::lang::Object{
  * End of file
  */ 
 
-#endif /* CORE_ARTERYTEK_AT32F415_4207A82C_790E_486E_A2E7_0D66F63DC3DA */
+#endif /* TOOL_4207A82C_790E_486E_A2E7_0D66F63DC3DA */

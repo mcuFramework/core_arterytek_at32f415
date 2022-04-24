@@ -123,8 +123,7 @@ void CoreSerialBusErrorEvent::interruptEvent(void){
   else
     this->mBase.mStatus = SerialBusStatus::WRITE_FAIL;
   
-  if(!System::execute(*this))
-    this->run();
+  System::execute(*this);
 }
 
 /* ****************************************************************************************

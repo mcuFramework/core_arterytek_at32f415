@@ -37,8 +37,7 @@ using arterytek::at32f415::serial::CoreSerialPortReg;
 using mcuf::util::Stacker;
 using mcuf::lang::Memory;
 
-using mcuf::io::SerialPortOutputStream;
-using mcuf::io::OutputStreamBuffer;
+using mcuf::io::OutputStreamHandler;
 using mcuf::io::PrintStream;
 using mcuf::io::ByteBuffer;
 
@@ -53,27 +52,14 @@ using mcuf::io::ByteBuffer;
 /**
  *
  */
-Console::Console(void){
-  Stacker stacker = Stacker(Memory(this->mDynamicMemory, sizeof(this->mDynamicMemory)));
+Console::Console(void) : 
+mCoreSerialPort(CoreSerialPortReg::REG_UART4, Memory(this->mCoreSerialPortMemory, sizeof(this->mCoreSerialPortMemory))),
+mOutputStreamHandler(this->mCoreSerialPort, Memory(this->mOutputStreamHandlerMemory, sizeof(this->mOutputStreamHandlerMemory))),
+mPrintStream(this->mOutputStreamHandler, Memory(this->mPrintStreamMemory, sizeof(this->mPrintStreamMemory))){
+
+  this->mCoreSerialPort.init();
+  this->mCoreSerialPort.baudrate(128000);
   
-  this->mCoreSerialPort = new(stacker) 
-    CoreSerialPort(CoreSerialPortReg::REG_UART4, Memory(this->mCoreSerialPortMemory, sizeof(this->mCoreSerialPortMemory)));
-  
-  this->mCoreSerialPort->init();
-  
-  this->mCoreSerialPort->baudrate(128000);
-  
-  this->mSerialPortOutputStream = new(stacker)
-    SerialPortOutputStream(*this->mCoreSerialPort);
-  
-  this->mOutputStreamBuffer = new(stacker)
-    OutputStreamBuffer(*this->mSerialPortOutputStream, Memory(this->mOutputStreamBufferMemory, sizeof(this->mOutputStreamBufferMemory)));
-  
-  this->mPrintStream = new(stacker)
-    PrintStream(*this->mOutputStreamBuffer, Memory(this->mPrintStreamMemory, sizeof(this->mPrintStreamMemory)));
-  
-  Core::gpioc.init();
-  Core::iomux.remapSWDIO(CoreIomux::MapSWDIO::JTAGDISABLE);
   Core::gpioc.setFunction(10, false);
   return;
 }
@@ -82,13 +68,7 @@ Console::Console(void){
  *
  */
 Console::~Console(void){
-  this->mCoreSerialPort->deinit();
-  
-  this->mPrintStream->~PrintStream();
-  this->mOutputStreamBuffer->~OutputStreamBuffer();
-  this->mSerialPortOutputStream->~SerialPortOutputStream();
-  this->mCoreSerialPort->~CoreSerialPort();
-  
+  this->mCoreSerialPort.deinit();
   return;
 }
 

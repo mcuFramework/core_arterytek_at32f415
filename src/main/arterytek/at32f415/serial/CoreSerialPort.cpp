@@ -35,7 +35,9 @@ using mcuf::lang::Memory;
 using mcuf::lang::Pointer;
 using mcuf::lang::System;
 
-using mcuf::io::ByteBuffer;
+using mcuf::io::CompletionHandler;
+using mcuf::io::Future;
+using mcuf::io::InputBuffer;
 using mcuf::io::RingBuffer;
 
 /* ****************************************************************************************
@@ -63,20 +65,22 @@ const CoreSerialPortConfig CoreSerialPort::mCoreSerialPortConfig[5] = {
 /**
  * 
  */
-CoreSerialPort::CoreSerialPort(CoreSerialPortReg reg, const Memory& memory) : RingBuffer(memory){
+CoreSerialPort::CoreSerialPort(CoreSerialPortReg reg, const Memory& memory) : 
+mRingBufferInputStream(memory){
+  
+  this->mResult = 0;
   this->mRegister = reg;
-  this->mPacketRead.clear();
-  this->mPacketWrite.clear();
   return;
 }
 
 /**
  * 
  */
-CoreSerialPort::CoreSerialPort(CoreSerialPortReg reg, uint32_t ringBufferSize) : RingBuffer(ringBufferSize){
+CoreSerialPort::CoreSerialPort(CoreSerialPortReg reg, uint32_t ringBufferSize) : 
+mRingBufferInputStream(ringBufferSize){
+  
+  this->mResult = 0;
   this->mRegister = reg;
-  this->mPacketRead.clear();
-  this->mPacketWrite.clear();
   return;
 }
 
@@ -162,7 +166,7 @@ bool CoreSerialPort::isInit(void){
  * @return uint32_t 
  */
 uint32_t CoreSerialPort::baudrate(void){
-  return 0;
+  return this->mBaudrate;
 }
 
 /**
@@ -174,101 +178,22 @@ uint32_t CoreSerialPort::baudrate(void){
 uint32_t CoreSerialPort::baudrate(uint32_t rate){
   usart_enable(BASE, FALSE);
   usart_init(BASE, rate, USART_DATA_8BITS, USART_STOP_1_BIT);
+  this->mBaudrate = rate;
   usart_enable(BASE, TRUE);
   return this->baudrate();
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - hal::serial::SerialPortTransfer
+ * Public Method <Override> - mcuf::io::OutputBuffer
  */
 
 /**
  * @brief 
  * 
- * @return true 
- * @return false 
+ * @return int 
  */
-bool CoreSerialPort::abortWrite(void){
-  if(!this->writeBusy())
-    return false;
-  
-  usart_interrupt_enable(BASE, USART_TDBE_INT, FALSE);
-  this->mPacketWrite.run();
-  return true;
-}
-
-/**
- * @brief 
- * 
- * @return true 
- * @return false 
- */
-bool CoreSerialPort::writeBusy(void){
-  return this->mPacketWrite.isExist();
-}
-
-/**
- * @brief 
- * 
- * @param byteBuffer 
- * @param attachment 
- * @param event 
- * @return true 
- * @return false 
- */
-bool CoreSerialPort::write(ByteBuffer& byteBuffer, void* attachment, SerialPortEvent* event){
-  
-  if(this->writeBusy())
-    return false;
-  
-  if(!this->mPacketWrite.init(byteBuffer, attachment, event))
-    return false;
-  
-  usart_interrupt_enable(BASE, USART_TDBE_INT, TRUE);
-  
-  return true;
-}
-
-/* ****************************************************************************************
- * Public Method <Override> - hal::serial::SerialPortReceiver
- */
-
-
-/**
- * @brief 
- * 
- * @return uint32_t 
- */
-uint32_t CoreSerialPort::avariable(void){
-  return static_cast<uint32_t>(this->getCount());
-}
-
-/**
- * @brief 
- * 
- * @return true 
- * @return false 
- */
-bool CoreSerialPort::abortRead(void){
-  if(!this->readBusy())
-    return false;
-  
-  this->mPacketRead.run();
-  return true;
-}
-
-/**
- * @brief 
- * 
- * @return true 
- * @return false 
- */
-bool CoreSerialPort::clear(void){
-  if(this->readBusy())
-    return false;
-  
-  this->flush();
-  return true;
+int CoreSerialPort::avariable(void) const{
+  return this->mRingBufferInputStream.avariable();
 }
 
 /**
@@ -279,7 +204,7 @@ bool CoreSerialPort::clear(void){
  * @return false no data in buffer.
  */
 bool CoreSerialPort::getByte(char& result){
-  return this->pop(&result);
+  return this->mRingBufferInputStream.getByte(result);
 }
 
 /**
@@ -288,12 +213,8 @@ bool CoreSerialPort::getByte(char& result){
  * @param byteBuffer 
  * @return int 
  */
-int CoreSerialPort::get(mcuf::io::ByteBuffer& byteBuffer){
-  void* buffer = byteBuffer.pointer(byteBuffer.position());
-  int bufferSize = byteBuffer.remaining();
-  int result = this->get(buffer, bufferSize);
-  byteBuffer += result;
-  return result;
+int CoreSerialPort::get(InputBuffer& inputBuffer){
+  return this->mRingBufferInputStream.get(inputBuffer);
 }
 
 /**
@@ -304,77 +225,76 @@ int CoreSerialPort::get(mcuf::io::ByteBuffer& byteBuffer){
  * @return int 
  */
 int CoreSerialPort::get(void* buffer, int bufferSize){
-  return this->popMult(buffer, bufferSize);
+  return this->mRingBufferInputStream.get(buffer, bufferSize);
 }
 
 /**
  * @brief 
  * 
- * @param buffer 
- * @param maxLength 
- * @return uint32_t 
+ * @param value 
+ * @return int 
  */
-uint32_t CoreSerialPort::read(void* buffer, uint32_t maxLength){
-  if(this->readBusy())
-    return 0;
-
-  return static_cast<uint32_t>(this->popMult(buffer, static_cast<int>(maxLength)));
+int CoreSerialPort::skip(int value){
+  return this->mRingBufferInputStream.skip(value);
 }
+
+/* ****************************************************************************************
+ * Public Method <Override> - mcuf::io::InputStream
+ */
 
 /**
  * @brief 
  * 
  * @return true 
  * @return false 
+ */
+bool CoreSerialPort::abortRead(void){
+  return this->mRingBufferInputStream.abortRead();
+}
+
+/**
+ * @brief 
+ * 
+ * @return true is busy.
+ * @return false isn't busy.
  */
 bool CoreSerialPort::readBusy(void){
-  return this->mPacketRead.isExist();
+  return this->mRingBufferInputStream.readBusy();
 }
 
 /**
  * @brief 
  * 
- * @param byteBuffer 
+ * @param outputBuffer 
+ * @return int 
+ */
+bool CoreSerialPort::read(mcuf::io::InputBuffer& inputBuffer){
+  return this->mRingBufferInputStream.read(inputBuffer);
+}
+
+/**
+ * @brief nonblocking
+ * 
+ * @param outputBuffer 
  * @param attachment 
- * @param event 
+ * @param handler 
+ * @return true successful.
+ * @return false fail.
+ */
+bool CoreSerialPort::read(InputBuffer& inputBuffer, void* attachment, CompletionHandler<int, void*>* handler){
+  return this->mRingBufferInputStream.read(inputBuffer, attachment, handler);
+}
+
+/**
+ * @brief 
+ * 
+ * @param outputBuffer 
+ * @param future 
  * @return true 
  * @return false 
  */
-bool CoreSerialPort::read(ByteBuffer& byteBuffer, void* attachment, SerialPortEvent* event){
-  if(this->readBusy())
-    return false;
-  
-  if(this->getCount() >= byteBuffer.remaining()){
-    int count = byteBuffer.remaining();
-    uint8_t* pointer = static_cast<uint8_t*>(byteBuffer.pointer(byteBuffer.position()));
-    this->popMult(pointer, count);
-    byteBuffer.position(byteBuffer.position() + count);
-    
-    if(event)
-      event->onSerialPortEvent(SerialPortStatus::READ_SUCCESSFUL, 0, attachment);
-    
-    return true;
-    
-  }else if(this->isEmpty()){
-    usart_interrupt_enable(BASE, USART_RDBF_INT, FALSE);  //memory protected
-    this->mPacketRead.init(byteBuffer, attachment, event);
-    usart_interrupt_enable(BASE, USART_RDBF_INT, TRUE);  //memory protected
-    
-  }else{
-    uint8_t* pointer = static_cast<uint8_t*>(byteBuffer.pointer(byteBuffer.position()));
-    
-    usart_interrupt_enable(BASE, USART_RDBF_INT, FALSE);  //memory protected
-    int count = this->getCount();
-    
-    byteBuffer.position(byteBuffer.position() + count);
-    this->mPacketRead.init(byteBuffer, attachment, event);
-    usart_interrupt_enable(BASE, USART_RDBF_INT, TRUE);  //memory protected
-    
-    if(count)
-      this->popMult(pointer, count);
-  }
- 
-  return true;
+bool CoreSerialPort::read(InputBuffer& inputBuffer, Future& future){
+  return this->mRingBufferInputStream.read(inputBuffer, future);
 }
 
 /**
@@ -382,42 +302,94 @@ bool CoreSerialPort::read(ByteBuffer& byteBuffer, void* attachment, SerialPortEv
  * 
  * @param value 
  * @param attachment 
- * @param event 
+ * @param handler 
  * @return true 
  * @return false 
  */
-bool CoreSerialPort::skip(int value, void* attachment, hal::serial::SerialPortEvent* event){
-  if(this->readBusy())
-    return false;
-  
-  if(value <= 0)
-    return false;
-  
-  if(this->getCount() >= value){
-    this->popMult(nullptr, value);
-    
-    if(event)
-      event->onSerialPortEvent(SerialPortStatus::READ_SUCCESSFUL, 0, attachment);
-    
-    return true;
-    
-  }else if(this->isEmpty()){
-    usart_interrupt_enable(BASE, USART_RDBF_INT, FALSE);  //memory protected
-    this->mPacketRead.init(nullptr, value, attachment, event);
-    usart_interrupt_enable(BASE, USART_RDBF_INT, TRUE);  //memory protected
-    
-  }else{
+bool CoreSerialPort::skip(int value, void* attachment, CompletionHandler<int, void*>* handler){
+  return this->mRingBufferInputStream.skip(value, attachment, handler);
+}
 
-    usart_interrupt_enable(BASE, USART_RDBF_INT, FALSE);  //memory protected
-    int count = this->getCount();
-    this->mPacketRead.init(nullptr, (value - count), attachment, event);
-    usart_interrupt_enable(BASE, USART_RDBF_INT, TRUE);  //memory protected
-    
-    if(count)
-      this->popMult(nullptr, count);
-  }
- 
+/**
+ * @brief 
+ * 
+ * @param value 
+ * @param future 
+ * @return true 
+ * @return false 
+ */
+bool CoreSerialPort::skip(int value, Future& future){
+  return this->mRingBufferInputStream.skip(value, future);
+}
+
+/* **************************************************************************************
+ * Public Method <Override> - mcuf::io::OutputStream
+ */
+
+/**
+ * @brief 
+ * 
+ * @return true 
+ * @return false 
+ */
+bool CoreSerialPort::abortWrite(void){
+  if(this->writeBusy() == true)
+    return false;
+  
+  usart_interrupt_enable(BASE, USART_TDBE_INT, FALSE);
+  this->run();
   return true;
+}
+
+/**
+ * @brief 
+ * 
+ * @return true is busy.
+ * @return false isn't busy.
+ */
+bool CoreSerialPort::writeBusy(void){
+  return (this->mOutputBuffer != nullptr);
+}
+
+/**
+ * @brief 
+ * 
+ * @param outputBuffer
+ * @param attachment 
+ * @param handler 
+ * @return true successful.
+ * @return false fail.
+ */
+bool CoreSerialPort::write(OutputBuffer& outputBuffer, void* attachment, CompletionHandler<int, void*>* handler){
+  if(this->writeBusy())
+    return false;
+  
+  if(outputBuffer.avariable() <= 0)
+    return false;
+  
+  this->mOutputBuffer = &outputBuffer;
+  this->mCompletionHandler = handler;
+  this->mAttachment = attachment;
+  usart_interrupt_enable(BASE, USART_TDBE_INT, TRUE);
+  
+  return true;
+}
+/**
+ * @brief 
+ * 
+ * @param outputBuffer
+ * @param future 
+ * @return true 
+ * @return false 
+ */
+bool CoreSerialPort::write(OutputBuffer& outputBuffer, Future& future){
+  if(!future.classAvariable())
+    return false;
+  
+  if(!future.isIdle())
+    return false;
+  
+  return this->write(outputBuffer, nullptr, &future);
 }
 
 /* ****************************************************************************************
@@ -432,24 +404,8 @@ void CoreSerialPort::interruptEvent(void){
   usart_type* base = BASE;
   
   if(usart_flag_get(base, USART_RDBF_FLAG) != RESET){
-    uint16_t readCache = usart_data_receive(base);
-    
-    if(this->mPacketRead.mLength > this->mPacketRead.mCount){  //receiver pointer is not null
-      /* Read one byte from the receive data register */
-      
-      if(this->mPacketRead.mPointer)
-        this->mPacketRead.mPointer[this->mPacketRead.mCount] = static_cast<uint8_t>(readCache);  
-        
-      ++this->mPacketRead.mCount;
-
-      if(this->mPacketRead.mCount >= this->mPacketRead.mLength){  //receiver is successful
-        this->mPacketRead.mStatus = SerialPortStatus::READ_SUCCESSFUL;
-        if(!System::execute(this->mPacketRead))
-          this->mPacketRead.run();
-      }  
-    }else{
-      this->insert(&readCache);
-    }
+    char readCache = usart_data_receive(base);
+    this->mRingBufferInputStream.putByte(readCache);
   }
   
   //check usart tx empty interrupt flag
@@ -457,21 +413,44 @@ void CoreSerialPort::interruptEvent(void){
     return;
   
   //send handle
-  if(usart_flag_get(base, USART_TDBE_FLAG) != RESET){   
+  if(usart_flag_get(base, USART_TDBE_FLAG) != RESET){
+    char data;
     
-    /* Write one byte to the transmit data register */
-    usart_data_transmit(base, this->mPacketWrite.mPointer[this->mPacketWrite.mCount]);
-    
-    ++this->mPacketWrite.mCount;
-    
-    if(this->mPacketWrite.mCount >= this->mPacketWrite.mLength){
-      /* Disable the USART Transmit interrupt */
+    if(this->mOutputBuffer->getByte(data)){
+      /* Write one byte to the transmit data register */
+      usart_data_transmit(base, data);
+      ++this->mResult;
+      
+    }else{
       usart_interrupt_enable(base, USART_TDBE_INT, FALSE);
-      this->mPacketWrite.mStatus = SerialPortStatus::WRITE_SUCCESSFUL;
-      if(!System::execute(this->mPacketWrite))
-        this->mPacketWrite.run();
+      System::execute(*this);
+      
     }
   }
+}
+
+/* ****************************************************************************************
+ * Public Method <Override> - mcuf::function::Runnable
+ */
+
+/**
+ * @brief 
+ * 
+ */
+void CoreSerialPort::run(void){
+  if(this->writeBusy() == false)
+    return;
+  
+  CompletionHandler<int, void*>* completionHandler = this->mCompletionHandler;
+  void* attachment = this->mAttachment;
+  int result = this->mResult;
+  this->mResult = 0;
+  this->mOutputBuffer = nullptr;
+  
+  if(completionHandler != nullptr)
+    completionHandler->completed(result, attachment);
+  
+  return;
 }
 
 /* ****************************************************************************************

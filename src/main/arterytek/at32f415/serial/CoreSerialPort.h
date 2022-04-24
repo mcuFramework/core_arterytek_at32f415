@@ -16,7 +16,6 @@
 
 //-----------------------------------------------------------------------------------------
 #include "arterytek/at32f415/serial/CoreSerialPortConfig.h"
-#include "arterytek/at32f415/serial/CoreSerialPortPacket.h"
 #include "arterytek/at32f415/serial/CoreSerialPortReg.h"
 
 
@@ -35,9 +34,10 @@ namespace arterytek{
 /* ****************************************************************************************
  * Class Object
  */  
-class arterytek::at32f415::serial::CoreSerialPort extends mcuf::io::RingBuffer implements 
+class arterytek::at32f415::serial::CoreSerialPort extends mcuf::lang::Object implements 
   public hal::serial::SerialPort,
-  public hal::InterruptEvent{
+  public hal::InterruptEvent,
+  public mcuf::function::Runnable{
        
   /* **************************************************************************************
    * Enum Register
@@ -56,10 +56,15 @@ class arterytek::at32f415::serial::CoreSerialPort extends mcuf::io::RingBuffer i
    */
   private: 
     static const arterytek::at32f415::serial::CoreSerialPortConfig mCoreSerialPortConfig[5];
-  
+    
+    mcuf::io::RingBufferInputStream mRingBufferInputStream;
+    mcuf::io::OutputBuffer* mOutputBuffer;
+    mcuf::io::CompletionHandler<int, void*>* mCompletionHandler;
+    void* mAttachment;
+    int mResult;
+    uint32_t mBaudrate;
     arterytek::at32f415::serial::CoreSerialPortReg mRegister;
-    arterytek::at32f415::serial::CoreSerialPortPacket mPacketRead;
-    arterytek::at32f415::serial::CoreSerialPortPacket mPacketWrite;
+
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -154,73 +159,15 @@ class arterytek::at32f415::serial::CoreSerialPort extends mcuf::io::RingBuffer i
     virtual uint32_t baudrate(uint32_t rate) override;
 
   /* **************************************************************************************
-   * Public Method <Override> - hal::serial::SerialPortTransfer
-   */
-  public:
-
-    /**
-     * @brief 
-     * 
-     * @return true 
-     * @return false 
-     */
-    virtual bool abortWrite(void) override;
-
-    /**
-     * @brief 
-     * 
-     * @return true 
-     * @return false 
-     */
-    virtual bool writeBusy(void) override;
-
-    /**
-     * @brief 
-     * 
-     * @param byteBuffer 
-     * @param attachment 
-     * @param event 
-     * @return true 
-     * @return false 
-     */
-    virtual bool write(mcuf::io::ByteBuffer& byteBuffer,
-                       void* attachment,
-                       hal::serial::SerialPortEvent* event) override;
-
-  /* **************************************************************************************
-   * Public Method <Override> - hal::serial::SerialPortReceiver
+   * Public Method <Override> - mcuf::io::OutputBuffer
    */
   public:
     /**
      * @brief 
      * 
-     * @return uint32_t 
+     * @return int 
      */
-    virtual uint32_t avariable(void) override;
-
-    /**
-     * @brief 
-     * 
-     * @return true 
-     * @return false 
-     */
-    virtual bool abortRead(void) override;
-
-    /**
-     * @brief 
-     * 
-     * @return true 
-     * @return false 
-     */
-    virtual bool clear(void) override;
-
-    /**
-     * @brief 
-     * 
-     * @return true 
-     * @return false 
-     */
-    virtual bool readBusy(void) override;
+    virtual int avariable(void) const override;
 
     /**
      * @brief pop buffer byte non blocking.
@@ -237,7 +184,7 @@ class arterytek::at32f415::serial::CoreSerialPort extends mcuf::io::RingBuffer i
      * @param byteBuffer 
      * @return int 
      */
-    virtual int get(mcuf::io::ByteBuffer& byteBuffer) override;
+    virtual int get(mcuf::io::InputBuffer& inputBuffer) override;
 
     /**
      * @brief 
@@ -251,37 +198,128 @@ class arterytek::at32f415::serial::CoreSerialPort extends mcuf::io::RingBuffer i
     /**
      * @brief 
      * 
-     * @param buffer 
-     * @param maxLength 
-     * @return uint32_t 
+     * @param value 
+     * @return int 
      */
-    virtual uint32_t read(void* buffer, uint32_t maxLength) override;
+    virtual int skip(int value) override;
+
+  /* **************************************************************************************
+   * Public Method <Override> - mcuf::io::InputStream
+   */
+  public:
+    /**
+     * @brief 
+     * 
+     * @return true 
+     * @return false 
+     */
+    virtual bool abortRead(void) override;  
+    
+    /**
+     * @brief 
+     * 
+     * @return true is busy.
+     * @return false isn't busy.
+     */
+    virtual bool readBusy(void) override;
 
     /**
      * @brief 
      * 
-     * @param byteBuffer 
+     * @param outputBuffer 
+     * @return int 
+     */
+    virtual bool read(mcuf::io::InputBuffer& inputBuffer) override;
+    
+    /**
+     * @brief nonblocking
+     * 
+     * @param outputBuffer 
      * @param attachment 
-     * @param event 
+     * @param handler 
+     * @return true successful.
+     * @return false fail.
+     */
+    virtual bool read(mcuf::io::InputBuffer& inputBuffer, 
+                      void* attachment,
+                      mcuf::io::CompletionHandler<int, void*>* handler) override;
+
+    /**
+     * @brief 
+     * 
+     * @param outputBuffer 
+     * @param future 
      * @return true 
      * @return false 
      */
-    virtual bool read(mcuf::io::ByteBuffer& byteBuffer, 
-                      void* attachment,
-                      hal::serial::SerialPortEvent* event) override;
+    virtual bool read(mcuf::io::InputBuffer& inputBuffer, mcuf::io::Future& future) override;
 
     /**
      * @brief 
      * 
      * @param value 
      * @param attachment 
-     * @param event 
+     * @param handler 
      * @return true 
      * @return false 
      */
-    virtual bool skip(int value,
-                      void* attachment, 
-                      hal::serial::SerialPortEvent* event) override;
+    virtual bool skip(int value, 
+                      void* attachment,
+                      mcuf::io::CompletionHandler<int, void*>* handler) override;
+
+    /**
+     * @brief 
+     * 
+     * @param value 
+     * @param future 
+     * @return true 
+     * @return false 
+     */
+    virtual bool skip(int value, mcuf::io::Future& future) override;
+
+  /* **************************************************************************************
+   * Public Method <Override> - mcuf::io::OutputStream
+   */
+  public:
+    /**
+     * @brief 
+     * 
+     * @return true 
+     * @return false 
+     */
+    virtual bool abortWrite(void) override;
+    
+    /**
+     * @brief 
+     * 
+     * @return true is busy.
+     * @return false isn't busy.
+     */
+    virtual bool writeBusy(void) override;
+    
+    /**
+     * @brief 
+     * 
+     * @param outputBuffer
+     * @param attachment 
+     * @param handler 
+     * @return true successful.
+     * @return false fail.
+     */
+    virtual bool write(mcuf::io::OutputBuffer& outputBuffer, 
+                      void* attachment,
+                      mcuf::io::CompletionHandler<int, void*>* handler) override;
+
+    /**
+     * @brief 
+     * 
+     * @param outputBuffer
+     * @param future 
+     * @return true 
+     * @return false 
+     */
+    virtual bool write(mcuf::io::OutputBuffer& outputBuffer, mcuf::io::Future& future) override;
+    
   /* **************************************************************************************
    * Public Method <Override> - hal::InterruptEvent
    */
@@ -292,6 +330,17 @@ class arterytek::at32f415::serial::CoreSerialPort extends mcuf::io::RingBuffer i
      * 
      */
     virtual void interruptEvent(void) override;
+  
+  /* **************************************************************************************
+   * Public Method <Override> - mcuf::function::Runnable
+   */
+  public:
+    /**
+     * @brief 
+     * 
+     */
+    virtual void run(void) override;
+                        
   
   /* **************************************************************************************
    * Public Method

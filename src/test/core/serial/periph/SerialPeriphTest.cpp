@@ -175,12 +175,12 @@ void SerialPeriphTest::init(void){
  *
  */
 void SerialPeriphTest::formatBuffer(void){
-  this->mTransferByteBuffer->clear();
+  this->mTransferByteBuffer->flush();
   this->mTransferByteBuffer->put("12345678");
   this->mTransferByteBuffer->flip();
   this->mTransferByteBuffer->mark();
   
-  this->mReceiverByteBuffer->clear();
+  this->mReceiverByteBuffer->flush();
   this->mReceiverByteBuffer->limit(this->mTransferByteBuffer->limit() - 4);
   this->mReceiverByteBuffer->mark();
 }

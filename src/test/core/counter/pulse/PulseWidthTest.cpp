@@ -40,8 +40,7 @@ using mcuf::util::Stacker;
 using mcuf::lang::Memory;
 using mcuf::lang::System;
 
-using mcuf::io::SerialPortOutputStream;
-using mcuf::io::OutputStreamBuffer;
+using mcuf::io::OutputStreamHandler;
 using mcuf::io::PrintStream;
 using mcuf::io::ByteBuffer;
 

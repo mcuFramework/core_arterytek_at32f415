@@ -24,7 +24,6 @@
 #include "CoreSerialPeriphReg.h"
 #include "CoreSerialPort.h"
 #include "CoreSerialPortConfig.h"
-#include "CoreSerialPortPacket.h"
 #include "CoreSerialPortReg.h"
 
 /* ****************************************************************************************

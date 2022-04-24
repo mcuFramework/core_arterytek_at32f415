@@ -46,9 +46,7 @@ using mcuf::util::Stacker;
 using mcuf::lang::Memory;
 using mcuf::lang::System;
 
-using mcuf::io::SerialPortOutputStream;
-using mcuf::io::SerialPortInputStream;
-using mcuf::io::OutputStreamBuffer;
+using mcuf::io::OutputStreamHandler;
 using mcuf::io::PrintStream;
 using mcuf::io::ByteBuffer;
 using mcuf::io::Future;
@@ -99,19 +97,19 @@ void SerialPortTest::run(void){
   
   while(true){
     
-    buffer.clear();
+    buffer.flush();
     buffer.put("Enter 8 char: ");
     buffer.flip();
-    this->mSerialPortOutputStream->write(buffer, future);
+    this->mCoreSerialPort->write(buffer, future);
     future.waitDone();
     future.clear();
     
-    buffer.clear();
+    buffer.flush();
     buffer.put("Result: ");
     buffer.flip();
     buffer.position(buffer.limit());
     buffer.limit(buffer.limit()+8);
-    this->mSerialPortInputStream->read(buffer, future);
+    this->mCoreSerialPort->read(buffer, future);
     future.waitDone();
     future.clear();
     
@@ -120,7 +118,7 @@ void SerialPortTest::run(void){
     buffer.limit(buffer.limit()+1);
     buffer.putByte('\n');
     buffer.flip();
-    this->mSerialPortOutputStream->write(buffer, future);
+    this->mCoreSerialPort->write(buffer, future);
     future.waitDone();
     future.clear();
     
@@ -166,8 +164,6 @@ void SerialPortTest::init(void){
   this->mCoreSerialPort = new(this->mStacker) CoreSerialPort(CoreSerialPortReg::REG_UART4, this->mStacker.allocMemoryAlignment32(256));
   this->mCoreSerialPort->init();
   this->mCoreSerialPort->baudrate(9600);
-  this->mSerialPortInputStream = new(this->mStacker) SerialPortInputStream(*this->mCoreSerialPort);
-  this->mSerialPortOutputStream = new(this->mStacker) SerialPortOutputStream(*this->mCoreSerialPort);
   
 }
 

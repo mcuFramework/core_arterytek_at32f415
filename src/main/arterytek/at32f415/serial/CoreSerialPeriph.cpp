@@ -411,8 +411,7 @@ void CoreSerialPeriph::execute(void){
   
   this->mSelectChipSelect = nullptr;
   
-  if(!System::execute(*this))
-    this->run();
+  System::execute(*this);
 }
 
 /**

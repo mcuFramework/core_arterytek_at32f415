@@ -654,16 +654,6 @@
               <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPortConfig.h</FilePath>
             </File>
             <File>
-              <FileName>CoreSerialPortPacket.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPortPacket.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialPortPacket.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPortPacket.h</FilePath>
-            </File>
-            <File>
               <FileName>CoreSerialPortReg.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPortReg.h</FilePath>
@@ -2479,16 +2469,6 @@
               <FileName>CoreSerialPortConfig.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPortConfig.h</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialPortPacket.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPortPacket.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>CoreSerialPortPacket.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPortPacket.h</FilePath>
             </File>
             <File>
               <FileName>CoreSerialPortReg.h</FileName>

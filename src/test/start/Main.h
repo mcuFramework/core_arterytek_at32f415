@@ -26,7 +26,7 @@ namespace start{
 /* ****************************************************************************************
  * Class Object
  */  
-class start::Main extends mcuf::lang::Thread implements hal::serial::SerialBusEvent{
+class start::Main extends mcuf::lang::Thread{
   
   /* **************************************************************************************
    * Variable <Public>
@@ -73,18 +73,6 @@ class start::Main extends mcuf::lang::Thread implements hal::serial::SerialBusEv
   /* **************************************************************************************
    * Public Method <Static>
    */
-  public:
-    /**
-     * @brief 
-     * 
-     * @param status handle status
-     * @param result 0 = successful, other = remaining byte count.
-     * @param attachment user data
-     */
-    virtual void onSerialBusEvent(hal::serial::SerialBusStatus status, 
-                                  int result,
-                                  void* attachment) override;
-    
   
   /* **************************************************************************************
    * Public Method <Override> - mcuf::function::Runnable
