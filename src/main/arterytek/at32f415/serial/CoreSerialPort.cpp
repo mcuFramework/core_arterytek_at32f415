@@ -268,8 +268,8 @@ bool CoreSerialPort::readBusy(void){
  * @param outputBuffer 
  * @return int 
  */
-bool CoreSerialPort::read(mcuf::io::InputBuffer& inputBuffer){
-  return this->mRingBufferInputStream.read(inputBuffer);
+bool CoreSerialPort::read(mcuf::io::InputBuffer& inputBuffer, int timeout){
+  return this->mRingBufferInputStream.read(inputBuffer, timeout);
 }
 
 /**
@@ -350,6 +350,27 @@ bool CoreSerialPort::abortWrite(void){
 bool CoreSerialPort::writeBusy(void){
   return (this->mOutputBuffer != nullptr);
 }
+
+/**
+ * @brief 
+ * 
+ * @param outputBuffer
+ * @param future 
+ * @return true 
+ * @return false 
+ */
+bool CoreSerialPort::write(mcuf::io::OutputBuffer& outputBuffer, int timeout){
+  Future future = Future();
+  if(this->write(outputBuffer, future) == false)
+    return false;
+  
+  future.waitDone(timeout);
+  if(future.isDone() == false)
+    this->abortWrite();
+  
+  future.waitDone();
+  return true;
+}  
 
 /**
  * @brief 

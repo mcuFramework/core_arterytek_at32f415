@@ -227,9 +227,10 @@ class arterytek::at32f415::serial::CoreSerialPort extends mcuf::lang::Object imp
      * @brief 
      * 
      * @param outputBuffer 
+     * @param timeout
      * @return int 
      */
-    virtual bool read(mcuf::io::InputBuffer& inputBuffer) override;
+    virtual bool read(mcuf::io::InputBuffer& inputBuffer, int timeout) override;
     
     /**
      * @brief nonblocking
@@ -297,6 +298,16 @@ class arterytek::at32f415::serial::CoreSerialPort extends mcuf::lang::Object imp
      */
     virtual bool writeBusy(void) override;
     
+    /**
+     * @brief 
+     * 
+     * @param outputBuffer
+     * @param future 
+     * @return true 
+     * @return false 
+     */
+    virtual bool write(mcuf::io::OutputBuffer& outputBuffer, int timeout) override;    
+  
     /**
      * @brief 
      * 
