@@ -165,9 +165,21 @@ class arterytek::at32f415::serial::CoreSerialPort extends mcuf::lang::Object imp
     /**
      * @brief 
      * 
+     * @return true 
+     * @return false 
+     */
+    inline virtual bool isEmpty(void) const override{
+      return this->mRingBufferInputStream.isEmpty();
+    }
+  
+    /**
+     * @brief 
+     * 
      * @return int 
      */
-    virtual int avariable(void) const override;
+    inline virtual int avariable(void) const override{
+      return this->mRingBufferInputStream.avariable();
+    }
 
     /**
      * @brief pop buffer byte non blocking.
@@ -176,7 +188,9 @@ class arterytek::at32f415::serial::CoreSerialPort extends mcuf::lang::Object imp
      * @return true has data in buffer.
      * @return false no data in buffer.
      */
-    virtual bool getByte(char& result) override;
+    inline virtual bool getByte(char& result) override{
+      return this->mRingBufferInputStream.getByte(result);
+    }
 
     /**
      * @brief 
@@ -184,7 +198,9 @@ class arterytek::at32f415::serial::CoreSerialPort extends mcuf::lang::Object imp
      * @param byteBuffer 
      * @return int 
      */
-    virtual int get(mcuf::io::InputBuffer& inputBuffer) override;
+    inline virtual int get(mcuf::io::InputBuffer& inputBuffer) override{
+      return this->mRingBufferInputStream.get(inputBuffer);
+    }
 
     /**
      * @brief 
@@ -193,7 +209,9 @@ class arterytek::at32f415::serial::CoreSerialPort extends mcuf::lang::Object imp
      * @param bufferSize 
      * @return int 
      */
-    virtual int get(void* buffer, int bufferSize) override;
+    inline virtual int get(void* buffer, int bufferSize) override{
+      return this->mRingBufferInputStream.get(buffer, bufferSize);
+    }
 
     /**
      * @brief 
@@ -201,7 +219,9 @@ class arterytek::at32f415::serial::CoreSerialPort extends mcuf::lang::Object imp
      * @param value 
      * @return int 
      */
-    virtual int skip(int value) override;
+    inline virtual int skip(int value) override{
+      return this->mRingBufferInputStream.skip(value);
+    }
 
   /* **************************************************************************************
    * Public Method <Override> - mcuf::io::InputStream

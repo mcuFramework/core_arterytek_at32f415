@@ -376,11 +376,11 @@ bool CoreSerialBus::writeAfterRead(uint16_t address, ByteBuffer& transfer, ByteB
  */
 
 bool CoreSerialBus::handlerConfig(uint16_t address, ByteBuffer* transfer, ByteBuffer* receiver, void* attachment, SerialBusEvent* event){
-  if(!receiver->hasRemaining()) // check receiver has data in byeBuffer
+  if(receiver->isEmpty()) // check receiver has data in byeBuffer
     return false;
   
   if(transfer != nullptr){
-    if(!transfer->hasRemaining()) // check transfer has data in byteBuffer
+    if(transfer->isEmpty()) // check transfer has data in byteBuffer
       return false;
     
     this->mByteBuffer = transfer;
@@ -418,7 +418,7 @@ bool CoreSerialBus::handlerConfig(uint16_t address, ByteBuffer* transfer, ByteBu
  *
  */
 bool CoreSerialBus::handlerFormat(ByteBuffer& byteBuffer){
-  if(!byteBuffer.hasRemaining())
+  if(byteBuffer.isEmpty())
     return false;
   
   this->mLength = static_cast<uint16_t>(byteBuffer.remaining());

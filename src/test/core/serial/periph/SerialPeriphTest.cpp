@@ -192,7 +192,7 @@ void SerialPeriphTest::showBuffer(void){
   this->mTransferByteBuffer->reset();
   this->mConsole->out().format("Transfer buffer (%d) :\n", this->mTransferByteBuffer->remaining());
   
-  while(this->mTransferByteBuffer->hasRemaining()){
+  while(!this->mTransferByteBuffer->isEmpty()){
     char cache;
     this->mTransferByteBuffer->getByte(cache);
     this->mConsole->out().format("0x%02X ", cache);
@@ -203,7 +203,7 @@ void SerialPeriphTest::showBuffer(void){
   this->mReceiverByteBuffer->reset();
   this->mConsole->out().format("Receiver buffer (%d) :\n", this->mReceiverByteBuffer->remaining());
   
-  while(this->mReceiverByteBuffer->hasRemaining()){
+  while(!this->mTransferByteBuffer->isEmpty()){
     char cache;
     this->mReceiverByteBuffer->getByte(cache);
     this->mConsole->out().format("0x%02X ", cache);

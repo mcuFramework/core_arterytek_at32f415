@@ -187,57 +187,6 @@ uint32_t CoreSerialPort::baudrate(uint32_t rate){
  * Public Method <Override> - mcuf::io::OutputBuffer
  */
 
-/**
- * @brief 
- * 
- * @return int 
- */
-int CoreSerialPort::avariable(void) const{
-  return this->mRingBufferInputStream.avariable();
-}
-
-/**
- * @brief pop buffer byte non blocking.
- * 
- * @param result 
- * @return true has data in buffer.
- * @return false no data in buffer.
- */
-bool CoreSerialPort::getByte(char& result){
-  return this->mRingBufferInputStream.getByte(result);
-}
-
-/**
- * @brief 
- * 
- * @param byteBuffer 
- * @return int 
- */
-int CoreSerialPort::get(InputBuffer& inputBuffer){
-  return this->mRingBufferInputStream.get(inputBuffer);
-}
-
-/**
- * @brief 
- * 
- * @param buffer 
- * @param bufferSize 
- * @return int 
- */
-int CoreSerialPort::get(void* buffer, int bufferSize){
-  return this->mRingBufferInputStream.get(buffer, bufferSize);
-}
-
-/**
- * @brief 
- * 
- * @param value 
- * @return int 
- */
-int CoreSerialPort::skip(int value){
-  return this->mRingBufferInputStream.skip(value);
-}
-
 /* ****************************************************************************************
  * Public Method <Override> - mcuf::io::InputStream
  */
