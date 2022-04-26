@@ -116,27 +116,28 @@ void CoreSerialBus::interruptEvent(void){
   
   if(base->ctrl2_bit.dataien){
     if(base->sts1_bit.tdbe){ //write isr
-    char cache;
-    if(this->mOutputBuffer->getByte(cache))
-      base->dt = cache;
-      ++this->mResult;
-    
-    }else{
-      if(base->sts1_bit.tdc){
-        if(this->mInputBuffer){
-          this->afterRead();
-            
-        }else{
-          base->ctrl1_bit.genstop = true;
-          base->ctrl2 &= ~static_cast<uint32_t>(I2C_EVT_INT | I2C_DATA_INT | I2C_ERR_INT);
-          this->mStatus = SerialBusStatus::WRITE_SUCCESSFUL;
-          mcuf::lang::System::execute(*this);
-          
+      char cache;
+      if(this->mOutputBuffer->getByte(cache)){
+        base->dt = cache;
+        ++this->mResult;
+      
+      }else{
+        if(base->sts1_bit.tdc){
+          if(this->mInputBuffer){
+            this->afterRead();
+              
+          }else{
+            base->ctrl1_bit.genstop = true;
+            base->ctrl2 &= ~static_cast<uint32_t>(I2C_EVT_INT | I2C_DATA_INT | I2C_ERR_INT);
+            this->mStatus = SerialBusStatus::WRITE_SUCCESSFUL;
+            mcuf::lang::System::execute(*this);
+          }
         }
       }
     }
-
-  }else if(base->sts1_bit.rdbf){ //read isr
+  }
+  
+  if(base->sts1_bit.rdbf){ //read isr
     char cache = base->dt;
     this->mInputBuffer->putByte(cache);
         
