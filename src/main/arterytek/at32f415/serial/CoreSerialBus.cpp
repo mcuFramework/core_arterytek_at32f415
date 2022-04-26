@@ -38,7 +38,8 @@ using namespace hal::serial;
 //-----------------------------------------------------------------------------------------
 using arterytek::at32f415::serial::CoreSerialBusReg;
 using arterytek::at32f415::serial::CoreSerialBusConfig;
-using mcuf::io::ByteBuffer;
+using mcuf::io::OutputBuffer;
+using mcuf::io::InputBuffer;
 
 
 /* ****************************************************************************************
@@ -61,9 +62,9 @@ const CoreSerialBusConfig CoreSerialBus::mConfig[2] = {
 CoreSerialBus::CoreSerialBus(CoreSerialBusReg reg) : 
   mCoreSerialBusErrorEvent(*this){
   this->mRegister = reg;
-  this->mByteBuffer = nullptr;
-  this->mByteBufferNext = nullptr;
-  this->mDirect = 0;
+  this->mOutputBuffer = nullptr;
+  this->mInputBuffer = nullptr;
+  this->mResult = 0;
 }
 
 /**
@@ -90,13 +91,13 @@ CoreSerialBus::~CoreSerialBus(void){
  *
  */
 void CoreSerialBus::run(void){
-  ByteBuffer* byteBuffer = this->mByteBuffer;
   SerialBusEvent* event = this->mEvent;
   SerialBusStatus status = this->mStatus;
-  byteBuffer->position(byteBuffer->position() + this->mCount);
   void* attachment = this->mAttachment;
-  int result = this->mLength - this->mCount;
-  this->handlerClear();
+  int result = this->mResult;
+  this->mResult = 0;
+  this->mOutputBuffer = nullptr;
+  this->mInputBuffer = nullptr;
   
   if(event)
     event->onSerialBusEvent(status, result ,attachment);
@@ -115,59 +116,58 @@ void CoreSerialBus::interruptEvent(void){
   
   if(base->ctrl2_bit.dataien){
     if(base->sts1_bit.tdbe){ //write isr
-      if(this->mCount >= this->mLength){ //write successful
-        if(base->sts1_bit.tdc){
+    char cache;
+    if(this->mOutputBuffer->getByte(cache))
+      base->dt = cache;
+      ++this->mResult;
+    
+    }else{
+      if(base->sts1_bit.tdc){
+        if(this->mInputBuffer){
+          this->afterRead();
+            
+        }else{
+          base->ctrl1_bit.genstop = true;
+          base->ctrl2 &= ~static_cast<uint32_t>(I2C_EVT_INT | I2C_DATA_INT | I2C_ERR_INT);
           this->mStatus = SerialBusStatus::WRITE_SUCCESSFUL;
+          mcuf::lang::System::execute(*this);
           
-          if(this->mByteBufferNext){
-            this->afterRead();
-            
-          }else{
-            base->ctrl1_bit.genstop = true;
-            base->ctrl2 &= ~static_cast<uint32_t>(I2C_EVT_INT | I2C_DATA_INT | I2C_ERR_INT);
-            mcuf::lang::System::execute(*this);
-            
-          }
         }
-
-      }else{
-        base->dt = this->mPointer[this->mCount++];
-        
-      }
-
-    }else if(base->sts1_bit.rdbf){ //read isr
-      uint8_t cache = (uint8_t)base->dt;
-      if(this->mCount != 0)
-        this->mPointer[this->mCount-1] = cache;
-      
-      ++this->mCount;
-        
-      if((this->mCount+1) == (this->mLength+1)){
-        
-        base->ctrl1_bit.acken = false;
-        base->ctrl1_bit.genstop = true;
-          
-      }else if(this->mCount >= (this->mLength+1)){ //read successful
-        
-        this->mStatus = SerialBusStatus::READ_SUCCESSFUL;
-        base->ctrl1_bit.genstop = true;
-        base->ctrl2 &= ~static_cast<uint32_t>(I2C_EVT_INT | I2C_DATA_INT | I2C_ERR_INT);
-        mcuf::lang::System::execute(*this);
-        
       }
     }
-    
+
+  }else if(base->sts1_bit.rdbf){ //read isr
+    char cache = base->dt;
+    this->mInputBuffer->putByte(cache);
+        
+    if(this->mInputBuffer->remaining() == 1){
+      base->ctrl1_bit.acken = false;
+      base->ctrl1_bit.genstop = true;
+          
+    }else if(this->mInputBuffer->isFull()){ //read successful
+      if(this->mStatus == SerialBusStatus::TRANSFER_FAIL_READ)
+        this->mStatus = SerialBusStatus::TRANSFER_SUCCESSFUL;
+      
+      else
+        this->mStatus = SerialBusStatus::READ_SUCCESSFUL;
+      
+      base->ctrl1_bit.genstop = true;
+      base->ctrl2 &= ~static_cast<uint32_t>(I2C_EVT_INT | I2C_DATA_INT | I2C_ERR_INT);
+      mcuf::lang::System::execute(*this);
+        
+    }
   }
-  
+   
   if(base->ctrl2_bit.evtien){
     if(base->sts1_bit.startf){  //address
-      if(this->mDirect)  //write
+      if(this->mDirect == Direct::WRITE)  //write
         base->dt = (this->mAddress & 0xFE);
     
       else  //read
         base->dt = (this->mAddress | 0x01);
+      
     }else if(base->sts1_bit.addr7f){
-      if(this->mDirect) //enable receiver
+      if(this->mDirect == Direct::WRITE) //enable receiver
         base->ctrl1_bit.acken = false;
       
       else
@@ -223,8 +223,6 @@ bool CoreSerialBus::init(void){
   i2c_init(BASE, I2C_FSMODE_DUTY_2_1, 100000);
   i2c_own_address1_set(BASE, I2C_ADDRESS_MODE_7BIT, 0x00);
   BASE->ctrl1_bit.i2cen = true;
-  
-  this->handlerClear();
   
   return true;
 }
@@ -289,7 +287,18 @@ uint32_t CoreSerialBus::clockRate(uint32_t clock){
  * @return false 
  */
 bool CoreSerialBus::abort(void){
-  return false;
+  if(this->isBusy())
+    return false;
+  
+  BASE->ctrl1_bit.acken = false;
+  BASE->ctrl1_bit.genstop = true;
+  
+  i2c_interrupt_enable(BASE, I2C_EVT_INT | I2C_DATA_INT | I2C_ERR_INT, FALSE); 
+  this->statusClear();
+  BASE->sts1 = 0;
+  
+  System::execute(*this);
+  return true;
 }
 
 /**
@@ -299,10 +308,7 @@ bool CoreSerialBus::abort(void){
  * @return false 
  */
 bool CoreSerialBus::isBusy(void){
-  if(this->mByteBuffer != nullptr)
-    return true;
-  
-  return false;
+  return ((this->mInputBuffer != nullptr) || (this->mOutputBuffer != nullptr));
 }
 
 /**
@@ -312,13 +318,11 @@ bool CoreSerialBus::isBusy(void){
  * @param receiver 
  * @param event 
  */
-bool CoreSerialBus::read(uint16_t address, ByteBuffer& receiver, void* attachment, SerialBusEvent* event){
-  
+bool CoreSerialBus::read(uint16_t address, InputBuffer& in, void* attachment, SerialBusEvent* event){
   if(this->isBusy())
     return false;
   
-  this->mDirect = 0;
-  return this->handlerConfig(address, nullptr, &receiver, attachment, event);
+  return this->handlerConfig(address, nullptr, &in, attachment, event);
 }
 /**
  * @brief 
@@ -327,13 +331,11 @@ bool CoreSerialBus::read(uint16_t address, ByteBuffer& receiver, void* attachmen
  * @param receiver 
  * @param event 
  */
-bool CoreSerialBus::write(uint16_t address, ByteBuffer& transfer, void* attachment, SerialBusEvent* event){
-
+bool CoreSerialBus::write(uint16_t address, OutputBuffer& out, void* attachment, SerialBusEvent* event){
   if(this->isBusy())
     return false;
   
-  this->mDirect = 1;
-  return this->handlerConfig(address, &transfer, nullptr, attachment, event);
+  return this->handlerConfig(address, &out, nullptr, attachment, event);
 }
 
 /**
@@ -346,13 +348,11 @@ bool CoreSerialBus::write(uint16_t address, ByteBuffer& transfer, void* attachme
  * @return true 
  * @return false 
  */
-bool CoreSerialBus::writeAfterRead(uint16_t address, ByteBuffer& transfer, ByteBuffer& receiver, void* attachment, SerialBusEvent* event){
-
+bool CoreSerialBus::transfer(uint16_t address, OutputBuffer& out, InputBuffer& in, void* attachment, SerialBusEvent* event){
   if(this->isBusy())
     return false;
   
-  this->mDirect = 1;
-  return this->handlerConfig(address, &transfer, &receiver, attachment, event);
+  return this->handlerConfig(address, &out, &in, attachment, event);
 }
 
 /* ****************************************************************************************
@@ -375,69 +375,47 @@ bool CoreSerialBus::writeAfterRead(uint16_t address, ByteBuffer& transfer, ByteB
  * Private Method
  */
 
-bool CoreSerialBus::handlerConfig(uint16_t address, ByteBuffer* transfer, ByteBuffer* receiver, void* attachment, SerialBusEvent* event){
-  if(receiver->isEmpty()) // check receiver has data in byeBuffer
-    return false;
-  
-  if(transfer != nullptr){
-    if(transfer->isEmpty()) // check transfer has data in byteBuffer
-      return false;
-    
-    this->mByteBuffer = transfer;
-    this->mByteBufferNext = receiver;
-    
-  }else{
-    this->mByteBuffer = receiver;
-    this->mByteBufferNext = nullptr;
-    
-  }
+bool CoreSerialBus::handlerConfig(uint16_t address, OutputBuffer* out, InputBuffer* in, void* attachment, SerialBusEvent* event){
   
   this->mEvent = event;
   this->mAddress = static_cast<uint16_t>(address << 1);
-
-  if(this->handlerFormat(*this->mByteBuffer)){
-    if(this->begin())
-      return true;
+  
+  if((out != nullptr) && (in != nullptr)){
+    this->mStatus = SerialBusStatus::TRANSFER_FAIL_WRITE;
+    if(out->avariable() <= 0)
+      return false;
     
+    if(in->remaining() <= 0)
+      return false;
+    
+    this->mDirect = Direct::WRITE;
+  
+  }else if(out != nullptr){
+    this->mStatus = SerialBusStatus::WRITE_FAIL;
+    if(out->avariable() <= 0)
+      return false;
+    
+    this->mDirect = Direct::WRITE;
+    
+  }else if(in != nullptr){
+    this->mStatus = SerialBusStatus::READ_FAIL;
+    if(in->remaining() <= 0)
+      return false;
+    
+    this->mDirect = Direct::READ;
   }
   
-
+  this->mOutputBuffer = out;
+  this->mInputBuffer = in;
+  
+  if(this->begin())
+    return true;
+  
   BASE->ctrl1_bit.acken = false;
   BASE->ctrl1_bit.genstop = true;
   
-  if(this->mDirect)
-    this->mStatus = SerialBusStatus::WRITE_FAIL;
-  else
-    this->mStatus = SerialBusStatus::READ_FAIL;
-  
-  this->mCoreSerialBusErrorEvent.run();
+  System::execute(*this);
   return false;  
-}
-
-/**
- *
- */
-bool CoreSerialBus::handlerFormat(ByteBuffer& byteBuffer){
-  if(byteBuffer.isEmpty())
-    return false;
-  
-  this->mLength = static_cast<uint16_t>(byteBuffer.remaining());
-  this->mCount = 0;
-  this->mPointer = static_cast<uint8_t*>(byteBuffer.pointer(byteBuffer.position()));
-  
-  return true;
-}
-
-/**
- *
- */
-void CoreSerialBus::handlerClear(void){
-  this->mByteBuffer = nullptr;
-  this->mByteBufferNext = nullptr;
-  this->mPointer = nullptr;
-  this->mLength = 0;
-  this->mCount = 0;
-  this->mDirect = 0;
 }
 
 /**
@@ -455,8 +433,8 @@ bool CoreSerialBus::begin(void){
  */
 void CoreSerialBus::statusClear(void){
   i2c_type* base = BASE;
-  __IO uint32_t tmpreg;  
-  tmpreg = base->sts1; 
+  __IO uint32_t tmpreg;
+  tmpreg = base->sts1;
   tmpreg = base->sts2;
 }
 
@@ -464,10 +442,8 @@ void CoreSerialBus::statusClear(void){
  *
  */
 void CoreSerialBus::afterRead(void){
-  this->mByteBuffer = this->mByteBufferNext;
-  this->mByteBufferNext = nullptr;
-  this->handlerFormat(*this->mByteBuffer);
-  this->mDirect = 0;
+  this->mStatus = SerialBusStatus::TRANSFER_FAIL_READ;
+  this->mDirect = Direct::READ;
   this->begin();
 }
 

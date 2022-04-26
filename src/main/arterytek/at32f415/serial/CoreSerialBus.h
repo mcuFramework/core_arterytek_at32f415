@@ -36,12 +36,21 @@ namespace arterytek{
  * Class/Interface/Struct/Enum
  */  
 class arterytek::at32f415::serial::CoreSerialBus extends mcuf::lang::Object implements
-  public hal::InterruptEvent,
-  public hal::serial::SerialBus, 
-  public mcuf::function::Runnable{
+public hal::InterruptEvent,
+public hal::serial::SerialBus, 
+public mcuf::function::Runnable{
     
   friend CoreSerialBusErrorEvent;
 
+  /* **************************************************************************************
+   * Enum status
+   */
+  private:
+    enum struct Direct : char{
+      WRITE,
+      READ,
+    };
+    
   /* **************************************************************************************
    * Variable <Public>
    */
@@ -55,20 +64,17 @@ class arterytek::at32f415::serial::CoreSerialBus extends mcuf::lang::Object impl
    */
   private:
     static const arterytek::at32f415::serial::CoreSerialBusConfig mConfig[2];
-  
-    arterytek::at32f415::serial::CoreSerialBusReg mRegister;
-    uint8_t  mDirect;
     CoreSerialBusErrorEvent mCoreSerialBusErrorEvent;
-    
-    uint16_t mAddress;
-    uint16_t mLength;
-    uint16_t mCount;    
-    uint8_t* mPointer;
+    int mResult;
     hal::serial::SerialBusEvent* mEvent;
     hal::serial::SerialBusStatus mStatus;
-    mcuf::io::ByteBuffer* mByteBuffer;
-    mcuf::io::ByteBuffer* mByteBufferNext;
+    mcuf::io::OutputBuffer* mOutputBuffer;
+    mcuf::io::InputBuffer* mInputBuffer;
     void* mAttachment;
+  
+    uint16_t mAddress;
+    arterytek::at32f415::serial::CoreSerialBusReg mRegister;
+    Direct mDirect;
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -195,11 +201,12 @@ class arterytek::at32f415::serial::CoreSerialBus extends mcuf::lang::Object impl
      * @brief 
      * 
      * @param address 
-     * @param receiver 
+     * @param in
+     * @param attachment   
      * @param event 
      */
     virtual bool read(uint16_t address, 
-                      mcuf::io::ByteBuffer& receiver, 
+                      mcuf::io::InputBuffer& in, 
                       void* attachment,
                       hal::serial::SerialBusEvent* event) override;
 
@@ -207,11 +214,12 @@ class arterytek::at32f415::serial::CoreSerialBus extends mcuf::lang::Object impl
      * @brief 
      * 
      * @param address 
-     * @param receiver 
+     * @param out
+     * @param attachment                      
      * @param event 
      */
     virtual bool write(uint16_t address, 
-                       mcuf::io::ByteBuffer& transfer,
+                       mcuf::io::OutputBuffer& out,
                        void* attachment,
                        hal::serial::SerialBusEvent* event) override;
     
@@ -219,17 +227,18 @@ class arterytek::at32f415::serial::CoreSerialBus extends mcuf::lang::Object impl
      * @brief 
      * 
      * @param address 
-     * @param transfer 
-     * @param receiver 
+     * @param out
+     * @param in
+     * @param attachment                       
      * @param event 
      * @return true 
      * @return false 
      */
-    virtual bool writeAfterRead(uint16_t address, 
-                                mcuf::io::ByteBuffer& transfer, 
-                                mcuf::io::ByteBuffer& receiver,
-                                void* attachment,
-                                hal::serial::SerialBusEvent* event) override;
+    virtual bool transfer(uint16_t address,
+                          mcuf::io::OutputBuffer& out, 
+                          mcuf::io::InputBuffer& in,
+                          void* attachment,
+                          hal::serial::SerialBusEvent* event) override;
 
   /* **************************************************************************************
    * Public Method
@@ -261,20 +270,10 @@ class arterytek::at32f415::serial::CoreSerialBus extends mcuf::lang::Object impl
   private:
     
     bool handlerConfig(uint16_t address, 
-                       mcuf::io::ByteBuffer* transfer, 
-                       mcuf::io::ByteBuffer* receiver,
+                       mcuf::io::OutputBuffer* transfer, 
+                       mcuf::io::InputBuffer* receiver,
                        void* attachment,
                        hal::serial::SerialBusEvent* event);
-  
-    /**
-     *
-     */
-    bool handlerFormat(mcuf::io::ByteBuffer& byteBuffer);
-  
-    /**
-     *
-     */
-    void handlerClear(void);
   
     /**
      *
@@ -289,8 +288,7 @@ class arterytek::at32f415::serial::CoreSerialBus extends mcuf::lang::Object impl
     /**
      *
      */
-    void statusClear(void);
-                       
+    void statusClear(void);              
                        
 };
 
