@@ -353,9 +353,6 @@ bool CoreSerialPort::write(OutputBuffer& outputBuffer, void* attachment, Complet
  * @return false 
  */
 bool CoreSerialPort::write(OutputBuffer& outputBuffer, Future& future){
-  if(!future.classAvariable())
-    return false;
-  
   if(!future.isIdle())
     return false;
   
