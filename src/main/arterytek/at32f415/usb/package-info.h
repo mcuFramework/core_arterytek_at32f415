@@ -4,8 +4,8 @@
  * 
  * SPDX-License-Identifier: MIT
  */
-#ifndef CORE_ARTERYTEK_AT32F415_D05E5CAA_168E_4884_801E_3967880AC386
-#define CORE_ARTERYTEK_AT32F415_D05E5CAA_168E_4884_801E_3967880AC386
+#ifndef CORE_ARTERYTEK_AT32F415_74835A29_069A_4C29_BDBD_5061054AAC27
+#define CORE_ARTERYTEK_AT32F415_74835A29_069A_4C29_BDBD_5061054AAC27
 
 /* ****************************************************************************************
  * Include folder
@@ -14,10 +14,10 @@
 /* ****************************************************************************************
  * Include
  */
-#include "CoreAnalogInputTest.h"
+#include "CoreHumanInterfaceDevices.h"
 
 /* ****************************************************************************************
  * End of file
  */
 
-#endif /* CORE_ARTERYTEK_AT32F415_D05E5CAA_168E_4884_801E_3967880AC386 */
+#endif /* CORE_ARTERYTEK_AT32F415_74835A29_069A_4C29_BDBD_5061054AAC27 */

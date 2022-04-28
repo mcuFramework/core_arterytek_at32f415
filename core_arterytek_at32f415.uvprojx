@@ -686,6 +686,26 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>main/arterytek/at32f415/usb</GroupName>
+          <Files>
+            <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\usb\package-info.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreHumanInterfaceDevices.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\usb\CoreHumanInterfaceDevices.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreHumanInterfaceDevices.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\usb\CoreHumanInterfaceDevices.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>resources</GroupName>
           <GroupOption>
             <CommonProperty>
@@ -2499,6 +2519,26 @@
               <FileName>package-info.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\main\arterytek\at32f415\storage\package-info.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>main/arterytek/at32f415/usb</GroupName>
+          <Files>
+            <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\usb\package-info.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreHumanInterfaceDevices.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\usb\CoreHumanInterfaceDevices.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreHumanInterfaceDevices.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\usb\CoreHumanInterfaceDevices.h</FilePath>
             </File>
           </Files>
         </Group>

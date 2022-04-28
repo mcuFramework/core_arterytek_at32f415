@@ -86,31 +86,34 @@ uint32_t Core::getSystemCoreClock(void){
  *
  */
 bool Core::setSystemCoreClock(uint32_t mhz){
-  if(mhz > 150)
+  if((mhz > 256) || (mhz < 16))
     return false;
   
-  if(mhz < 12)
+  if(mhz & 0x00000003)
     return false;
-  
-  if(mhz & 0x00000001)
-    return false;
-  
-  mhz = (mhz >> 1);
   
  /* config flash psr register */
-  flash_psr_set(FLASH_WAIT_CYCLE_4); 
+  if(mhz <= 128)
+    flash_psr_set(((mhz-1) >> 5));
+  
+  else
+    flash_psr_set(FLASH_WAIT_CYCLE_4);
 
   /* reset crm */
   crm_reset();
 
+  /* enable hick */
   crm_clock_source_enable(CRM_CLOCK_SOURCE_HICK, TRUE);
 
    /* wait till hick is ready */
   while(crm_flag_get(CRM_HICK_STABLE_FLAG) != SET);
 
   /* config pll clock resource */
-  crm_pll_config2(CRM_PLL_SOURCE_HICK, static_cast<uint16_t>(mhz), 1, CRM_PLL_FR_2);
-  //crm_pll_config(CRM_PLL_SOURCE_HICK, CRM_PLL_MULT_18);
+  if(mhz <= 60)
+    crm_pll_config(CRM_PLL_SOURCE_HICK, static_cast<crm_pll_mult_type>((mhz >> 2) - 2));
+  
+  else
+    crm_pll_config(CRM_PLL_SOURCE_HICK, static_cast<crm_pll_mult_type>((mhz >> 2) - 1));
 
   /* enable pll */
   crm_clock_source_enable(CRM_CLOCK_SOURCE_PLL, TRUE);
@@ -118,14 +121,21 @@ bool Core::setSystemCoreClock(uint32_t mhz){
   /* wait till pll is ready */
   while(crm_flag_get(CRM_PLL_STABLE_FLAG) != SET);
 
-  /* config ahbclk */
-  crm_ahb_div_set(CRM_AHB_DIV_1);
+  if(mhz <= 150){
+    crm_ahb_div_set(CRM_AHB_DIV_1);
 
-  /* config apb2clk */
-  crm_apb2_div_set(CRM_APB2_DIV_2);
-
-  /* config apb1clk */
-  crm_apb1_div_set(CRM_APB1_DIV_2);
+    if(mhz <= 75){
+      crm_apb2_div_set(CRM_APB2_DIV_1);
+      crm_apb1_div_set(CRM_APB1_DIV_1);
+    }else{
+      crm_apb2_div_set(CRM_APB2_DIV_2);
+      crm_apb1_div_set(CRM_APB1_DIV_2);
+    }
+  }else{
+    crm_ahb_div_set(CRM_AHB_DIV_2);
+    crm_apb2_div_set(CRM_APB2_DIV_2);
+    crm_apb1_div_set(CRM_APB1_DIV_2);
+  }
 
   /* enable auto step mode */
   crm_auto_step_mode_enable(TRUE);
@@ -138,6 +148,9 @@ bool Core::setSystemCoreClock(uint32_t mhz){
 
   /* disable auto step mode */
   crm_auto_step_mode_enable(FALSE);
+
+  /* config usbclk from hick48 */
+  crm_usb_clock_source_select(CRM_USB_CLOCK_SOURCE_HICK);
 
   /* update system_core_clock global variable */
   SystemCoreClockUpdate();
