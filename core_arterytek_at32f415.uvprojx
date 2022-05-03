@@ -339,7 +339,7 @@
               <MiscControls>-fexceptions -frtti</MiscControls>
               <Define>AT32F415RBT7</Define>
               <Undefine></Undefine>
-              <IncludePath>.\src\main;.\src\test;.\src\resources;.\ref\mcuf\src\main;.\ref\bsp_arterytek_at32f415\src\main</IncludePath>
+              <IncludePath>.\src\main;.\src\test;.\src\resources;.\ref\mcuf\src\main</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -2591,7 +2591,7 @@
               <MiscControls>-fexceptions</MiscControls>
               <Define>AT32F415RBT7, DEBUG</Define>
               <Undefine></Undefine>
-              <IncludePath>.\src\main;.\src\test;.\src\resources;.\ref\mcuf\src\main;.\ref\bsp_arterytek_at32f415\src\main</IncludePath>
+              <IncludePath>.\src\main;.\src\test;.\src\resources;.\ref\mcuf\src\main</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
