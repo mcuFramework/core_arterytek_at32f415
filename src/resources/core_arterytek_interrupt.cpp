@@ -69,26 +69,32 @@ using arterytek::at32f415::CoreInterrupt;
  */
 
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void I2C1_EVT_IRQHandler(void){
   Core::interrupt.mHandle[CoreInterrupt::IRQ_I2C1_EVT]->interruptEvent();
 }
 
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void I2C1_ERR_IRQHandler(void){
   Core::interrupt.mHandle[CoreInterrupt::IRQ_I2C1_ERR]->interruptEvent();
 }
+
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void I2C2_EVT_IRQHandler(void){
   Core::interrupt.mHandle[CoreInterrupt::IRQ_I2C2_EVT]->interruptEvent();
 }
+
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void I2C2_ERR_IRQHandler(void){
   Core::interrupt.mHandle[CoreInterrupt::IRQ_I2C2_ERR]->interruptEvent();
@@ -99,14 +105,16 @@ extern "C" void I2C2_ERR_IRQHandler(void){
  */
 
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void SPI1_IRQHandler(void){
   Core::interrupt.mHandle[CoreInterrupt::IRQ_SPI1]->interruptEvent();
 }
 
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void SPI2_IRQHandler(void){
   Core::interrupt.mHandle[CoreInterrupt::IRQ_SPI2]->interruptEvent();
@@ -117,35 +125,40 @@ extern "C" void SPI2_IRQHandler(void){
  */
 
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void USART1_IRQHandler(void){
   Core::interrupt.mHandle[CoreInterrupt::IRQ_USART1]->interruptEvent();
 }
 
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void USART2_IRQHandler(void){
   Core::interrupt.mHandle[CoreInterrupt::IRQ_USART2]->interruptEvent();
 }
 
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void USART3_IRQHandler(void){
   Core::interrupt.mHandle[CoreInterrupt::IRQ_USART3]->interruptEvent();
 }
 
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void UART4_IRQHandler(void){
   Core::interrupt.mHandle[CoreInterrupt::IRQ_UART4]->interruptEvent();
 }
 
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void UART5_IRQHandler(void){
   Core::interrupt.mHandle[CoreInterrupt::IRQ_UART5]->interruptEvent();
@@ -156,14 +169,16 @@ extern "C" void UART5_IRQHandler(void){
  */
 
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void TMR1_CH_IRQHandler(void){
   Core::interrupt.mHandle[CoreInterrupt::IRQ_TMR1_CC]->interruptEvent();
 }
 
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void TMR1_BRK_TMR9_IRQHandler(void){
   if(TMR1->ists_bit.brkif)
@@ -175,7 +190,8 @@ extern "C" void TMR1_BRK_TMR9_IRQHandler(void){
 }
 
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void TMR1_OVF_TMR10_IRQHandler(void){
   if(TMR1->ists_bit.ovfif)
@@ -187,7 +203,8 @@ extern "C" void TMR1_OVF_TMR10_IRQHandler(void){
 }
 
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void TMR1_TRG_HALL_TMR11_IRQHandler(void){
   if(TMR1->ists_bit.trgif)
@@ -198,76 +215,84 @@ extern "C" void TMR1_TRG_HALL_TMR11_IRQHandler(void){
 }
 
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void TMR2_GLOBAL_IRQHandler(void){
   Core::interrupt.mHandle[CoreInterrupt::IRQ_TMR2]->interruptEvent();
 }
 
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void TMR3_GLOBAL_IRQHandler(void){
   Core::interrupt.mHandle[CoreInterrupt::IRQ_TMR3]->interruptEvent();
 }
 
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void TMR4_GLOBAL_IRQHandler(void){
   Core::interrupt.mHandle[CoreInterrupt::IRQ_TMR4]->interruptEvent();
 }
 
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void TMR5_GLOBAL_IRQHandler(void){
   Core::interrupt.mHandle[CoreInterrupt::IRQ_TMR5]->interruptEvent();
 }
-
-
 
 /* ****************************************************************************************
  * Function - EXINT
  */
 
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void EXINT0_IRQHandler(void){
   Core::interrupt.mHandle[CoreInterrupt::IRQ_EXINT0]->interruptEvent();
 }
 
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void EXINT1_IRQHandler(void){
   Core::interrupt.mHandle[CoreInterrupt::IRQ_EXINT1]->interruptEvent();
 }
 
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void EXINT2_IRQHandler(void){
   Core::interrupt.mHandle[CoreInterrupt::IRQ_EXINT2]->interruptEvent();
 }
 
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void EXINT3_IRQHandler(void){
   Core::interrupt.mHandle[CoreInterrupt::IRQ_EXINT3]->interruptEvent();
 }
 
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void EXINT4_IRQHandler(void){
   Core::interrupt.mHandle[CoreInterrupt::IRQ_EXINT4]->interruptEvent();
 }
 
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void EXINT9_5_IRQHandler(void){
   for(;;){
@@ -292,7 +317,8 @@ extern "C" void EXINT9_5_IRQHandler(void){
 }
 
 /**
- *
+ * @brief 
+ * 
  */
 extern "C" void EXINT15_10_IRQHandler(void){
 	for(;;){
@@ -319,6 +345,25 @@ extern "C" void EXINT15_10_IRQHandler(void){
 	}  
 }
 
+/* ****************************************************************************************
+ * Function - OTG
+ */
+
+/**
+ * @brief 
+ * 
+ */
+extern "C" void OTGFS1_IRQHandler(void){
+  Core::interrupt.mHandle[CoreInterrupt::IRQ_OTGFS]->interruptEvent();
+}
+
+/**
+ * @brief 
+ * 
+ */
+extern "C" void OTGFS1_WKUP_IRQHandler(void){
+  Core::interrupt.mHandle[CoreInterrupt::IRQ_OTGFS_WAKE]->interruptEvent();
+}
 
 
 /* *****************************************************************************************

@@ -97,7 +97,8 @@ class arterytek::at32f415::CoreInterrupt extends mcuf::lang::Object
     IRQ_USART2        = 59, 
     IRQ_USART3        = 60, 
     IRQ_UART4         = 61, 
-    IRQ_UART5         = 62, 
+    IRQ_UART5         = 62,
+    IRQ_OTGFS_WAKE    = 63,
     IRQ_MAX_QUANTITY
   };
         

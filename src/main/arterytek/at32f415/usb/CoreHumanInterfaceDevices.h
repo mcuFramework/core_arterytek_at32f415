@@ -12,6 +12,7 @@
  */  
 
 //-----------------------------------------------------------------------------------------
+#include "mcuf.h"
 
 //-----------------------------------------------------------------------------------------
 
@@ -30,8 +31,23 @@ namespace arterytek{
 /* ****************************************************************************************
  * Class/Interface/Struct/Enum
  */  
-class arterytek::at32f415::usb::CoreHumanInterfaceDevices{
+class arterytek::at32f415::usb::CoreHumanInterfaceDevices extends mcuf::lang::Object{
 
+  /* **************************************************************************************
+   * Enum Descriptor
+   */
+  private:
+    enum struct DescriptorOffset : uint8_t{
+      LENGTH           = 0,
+      DESCRIPTOR_TYPE  = 1,
+      BCD_USB          = 2,
+      DEVICE_CALSS     = 4,
+      DEVICE_SUB_CLASS = 5,
+      DEVICE_PROTOCOL  = 6,
+      MAX_PACKET_SIZE  = 7,
+      
+    };
+  
   /* **************************************************************************************
    * Variable <Public>
    */
@@ -43,6 +59,10 @@ class arterytek::at32f415::usb::CoreHumanInterfaceDevices{
   /* **************************************************************************************
    * Variable <Private>
    */
+  private:
+    uint8_t mDescriptor[18];
+    uint16_t mVinderID;
+    uint16_t mProductID;
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -55,10 +75,10 @@ class arterytek::at32f415::usb::CoreHumanInterfaceDevices{
   /* **************************************************************************************
    * Construct Method
    */
-  public: 
-	CoreHumanInterfaceDevices(void) = default;
+  public:
+    CoreHumanInterfaceDevices(void);
 
-	virtual ~CoreHumanInterfaceDevices(void) = default;
+    virtual ~CoreHumanInterfaceDevices(void) override;
 
   /* **************************************************************************************
    * Operator Method
@@ -75,6 +95,16 @@ class arterytek::at32f415::usb::CoreHumanInterfaceDevices{
   /* **************************************************************************************
    * Public Method
    */
+  public: 
+    void productID(uint16_t id);
+  
+    uint16_t productID(void);
+  
+    void vindorID(uint16_t id);
+  
+    uint16_t vindorID(void);
+  
+    
 
   /* **************************************************************************************
    * Protected Method <Static>

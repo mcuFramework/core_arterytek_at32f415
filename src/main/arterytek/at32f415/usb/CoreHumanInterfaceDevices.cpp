@@ -51,6 +51,28 @@ using arterytek::at32f415::usb::CoreHumanInterfaceDevices;
  * Public Method
  */
 
+void CoreHumanInterfaceDevices::productID(uint16_t id){
+  this->mDescriptor[10] = static_cast<uint8_t>(id & 0x00FF);
+  this->mDescriptor[11] = static_cast<uint8_t>((id & 0xFF00) >> 8);
+}
+  
+uint16_t CoreHumanInterfaceDevices::productID(void){
+  uint16_t result = this->mDescriptor[10];
+  result |= (this->mDescriptor[11] >> 8);
+  return result;
+}
+ 
+void CoreHumanInterfaceDevices::vindorID(uint16_t id){
+  this->mDescriptor[8] = static_cast<uint8_t>(id & 0x00FF);
+  this->mDescriptor[9] = static_cast<uint8_t>((id & 0xFF00) >> 8);
+}
+  
+uint16_t CoreHumanInterfaceDevices::vindorID(void){
+  uint16_t result = this->mDescriptor[8];
+  result |= (this->mDescriptor[9] >> 8);
+  return result;
+}
+
 /* ****************************************************************************************
  * Protected Method <Static>
  */

@@ -86,6 +86,7 @@ namespace arterytek{
        /*  IRQ_USART3        = 60, */   USART3_IRQn,
        /*  IRQ_UART4         = 61, */   UART4_IRQn,
        /*  IRQ_UART5         = 62, */   UART5_IRQn,
+       /*  IRQ_OTGFS_WAKE    = 63, */   OTGFS1_WKUP_IRQn
       },
     };
   }
