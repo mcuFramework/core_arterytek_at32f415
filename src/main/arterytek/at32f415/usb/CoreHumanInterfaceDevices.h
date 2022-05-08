@@ -31,22 +31,19 @@ namespace arterytek{
 /* ****************************************************************************************
  * Class/Interface/Struct/Enum
  */  
-class arterytek::at32f415::usb::CoreHumanInterfaceDevices extends mcuf::lang::Object{
+class arterytek::at32f415::usb::CoreHumanInterfaceDevices extends mcuf::io::RingBufferInputStream implements
+public mcuf::io::OutputStream,
+public hal::Base,
+public hal::InterruptEvent{
 
   /* **************************************************************************************
    * Enum Descriptor
    */
   private:
-    enum struct DescriptorOffset : uint8_t{
-      LENGTH           = 0,
-      DESCRIPTOR_TYPE  = 1,
-      BCD_USB          = 2,
-      DEVICE_CALSS     = 4,
-      DEVICE_SUB_CLASS = 5,
-      DEVICE_PROTOCOL  = 6,
-      MAX_PACKET_SIZE  = 7,
-      
-    };
+    mcuf::io::OutputBuffer* mOutputBuffer;
+    void* mAttachment;
+    mcuf::io::CompletionHandler<int, void*>* mHandler;
+    int mResult;
   
   /* **************************************************************************************
    * Variable <Public>
@@ -59,10 +56,6 @@ class arterytek::at32f415::usb::CoreHumanInterfaceDevices extends mcuf::lang::Ob
   /* **************************************************************************************
    * Variable <Private>
    */
-  private:
-    uint8_t mDescriptor[18];
-    uint16_t mVinderID;
-    uint16_t mProductID;
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -76,8 +69,32 @@ class arterytek::at32f415::usb::CoreHumanInterfaceDevices extends mcuf::lang::Ob
    * Construct Method
    */
   public:
-    CoreHumanInterfaceDevices(void);
+    /**
+     * @brief Construct a new Core Human Interface Devices object
+     * 
+     * @param buffer 
+     * @param bufferSize 
+     */
+    CoreHumanInterfaceDevices(void* buffer, uint32_t bufferSize);
+      
+    /**
+     * @brief Construct a new Core Human Interface Devices object
+     * 
+     * @param memory 
+     */
+    CoreHumanInterfaceDevices(const mcuf::lang::Memory& memory);  
 
+    /**
+     * @brief Construct a new Core Human Interface Devices object
+     * 
+     * @param length 
+     */
+    CoreHumanInterfaceDevices(uint32_t length);
+
+    /**
+     * @brief Destroy the Core Human Interface Devices object
+     * 
+     */
     virtual ~CoreHumanInterfaceDevices(void) override;
 
   /* **************************************************************************************
@@ -89,22 +106,111 @@ class arterytek::at32f415::usb::CoreHumanInterfaceDevices extends mcuf::lang::Ob
    */
 
   /* **************************************************************************************
-   * Public Method <Override>
+   * Public Method <Override> - hal::Base
    */
+  public:
+    /**
+     * @brief uninitialze hardware.
+     * 
+     * @return true 
+     * @return false 
+     */
+    virtual bool deinit(void) override;
+
+    /**
+     * @brief initialze hardware;
+     * 
+     * @return true 
+     * @return false 
+     */
+    virtual bool init(void) override;
+
+    /**
+     * @brief get hardware initialzed status.
+     * 
+     * @return true not init
+     * @return false initd
+     */
+    virtual bool isInit(void) override;
+
+  /* **************************************************************************************
+   * Public Method <Override> - hal::InterruptEvent
+   */
+  public:
+    /**
+     * @brief 
+     * 
+     */
+    virtual void interruptEvent(void) override;
+  /* **************************************************************************************
+   * Public Method <Override> - mcuf::io::OutputStream
+   */
+  public:
+    /**
+     * @brief 
+     * 
+     * @return true 
+     * @return false 
+     */
+    virtual bool abortWrite(void) override;
+    
+    /**
+     * @brief 
+     * 
+     * @return true is busy.
+     * @return false isn't busy.
+     */
+    virtual bool writeBusy(void) override;
+    
+    /**
+     * @brief 
+     * 
+     * @param outputBuffer
+     * @param future 
+     * @return true 
+     * @return false 
+     */
+    virtual bool write(mcuf::io::OutputBuffer& outputBuffer, int timeout) override;  
+    
+    /**
+     * @brief 
+     * 
+     * @param outputBuffer
+     * @param attachment 
+     * @param handler 
+     * @return true successful.
+     * @return false fail.
+     */
+    virtual bool write(mcuf::io::OutputBuffer& outputBuffer, 
+                       void* attachment,
+                       mcuf::io::CompletionHandler<int, void*>* handler) override;
+
+    /**
+     * @brief 
+     * 
+     * @param outputBuffer
+     * @param future 
+     * @return true 
+     * @return false 
+     */
+    virtual bool write(mcuf::io::OutputBuffer& outputBuffer, mcuf::io::Future& future) override;
 
   /* **************************************************************************************
    * Public Method
    */
-  public: 
-    void productID(uint16_t id);
+  public:
+    /**
+     * @brief 
+     * 
+     */
+    void onTransfer(void);
   
-    uint16_t productID(void);
-  
-    void vindorID(uint16_t id);
-  
-    uint16_t vindorID(void);
-  
-    
+    /**
+     * @brief 
+     * 
+     * @param data 
+     */
+    void onReceiver(void *udev, uint8_t *report, uint16_t len);
 
   /* **************************************************************************************
    * Protected Method <Static>
@@ -129,7 +235,20 @@ class arterytek::at32f415::usb::CoreHumanInterfaceDevices extends mcuf::lang::Ob
   /* **************************************************************************************
    * Private Method
    */
+  private:
+    
+    /**
+     * @brief 
+     * 
+     */
+    void executeCompletionHandler(void);
 
+    /**
+     * @brief 
+     * 
+     */
+    void writePacket(void);
+    
 };
 
 /* ****************************************************************************************

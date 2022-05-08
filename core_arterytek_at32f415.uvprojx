@@ -1123,6 +1123,26 @@
               <FileType>5</FileType>
               <FilePath>.\src\main\middlewares\usbd_sdr.h</FilePath>
             </File>
+            <File>
+              <FileName>custom_hid_class.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\main\middlewares\custom_hid_class.c</FilePath>
+            </File>
+            <File>
+              <FileName>custom_hid_class.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\middlewares\custom_hid_class.h</FilePath>
+            </File>
+            <File>
+              <FileName>custom_hid_desc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\main\middlewares\custom_hid_desc.c</FilePath>
+            </File>
+            <File>
+              <FileName>custom_hid_desc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\middlewares\custom_hid_desc.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -3374,6 +3394,26 @@
               <FileName>usbd_sdr.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\main\middlewares\usbd_sdr.h</FilePath>
+            </File>
+            <File>
+              <FileName>custom_hid_class.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\main\middlewares\custom_hid_class.c</FilePath>
+            </File>
+            <File>
+              <FileName>custom_hid_class.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\middlewares\custom_hid_class.h</FilePath>
+            </File>
+            <File>
+              <FileName>custom_hid_desc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\main\middlewares\custom_hid_desc.c</FilePath>
+            </File>
+            <File>
+              <FileName>custom_hid_desc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\middlewares\custom_hid_desc.h</FilePath>
             </File>
           </Files>
         </Group>

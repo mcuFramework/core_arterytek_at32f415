@@ -50,6 +50,27 @@ extern "C" {
 #define USE_OTG_DEVICE_MODE
 
 /**
+  * @brief enable usb host mode
+  */
+/* #define USE_OTG_HOST_MODE */
+
+#define USB_ID                           0
+#define OTG_IRQ                          OTGFS1_IRQn
+#define OTG_IRQ_HANDLER                  OTGFS1_IRQHandler
+#define OTG_WKUP_IRQ                     OTGFS1_WKUP_IRQn
+#define OTG_WKUP_HANDLER                 OTGFS1_WKUP_IRQHandler
+#define OTG_WKUP_EXINT_LINE              EXINT_LINE_18
+
+#define OTG_PIN_GPIO                     GPIOA
+#define OTG_PIN_GPIO_CLOCK               CRM_GPIOA_PERIPH_CLOCK
+#define OTG_PIN_VBUS                     GPIO_PINS_9
+#define OTG_PIN_ID                       GPIO_PINS_10
+
+#define OTG_PIN_SOF_GPIO                 GPIOA
+#define OTG_PIN_SOF_GPIO_CLOCK           CRM_GPIOA_PERIPH_CLOCK
+#define OTG_PIN_SOF                      GPIO_PINS_8
+
+/**
   * @brief usb device mode config
   */
 #ifdef USE_OTG_DEVICE_MODE
