@@ -158,8 +158,8 @@ uint32_t CoreAnalogInputPort::read(int channel){
 /**
  *
  */
-uint32_t CoreAnalogInputPort::getConvertBit(void){
-  return 16;
+uint32_t CoreAnalogInputPort::getConvertLevel(void){
+  return 4096;
 }
 
 /* ****************************************************************************************

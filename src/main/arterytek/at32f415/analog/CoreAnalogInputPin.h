@@ -101,7 +101,7 @@ class arterytek::at32f415::analog::CoreAnalogInputPin extends mcuf::lang::Object
      * 
      * @return uint32_t 
      */
-    virtual uint32_t getConvertBit(void) override;
+    virtual uint32_t getConvertLevel(void) override;
 
   /* **************************************************************************************
    * Public Method

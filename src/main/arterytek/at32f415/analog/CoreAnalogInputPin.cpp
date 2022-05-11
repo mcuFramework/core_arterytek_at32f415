@@ -80,8 +80,8 @@ uint32_t CoreAnalogInputPin::convert(void){
      * 
      * @return uint32_t 
      */
-uint32_t CoreAnalogInputPin::getConvertBit(void){
-  return this->mCoreAnalogInputPort.getConvertBit();
+uint32_t CoreAnalogInputPin::getConvertLevel(void){
+  return this->mCoreAnalogInputPort.getConvertLevel();
 }
 
 /* ****************************************************************************************
