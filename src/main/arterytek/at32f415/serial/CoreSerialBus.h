@@ -54,7 +54,9 @@ public mcuf::function::Runnable{
   /* **************************************************************************************
    * Variable <Public>
    */
-
+  public:
+    static const arterytek::at32f415::serial::CoreSerialBusConfig mConfig[2];
+  
   /* **************************************************************************************
    * Variable <Protected>
    */
@@ -63,7 +65,6 @@ public mcuf::function::Runnable{
    * Variable <Private>
    */
   private:
-    static const arterytek::at32f415::serial::CoreSerialBusConfig mConfig[2];
     CoreSerialBusErrorEvent mCoreSerialBusErrorEvent;
     int mResult;
     hal::serial::SerialBusEvent* mEvent;
@@ -288,7 +289,7 @@ public mcuf::function::Runnable{
     /**
      *
      */
-    void statusClear(void);              
+    void statusClear(void);
                        
 };
 

@@ -584,6 +584,11 @@
           <GroupName>main/arterytek/at32f415/serial</GroupName>
           <Files>
             <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\package-info.h</FilePath>
+            </File>
+            <File>
               <FileName>CoreSerialBus.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBus.cpp</FilePath>
@@ -599,6 +604,11 @@
               <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusConfig.h</FilePath>
             </File>
             <File>
+              <FileName>CoreSerialBusErrorCode.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusErrorCode.h</FilePath>
+            </File>
+            <File>
               <FileName>CoreSerialBusErrorEvent.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusErrorEvent.cpp</FilePath>
@@ -612,6 +622,26 @@
               <FileName>CoreSerialBusReg.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusReg.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBusSlave.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusSlave.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBusSlave.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusSlave.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBusSlaveErrorEvent.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusSlaveErrorEvent.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBusSlaveErrorEvent.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusSlaveErrorEvent.h</FilePath>
             </File>
             <File>
               <FileName>CoreSerialPeriph.cpp</FileName>
@@ -657,11 +687,6 @@
               <FileName>CoreSerialPortReg.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPortReg.h</FilePath>
-            </File>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\arterytek\at32f415\serial\package-info.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -2289,7 +2314,7 @@
         <TargetCommonOption>
           <Device>-AT32F415RBT7</Device>
           <Vendor>ArteryTek</Vendor>
-          <PackID>ArteryTek.AT32F415_DFP.2.0.2</PackID>
+          <PackID>ArteryTek.AT32F415_DFP.2.0.3</PackID>
           <Cpu>IRAM(0x20000000,0x8000) IROM(0x08000000,0x20000) CPUTYPE("Cortex-M4") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
@@ -2856,6 +2881,11 @@
           <GroupName>main/arterytek/at32f415/serial</GroupName>
           <Files>
             <File>
+              <FileName>package-info.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\package-info.h</FilePath>
+            </File>
+            <File>
               <FileName>CoreSerialBus.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBus.cpp</FilePath>
@@ -2871,6 +2901,11 @@
               <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusConfig.h</FilePath>
             </File>
             <File>
+              <FileName>CoreSerialBusErrorCode.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusErrorCode.h</FilePath>
+            </File>
+            <File>
               <FileName>CoreSerialBusErrorEvent.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusErrorEvent.cpp</FilePath>
@@ -2884,6 +2919,26 @@
               <FileName>CoreSerialBusReg.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusReg.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBusSlave.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusSlave.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBusSlave.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusSlave.h</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBusSlaveErrorEvent.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusSlaveErrorEvent.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CoreSerialBusSlaveErrorEvent.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialBusSlaveErrorEvent.h</FilePath>
             </File>
             <File>
               <FileName>CoreSerialPeriph.cpp</FileName>
@@ -2929,11 +2984,6 @@
               <FileName>CoreSerialPortReg.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\main\arterytek\at32f415\serial\CoreSerialPortReg.h</FilePath>
-            </File>
-            <File>
-              <FileName>package-info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\main\arterytek\at32f415\serial\package-info.h</FilePath>
             </File>
           </Files>
         </Group>

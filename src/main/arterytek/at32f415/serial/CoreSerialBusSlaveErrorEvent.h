@@ -4,8 +4,8 @@
  * 
  * SPDX-License-Identifier: MIT
  */
-#ifndef CORE_ARTERYTEK_AT32F415_DB5ABDE6_215C_4953_8158_5D6ED20E46C6
-#define CORE_ARTERYTEK_AT32F415_DB5ABDE6_215C_4953_8158_5D6ED20E46C6
+#ifndef CORE_ARTERYTEK_AT32F415_91F8A9FC_556B_4D1C_8D4B_E515D285F7DF
+#define CORE_ARTERYTEK_AT32F415_91F8A9FC_556B_4D1C_8D4B_E515D285F7DF
 
 /* ****************************************************************************************
  * Include
@@ -19,12 +19,11 @@
 /* ****************************************************************************************
  * Namespace
  */  
-
 namespace arterytek{
   namespace at32f415{
     namespace serial{
-      class CoreSerialBus;
-      class CoreSerialBusErrorEvent;
+      class CoreSerialBusSlaveErrorEvent;
+      class CoreSerialBusSlave;
     }
   }
 }
@@ -33,7 +32,7 @@ namespace arterytek{
 /* ****************************************************************************************
  * Class/Interface/Struct/Enum
  */  
-class arterytek::at32f415::serial::CoreSerialBusErrorEvent extends mcuf::lang::Object implements
+class arterytek::at32f415::serial::CoreSerialBusSlaveErrorEvent extends mcuf::lang::Object implements
 public hal::InterruptEvent{
 
   /* **************************************************************************************
@@ -48,7 +47,7 @@ public hal::InterruptEvent{
    * Variable <Private>
    */
   private:
-    CoreSerialBus& mBase;    
+    arterytek::at32f415::serial::CoreSerialBusSlave& mBase;
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -61,19 +60,19 @@ public hal::InterruptEvent{
   /* **************************************************************************************
    * Construct Method
    */
-  public:
+  public: 
     /**
-     * @brief Construct a new Core Serial Bus Error Event object
+     * @brief Construct a new Core Serial Bus Slave Error Event object
      * 
-     * @param base 
+     * @param coreSerialBusSlave 
      */
-    CoreSerialBusErrorEvent(CoreSerialBus& base);
+    CoreSerialBusSlaveErrorEvent(arterytek::at32f415::serial::CoreSerialBusSlave& coreSerialBusSlave);
 
     /**
-     * @brief Destroy the Core Serial Bus Error Event object
+     * @brief Destroy the Core Serial Bus Slave Error Event object
      * 
      */
-    virtual ~CoreSerialBusErrorEvent(void) override;
+    virtual ~CoreSerialBusSlaveErrorEvent(void) override;
 
   /* **************************************************************************************
    * Operator Method
@@ -128,4 +127,4 @@ public hal::InterruptEvent{
  * End of file
  */ 
 
-#endif /* CORE_ARTERYTEK_AT32F415_DB5ABDE6_215C_4953_8158_5D6ED20E46C6 */
+#endif /* CORE_ARTERYTEK_AT32F415_91F8A9FC_556B_4D1C_8D4B_E515D285F7DF */

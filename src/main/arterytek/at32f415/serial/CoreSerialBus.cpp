@@ -376,6 +376,17 @@ bool CoreSerialBus::transfer(uint16_t address, OutputBuffer& out, InputBuffer& i
  * Private Method
  */
 
+/**
+ * @brief 
+ * 
+ * @param address 
+ * @param out 
+ * @param in 
+ * @param attachment 
+ * @param event 
+ * @return true 
+ * @return false 
+ */
 bool CoreSerialBus::handlerConfig(uint16_t address, OutputBuffer* out, InputBuffer* in, void* attachment, SerialBusEvent* event){
   
   this->mEvent = event;
@@ -420,7 +431,10 @@ bool CoreSerialBus::handlerConfig(uint16_t address, OutputBuffer* out, InputBuff
 }
 
 /**
- *
+ * @brief 
+ * 
+ * @return true 
+ * @return false 
  */
 bool CoreSerialBus::begin(void){
   i2c_interrupt_enable(BASE, I2C_EVT_INT | I2C_DATA_INT | I2C_ERR_INT, TRUE);
@@ -430,7 +444,8 @@ bool CoreSerialBus::begin(void){
 }
 
 /**
- *
+ * @brief 
+ * 
  */
 void CoreSerialBus::statusClear(void){
   i2c_type* base = BASE;
@@ -440,7 +455,8 @@ void CoreSerialBus::statusClear(void){
 }
 
 /**
- *
+ * @brief 
+ * 
  */
 void CoreSerialBus::afterRead(void){
   this->mStatus = SerialBusStatus::TRANSFER_FAIL_READ;
