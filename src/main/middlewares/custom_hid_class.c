@@ -193,7 +193,6 @@ static usb_sts_type class_ept0_tx_handler(void *udev){
   usb_sts_type status = USB_OK;
 
   /* ...user code... */
-  arterytek_at32f415_usb_CoreHumanInterfaceDevices_onTransfer();
   return status;
 }
 
@@ -230,7 +229,7 @@ static usb_sts_type class_in_handler(void *udev, uint8_t ept_num){
   /* ...user code...
     trans next packet data
   */
-
+  arterytek_at32f415_usb_CoreHumanInterfaceDevices_onTransfer();
   return status;
 }
 
