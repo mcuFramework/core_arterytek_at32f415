@@ -63,14 +63,14 @@ using hal::general::GeneralPinMode;
  */
 
 BoardPeriph* boardPeriph;
-Console* console;
+SystemConsole* console;
 
 /**
  * Construct.
  */
 Main::Main(Memory& memory, Memory& stacker) : Thread(memory), mStacker(stacker){
   boardPeriph = new(this->mStacker) BoardPeriph();
-  console = new(this->mStacker) Console();
+  console = new(this->mStacker) SystemConsole();
 }
 
 /**

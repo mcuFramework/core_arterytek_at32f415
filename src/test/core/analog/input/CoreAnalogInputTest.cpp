@@ -133,7 +133,7 @@ float CoreAnalogInputTest::getVoltage(uint16_t level){
  *
  */
 void CoreAnalogInputTest::init(void){
-  this->mConsole = new(this->mStacker) Console();
+  this->mConsole = new(this->mStacker) SystemConsole();
   this->mCoreAnalogInputPort = new(this->mStacker) CoreAnalogInputPort();
   
   Core::gpioa.init();

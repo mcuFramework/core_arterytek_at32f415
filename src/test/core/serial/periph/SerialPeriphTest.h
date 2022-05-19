@@ -50,7 +50,7 @@ class core::serial::periph::SerialPeriphTest extends mcuf::lang::Object implemen
    */
   private:
     mcuf::util::Stacker& mStacker;
-    tool::Console* mConsole;
+    tool::SystemConsole* mConsole;
     tool::BoardPeriph* mBoardPeriph;
   
     arterytek::at32f415::general::CoreGeneralPin* mChipSelectPin[4];

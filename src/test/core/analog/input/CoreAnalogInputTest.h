@@ -49,7 +49,7 @@ class core::analog::input::CoreAnalogInputTest extends mcuf::lang::Object implem
    */
   private:
     mcuf::util::Stacker& mStacker;
-    tool::Console* mConsole;
+    tool::SystemConsole* mConsole;
     arterytek::at32f415::analog::CoreAnalogInputPort* mCoreAnalogInputPort;
 
   /* **************************************************************************************

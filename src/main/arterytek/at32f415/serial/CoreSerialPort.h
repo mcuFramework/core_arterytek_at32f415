@@ -201,6 +201,17 @@ class arterytek::at32f415::serial::CoreSerialPort extends mcuf::lang::Object imp
     inline virtual int get(mcuf::io::InputBuffer& inputBuffer) override{
       return this->mRingBufferInputStream.get(inputBuffer);
     }
+    
+    /**
+     * @brief 
+     * 
+     * @param byteBuffer 
+     * @param length
+     * @return int 
+     */
+    inline virtual int get(mcuf::io::InputBuffer& inputBuffer, int length) override{
+      return this->mRingBufferInputStream.get(inputBuffer, length);
+    }    
 
     /**
      * @brief 

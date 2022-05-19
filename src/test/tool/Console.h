@@ -22,14 +22,14 @@
  * Namespace
  */  
 namespace tool{
-  class Console;
+  class SystemConsole;
 }
 
 
 /* ****************************************************************************************
  * Class/Interface/Struct/Enum
  */  
-class tool::Console extends mcuf::lang::Object{
+class tool::SystemConsole extends mcuf::lang::Object{
 
   /* **************************************************************************************
    * Variable <Public>
@@ -68,13 +68,13 @@ class tool::Console extends mcuf::lang::Object{
      * @brief Construct a new Console object
      * 
      */
-    Console(void);
+    SystemConsole(void);
 
     /**
      * @brief Destroy the Console object
      * 
      */
-    virtual ~Console(void);
+    virtual ~SystemConsole(void);
 
   /* **************************************************************************************
    * Operator Method

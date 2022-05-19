@@ -25,7 +25,7 @@
 //-----------------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------------
-using tool::Console;
+using tool::SystemConsole;
 
 using arterytek::at32f415::Core;
 using arterytek::at32f415::CoreIomux;
@@ -52,7 +52,7 @@ using mcuf::io::ByteBuffer;
 /**
  *
  */
-Console::Console(void) : 
+SystemConsole::SystemConsole(void) : 
 mCoreSerialPort(CoreSerialPortReg::REG_UART4, Memory(this->mCoreSerialPortMemory, sizeof(this->mCoreSerialPortMemory))),
 mOutputStreamHandler(this->mCoreSerialPort, Memory(this->mOutputStreamHandlerMemory, sizeof(this->mOutputStreamHandlerMemory))),
 mPrintStream(this->mOutputStreamHandler, Memory(this->mPrintStreamMemory, sizeof(this->mPrintStreamMemory))){
@@ -67,7 +67,7 @@ mPrintStream(this->mOutputStreamHandler, Memory(this->mPrintStreamMemory, sizeof
 /**
  *
  */
-Console::~Console(void){
+SystemConsole::~SystemConsole(void){
   this->mCoreSerialPort.deinit();
   return;
 }

@@ -152,7 +152,7 @@ void SerialPeriphTest::onSerialPeriphEvent(SerialPeriphStatus status,
  */
 void SerialPeriphTest::init(void){
   this->mBoardPeriph = new(this->mStacker) BoardPeriph();
-  this->mConsole = new(this->mStacker) Console();
+  this->mConsole = new(this->mStacker) SystemConsole();
   
   this->mTransferByteBuffer = new(this->mStacker) ByteBuffer(this->mStacker.allocMemoryAlignment32(16));
   this->mReceiverByteBuffer = new(this->mStacker) ByteBuffer(this->mStacker.allocMemoryAlignment32(16));
