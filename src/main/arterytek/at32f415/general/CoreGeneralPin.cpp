@@ -40,8 +40,8 @@ using hal::general::GeneralPinMode;
 /**
  * 
  */
-CoreGeneralPin::CoreGeneralPin(CoreGeneralPort* base, uint32_t pin){
-  this->mBase = base->getBase();
+CoreGeneralPin::CoreGeneralPin(CoreGeneralPort& base, uint32_t pin){
+  this->mBase = base.getBase();
   this->mPin = pin;
 }
 
