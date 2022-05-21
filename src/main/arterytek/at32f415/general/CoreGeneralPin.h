@@ -74,7 +74,7 @@ class arterytek::at32f415::general::CoreGeneralPin  extends mcuf::lang::Object i
     /**
      * Construct.
      */
-    CoreGeneralPin(arterytek::at32f415::general::CoreGeneralPort* base, 
+    CoreGeneralPin(arterytek::at32f415::general::CoreGeneralPort& base, 
                    uint32_t pin);
 
     /**

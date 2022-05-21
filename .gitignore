@@ -1,5 +1,6 @@
 # Keil project
 /.keil
+/ref
 *.uvoptx
 *.uvguix.*
 *.uvmpw.*
