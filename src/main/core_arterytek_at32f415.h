@@ -18,7 +18,7 @@
 /* ****************************************************************************************
  * Include folder
  */
-#include "core\package-info.h"
+#include "arterytek\package-info.h"
 
 
 
