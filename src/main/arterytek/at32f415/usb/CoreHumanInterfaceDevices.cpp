@@ -266,7 +266,12 @@ bool CoreHumanInterfaceDevices::write(OutputBuffer& outputBuffer, mcuf::io::Futu
   if(!future.isIdle())
     return false;
   
-  return this->write(outputBuffer, nullptr, &future);
+  future.setWait();
+  bool result = this->write(outputBuffer, nullptr, &future);
+  if(result == false)
+    future.clear();
+
+  return result;
 }
 
 /* ****************************************************************************************
