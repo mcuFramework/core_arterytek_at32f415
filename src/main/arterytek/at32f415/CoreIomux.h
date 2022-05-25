@@ -192,8 +192,8 @@ class arterytek::at32f415::CoreIomux extends mcuf::lang::Object
   public:
     enum struct MapTMR3 : uint32_t{
       PA06_PA07_PB00_PB01 = 0x00000000,
-      PB04_PB05_PB00_PB01 = 0x00000100,
-      PC06_PC07_PC08_PC09 = 0x00000200,
+      PB04_PB05_PB00_PB01 = 0x00000200,
+      PC06_PC07_PC08_PC09 = 0x00000300,
       MASK                = 0x00000F00
     };
    
