@@ -474,6 +474,16 @@
           <GroupName>main/arterytek/at32f415/counter</GroupName>
           <Files>
             <File>
+              <FileName>CorePulseWidthPin.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\counter\CorePulseWidthPin.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>CorePulseWidthPin.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\main\arterytek\at32f415\counter\CorePulseWidthPin.h</FilePath>
+            </File>
+            <File>
               <FileName>CorePulseWidthPort.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\main\arterytek\at32f415\counter\CorePulseWidthPort.cpp</FilePath>
