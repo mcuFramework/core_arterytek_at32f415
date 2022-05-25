@@ -33,7 +33,7 @@ namespace arterytek{
  * Class/Interface/Struct/Enum
  */  
 class arterytek::at32f415::counter::CorePulseWidthPin extends mcuf::lang::Object implements
-hal::counter::PulseWidthPin{
+public hal::counter::PulseWidthPin{
 
   /* **************************************************************************************
    * Variable <Public>
