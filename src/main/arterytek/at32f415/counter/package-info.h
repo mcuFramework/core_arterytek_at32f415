@@ -14,6 +14,7 @@
 /* ****************************************************************************************
  * Include
  */
+#include "CorePulseWidthPin.h"
 #include "CorePulseWidthPort.h"
 #include "CorePulseWidthPortSoft.h"
 #include "CorePulseWidthReg.h"
