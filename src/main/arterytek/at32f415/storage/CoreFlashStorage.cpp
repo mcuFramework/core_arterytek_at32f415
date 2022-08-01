@@ -285,7 +285,7 @@ bool CoreFlashStorage::flashWrite(uint32_t address, void* src, uint32_t length){
  * 
  * @return uint32_t 
  */
-constexpr uint32_t CoreFlashStorage::getFlashBase(void) const{
+uint32_t CoreFlashStorage::getFlashBase(void) const{
   return 0x08000000;
 }
 

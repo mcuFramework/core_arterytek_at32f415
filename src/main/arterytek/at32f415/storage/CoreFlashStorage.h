@@ -208,7 +208,7 @@ class arterytek::at32f415::storage::CoreFlashStorage extends mcuf::lang::Object 
      * 
      * @return uint32_t 
      */
-    constexpr uint32_t getFlashBase(void) const;
+    uint32_t getFlashBase(void) const;
   
     /**
      * @brief 

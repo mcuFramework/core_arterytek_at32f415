@@ -35,9 +35,10 @@ namespace arterytek{
  * Class Object
  */  
 class arterytek::at32f415::serial::CoreSerialPort extends mcuf::lang::Object implements 
-  public hal::serial::SerialPort,
-  public hal::InterruptEvent,
-  public mcuf::function::Runnable{
+public hal::serial::SerialPort,
+public mcuf::io::OutputBuffer,
+public hal::InterruptEvent,
+public mcuf::function::Runnable{
        
   /* **************************************************************************************
    * Enum Register
@@ -309,6 +310,16 @@ class arterytek::at32f415::serial::CoreSerialPort extends mcuf::lang::Object imp
      */
     virtual bool skip(int value, mcuf::io::Future& future) override;
 
+  /* **************************************************************************************
+   * Public Method <Override> - mcuf::io::InputStreamBuffer
+   */
+  public:
+    /**
+     * @brief Get the Output Buffer object
+     * 
+     * @return mcuf::io::OutputBuffer& 
+     */
+    virtual mcuf::io::OutputBuffer& getOutputBuffer(void) override;
   /* **************************************************************************************
    * Public Method <Override> - mcuf::io::OutputStream
    */
