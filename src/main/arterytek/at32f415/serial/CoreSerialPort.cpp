@@ -377,18 +377,6 @@ bool CoreSerialPort::write(OutputBuffer& outputBuffer, Future& future){
   return result;
 }
 
-/* **************************************************************************************
- * Public Method <Override> - mcuf::io::InputStreamBuffer
- */
-/**
- * @brief Get the Output Buffer object
- * 
- * @return mcuf::io::OutputBuffer& 
- */
-mcuf::io::OutputBuffer& CoreSerialPort::getOutputBuffer(void){
-  return *this;
-}
-
 /* ****************************************************************************************
  * Public Method <Override> - hal::InterruptEvent
  */
