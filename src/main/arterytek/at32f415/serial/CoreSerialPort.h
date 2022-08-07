@@ -321,6 +321,16 @@ public mcuf::function::Runnable{
     virtual bool skip(int value, mcuf::io::Future& future) override;
 
   /* **************************************************************************************
+   * Public Method <Override> - mcuf::io::InputStreamBuffer
+   */
+  public:
+    /**
+     * @brief Get the Output Buffer object
+     * 
+     * @return mcuf::io::OutputBuffer& 
+     */
+    virtual mcuf::io::OutputBuffer& getOutputBuffer(void) override;
+  /* **************************************************************************************
    * Public Method <Override> - mcuf::io::OutputStream
    */
   public:
