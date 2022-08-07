@@ -336,7 +336,7 @@
             <v6WtE>0</v6WtE>
             <v6Rtti>0</v6Rtti>
             <VariousControls>
-              <MiscControls></MiscControls>
+              <MiscControls>-fexceptions</MiscControls>
               <Define>AT32F415RBT7</Define>
               <Undefine></Undefine>
               <IncludePath>.\src\main;.\src\resources;.\ref\mcuf\src\main</IncludePath>

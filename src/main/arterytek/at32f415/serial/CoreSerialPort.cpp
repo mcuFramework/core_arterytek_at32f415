@@ -184,6 +184,19 @@ uint32_t CoreSerialPort::baudrate(uint32_t rate){
 }
 
 /* ****************************************************************************************
+ * Public Method <Override> - mcuf::io::InputStreamBuffer
+ */
+
+/**
+ * @brief Get the Output Buffer object
+ * 
+ * @return mcuf::io::OutputBuffer& 
+ */
+mcuf::io::OutputBuffer& CoreSerialPort::getOutputBuffer(void){
+  return *this;
+}
+
+/* ****************************************************************************************
  * Public Method <Override> - mcuf::io::OutputBuffer
  */
 
