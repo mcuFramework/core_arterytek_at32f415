@@ -166,6 +166,16 @@ bool CoreTimer::isDone(void){
 }
 
 /**
+ * @brief 
+ * 
+ */
+void CoreTimer::waitDone(void){
+  while(!BASE->ists_bit.ovfif){};
+  BASE->ists_bit.ovfif = 0;
+  return;
+}
+
+/**
  *
  */
 uint32_t CoreTimer::getTimerClock(void){

@@ -180,7 +180,7 @@ void CoreGeneralPin::setInput(void){
   
   uint32_t ctrl = ((*reg) & ~static_cast<uint32_t>(0x0000000F << shift));   
   
-  *reg = (ctrl | static_cast<uint32_t>(0x00000040) << shift);
+  *reg = (ctrl | static_cast<uint32_t>(0x00000004) << shift);
 }
 
 /**

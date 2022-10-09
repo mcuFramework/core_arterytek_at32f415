@@ -141,6 +141,12 @@ class arterytek::at32f415::counter::CoreTimer extends mcuf::lang::Object impleme
      * @return false 
      */
     virtual bool isDone(void) override;
+
+    /**
+     * @brief 
+     * 
+     */
+    virtual void waitDone(void) override;
     
     /**
      * @brief Get the Timer Clock object
