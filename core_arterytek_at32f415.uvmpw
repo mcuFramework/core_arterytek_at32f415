@@ -10,6 +10,19 @@
   <project>
     <PathAndName>.\core_arterytek_at32f415.uvprojx</PathAndName>
     <NodeIsActive>1</NodeIsActive>
+    <NodeIsExpanded>1</NodeIsExpanded>
+  </project>
+
+  <project>
+    <PathAndName>..\bsp_arterytek_at32f415\bsp_arterytek_at32f415.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>..\mcuf\mcuf.uvprojx</PathAndName>
+  </project>
+
+  <project>
+    <PathAndName>..\macro\macro.uvprojx</PathAndName>
   </project>
 
 </ProjectWorkspace>
