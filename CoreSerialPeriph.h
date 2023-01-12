@@ -34,7 +34,7 @@ namespace core{
 class core::CoreSerialPeriph extends mcuf::Object implements
   public mcuf::hal::InterruptEvent,
   public mcuf::hal::SerialPeriph,
-  public mcuf::function::Runnable{
+  public mcuf::Runnable{
 
   /* **************************************************************************************
    * Variable <Public>
@@ -94,7 +94,7 @@ class core::CoreSerialPeriph extends mcuf::Object implements
    */
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::function::Runnable
+   * Public Method <Override> - mcuf::Runnable
    */
   public:
 

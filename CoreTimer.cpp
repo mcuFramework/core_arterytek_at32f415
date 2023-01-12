@@ -48,7 +48,7 @@ using namespace core;
 //-----------------------------------------------------------------------------------------
 using core::Core;
 using core::CoreInterrupt;
-using mcuf::function::Consumer;
+using mcuf::Consumer;
 using mcuf::hal::TimerEvent;
 using mcuf::hal::TimerStatus;
 

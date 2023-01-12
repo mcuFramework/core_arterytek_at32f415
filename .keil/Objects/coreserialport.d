@@ -58,7 +58,7 @@
   ..\mcuf\.\hal\.\FlashStorage.h ..\mcuf\.\hal\..\ByteBuffer.h \
   ..\mcuf\.\ArrayPrototype.h ..\mcuf\.\Memory.h ..\mcuf\.\Object.h \
   ..\mcuf\.\Allocator.h ..\mcuf\.\Interface.h ..\mcuf\.\Data.h \
-  ..\mcuf\.\Pointer.h ..\mcuf\.\String.h ..\mcuf\.\Buffer.h \
+  ..\mcuf\.\Pointer.h ..\mcuf\.\Strings.h ..\mcuf\.\Buffer.h \
   ..\mcuf\.\OutputBuffer.h ..\mcuf\.\InputBuffer.h \
   ..\mcuf\.\hal\.\FlashStorageControl.h \
   ..\mcuf\.\hal\.\FlashStorageEvent.h \
@@ -116,7 +116,7 @@
   ..\mcuf\.\RingBufferInputStream.h ..\mcuf\.\Integer.h \
   ..\mcuf\.\InternetProtocolAddress.h ..\mcuf\.\Linked.h \
   ..\mcuf\.\LinkedEntity.h ..\mcuf\.\LinkedInputBuffer.h \
-  ..\mcuf\.\LinkedOutputBuffer.h ..\mcuf\.\Map.h ..\mcuf\.\Math.h \
+  ..\mcuf\.\LinkedOutputBuffer.h ..\mcuf\.\Map.h ..\mcuf\.\Maths.h \
   ..\mcuf\.\MediaAccessControlAddress.h ..\mcuf\.\NioExecuteMethod.h \
   ..\mcuf\.\OutputBufferLimit.h ..\mcuf\.\ReadonlyOutputBuffer.h \
   ..\mcuf\.\RunnableEntity.h ..\mcuf\.\RunnableEvent.h \

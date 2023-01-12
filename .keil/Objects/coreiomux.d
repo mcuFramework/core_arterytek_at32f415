@@ -15,7 +15,7 @@
   C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\libcxx\string.h \
   C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h ..\mcuf\.\Allocator.h \
   ..\mcuf\.\Interface.h ..\mcuf\.\Data.h ..\mcuf\.\Pointer.h \
-  ..\mcuf\.\String.h ..\mcuf\.\Buffer.h ..\mcuf\.\OutputBuffer.h \
+  ..\mcuf\.\Strings.h ..\mcuf\.\Buffer.h ..\mcuf\.\OutputBuffer.h \
   ..\mcuf\.\InputBuffer.h ..\mcuf\.\hal\.\FlashStorageControl.h \
   ..\mcuf\.\hal\.\FlashStorageEvent.h \
   ..\mcuf\.\hal\.\FlashStorageStatus.h ..\mcuf\.\hal\.\GeneralInput.h \
@@ -72,7 +72,7 @@
   ..\mcuf\.\RingBufferInputStream.h ..\mcuf\.\Integer.h \
   ..\mcuf\.\InternetProtocolAddress.h ..\mcuf\.\Linked.h \
   ..\mcuf\.\LinkedEntity.h ..\mcuf\.\LinkedInputBuffer.h \
-  ..\mcuf\.\LinkedOutputBuffer.h ..\mcuf\.\Map.h ..\mcuf\.\Math.h \
+  ..\mcuf\.\LinkedOutputBuffer.h ..\mcuf\.\Map.h ..\mcuf\.\Maths.h \
   ..\mcuf\.\MediaAccessControlAddress.h ..\mcuf\.\NioExecuteMethod.h \
   ..\mcuf\.\OutputBufferLimit.h ..\mcuf\.\ReadonlyOutputBuffer.h \
   ..\mcuf\.\RunnableEntity.h ..\mcuf\.\RunnableEvent.h \

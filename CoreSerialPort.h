@@ -34,7 +34,7 @@ class core::CoreSerialPort extends mcuf::Object implements
 public mcuf::hal::SerialPort,
 public mcuf::OutputBuffer,
 public mcuf::hal::InterruptEvent,
-public mcuf::function::Runnable{
+public mcuf::Runnable{
        
   /* **************************************************************************************
    * Enum Register
@@ -381,7 +381,7 @@ public mcuf::function::Runnable{
     virtual void interruptEvent(void) override;
   
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::function::Runnable
+   * Public Method <Override> - mcuf::Runnable
    */
   public:
     /**

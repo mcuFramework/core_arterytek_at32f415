@@ -30,7 +30,7 @@ using namespace core;
 using namespace mcuf::hal;
 
 //-----------------------------------------------------------------------------------------
-using mcuf::function::Consumer;
+using mcuf::Consumer;
 using mcuf::Memory;
 using mcuf::Pointer;
 using mcuf::System;
@@ -415,7 +415,7 @@ void CoreSerialPort::interruptEvent(void){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::function::Runnable
+ * Public Method <Override> - mcuf::Runnable
  */
 
 /**

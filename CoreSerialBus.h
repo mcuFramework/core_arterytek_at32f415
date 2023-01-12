@@ -34,7 +34,7 @@ namespace core{
 class core::CoreSerialBus extends mcuf::Object implements
 public mcuf::hal::InterruptEvent,
 public mcuf::hal::SerialBus, 
-public mcuf::function::Runnable{
+public mcuf::Runnable{
     
   friend CoreSerialBusErrorEvent;
 
@@ -108,7 +108,7 @@ public mcuf::function::Runnable{
    */
    
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::function::Runnable
+   * Public Method <Override> - mcuf::Runnable
    */
   public: 
     /**
