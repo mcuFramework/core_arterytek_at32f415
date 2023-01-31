@@ -19,19 +19,15 @@
 /* ****************************************************************************************
  * Namespace
  */  
-namespace arterytek{
-  namespace at32f415{
-    namespace usb{
-      class CoreHumanInterfaceDevices;
-    }
-  }
+namespace core{
+  class CoreHumanInterfaceDevices;
 }
 
 
 /* ****************************************************************************************
  * Class/Interface/Struct/Enum
  */  
-class arterytek::at32f415::usb::CoreHumanInterfaceDevices extends mcuf::RingBufferInputStream implements
+class core::CoreHumanInterfaceDevices extends mcuf::RingBufferInputStream implements
 public mcuf::OutputStream,
 public mcuf::hal::Base,
 public mcuf::hal::InterruptEvent{

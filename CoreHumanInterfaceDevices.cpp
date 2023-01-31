@@ -32,7 +32,7 @@
 //-----------------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------------
-using arterytek::at32f415::usb::CoreHumanInterfaceDevices;
+using core::CoreHumanInterfaceDevices;
 using core::Core;
 using core::CoreInterrupt;
 using mcuf::Memory;
