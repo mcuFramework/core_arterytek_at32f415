@@ -4,50 +4,16 @@
  * 
  * SPDX-License-Identifier: MIT
  */
-#ifndef CORE_ARTERYTEK_AT32F415_843A68D6_19B5_424F_BC46_EF6C0CEF95B8
-#define CORE_ARTERYTEK_AT32F415_843A68D6_19B5_424F_BC46_EF6C0CEF95B8
+#ifndef CORE_ARTERYTEK_AT32F415_D4A9DAB6_F7B9_4BA8_B887_6B8861010455
+#define CORE_ARTERYTEK_AT32F415_D4A9DAB6_F7B9_4BA8_B887_6B8861010455
 
 /* ****************************************************************************************
  * Include folder
  */
-
+#include "core/package-info.h"
 /* ****************************************************************************************
  * Include
  */
-#include "./Core.h"
-#include "./CoreAnalogInputPin.h"
-#include "./CoreAnalogInputPort.h"
-#include "./CoreEdgeTrigger.h"
-#include "./CoreEdgeTriggerReg.h"
-#include "./CoreFlashStorage.h"
-#include "./CoreGeneralPin.h"
-#include "./CoreGeneralPort.h"
-#include "./CoreGeneralPortReg.h"
-#include "./CoreHumanInterfaceDevices.h"
-#include "./CoreInterrupt.h"
-#include "./CoreIomux.h"
-#include "./CorePulseWidthPin.h"
-#include "./CorePulseWidthPort.h"
-#include "./CorePulseWidthPortSoft.h"
-#include "./CorePulseWidthReg.h"
-#include "./CoreSerialBus.h"
-#include "./CoreSerialBusConfig.h"
-#include "./CoreSerialBusErrorCode.h"
-#include "./CoreSerialBusErrorEvent.h"
-#include "./CoreSerialBusReg.h"
-#include "./CoreSerialBusSlave.h"
-#include "./CoreSerialBusSlaveErrorEvent.h"
-#include "./CoreSerialPeriph.h"
-#include "./CoreSerialPeriphConfig.h"
-#include "./CoreSerialPeriphPacket.h"
-#include "./CoreSerialPeriphReg.h"
-#include "./CoreSerialPort.h"
-#include "./CoreSerialPortConfig.h"
-#include "./CoreSerialPortReg.h"
-#include "./CoreTimer.h"
-#include "./CoreTimerReg.h"
-#include "./InputMode.h"
-#include "./OutputMode.h"
 
 /* ****************************************************************************************
  * Reference
@@ -79,4 +45,4 @@
  * End of file
  */
 
-#endif /* CORE_ARTERYTEK_AT32F415_843A68D6_19B5_424F_BC46_EF6C0CEF95B8 */
+#endif /* CORE_ARTERYTEK_AT32F415_D4A9DAB6_F7B9_4BA8_B887_6B8861010455 */

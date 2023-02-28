@@ -8,8 +8,8 @@
 /* ****************************************************************************************
  * Include
  */  
-#include "bsp_arterytek_at32f415/package-info.h" 
-#include "bsp_arterytek_at32f415/core_cm4.h"
+#include "core/bsp/package-info.h" 
+#include "core/arm/core_cm4.h"
 
 /* ****************************************************************************************
  * Macro

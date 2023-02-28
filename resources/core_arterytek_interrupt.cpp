@@ -8,12 +8,10 @@
 /* ****************************************************************************************
  * Include
  */
-#include "./Core.h" 
-#include "./CoreInterrupt.h" 
+#include "core/package-info.h"
 
-#include "bsp_arterytek_at32f415/package-info.h" 
-#include "bsp_arterytek_at32f415/core_cm4.h"
-#include "bsp_arterytek_at32f415/at32f415_exint.h"
+#include "core/bsp/package-info.h" 
+#include "core/arm/core_cm4.h"
 
 /* ****************************************************************************************
  * Using
