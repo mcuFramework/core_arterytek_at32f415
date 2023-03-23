@@ -71,7 +71,7 @@ CoreSerialBusSlaveErrorEvent::~CoreSerialBusSlaveErrorEvent(void){
  */
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::InterruptEvent
+ * Public Method <Override> - hal::InterruptEvent
  */
 
 /**

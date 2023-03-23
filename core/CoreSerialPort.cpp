@@ -27,10 +27,10 @@
  * Using
  */  
 using namespace core;
-using namespace mcuf::hal;
+using namespace hal;
 
 //-----------------------------------------------------------------------------------------
-using mcuf::Consumer;
+using func::Consumer;
 using mcuf::Memory;
 using mcuf::Pointer;
 using mcuf::System;
@@ -101,7 +101,7 @@ CoreSerialPort::~CoreSerialPort(void){
  */
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::Base
+ * Public Method <Override> - hal::Base
  */
 
 /**
@@ -157,7 +157,7 @@ bool CoreSerialPort::isInit(void){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::SerialPortConfig
+ * Public Method <Override> - hal::SerialPortConfig
  */
 
 /**
@@ -165,7 +165,7 @@ bool CoreSerialPort::isInit(void){
  * 
  * @return uint32_t 
  */
-uint32_t CoreSerialPort::baudrate(void){
+uint32_t CoreSerialPort::getBaudrate(void){
   return this->mBaudrate;
 }
 
@@ -175,25 +175,12 @@ uint32_t CoreSerialPort::baudrate(void){
  * @param rate 
  * @return uint32_t 
  */
-uint32_t CoreSerialPort::baudrate(uint32_t rate){
+uint32_t CoreSerialPort::setBaudrate(uint32_t rate){
   usart_enable(BASE, FALSE);
   usart_init(BASE, rate, USART_DATA_8BITS, USART_STOP_1_BIT);
   this->mBaudrate = rate;
   usart_enable(BASE, TRUE);
-  return this->baudrate();
-}
-
-/* ****************************************************************************************
- * Public Method <Override> - mcuf::InputStreamBuffer
- */
-
-/**
- * @brief Get the Output Buffer object
- * 
- * @return mcuf::OutputBuffer& 
- */
-mcuf::OutputBuffer& CoreSerialPort::getOutputBuffer(void){
-  return *this;
+  return this->getBaudrate();
 }
 
 /* ****************************************************************************************
@@ -378,7 +365,7 @@ bool CoreSerialPort::write(OutputBuffer& outputBuffer, Future& future){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::InterruptEvent
+ * Public Method <Override> - hal::InterruptEvent
  */
 
 /**
@@ -415,7 +402,7 @@ void CoreSerialPort::interruptEvent(void){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::Runnable
+ * Public Method <Override> - func::Runnable
  */
 
 /**

@@ -30,11 +30,11 @@
 /* ****************************************************************************************
  * Using
  */
-using namespace mcuf::hal;
+using namespace hal;
 using namespace core;
 
 //-----------------------------------------------------------------------------------------
-using mcuf::hal::GeneralPin;
+using hal::GeneralPin;
 using mcuf::ByteBuffer;
 using mcuf::System;
 
@@ -79,7 +79,7 @@ CoreSerialPeriph::~CoreSerialPeriph(void){
  */
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::Runnable
+ * Public Method <Override> - func::Runnable
  */
 
 /**
@@ -108,11 +108,11 @@ void CoreSerialPeriph::run(void){
   this->mReceiver.byteBuffer = nullptr;
   
   if(event)
-    event->onSerialPeriphEvent(status, transfer, receiver);
+    event->onSerialPeriphEvent(status, *this);
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::InterruptEvent
+ * Public Method <Override> - hal::InterruptEvent
  */
 
 /**
@@ -162,11 +162,11 @@ void CoreSerialPeriph::interruptEvent(void){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::SerialPeriph
+ * Public Method <Override> - hal::SerialPeriph
  */
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::Base
+ * Public Method <Override> - hal::Base
  */
 
 /**
@@ -227,7 +227,7 @@ bool CoreSerialPeriph::isInit(void){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::SerialPeriphTransfer
+ * Public Method <Override> - hal::SerialPeriphTransfer
  */
 
 /**
@@ -275,13 +275,8 @@ bool CoreSerialPeriph::isBusy(void){
  * @return true 
  * @return false 
  */
-bool CoreSerialPeriph::transfer(uint32_t chipSelect, 
-                                SerialPeriphPacket* packet,
-                                SerialPeriphEvent* event){
-                         
-  if(packet==nullptr)
-    return false;
-  
+bool CoreSerialPeriph::transfer(uint32_t chipSelect, SerialPeriphEvent* event){
+/*  
   if(chipSelect >= 8)
     return false;
     
@@ -360,6 +355,8 @@ bool CoreSerialPeriph::transfer(uint32_t chipSelect,
   BASE->ctrl2_bit.tdbeie = true;
   
   return true;
+  */
+  return false;
 }
                       
 /* ****************************************************************************************

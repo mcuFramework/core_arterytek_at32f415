@@ -48,9 +48,9 @@ using namespace core;
 //-----------------------------------------------------------------------------------------
 using core::Core;
 using core::CoreInterrupt;
-using mcuf::Consumer;
-using mcuf::hal::TimerEvent;
-using mcuf::hal::TimerStatus;
+using func::Consumer;
+using hal::TimerEvent;
+using hal::TimerStatus;
 
 /* ****************************************************************************************
  * Macro
@@ -92,7 +92,7 @@ CoreTimer::~CoreTimer(void){
  */
  
 /* ****************************************************************************************
- * Public Method <Override> mcuf::hal::Base
+ * Public Method <Override> hal::Base
  */
 
 /**
@@ -129,7 +129,7 @@ bool CoreTimer::isInit(void){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> mcuf::hal::TimerControl
+ * Public Method <Override> hal::TimerControl
  */
 
 /**
@@ -234,7 +234,7 @@ void CoreTimer::resetTick(uint32_t tick){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> mcuf::hal::InterruptEvent
+ * Public Method <Override> hal::InterruptEvent
  */
 
 /**
@@ -249,7 +249,7 @@ void CoreTimer::interruptEvent(void){
   if(this->mEvent == nullptr)
     return;
       
-  this->mEvent->onTimerEvent(TimerStatus::TRIGGER);
+  this->mEvent->onTimerEvent(TimerStatus::TRIGGER, *this);
   return;
 }
 
@@ -264,7 +264,7 @@ void CoreTimer::execute(void){
   if(this->mEvent == nullptr)
     return;
   
-  this->mEvent->onTimerEvent(TimerStatus::TRIGGER);
+  this->mEvent->onTimerEvent(TimerStatus::TRIGGER, *this);
   return;
 }
 

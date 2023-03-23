@@ -32,7 +32,7 @@ namespace core{
  * Class Object
  */  
 class core::CoreGeneralPin  extends mcuf::Object implements 
-  public mcuf::hal::GeneralPin{
+  public hal::GeneralPin{
 
   /* **************************************************************************************
    * Subclass
@@ -96,24 +96,24 @@ class core::CoreGeneralPin  extends mcuf::Object implements
      * 
      * @return false = input, true = output.
      */
-    virtual bool dir(void) override;
+    virtual bool getDir(void) override;
 
     /**
      * Set io direction.
      * 
      * @param dir false = input, true = output.
      */
-    virtual void dir(bool dir) override;
+    virtual void setDir(bool dir) override;
     
     /**
      * 
      */
-    virtual mcuf::hal::GeneralPinMode pinMode(void) override;
+    virtual hal::GeneralPinMode getPinMode(void) override;
 
     /**
      * 
      */
-    virtual bool pinMode(mcuf::hal::GeneralPinMode mode) override; 
+    virtual hal::GeneralPinMode setPinMode(hal::GeneralPinMode mode) override; 
 
     /**
      * Set io pin to high.
@@ -145,14 +145,14 @@ class core::CoreGeneralPin  extends mcuf::Object implements
      *
      * @return false = low, true = high.
      */
-    virtual bool value(void) override;
+    virtual bool getValue(void) override;
 
     /**
      * Set io pin to high or low.
      *
      * @param value false = low, true = high.
      */
-    virtual void value(bool level) override;
+    virtual void setValue(bool level) override;
 
 
   /* **************************************************************************************

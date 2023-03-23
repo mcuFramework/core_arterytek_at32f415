@@ -61,7 +61,7 @@ CorePulseWidthPin::~CorePulseWidthPin(void){
  */
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::PulseWidthPin
+ * Public Method <Override> - hal::PulseWidthPin
  */
 
 /**

@@ -57,7 +57,7 @@ using core::CorePulseWidthPort;
 using core::CorePulseWidthReg;
 using core::Core;
 using core::CoreInterrupt;
-using mcuf::hal::GeneralPin;
+using hal::GeneralPin;
 
 /* ****************************************************************************************
  * Variable <Static>
@@ -213,7 +213,7 @@ bool CorePulseWidthPortSoft::disable(int pin){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::InterruptEvent
+ * Public Method <Override> - hal::InterruptEvent
  */
 
 /**
@@ -276,7 +276,7 @@ void CorePulseWidthPortSoft::interruptEvent(void){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::InterruptEvent
+ * Public Method <Override> - hal::InterruptEvent
  */
 
 /* ****************************************************************************************

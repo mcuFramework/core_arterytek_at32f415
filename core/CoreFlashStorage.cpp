@@ -29,8 +29,8 @@
 //-----------------------------------------------------------------------------------------
 using arterytek::at32f415::storage::CoreFlashStorage;
 using mcuf::ByteBuffer;
-using mcuf::hal::FlashStorageEvent;
-using mcuf::hal::FlashStorageStatus;
+using hal::FlashStorageEvent;
+using hal::FlashStorageStatus;
 
 /* ****************************************************************************************
  * Variable <Static>
@@ -66,7 +66,7 @@ CoreFlashStorage::~CoreFlashStorage(void){
  */
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::FlashStorageControl
+ * Public Method <Override> - hal::FlashStorageControl
  */
 
 /**
@@ -92,7 +92,7 @@ uint32_t CoreFlashStorage::getAddress(void){
  * 
  * @return uint32_t 
  */
-uint32_t CoreFlashStorage::flashSize(void){
+uint32_t CoreFlashStorage::getFlashSize(void){
   return 128 * 1024;
 }
 
@@ -101,7 +101,7 @@ uint32_t CoreFlashStorage::flashSize(void){
  * 
  * @return uint32_t 
  */
-uint32_t CoreFlashStorage::pageSize(void){
+uint32_t CoreFlashStorage::getPageSize(void){
   return 1024;
 }
 
@@ -122,7 +122,7 @@ bool CoreFlashStorage::pageErase(uint32_t pageNumber){
  * 
  * @return uint32_t 
  */
-uint32_t CoreFlashStorage::sectorSize(void){
+uint32_t CoreFlashStorage::getSectorSize(void){
   return 1024;
 }
 
@@ -139,9 +139,9 @@ bool CoreFlashStorage::sectorErase(uint32_t sectorNumber){
   
   this->mBusy = true;
 
-  uint32_t addr = (this->getFlashBase() + (sectorNumber * this->sectorSize()));
+  uint32_t addr = (this->getFlashBase() + (sectorNumber * this->getSectorSize()));
   
-  if(addr >= this->getFlashBase() + this->flashSize()){
+  if(addr >= this->getFlashBase() + this->getFlashSize()){
     this->mBusy = false;
     return false;
   }
@@ -163,7 +163,7 @@ bool CoreFlashStorage::sectorErase(uint32_t sectorNumber){
  * @return true 
  * @return false 
  */
-bool CoreFlashStorage::write(ByteBuffer& byteBuffer, void* attachment, FlashStorageEvent* event){
+bool CoreFlashStorage::write(ByteBuffer& byteBuffer, FlashStorageEvent* event){
   if(this->mBusy)
     return false;
   
@@ -174,7 +174,7 @@ bool CoreFlashStorage::write(ByteBuffer& byteBuffer, void* attachment, FlashStor
   bool result = false;
   FlashStorageStatus status = FlashStorageStatus::WRITE_FAIL;
   
-  if((this->mAddress + length) > this->flashSize()){
+  if((this->mAddress + length) > this->getFlashSize()){
     length = 0;
     
   }else{
@@ -188,7 +188,7 @@ bool CoreFlashStorage::write(ByteBuffer& byteBuffer, void* attachment, FlashStor
   
   this->mBusy = false;
   if(event)
-    event->onFlashStorageEvent(status, static_cast<int>(length), attachment);
+    event->onFlashStorageEvent(status);
   
   return result;
 }
@@ -202,7 +202,7 @@ bool CoreFlashStorage::write(ByteBuffer& byteBuffer, void* attachment, FlashStor
  * @return true 
  * @return false 
  */
-bool CoreFlashStorage::read(ByteBuffer& byteBuffer, void* attachment, FlashStorageEvent* event){
+bool CoreFlashStorage::read(ByteBuffer& byteBuffer, FlashStorageEvent* event){
   if(this->mBusy)
     return false;
   
@@ -215,7 +215,7 @@ bool CoreFlashStorage::read(ByteBuffer& byteBuffer, void* attachment, FlashStora
   if(!byteBuffer.isReadOnly()){
     uint32_t offset = this->getFlashBase() + this->mAddress;
     
-    if(mAddress + static_cast<uint32_t>(length) <= this->flashSize()){
+    if(mAddress + static_cast<uint32_t>(length) <= this->getFlashSize()){
       byteBuffer.put(reinterpret_cast<void*>(offset), length);    
       byteBuffer += length;
       status = FlashStorageStatus::READ_SUCCESSFUL;
@@ -231,7 +231,7 @@ bool CoreFlashStorage::read(ByteBuffer& byteBuffer, void* attachment, FlashStora
   
   this->mBusy = false;
   if(event)
-    event->onFlashStorageEvent(status, length, attachment);
+    event->onFlashStorageEvent(status);
   
   return result;
 }

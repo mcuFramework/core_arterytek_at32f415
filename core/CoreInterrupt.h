@@ -26,7 +26,7 @@ namespace core{
 /* ****************************************************************************************
  * Class Object
  */  
-class core::CoreInterrupt extends mcuf::Object implements mcuf::hal::InterruptEvent{
+class core::CoreInterrupt extends mcuf::Object implements hal::InterruptEvent{
 
   /* **************************************************************************************
    * Enum Irq
@@ -121,7 +121,7 @@ class core::CoreInterrupt extends mcuf::Object implements mcuf::hal::InterruptEv
    */
   private: uint8_t mFlag[8];
   
-  public: mcuf::hal::InterruptEvent* mHandle[IRQ_MAX_QUANTITY];
+  public: hal::InterruptEvent* mHandle[IRQ_MAX_QUANTITY];
 
   
   /* **************************************************************************************
@@ -163,7 +163,7 @@ class core::CoreInterrupt extends mcuf::Object implements mcuf::hal::InterruptEv
    */
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::InterruptEvent
+   * Public Method <Override> - hal::InterruptEvent
    */
   public: void interruptEvent(void) override;
 
@@ -174,7 +174,7 @@ class core::CoreInterrupt extends mcuf::Object implements mcuf::hal::InterruptEv
   /**
    * set interrupt handler.
    */
-  public: void setHandler(Irq irq, mcuf::hal::InterruptEvent* runnable);
+  public: void setHandler(Irq irq, hal::InterruptEvent* runnable);
  
   
   /**

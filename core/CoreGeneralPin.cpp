@@ -29,8 +29,8 @@
 using core::CoreGeneralPort;
 using core::CoreGeneralPin;
 
-using mcuf::hal::GeneralPin;
-using mcuf::hal::GeneralPinMode;
+using hal::GeneralPin;
+using hal::GeneralPinMode;
 
 
 /* ****************************************************************************************
@@ -70,7 +70,7 @@ CoreGeneralPin::~CoreGeneralPin(void){
  * 
  * @return false = input, true = output.
  */
-bool CoreGeneralPin::dir(void){
+bool CoreGeneralPin::getDir(void){
   if(this->mPin >= 8)
     return GET_CTRL_DIR(BASE->cfglr, this->mPin);
   else
@@ -82,7 +82,7 @@ bool CoreGeneralPin::dir(void){
  * 
  * @param dir false = input, true = output.
  */
-void CoreGeneralPin::dir(bool dir){
+void CoreGeneralPin::setDir(bool dir){
   if(dir)
     this->setInput();
   
@@ -93,14 +93,14 @@ void CoreGeneralPin::dir(bool dir){
 /**
  * 
  */
-GeneralPinMode CoreGeneralPin::pinMode(void){
+GeneralPinMode CoreGeneralPin::getPinMode(void){
   return GeneralPinMode::NOT_SUPPORT;
 }
 
 /**
  * 
  */
-bool CoreGeneralPin::pinMode(GeneralPinMode mode){
+GeneralPinMode CoreGeneralPin::setPinMode(GeneralPinMode mode){
   uint8_t shift = static_cast<uint8_t>((this->mPin & 0x00000007) << 2);
   volatile uint32_t *reg;
   
@@ -115,46 +115,46 @@ bool CoreGeneralPin::pinMode(GeneralPinMode mode){
   switch(mode){
     //-------------------------------------------------------------------------------------
     case GeneralPinMode::NOT_SUPPORT:
-      return false;
+      return GeneralPinMode::NOT_SUPPORT;
     
     //-------------------------------------------------------------------------------------
     case GeneralPinMode::PUSH_PULL:
-      if(!this->dir())
-        return false;
+      if(!this->getDir())
+        return GeneralPinMode::NOT_SUPPORT;
       
       *reg = (ctrl | static_cast<uint32_t>(0x00000003 << shift));
-      return true;
+      return mode;
     
     //-------------------------------------------------------------------------------------
     case GeneralPinMode::PULL_UP:
-      if(this->dir())
-        return false;
+      if(this->getDir())
+        return GeneralPinMode::NOT_SUPPORT;
       
       *reg = (ctrl | static_cast<uint32_t>(0x00000008 << shift));
       GET_BASE(this->mBase)->scr |= (1 << this->mPin);
-      return true;
+      return mode;
     
     //-------------------------------------------------------------------------------------
     case GeneralPinMode::PULL_DOWN:
-      if(this->dir())
-        return false;
+      if(this->getDir())
+        return GeneralPinMode::NOT_SUPPORT;
       
       *reg = (ctrl | static_cast<uint32_t>(0x00000008 << shift));
       GET_BASE(this->mBase)->clr |= (1 << this->mPin);
-      return true;      
+      return mode;      
       
     //-------------------------------------------------------------------------------------
     case GeneralPinMode::OPEN_DRAIN:
-      if(this->dir())
+      if(this->getDir())
         *reg = (ctrl | static_cast<uint32_t>(0x00000007 << shift));
       
       else
         *reg = (ctrl | static_cast<uint32_t>(0x00000004 << shift));
  
-      return true;
+      return mode;
   }
   
-  return false;
+  return GeneralPinMode::NOT_SUPPORT;
 } 
 
 /**
@@ -220,7 +220,7 @@ void CoreGeneralPin::setToggle(void){
  *
  * @return false = low, true = high.
  */
-bool CoreGeneralPin::value(void){
+bool CoreGeneralPin::getValue(void){
 	return (GET_BASE(this->mBase)->idt & (1 << this->mPin));
 }
 
@@ -229,7 +229,7 @@ bool CoreGeneralPin::value(void){
  *
  * @param value false = low, true = high.
  */
-void CoreGeneralPin::value(bool level){
+void CoreGeneralPin::setValue(bool level){
 	if(level)
 	  GET_BASE(this->mBase)->scr |= (1 << this->mPin);
 	else

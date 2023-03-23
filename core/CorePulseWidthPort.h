@@ -32,7 +32,7 @@ namespace core{
  * Class/Interface/Struct/Enum
  */  
 class core::CorePulseWidthPort extends mcuf::Object implements
-  public mcuf::hal::PulseWidthPort{
+  public hal::PulseWidthPort{
 
   /* **************************************************************************************
    * Variable <Public>
@@ -83,7 +83,7 @@ class core::CorePulseWidthPort extends mcuf::Object implements
    */
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::Base
+   * Public Method <Override> - hal::Base
    */
   public:
 
@@ -112,7 +112,7 @@ class core::CorePulseWidthPort extends mcuf::Object implements
     virtual bool isInit(void) override;
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::PulseWidthPort
+   * Public Method <Override> - hal::PulseWidthPort
    */
   public:
     /**

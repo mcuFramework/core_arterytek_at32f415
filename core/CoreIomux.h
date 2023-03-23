@@ -25,7 +25,7 @@ namespace core{
 /* ****************************************************************************************
  * Class Object
  */  
-class core::CoreIomux extends mcuf::Object implements mcuf::hal::Base{
+class core::CoreIomux extends mcuf::Object implements hal::Base{
   
   /* **************************************************************************************
    * Enum MapCAN  <MAP6[10] - [0-3]> 

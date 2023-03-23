@@ -29,7 +29,7 @@ namespace core{
  * Class/Interface/Struct/Enum
  */  
 class core::CoreSerialBusSlaveErrorEvent extends mcuf::Object implements
-public mcuf::hal::InterruptEvent{
+public hal::InterruptEvent{
 
   /* **************************************************************************************
    * Variable <Public>
@@ -79,7 +79,7 @@ public mcuf::hal::InterruptEvent{
    */
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::InterruptEvent
+   * Public Method <Override> - hal::InterruptEvent
    */
   public:
 

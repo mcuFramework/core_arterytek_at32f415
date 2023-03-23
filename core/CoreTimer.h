@@ -30,8 +30,8 @@ namespace core{
  * Class Object
  */  
 class core::CoreTimer extends mcuf::Object implements 
-  public mcuf::hal::Timer ,
-  public mcuf::hal::InterruptEvent{
+  public hal::Timer ,
+  public hal::InterruptEvent{
         
   /* **************************************************************************************
    * Variable <Public>
@@ -46,7 +46,7 @@ class core::CoreTimer extends mcuf::Object implements
    */
   private: 
     core::CoreTimerReg mRegister;
-    mcuf::hal::TimerEvent* mEvent;
+    hal::TimerEvent* mEvent;
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -83,7 +83,7 @@ class core::CoreTimer extends mcuf::Object implements
    */
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::Base
+   * Public Method <Override> - hal::Base
    */
   public:
 
@@ -112,7 +112,7 @@ class core::CoreTimer extends mcuf::Object implements
     virtual bool isInit(void) override;
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::TimerControl
+   * Public Method <Override> - hal::TimerControl
    */  
   public:
   
@@ -168,7 +168,7 @@ class core::CoreTimer extends mcuf::Object implements
      * @return true 
      * @return false 
      */
-    virtual bool startAtTick(uint32_t tick, mcuf::hal::TimerEvent* event) override;
+    virtual bool startAtTick(uint32_t tick, hal::TimerEvent* event) override;
     
     /**
      * @brief 
@@ -187,7 +187,7 @@ class core::CoreTimer extends mcuf::Object implements
      * @return true 
      * @return false 
      */
-    virtual bool startAtTime(uint32_t microSecond, mcuf::hal::TimerEvent* event) override;
+    virtual bool startAtTime(uint32_t microSecond, hal::TimerEvent* event) override;
     
     /**
      * @brief 
@@ -197,7 +197,7 @@ class core::CoreTimer extends mcuf::Object implements
     virtual void resetTick(uint32_t tick) override;
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::InterruptEvent
+   * Public Method <Override> - hal::InterruptEvent
    */
   public: 
 

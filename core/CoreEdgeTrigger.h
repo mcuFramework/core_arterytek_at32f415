@@ -30,8 +30,8 @@ namespace core{
  * Class Object
  */  
 class core::CoreEdgeTrigger extends mcuf::Object implements 
-  public mcuf::hal::EdgeTrigger, 
-  public mcuf::hal::InterruptEvent{
+  public hal::EdgeTrigger, 
+  public hal::InterruptEvent{
 
   /* **************************************************************************************
    * Variable <Public>
@@ -49,8 +49,8 @@ class core::CoreEdgeTrigger extends mcuf::Object implements
     static uint16_t channelMode;
     static uint16_t channelLevel;
   
-    mcuf::hal::EdgeTriggerEvent* mRunnableRise;
-    mcuf::hal::EdgeTriggerEvent* mRunnableFall;
+    hal::EdgeTriggerEvent* mRunnableRise;
+    hal::EdgeTriggerEvent* mRunnableFall;
     core::CoreEdgeTriggerReg mRegister;
 
   /* **************************************************************************************
@@ -87,7 +87,7 @@ class core::CoreEdgeTrigger extends mcuf::Object implements
    */
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::Base
+   * Public Method <Override> - hal::Base
    */
   public:
     /**
@@ -115,7 +115,7 @@ class core::CoreEdgeTrigger extends mcuf::Object implements
     virtual bool isInit(void) override;
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::PinEdgeTrigger
+   * Public Method <Override> - hal::PinEdgeTrigger
    */
   public: 
 
@@ -144,7 +144,7 @@ class core::CoreEdgeTrigger extends mcuf::Object implements
      * @return true 
      * @return false 
      */
-    virtual bool enableFall(mcuf::hal::EdgeTriggerEvent* event) override;
+    virtual bool enableFall(hal::EdgeTriggerEvent* event) override;
 
     /**
      * @brief 
@@ -153,10 +153,10 @@ class core::CoreEdgeTrigger extends mcuf::Object implements
      * @return true 
      * @return false 
      */
-    virtual bool enableRise(mcuf::hal::EdgeTriggerEvent* event) override;
+    virtual bool enableRise(hal::EdgeTriggerEvent* event) override;
   
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::InterruptEvent
+   * Public Method <Override> - hal::InterruptEvent
    */
   public: 
   

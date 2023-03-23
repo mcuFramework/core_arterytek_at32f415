@@ -31,7 +31,7 @@ namespace core{
  */  
 class core::CorePulseWidthPortSoft extends
   core::CorePulseWidthPort implements
-  public mcuf::hal::InterruptEvent{
+  public hal::InterruptEvent{
 
   /* **************************************************************************************
    * Variable <Public>
@@ -45,7 +45,7 @@ class core::CorePulseWidthPortSoft extends
    * Variable <Private>
    */
   private:
-    mcuf::hal::GeneralPin* mGeneralPin[4];
+    hal::GeneralPin* mGeneralPin[4];
 
   /* **************************************************************************************
    * Abstract method <Public>
@@ -117,7 +117,7 @@ class core::CorePulseWidthPortSoft extends
     virtual bool disable(int pin) override;    
     
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::InterruptEvent
+   * Public Method <Override> - hal::InterruptEvent
    */
   public: 
 
@@ -135,7 +135,7 @@ class core::CorePulseWidthPortSoft extends
     /**
      *
      */
-    virtual bool setPin(int pin, mcuf::hal::GeneralPin* generalPin);
+    virtual bool setPin(int pin, hal::GeneralPin* generalPin);
 
   /* **************************************************************************************
    * Protected Method <Static>

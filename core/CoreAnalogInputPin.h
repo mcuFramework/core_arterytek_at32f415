@@ -31,7 +31,7 @@ namespace core{
  * Class/Interface/Struct/Enum
  */  
 class core::CoreAnalogInputPin extends mcuf::Object implements
-  public mcuf::hal::AnalogInputPin{
+  public hal::AnalogInputPin{
 
   /* **************************************************************************************
    * Variable <Public>
@@ -82,7 +82,7 @@ class core::CoreAnalogInputPin extends mcuf::Object implements
    */
 
   /* **************************************************************************************
-   * Public Method <Override> mcuf::hal::AnalogInputPin
+   * Public Method <Override> hal::AnalogInputPin
    */
   public:
     /**

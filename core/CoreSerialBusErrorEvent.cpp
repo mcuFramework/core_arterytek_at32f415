@@ -32,7 +32,7 @@
 using core::CoreSerialBusErrorEvent;
 
 //-----------------------------------------------------------------------------------------
-using namespace mcuf::hal;
+using namespace hal;
 
 //-----------------------------------------------------------------------------------------
 using core::CoreSerialBus;
@@ -73,7 +73,7 @@ CoreSerialBusErrorEvent::~CoreSerialBusErrorEvent(void){
  */
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::InterruptEvent
+ * Public Method <Override> - hal::InterruptEvent
  */
 
 /**

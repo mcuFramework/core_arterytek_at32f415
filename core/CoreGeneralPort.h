@@ -31,7 +31,7 @@ namespace core{
  * Class Object
  */  
 class core::CoreGeneralPort extends mcuf::Object implements 
-  public mcuf::hal::GeneralPort{
+  public hal::GeneralPort{
 
   friend Core;
         
@@ -80,7 +80,7 @@ class core::CoreGeneralPort extends mcuf::Object implements
    */
 
   /* **************************************************************************************
-   * Public Method <Override> mcuf::hal::Base
+   * Public Method <Override> hal::Base
    */
   public:
     

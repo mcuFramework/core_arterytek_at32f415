@@ -77,7 +77,7 @@ CoreSerialBusSlave::~CoreSerialBusSlave(void){
  */
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::Base
+ * Public Method <Override> - hal::Base
  */
 
 /**
@@ -135,7 +135,7 @@ bool CoreSerialBusSlave::isInit(void){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::InterruptEvent
+ * Public Method <Override> - hal::InterruptEvent
  */
 
 /**

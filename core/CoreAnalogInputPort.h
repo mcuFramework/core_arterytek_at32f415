@@ -28,7 +28,7 @@ namespace core{
  * Class/Interface/Struct/Enum
  */  
 class core::CoreAnalogInputPort extends mcuf::Object implements
-  public mcuf::hal::AnalogInputPort{
+  public hal::AnalogInputPort{
 
   /* **************************************************************************************
    * Variable <Public>
@@ -78,7 +78,7 @@ class core::CoreAnalogInputPort extends mcuf::Object implements
    */
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::Base
+   * Public Method <Override> - hal::Base
    */
   public:
 
@@ -107,7 +107,7 @@ class core::CoreAnalogInputPort extends mcuf::Object implements
     virtual bool isInit(void) override;
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::AnalogInputPortControl
+   * Public Method <Override> - hal::AnalogInputPortControl
    */
   public:
 

@@ -31,10 +31,10 @@ namespace core{
  * Class Object
  */  
 class core::CoreSerialPort extends mcuf::Object implements 
-public mcuf::hal::SerialPort,
+public hal::SerialPort,
 public mcuf::OutputBuffer,
-public mcuf::hal::InterruptEvent,
-public mcuf::Runnable{
+public hal::InterruptEvent,
+public func::Runnable{
        
   /* **************************************************************************************
    * Enum Register
@@ -54,7 +54,7 @@ public mcuf::Runnable{
   private: 
     static const core::CoreSerialPortConfig mCoreSerialPortConfig[5];
     
-    mcuf::RingBufferInputStream mRingBufferInputStream;
+    buf::RingBufferInputStream mRingBufferInputStream;
     mcuf::OutputBuffer* mOutputBuffer;
     mcuf::CompletionHandler<int, void*>* mCompletionHandler;
     void* mAttachment;
@@ -107,7 +107,7 @@ public mcuf::Runnable{
    */
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::Base
+   * Public Method <Override> - hal::Base
    */
   public:
 
@@ -134,18 +134,13 @@ public mcuf::Runnable{
      * @return false not init.
      */
     virtual bool isInit(void) override;
-
-  /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::SerialPortConfig
-   */
-  public:
   
     /**
      * @brief 
      * 
      * @return uint32_t 
      */
-    virtual uint32_t baudrate(void) override;
+    virtual uint32_t getBaudrate(void) override;
 
     /**
      * @brief 
@@ -153,17 +148,7 @@ public mcuf::Runnable{
      * @param rate 
      * @return uint32_t 
      */
-    virtual uint32_t baudrate(uint32_t rate) override;
-  /* **************************************************************************************
-   * Public Method <Override> - mcuf::InputStreamBuffer
-   */
-  public:
-    /**
-     * @brief Get the Output Buffer object
-     * 
-     * @return mcuf::OutputBuffer& 
-     */
-    virtual mcuf::OutputBuffer& getOutputBuffer(void) override;
+    virtual uint32_t setBaudrate(uint32_t rate) override;
   
   /* **************************************************************************************
    * Public Method <Override> - mcuf::OutputBuffer
@@ -370,7 +355,7 @@ public mcuf::Runnable{
     virtual bool write(mcuf::OutputBuffer& outputBuffer, mcuf::Future& future) override;
     
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::InterruptEvent
+   * Public Method <Override> - hal::InterruptEvent
    */
   public: 
 
@@ -381,7 +366,7 @@ public mcuf::Runnable{
     virtual void interruptEvent(void) override;
   
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::Runnable
+   * Public Method <Override> - func::Runnable
    */
   public:
     /**

@@ -32,9 +32,9 @@ namespace core{
  * Class/Interface/Struct/Enum
  */  
 class core::CoreSerialBus extends mcuf::Object implements
-public mcuf::hal::InterruptEvent,
-public mcuf::hal::SerialBus, 
-public mcuf::Runnable{
+public hal::InterruptEvent,
+public hal::SerialBus, 
+public func::Runnable{
     
   friend CoreSerialBusErrorEvent;
 
@@ -63,11 +63,10 @@ public mcuf::Runnable{
   private:
     CoreSerialBusErrorEvent mCoreSerialBusErrorEvent;
     int mResult;
-    mcuf::hal::SerialBusEvent* mEvent;
-    mcuf::hal::SerialBusStatus mStatus;
-    mcuf::OutputBuffer* mOutputBuffer;
-    mcuf::InputBuffer* mInputBuffer;
-    void* mAttachment;
+    hal::SerialBusEvent* mEvent;
+    hal::SerialBusStatus mStatus;
+    mcuf::ByteBuffer* mReadBuffer;
+    mcuf::ByteBuffer* mWriteBuffer;
   
     uint16_t mAddress;
     core::CoreSerialBusReg mRegister;
@@ -108,7 +107,7 @@ public mcuf::Runnable{
    */
    
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::Runnable
+   * Public Method <Override> - func::Runnable
    */
   public: 
     /**
@@ -117,7 +116,7 @@ public mcuf::Runnable{
     virtual void run(void) override;   
   
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::InterruptEvent
+   * Public Method <Override> - hal::InterruptEvent
    */
   public:
 
@@ -128,7 +127,7 @@ public mcuf::Runnable{
     virtual void interruptEvent(void) override;   
    
   /* **************************************************************************************
-   * Public Method <Override> mcuf::hal::Base
+   * Public Method <Override> hal::Base
    */
   public:
     /**
@@ -156,36 +155,77 @@ public mcuf::Runnable{
     virtual bool isInit(void) override;
 
   /* **************************************************************************************
-   * Public Method <Override> mcuf::hal::SerialBusControl
+   * Public Method <Override> hal::SerialBus
    */
   public:
     /**
-     * @brief 
+     * @brief 終止讀寫
      * 
-     * @return uint32_t 
-     */
-    virtual uint32_t clockRate(void) override;
-
-    /**
-     * @brief 
-     * 
-     * @param clock 
-     * @return uint32_t 
-     */
-    virtual uint32_t clockRate(uint32_t clock) override;
-
-  /* **************************************************************************************
-   * Public Method <Override> mcuf::hal::SerialBusTransfer
-   */
-  public:
-    /**
-     * @brief 
-     * 
-     * @return true 
-     * @return false 
+     * @return true 終止成功
+     * @return false 終止失敗
      */
     virtual bool abort(void) override;
     
+   /**
+     * @brief 取得輸出頻率
+     * 
+     * @return uint32_t Hz
+     */
+    virtual uint32_t getClockRate(void) override;
+
+    /**
+     * @brief 設定輸出頻率
+     * 
+     * @param clock 期望輸出頻率
+     * @return uint32_t Hz，實際設定頻率
+     */
+    virtual uint32_t setClockRate(uint32_t clock) override;
+
+    /**
+     * @brief 設定讀寫地址
+     * 
+     * @param address 讀寫地址
+     * @return uint16_t 實際設定之讀寫地址
+     */
+    virtual uint16_t setAddress(uint16_t address) override;
+
+    /**
+     * @brief 取得已被設定之讀寫地址
+     * 
+     * @return uint16_t 地址
+     */
+    virtual uint16_t getAddress(void) override;
+    
+    /**
+     * @brief Set the Write Buffer object
+     * 
+     * @param writeBuffer 
+     * @return mcuf::ByteBuffer* 
+     */
+    virtual mcuf::ByteBuffer* setWriteBuffer(mcuf::ByteBuffer* writeBuffer) override;
+
+    /**
+     * @brief Get the Write Buffer object
+     * 
+     * @return mcuf::ByteBuffer* 
+     */
+    virtual mcuf::ByteBuffer* getWriteBuffer(void) override;
+
+    /**
+     * @brief Set the Read Buffer object
+     * 
+     * @param readBuffer 
+     * @return mcuf::ByteBuffer* 
+     */
+    virtual mcuf::ByteBuffer* setReadBuffer(mcuf::ByteBuffer* readBuffer) override;
+
+    /**
+     * @brief Get the Read Buffer object
+     * 
+     * @return mcuf::ByteBuffer* 
+     */
+    virtual mcuf::ByteBuffer* getReadBuffer(void) override;
+
     /**
      * @brief 
      * 
@@ -198,44 +238,31 @@ public mcuf::Runnable{
      * @brief 
      * 
      * @param address 
-     * @param in
-     * @param attachment   
+     * @param in 
      * @param event 
      */
-    virtual bool read(uint16_t address, 
-                      mcuf::InputBuffer& in, 
-                      void* attachment,
-                      mcuf::hal::SerialBusEvent* event) override;
+    virtual bool read(hal::SerialBusEvent* event) override;
 
     /**
      * @brief 
      * 
      * @param address 
-     * @param out
-     * @param attachment                      
+     * @param out 
      * @param event 
      */
-    virtual bool write(uint16_t address, 
-                       mcuf::OutputBuffer& out,
-                       void* attachment,
-                       mcuf::hal::SerialBusEvent* event) override;
+    virtual bool write(hal::SerialBusEvent* event) override;
     
     /**
      * @brief 
      * 
      * @param address 
-     * @param out
-     * @param in
-     * @param attachment                       
+     * @param out 
+     * @param in 
      * @param event 
      * @return true 
      * @return false 
      */
-    virtual bool transfer(uint16_t address,
-                          mcuf::OutputBuffer& out, 
-                          mcuf::InputBuffer& in,
-                          void* attachment,
-                          mcuf::hal::SerialBusEvent* event) override;
+    virtual bool transfer(hal::SerialBusEvent* event) override;
 
   /* **************************************************************************************
    * Public Method
@@ -266,11 +293,7 @@ public mcuf::Runnable{
    */
   private:
     
-    bool handlerConfig(uint16_t address, 
-                       mcuf::OutputBuffer* transfer, 
-                       mcuf::InputBuffer* receiver,
-                       void* attachment,
-                       mcuf::hal::SerialBusEvent* event);
+    bool handlerConfig(hal::SerialBusEvent* event);
   
     /**
      *

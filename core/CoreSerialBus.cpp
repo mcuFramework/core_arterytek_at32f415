@@ -33,7 +33,7 @@
 using core::CoreSerialBus;
 
 //-----------------------------------------------------------------------------------------
-using namespace mcuf::hal;
+using namespace hal;
 
 //-----------------------------------------------------------------------------------------
 using core::CoreSerialBusReg;
@@ -62,8 +62,8 @@ const CoreSerialBusConfig CoreSerialBus::mConfig[2] = {
 CoreSerialBus::CoreSerialBus(CoreSerialBusReg reg) : 
   mCoreSerialBusErrorEvent(*this){
   this->mRegister = reg;
-  this->mOutputBuffer = nullptr;
-  this->mInputBuffer = nullptr;
+  this->mWriteBuffer = nullptr;
+  this->mReadBuffer = nullptr;
   this->mResult = 0;
 }
 
@@ -84,7 +84,7 @@ CoreSerialBus::~CoreSerialBus(void){
  */
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::Runnable
+ * Public Method <Override> - func::Runnable
  */
  
 /**
@@ -93,18 +93,14 @@ CoreSerialBus::~CoreSerialBus(void){
 void CoreSerialBus::run(void){
   SerialBusEvent* event = this->mEvent;
   SerialBusStatus status = this->mStatus;
-  void* attachment = this->mAttachment;
   int result = this->mResult;
-  this->mResult = 0;
-  this->mOutputBuffer = nullptr;
-  this->mInputBuffer = nullptr;
   
   if(event)
-    event->onSerialBusEvent(status, result ,attachment);
+    event->onSerialBusEvent(status, *this);
 }  
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::InterruptEvent
+ * Public Method <Override> - hal::InterruptEvent
  */
 
 /**
@@ -117,13 +113,13 @@ void CoreSerialBus::interruptEvent(void){
   if(base->ctrl2_bit.dataien){
     if(base->sts1_bit.tdbe){ //write isr
       char cache;
-      if(this->mOutputBuffer->getByte(cache)){
+      if(this->mWriteBuffer->getByte(cache)){
         base->dt = cache;
         ++this->mResult;
       
       }else{
         if(base->sts1_bit.tdc){
-          if(this->mInputBuffer){
+          if(this->mReadBuffer){
             this->afterRead();
               
           }else{
@@ -139,13 +135,13 @@ void CoreSerialBus::interruptEvent(void){
   
   if(base->sts1_bit.rdbf){ //read isr
     char cache = base->dt;
-    this->mInputBuffer->putByte(cache);
+    this->mReadBuffer->putByte(cache);
         
-    if(this->mInputBuffer->remaining() == 1){
+    if(this->mReadBuffer->remaining() == 1){
       base->ctrl1_bit.acken = false;
       base->ctrl1_bit.genstop = true;
           
-    }else if(this->mInputBuffer->isFull()){ //read successful
+    }else if(this->mReadBuffer->isFull()){ //read successful
       if(this->mStatus == SerialBusStatus::TRANSFER_FAIL_READ)
         this->mStatus = SerialBusStatus::TRANSFER_SUCCESSFUL;
       
@@ -181,7 +177,7 @@ void CoreSerialBus::interruptEvent(void){
 }   
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::Base
+ * Public Method <Override> - hal::Base
  */
 
 /**
@@ -239,7 +235,7 @@ bool CoreSerialBus::isInit(void){
 }
 
 /* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::SerialBusControl
+ * Public Method <Override> - hal::SerialBusControl
  */
 
 /**
@@ -247,7 +243,7 @@ bool CoreSerialBus::isInit(void){
  * 
  * @return uint32_t 
  */
-uint32_t CoreSerialBus::clockRate(void){
+uint32_t CoreSerialBus::getClockRate(void){
   if(!this->isInit())
     return 0;
   
@@ -263,7 +259,7 @@ uint32_t CoreSerialBus::clockRate(void){
  * @param clock 
  * @return uint32_t 
  */
-uint32_t CoreSerialBus::clockRate(uint32_t clock){
+uint32_t CoreSerialBus::setClockRate(uint32_t clock){
   if(!this->isInit())
     return 0;
   
@@ -274,12 +270,78 @@ uint32_t CoreSerialBus::clockRate(uint32_t clock){
   uint32_t i2c_clock = BASE->ctrl2_bit.clkfreq * 1000000;
   BASE->clkctrl_bit.speed = (uint16_t)(i2c_clock / (clock << 1));
   BASE->ctrl1_bit.i2cen = true;
-  return this->clockRate();
+  return this->getClockRate();
 }
 
-/* ****************************************************************************************
- * Public Method <Override> - mcuf::hal::SerialBusTransfer
+/**
+ * @brief 設定讀寫地址
+ * 
+ * @param address 讀寫地址
+ * @return uint16_t 實際設定之讀寫地址
  */
+uint16_t CoreSerialBus::setAddress(uint16_t address){
+  if(!this->isBusy())
+    this->mAddress = (address & 0x00FF);
+  
+  return this->mAddress;
+}
+
+/**
+ * @brief 取得已被設定之讀寫地址
+ * 
+ * @return uint16_t 地址
+ */
+uint16_t CoreSerialBus::getAddress(void){
+  return this->mAddress;
+}
+  
+/**
+ * @brief Set the Write Buffer object
+ * 
+ * @param writeBuffer 
+ * @return mcuf::ByteBuffer* 
+ */
+mcuf::ByteBuffer* CoreSerialBus::setWriteBuffer(mcuf::ByteBuffer* writeBuffer){
+  mcuf::ByteBuffer* result = this->mWriteBuffer;
+  
+  if(!this->isBusy())
+    this->mWriteBuffer = writeBuffer;
+  
+  return result;
+}
+  
+/**
+ * @brief Get the Write Buffer object
+ * 
+ * @return mcuf::ByteBuffer* 
+ */
+mcuf::ByteBuffer* CoreSerialBus::getWriteBuffer(void){
+  return this->mWriteBuffer;
+}
+
+/**
+ * @brief Set the Read Buffer object
+ * 
+ * @param readBuffer 
+ * @return mcuf::ByteBuffer* 
+ */
+mcuf::ByteBuffer* CoreSerialBus::setReadBuffer(mcuf::ByteBuffer* readBuffer){
+  mcuf::ByteBuffer* result = this->mReadBuffer;
+  
+  if(!this->isBusy())
+    this->mReadBuffer = readBuffer;
+  
+  return result;
+}
+
+/**
+ * @brief Get the Read Buffer object
+ * 
+ * @return mcuf::ByteBuffer* 
+ */
+mcuf::ByteBuffer* CoreSerialBus::getReadBuffer(void){
+  return this->mReadBuffer;
+}
 
 /**
  * @brief 
@@ -309,7 +371,7 @@ bool CoreSerialBus::abort(void){
  * @return false 
  */
 bool CoreSerialBus::isBusy(void){
-  return ((this->mInputBuffer != nullptr) || (this->mOutputBuffer != nullptr));
+  return false;
 }
 
 /**
@@ -319,11 +381,8 @@ bool CoreSerialBus::isBusy(void){
  * @param receiver 
  * @param event 
  */
-bool CoreSerialBus::read(uint16_t address, InputBuffer& in, void* attachment, SerialBusEvent* event){
-  if(this->isBusy())
-    return false;
-  
-  return this->handlerConfig(address, nullptr, &in, attachment, event);
+bool CoreSerialBus::read(SerialBusEvent* event){
+  return this->handlerConfig(event);
 }
 /**
  * @brief 
@@ -332,11 +391,8 @@ bool CoreSerialBus::read(uint16_t address, InputBuffer& in, void* attachment, Se
  * @param receiver 
  * @param event 
  */
-bool CoreSerialBus::write(uint16_t address, OutputBuffer& out, void* attachment, SerialBusEvent* event){
-  if(this->isBusy())
-    return false;
-  
-  return this->handlerConfig(address, &out, nullptr, attachment, event);
+bool CoreSerialBus::write(SerialBusEvent* event){
+  return this->handlerConfig(event);
 }
 
 /**
@@ -349,11 +405,8 @@ bool CoreSerialBus::write(uint16_t address, OutputBuffer& out, void* attachment,
  * @return true 
  * @return false 
  */
-bool CoreSerialBus::transfer(uint16_t address, OutputBuffer& out, InputBuffer& in, void* attachment, SerialBusEvent* event){
-  if(this->isBusy())
-    return false;
-  
-  return this->handlerConfig(address, &out, &in, attachment, event);
+bool CoreSerialBus::transfer(SerialBusEvent* event){
+  return this->handlerConfig(event);
 }
 
 /* ****************************************************************************************
@@ -387,38 +440,34 @@ bool CoreSerialBus::transfer(uint16_t address, OutputBuffer& out, InputBuffer& i
  * @return true 
  * @return false 
  */
-bool CoreSerialBus::handlerConfig(uint16_t address, OutputBuffer* out, InputBuffer* in, void* attachment, SerialBusEvent* event){
+bool CoreSerialBus::handlerConfig(SerialBusEvent* event){
   
   this->mEvent = event;
-  this->mAddress = static_cast<uint16_t>(address << 1);
   
-  if((out != nullptr) && (in != nullptr)){
+  if((this->mWriteBuffer != nullptr) && (this->mReadBuffer != nullptr)){
     this->mStatus = SerialBusStatus::TRANSFER_FAIL_WRITE;
-    if(out->avariable() <= 0)
+    if(this->mWriteBuffer->avariable() <= 0)
       return false;
     
-    if(in->remaining() <= 0)
+    if(this->mReadBuffer->remaining() <= 0)
       return false;
     
     this->mDirect = Direct::WRITE;
   
-  }else if(out != nullptr){
+  }else if(this->mWriteBuffer != nullptr){
     this->mStatus = SerialBusStatus::WRITE_FAIL;
-    if(out->avariable() <= 0)
+    if(this->mWriteBuffer->avariable() <= 0)
       return false;
     
     this->mDirect = Direct::WRITE;
     
-  }else if(in != nullptr){
+  }else if(this->mReadBuffer != nullptr){
     this->mStatus = SerialBusStatus::READ_FAIL;
-    if(in->remaining() <= 0)
+    if(this->mReadBuffer->remaining() <= 0)
       return false;
     
     this->mDirect = Direct::READ;
   }
-  
-  this->mOutputBuffer = out;
-  this->mInputBuffer = in;
   
   if(this->begin())
     return true;

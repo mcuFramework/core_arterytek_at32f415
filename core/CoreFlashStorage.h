@@ -32,7 +32,7 @@ namespace arterytek{
  * Class/Interface/Struct/Enum
  */  
 class arterytek::at32f415::storage::CoreFlashStorage extends mcuf::Object implements
-  public mcuf::hal::FlashStorage{
+  public hal::FlashStorage{
 
   /* **************************************************************************************
    * Variable <Public>
@@ -82,7 +82,7 @@ class arterytek::at32f415::storage::CoreFlashStorage extends mcuf::Object implem
    */
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::FlashStorageControl
+   * Public Method <Override> - hal::FlashStorageControl
    */
   public:
 
@@ -105,14 +105,14 @@ class arterytek::at32f415::storage::CoreFlashStorage extends mcuf::Object implem
      * 
      * @return uint32_t 
      */
-    virtual uint32_t flashSize(void) override;
+    virtual uint32_t getFlashSize(void) override;
 
     /**
      * @brief 
      * 
      * @return uint32_t 
      */
-    virtual uint32_t pageSize(void) override;
+    virtual uint32_t getPageSize(void) override;
 
     /**
      * @brief 
@@ -128,7 +128,7 @@ class arterytek::at32f415::storage::CoreFlashStorage extends mcuf::Object implem
      * 
      * @return uint32_t 
      */
-    virtual uint32_t sectorSize(void) override;
+    virtual uint32_t getSectorSize(void) override;
 
     /**
      * @brief 
@@ -148,9 +148,7 @@ class arterytek::at32f415::storage::CoreFlashStorage extends mcuf::Object implem
      * @return true 
      * @return false 
      */
-    virtual bool write(mcuf::ByteBuffer& byteBuffer, 
-                       void* attachment,
-                       mcuf::hal::FlashStorageEvent* event) override;
+    virtual bool write(mcuf::ByteBuffer& byteBuffer, hal::FlashStorageEvent* event) override;
 
     /**
      * @brief 
@@ -161,9 +159,7 @@ class arterytek::at32f415::storage::CoreFlashStorage extends mcuf::Object implem
      * @return true 
      * @return false 
      */
-    virtual bool read(mcuf::ByteBuffer& byteBuffer, 
-                      void* attachment,
-                      mcuf::hal::FlashStorageEvent* event) override;
+    virtual bool read(mcuf::ByteBuffer& byteBuffer, hal::FlashStorageEvent* event) override;
 
   /* **************************************************************************************
    * Public Method

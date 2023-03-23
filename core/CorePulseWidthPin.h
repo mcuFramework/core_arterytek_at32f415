@@ -29,7 +29,7 @@ namespace core{
  * Class/Interface/Struct/Enum
  */  
 class core::CorePulseWidthPin extends mcuf::Object implements
-public mcuf::hal::PulseWidthPin{
+public hal::PulseWidthPin{
 
   /* **************************************************************************************
    * Variable <Public>
@@ -81,7 +81,7 @@ public mcuf::hal::PulseWidthPin{
    */
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::PulseWidthPin
+   * Public Method <Override> - hal::PulseWidthPin
    */
   public:
     /**

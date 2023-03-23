@@ -32,8 +32,8 @@ namespace core{
  * Class/Interface/Struct/Enum
  */  
 class core::CoreSerialBusSlave extends mcuf::Object implements
-public mcuf::hal::Base,
-public mcuf::hal::InterruptEvent{
+public hal::Base,
+public hal::InterruptEvent{
   
   friend core::CoreSerialBusSlaveErrorEvent;
   /* **************************************************************************************
@@ -118,7 +118,7 @@ public mcuf::hal::InterruptEvent{
    */
 
   /* **************************************************************************************
-   * Public Method <Override> mcuf::hal::Base
+   * Public Method <Override> hal::Base
    */
   public:
     /**
@@ -146,7 +146,7 @@ public mcuf::hal::InterruptEvent{
     virtual bool isInit(void) override;
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::InterruptEvent
+   * Public Method <Override> - hal::InterruptEvent
    */
   public:
 

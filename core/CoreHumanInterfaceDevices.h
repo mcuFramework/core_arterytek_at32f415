@@ -27,10 +27,10 @@ namespace core{
 /* ****************************************************************************************
  * Class/Interface/Struct/Enum
  */  
-class core::CoreHumanInterfaceDevices extends mcuf::RingBufferInputStream implements
+class core::CoreHumanInterfaceDevices extends buf::RingBufferInputStream implements
 public mcuf::OutputStream,
-public mcuf::hal::Base,
-public mcuf::hal::InterruptEvent{
+public hal::Base,
+public hal::InterruptEvent{
 
   /* **************************************************************************************
    * Enum Descriptor
@@ -102,7 +102,7 @@ public mcuf::hal::InterruptEvent{
    */
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::Base
+   * Public Method <Override> - hal::Base
    */
   public:
     /**
@@ -130,7 +130,7 @@ public mcuf::hal::InterruptEvent{
     virtual bool isInit(void) override;
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::InterruptEvent
+   * Public Method <Override> - hal::InterruptEvent
    */
   public:
     /**

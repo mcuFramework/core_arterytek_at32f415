@@ -32,9 +32,9 @@ namespace core{
  * Class/Interface/Struct/Enum
  */  
 class core::CoreSerialPeriph extends mcuf::Object implements
-  public mcuf::hal::InterruptEvent,
-  public mcuf::hal::SerialPeriph,
-  public mcuf::Runnable{
+  public hal::InterruptEvent,
+  public hal::SerialPeriph,
+  public func::Runnable{
 
   /* **************************************************************************************
    * Variable <Public>
@@ -50,11 +50,11 @@ class core::CoreSerialPeriph extends mcuf::Object implements
   private:
     static const core::CoreSerialPeriphConfig mCoreSerialPeriphConfig[2];
   
-    mcuf::hal::GeneralPin* mSelectChipSelect;
-    mcuf::hal::GeneralPin* mChipSelect[8];
+    hal::GeneralPin* mSelectChipSelect;
+    hal::GeneralPin* mChipSelect[8];
     core::CoreSerialPeriphReg mRegister;
-    mcuf::hal::SerialPeriphEvent* mEvent;
-    mcuf::hal::SerialPeriphStatus mStatus;
+    hal::SerialPeriphEvent* mEvent;
+    hal::SerialPeriphStatus mStatus;
     core::CoreSerialPeriphPacket mTransfer;
     core::CoreSerialPeriphPacket mReceiver;
     
@@ -94,7 +94,7 @@ class core::CoreSerialPeriph extends mcuf::Object implements
    */
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::Runnable
+   * Public Method <Override> - func::Runnable
    */
   public:
 
@@ -105,7 +105,7 @@ class core::CoreSerialPeriph extends mcuf::Object implements
     virtual void run(void) override;
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::InterruptEvent
+   * Public Method <Override> - hal::InterruptEvent
    */
   public:
 
@@ -116,11 +116,11 @@ class core::CoreSerialPeriph extends mcuf::Object implements
     virtual void interruptEvent(void) override;
   
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::SerialPeriph
+   * Public Method <Override> - hal::SerialPeriph
    */
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::Base
+   * Public Method <Override> - hal::Base
    */
   public:
     
@@ -149,7 +149,7 @@ class core::CoreSerialPeriph extends mcuf::Object implements
     virtual bool isInit(void) override;
 
   /* **************************************************************************************
-   * Public Method <Override> - mcuf::hal::SerialPeriphTransfer
+   * Public Method <Override> - hal::SerialPeriphTransfer
    */
   public:
 
@@ -178,9 +178,7 @@ class core::CoreSerialPeriph extends mcuf::Object implements
      * @return true 
      * @return false 
      */
-    virtual bool transfer(uint32_t chipSelect, 
-                          mcuf::hal::SerialPeriphPacket* packet,
-                          mcuf::hal::SerialPeriphEvent* event) override;
+    virtual bool transfer(uint32_t chipSelect, hal::SerialPeriphEvent* event) override;
   
   /* **************************************************************************************
    * Public Method
@@ -190,7 +188,7 @@ class core::CoreSerialPeriph extends mcuf::Object implements
     /**
      *
      */
-    bool setChipSelectPin(uint32_t chipSelect, mcuf::hal::GeneralPin* pin);
+    bool setChipSelectPin(uint32_t chipSelect, hal::GeneralPin* pin);
 
   /* **************************************************************************************
    * Protected Method <Static>
