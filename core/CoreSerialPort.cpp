@@ -33,7 +33,6 @@ using namespace hal;
 using func::Consumer;
 using mcuf::Memory;
 using mcuf::Pointer;
-using mcuf::System;
 
 using mcuf::CompletionHandler;
 using mcuf::Future;
